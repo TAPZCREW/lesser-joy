@@ -1,0 +1,13 @@
+#include <windows.h>
+#include <ntverp.h>
+
+# define VER_FILETYPE                VFT_DRV
+#define VER_FILESUBTYPE              VFT2_DRV_SYSTEM
+#define VER_FILEDESCRIPTION_STR      "Nintendo Switch 2 BLE driver"
+#define VER_INTERNALNAME_STR         "nsw2ble.sys"
+#define VER_ORIGINALFILENAME_STR     "nsw2ble.sys"
+
+#define VER_LEGALCOPYRIGHT_YEARS "2026"
+#define VER_LEGALCOPYRIGHT_STR   "Copyright (C) Tapzcrew." VER_LEGALCOPYRIGHT_YEARS
+
+#include "common.ver"

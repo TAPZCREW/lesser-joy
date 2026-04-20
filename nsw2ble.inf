@@ -1,0 +1,18 @@
+[Version]
+Signature="$WINDOWS NT$"
+Class=Bluetooth
+Provider=%TapzCrew%
+
+[Manufacturer]
+%ManufacturerName%=nsw2ble,NT$ARCH$
+
+[nsw2ble.NT$ARCH$]
+%nsw2ble.DeviceDesc%=nsw2ble-device, Root\nsw2ble-device
+
+[SourceDisksFiles.amd64]
+nsw2ble.sys = 1
+
+[strings]
+TapzCrew = "TapzCrew"
+ManufacturerName="TapzCrew"
+DeviceDesc= "Nintendo Switch 2 Pro Controller BLE device"
