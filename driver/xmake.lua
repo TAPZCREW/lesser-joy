@@ -1,6 +1,8 @@
 target("lesser-joy-driver", function()
     set_languages("c++26")
 
+    add_deps("stormkit-driver")
+
     add_files("src/*.rc")
     add_files("*.inf")
     add_rules("wdk.driver", "wdk.env.kmdf")

@@ -7,7 +7,6 @@ export module inplace_array;
 import meta;
 import allocation;
 import utilities;
-import log;
 
 export namespace lj {
     template<typename T, size_t Capacity>
