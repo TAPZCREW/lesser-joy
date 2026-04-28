@@ -2,278 +2,227 @@ module;
 
 #include <string.h>
 
-#ifdef __clang__
-    #define HAS_BUILTINS
-#endif
-
 export module result;
 
-export extern "C++" void* operator new(size_t, void* ptr) {
-    return ptr;
-}
+import meta;
+import utilities;
+import allocation;
 
-namespace via::meta::details {
-    template<bool B, typename T, typename F>
-    struct Conditional {
-        using Type = T;
+namespace lj::details {
+    enum class Status : char {
+        EMPTY,
+        VALUE,
+        ERROR,
     };
+} // namespace lj::details
 
-    template<typename T, typename F>
-    struct Conditional<false, T, F> {
-        using Type = F;
-    };
-
-    template<typename T>
-    struct RemoveReference {
-        using Type = T;
-    };
-
-    template<typename T>
-    struct RemoveReference<T&> {
-        using Type = T;
-    };
-
-    template<typename T>
-    struct RemoveReference<T&&> {
-        using Type = T;
-    };
-
-#ifdef HAS_BUILTINS
-    template<typename T>
-    static constexpr auto IsConst = __is_const(T);
-#else
-    template<typename T>
-    static constexpr auto IsConst = false;
-
-    template<typename T>
-    static constexpr auto IsConst<const T> = true;
-#endif
-
-#ifdef HAS_BUILTINS
-    template<typename T>
-    static constexpr auto IsRValueReference = __is_rvalue_reference(T);
-#else
-    template<typename T>
-    static constexpr auto IsRValueReference = false;
-
-    template<typename T>
-    static constexpr auto IsRValueReference<T&&> = true;
-#endif
-
-#ifdef HAS_BUILTINS
-    template<typename T>
-    static constexpr auto IsLValueReference = __is_lvalue_reference(T);
-#else
-    template<typename T>
-    static constexpr auto IsLValueReference = false;
-
-    template<typename T>
-    static constexpr auto IsLValueReference<T&> = true;
-#endif
-
-#ifdef HAS_BUILTINS
-    template<typename T>
-    static constexpr auto IsReference = __is_reference(T);
-#else
-    template<typename T>
-    static constexpr auto IsReference = IsLValueReference<T> or IsRValueReference<T>;
-#endif
-
-#ifdef HAS_BUILTINS
-    template<typename T, typename U>
-    static constexpr auto Is = __is_same(T, U);
-#else
-    template<typename T, typename U>
-    static constexpr auto Is = false;
-
-    template<typename T>
-    static constexpr auto Is<T, T> = true;
-#endif
-
-#ifdef HAS_BUILTINS
-    template<typename T>
-    static constexpr auto Is<T, void> = __is_void(T);
-#endif
-} // namespace via::meta::details
-
-export namespace via {
-    namespace meta {
-        template<bool B, typename T, typename F>
-        using ConditionalType = typename details::Conditional<B, T, F>::Type;
-
-        template<typename T>
-        using RemoveReferenceType = typename details::RemoveReference<T>::Type;
-
-        template<typename T>
-        concept IsCopyable = __is_constructible(T, const T&) or __is_assignable(T, const T&);
-
-        template<typename T>
-        concept IsMovable = __is_constructible(T, T&&) or __is_assignable(T, T&&);
-
-        template<typename T>
-        concept IsConst = details::IsConst<T>;
-
-        template<typename T>
-        concept IsReference = details::IsReference<T>;
-
-        template<typename T>
-        concept IsRValueReference = details::IsRValueReference<T>;
-
-        template<typename T>
-        concept IsLValueReference = details::IsLValueReference<T>;
-
-        template<typename T, typename U>
-        concept Is = details::Is<T, U>;
-
-        template<typename T, typename... Us>
-        concept IsOneOf = (Is<T, Us> and ...);
-    } // namespace meta
-
-    template<typename T>
-    constexpr auto as_const(T& value) -> const T& {
-        return value;
-    }
-
-    template<typename T>
-    constexpr auto move(T&& value) -> T&& {
-        return static_cast<T&&>(value);
-    }
-
-    template<typename T>
-    constexpr auto forward(meta::RemoveReferenceType<T>& value) -> T&& {
-        return static_cast<T&&>(value);
-    }
-
-    template<typename T>
-    constexpr auto forward(meta::RemoveReferenceType<T>&& value) -> T&& {
-        return static_cast<T&&>(value);
-    }
-
-    template<typename T, typename U>
-    constexpr auto forward_like(U&& value) -> auto&& {
-        constexpr auto is_adding_const = meta::IsConst<meta::RemoveReferenceType<T>>;
-        if constexpr (meta::IsLValueReference<T&&>) {
-            if constexpr (is_adding_const) return as_const(value);
-            else
-                static_cast<U&>(value);
-        } else {
-            if constexpr (is_adding_const) return move(as_const(value));
-            else
-                return move(value);
-        }
-    }
-
-    template<typename T>
-        requires(meta::IsCopyable<T> or meta::IsMovable<T>)
-    constexpr auto exchange(T& value, T&& with) -> T {
-        if constexpr (meta::IsMovable<T>) {
-            auto temp = move(value);
-            value     = move(with);
-            return temp;
-        }
-    }
-
-    template<class To, class From>
-        requires(sizeof(To) == sizeof(From))
-    constexpr auto bit_cast(const From& src) noexcept -> To {
-        auto dst = To {};
-        memcpy(&dst, &src, sizeof(To));
-        return dst;
-    }
-
+export namespace lj {
     template<typename E>
     struct Unexpected {
         E error;
     };
 
     template<typename T, typename E>
-    class Result {
+    class result;
+
+    template<typename T, typename E>
+    struct result_monadic_operations {
+        template<typename Self, typename Func>
+        constexpr auto and_then(this Self&& self, Func&& then) -> decltype(then(forward_like<Self>(*self.value_ptr()))) {
+            if (self.m_status != details::Status::VALUE) return forward<Self>(self);
+
+            return then(forward<Self>(self));
+        }
+
+        template<typename Self, typename Func>
+        constexpr auto map(this Self&& self, Func&& then) -> result<decltype(then(forward_like<Self>(*self.value_ptr()))), E> {
+            using To = result<decltype(then(forward_like<Self>(*self.value_ptr()))), E>;
+            if (self.m_status != details::Status::VALUE) return To { forward<Self>(self).error() };
+
+            auto& value = *self.value_ptr();
+            if constexpr (meta::IsAnyOf<Self, result<T, E>&&, const result<T, E>&&>) {
+                self.m_status = details::Status::EMPTY;
+                return then(move(value));
+            } else {
+                return then(value);
+            }
+        }
+
+        template<typename Self, typename Func>
+        constexpr auto or_else(this Self&& self, Func&& then) -> decltype(then(forward_like<Self>(*self.error_ptr()))) {
+            if (self.m_status == details::Status::VALUE) return forward<Self>(self);
+
+            return then(forward<Self>(self));
+        }
+
+        template<typename Self, typename Func>
+        constexpr auto map_error(this Self&& self, Func&& then)
+          -> result<T, decltype(then(forward_like<Self>(*self.error_ptr())))> {
+            if (self.m_status == details::Status::VALUE) return forward<Self>(self);
+
+            auto& value = *self.error_ptr();
+            if constexpr (meta::IsAnyOf<Self, result<T, E>&&, const result<T, E>&&>) {
+                self.m_status = details::Status::EMPTY;
+                return then(move(value));
+            } else {
+                return then(value);
+            }
+        }
+    };
+
+    template<typename T, typename E>
+    class result: public result_monadic_operations<T, E> {
         static constexpr auto BYTE_COUNT = [] static {
             if constexpr (sizeof(T) > sizeof(E)) return sizeof(T);
             else
                 return sizeof(E);
         }();
-        using AlignedType = meta::ConditionalType<(sizeof(T) > sizeof(E)), T, E>;
+        using AlignedType = meta::If<(sizeof(T) > sizeof(E)), T, E>;
 
       public:
-        constexpr Result() = default;
+        constexpr result() = default;
 
-        constexpr ~Result() { destroy(); }
+        constexpr ~result() { destroy(); }
 
-        constexpr Result(Result&& other)
-            requires(meta::IsCopyable<T> and meta::IsCopyable<E>
-                     or meta::IsMovable<T> and meta::IsMovable<E>)
+        constexpr result(result&& other)
+            requires(meta::IsTriviallyCopyable<T> or meta::IsMovable<T> and meta::IsTriviallyCopyable<E> or meta::IsMovable<E>)
         {
-            memcpy(m_data, other.m_data, BYTE_COUNT);
-            m_status = exchange(other.m_status, Status::EMPTY);
+            if (other.m_status == details::Status::EMPTY) destroy();
+
+            if constexpr (meta::IsTriviallyCopyable<T> and meta::IsTriviallyCopyable<E>) {
+                memcpy(m_data, other.m_data, BYTE_COUNT);
+            } else {
+                if (other.has_value()) {
+                    if constexpr (meta::IsTriviallyCopyable<T>) memcpy(m_data, other.m_data, BYTE_COUNT);
+                    else
+                        new (m_data) T { move(other.value()) };
+                } else {
+                    if constexpr (meta::IsTriviallyCopyable<E>) memcpy(m_data, other.m_data, BYTE_COUNT);
+                    else
+                        new (m_data) E { move(other.error()) };
+                }
+            }
+            m_status = exchange(other.m_status, details::Status::EMPTY);
         }
 
-        constexpr Result(const Result& other)
+        constexpr result(const result& other)
             requires(meta::IsCopyable<T> and meta::IsCopyable<E>)
         {
-            memcpy(m_data, other.m_data, BYTE_COUNT);
+            if (other.m_status == details::Status::EMPTY) destroy();
+
+            if constexpr (meta::IsTriviallyCopyable<T> and meta::IsTriviallyCopyable<E>) {
+                memcpy(m_data, other.m_data, BYTE_COUNT);
+            } else {
+                if (other.has_value()) {
+                    if constexpr (meta::IsTriviallyCopyable<T>) memcpy(m_data, other.m_data, BYTE_COUNT);
+                    else
+                        new (m_data) T { other.value() };
+                } else {
+                    if constexpr (meta::IsTriviallyCopyable<E>) memcpy(m_data, other.m_data, BYTE_COUNT);
+                    else
+                        new (m_data) E { other.error() };
+                }
+            }
             m_status = other.m_status;
         }
 
-        constexpr auto operator=(Result&& other) -> Result&
-            requires(meta::IsCopyable<T> and meta::IsCopyable<E>
-                     or meta::IsMovable<T> and meta::IsMovable<E>)
+        constexpr auto operator=(result&& other) -> result&
+            requires(meta::IsTriviallyCopyable<T> or meta::IsMovable<T> and meta::IsTriviallyCopyable<E> or meta::IsMovable<E>)
         {
             if (&other == this) return *this;
 
             destroy();
-            memcpy(m_data, other.m_data, BYTE_COUNT);
-            m_status = exchange(other.m_status, Status::EMPTY);
+
+            if (other.m_status == details::Status::EMPTY) return *this;
+
+            if constexpr (meta::IsTriviallyCopyable<T> and meta::IsTriviallyCopyable<E>) {
+                memcpy(m_data, other.m_data, BYTE_COUNT);
+            } else {
+                if (other.has_value()) {
+                    if constexpr (meta::IsTriviallyCopyable<T>) memcpy(m_data, other.m_data, BYTE_COUNT);
+                    else
+                        new (m_data) T { move(other.value()) };
+                } else {
+                    if constexpr (meta::IsTriviallyCopyable<E>) memcpy(m_data, other.m_data, BYTE_COUNT);
+                    else
+                        new (m_data) E { move(other.error()) };
+                }
+            }
+            m_status = exchange(other.m_status, details::Status::EMPTY);
             return *this;
         }
 
-        constexpr auto operator=(const Result& other) -> Result&
-            requires(meta::IsCopyable<T> and meta::IsCopyable<E>
-                     or meta::IsMovable<T> and meta::IsMovable<E>)
+        constexpr auto operator=(const result& other) -> result&
+            requires(meta::IsCopyable<T> and meta::IsCopyable<E> or meta::IsMovable<T> and meta::IsMovable<E>)
         {
             if (&other == this) return *this;
 
             destroy();
-            memcpy(m_data, other.m_data, BYTE_COUNT);
-            m_status = exchange(other.m_status, Status::EMPTY);
+
+            if (other.m_status == details::Status::EMPTY) return *this;
+
+            if constexpr (meta::IsTriviallyCopyable<T> and meta::IsTriviallyCopyable<E>) {
+                memcpy(m_data, other.m_data, BYTE_COUNT);
+            } else {
+                if (other.has_value()) {
+                    if constexpr (meta::IsTriviallyCopyable<T>) memcpy(m_data, other.m_data, BYTE_COUNT);
+                    else
+                        new (m_data) T { other.value() };
+                } else {
+                    if constexpr (meta::IsTriviallyCopyable<E>) memcpy(m_data, other.m_data, BYTE_COUNT);
+                    else
+                        new (m_data) E { other.error() };
+                }
+            }
+            m_status = exchange(other.m_status, details::Status::EMPTY);
             return *this;
         }
 
-        constexpr Result(const T& value) : m_status { Status::VALUE } { new (m_data) T { value }; }
-
-        constexpr Result(T&& value) : m_status { Status::VALUE } { new (m_data) T { move(value) }; }
-
-        constexpr Result(const Unexpected<E>& value) : m_status { Status::ERROR } {
-            new (m_data) E { value.error };
+        template<typename U = T>
+        constexpr result(U&& value) : m_status { details::Status::VALUE } {
+            new (m_data) T { forward<U>(value) };
         }
 
-        constexpr Result(Unexpected<E>&& value) : m_status { Status::ERROR } {
-            new (m_data) E { move(value.error) };
+        template<typename... Args>
+        constexpr result(in_place_t, Args&&... args) : m_status { details::Status::VALUE } {
+            new (m_data) T { forward<Args>(args)... };
         }
 
-        constexpr auto operator=(const T& value) -> Result& {
+        constexpr result(const Unexpected<E>& value) : m_status { details::Status::ERROR } { new (m_data) E { value.error }; }
+
+        constexpr result(Unexpected<E>&& value) : m_status { details::Status::ERROR } { new (m_data) E { move(value.error) }; }
+
+        constexpr auto operator=(const T& value) -> result& {
             destroy();
             new (m_data) T { value };
+            m_status = details::Status::VALUE;
             return *this;
         }
 
-        constexpr auto operator=(T&& value) -> Result& {
+        constexpr auto operator=(T&& value) -> result& {
             destroy();
             new (m_data) T { move(value) };
+            m_status = details::Status::VALUE;
             return *this;
         }
 
-        constexpr auto operator=(const Unexpected<E>& value) -> Result& {
+        constexpr auto operator=(const Unexpected<E>& value) -> result& {
             destroy();
             new (m_data) T { value };
+            m_status = details::Status::ERROR;
             return *this;
         }
 
-        constexpr auto operator=(Unexpected<E>&& value) -> Result& {
+        constexpr auto operator=(Unexpected<E>&& value) -> result& {
             destroy();
             new (m_data) T { move(value) };
+            m_status = details::Status::ERROR;
             return *this;
         }
+
+        constexpr auto has_value() const -> bool { return m_status == details::Status::VALUE; }
+
+        constexpr operator bool() const { return has_value(); }
 
         template<typename Self>
         constexpr auto error(this Self&& self) -> decltype(forward_like<Self>(*self.error_ptr())) {
@@ -286,76 +235,135 @@ export namespace via {
         }
 
         template<typename Self>
-        constexpr auto operator*(this Self&& self)
-          -> decltype(forward_like<Self>(*self.value_ptr())) {
+        constexpr auto operator*(this Self&& self) -> decltype(forward_like<Self>(*self.value_ptr())) {
             return forward_like<Self>(*self.value_ptr());
         }
 
-        template<typename Self, typename Func>
-        constexpr auto and_then(this Self&& self, Func&& then)
-          -> decltype(then(forward_like<Self>(*self.value_ptr()))) {
-            if (self.m_status != Status::VALUE) return forward<Self>(self);
-
-            return then(forward<Self>(self));
-        }
-
-        template<typename Self, typename Func>
-        constexpr auto map(this Self&& self, Func&& then)
-          -> Result<decltype(then(forward_like<Self>(*self.value_ptr()))), E> {
-            using To = Result<decltype(then(forward_like<Self>(*self.value_ptr()))), E>;
-            if (self.m_status != Status::VALUE) return To { forward<Self>(self).error() };
-
-            auto& value = *self.value_ptr();
-            if constexpr (meta::IsOneOf<Self, Result&&, const Result&&>) {
-                self.m_status = Status::EMPTY;
-                return then(move(value));
-            } else {
-                return then(value);
-            }
-        }
-
-        template<typename Self, typename Func>
-        constexpr auto or_else(this Self&& self, Func&& then)
-          -> decltype(then(forward_like<Self>(*self.error_ptr()))) {
-            if (self.m_status == Status::VALUE) return forward<Self>(self);
-
-            return then(forward<Self>(self));
-        }
-
-        template<typename Self, typename Func>
-        constexpr auto map_error(this Self&& self, Func&& then)
-          -> Result<T, decltype(then(forward_like<Self>(*self.error_ptr())))> {
-            if (self.m_status == Status::VALUE) return forward<Self>(self);
-
-            auto& value = *self.error_ptr();
-            if constexpr (meta::IsOneOf<Self, Result&&, const Result&&>) {
-                self.m_status = Status::EMPTY;
-                return then(move(value));
-            } else {
-                return then(value);
-            }
-        }
-
       private:
-        enum class Status : char {
-            EMPTY,
-            VALUE,
-            ERROR,
-        };
+        constexpr auto value_ptr() -> T* { return launder(bit_cast<T*>(&m_data[0])); }
 
-        constexpr auto value_ptr() -> T* { return bit_cast<T*>(&m_data[0]); }
-
-        constexpr auto error_ptr() -> E* { return bit_cast<E*>(&m_data[0]); }
+        constexpr auto error_ptr() -> E* { return launder(bit_cast<E*>(&m_data[0])); }
 
         constexpr auto destroy() -> void {
-            if (m_status == Status::VALUE) value_ptr()->~T();
-            else if (m_status == Status::ERROR)
+            if (m_status == details::Status::VALUE) value_ptr()->~T();
+            else if (m_status == details::Status::ERROR)
                 error_ptr()->~E();
 
-            m_status = Status::EMPTY;
+            m_status = details::Status::EMPTY;
         }
 
-        Status m_status = Status::EMPTY;
-        alignas(AlignedType) char m_data[BYTE_COUNT];
+        details::Status m_status = details::Status::EMPTY;
+        alignas(AlignedType) byte m_data[BYTE_COUNT];
     };
-} // namespace via
+
+    template<typename E>
+    class result<void, E>: public result_monadic_operations<void, E> {
+      public:
+        constexpr result() = default;
+
+        constexpr ~result() { destroy(); }
+
+        constexpr result(result&& other)
+            requires(meta::IsTriviallyCopyable<E> or meta::IsMovable<E>)
+        {
+            destroy();
+
+            if (other.has_error()) {
+                if constexpr (meta::IsTriviallyCopyable<E>) memcpy(m_data, other.m_data, sizeof(E));
+                else
+                    new (m_data) E { move(other.error()) };
+            }
+
+            m_status = exchange(other.m_status, details::Status::VALUE);
+        }
+
+        constexpr result(const result& other)
+            requires(meta::IsCopyable<E>)
+        {
+            destroy();
+
+            if (other.has_error()) {
+                if constexpr (meta::IsTriviallyCopyable<E>) memcpy(m_data, other.m_data, sizeof(E));
+                else
+                    new (m_data) E { other.error() };
+            }
+            m_status = other.m_status;
+        }
+
+        constexpr auto operator=(result&& other) -> result&
+            requires(meta::IsTriviallyCopyable<E> or meta::IsMovable<E>)
+        {
+            if (&other == this) return *this;
+
+            destroy();
+
+            if (other.has_error()) {
+                if constexpr (meta::IsTriviallyCopyable<E>) memcpy(m_data, other.m_data, sizeof(E));
+                else
+                    new (m_data) E { move(other.error()) };
+            }
+            m_status = exchange(other.m_status, details::Status::VALUE);
+
+            return *this;
+        }
+
+        constexpr auto operator=(const result& other) -> result&
+            requires(meta::IsCopyable<E>)
+        {
+            if (&other == this) return *this;
+
+            destroy();
+
+            if (other.has_error()) {
+                if constexpr (meta::IsTriviallyCopyable<E>) memcpy(m_data, other.m_data, sizeof(E));
+                else
+                    new (m_data) E { other.error() };
+            }
+            m_status = other.m_status;
+
+            return *this;
+        }
+
+        constexpr result(const Unexpected<E>& value) : m_status { details::Status::ERROR } { new (m_data) E { value.error }; }
+
+        constexpr result(Unexpected<E>&& value) : m_status { details::Status::ERROR } { new (m_data) E { move(value.error) }; }
+
+        constexpr auto operator=(const Unexpected<E>& value) -> result& {
+            destroy();
+            new (m_data) E { value.error };
+            m_status = details::Status::ERROR;
+            return *this;
+        }
+
+        constexpr auto operator=(Unexpected<E>&& value) -> result& {
+            destroy();
+            new (m_data) E { move(value.error) };
+            m_status = details::Status::ERROR;
+            return *this;
+        }
+
+        constexpr auto has_value() const -> bool { return m_status == details::Status::VALUE; }
+
+        constexpr operator bool() const { return has_value(); }
+
+        template<typename Self>
+        constexpr auto error(this Self&& self) -> decltype(forward_like<Self>(*self.error_ptr())) {
+            return forward_like<Self>(*self.error_ptr());
+        }
+
+        template<typename Self>
+        constexpr auto value() const -> void {}
+
+      private:
+        constexpr auto error_ptr() -> E* { return launder(bit_cast<E*>(&m_data[0])); }
+
+        constexpr auto destroy() -> void {
+            if (m_status == details::Status::ERROR) error_ptr()->~E();
+
+            m_status = details::Status::VALUE;
+        }
+
+        details::Status m_status = details::Status::VALUE;
+        alignas(E) byte m_data[sizeof(E)];
+    };
+} // namespace lj

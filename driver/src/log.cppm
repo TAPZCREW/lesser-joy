@@ -8,21 +8,21 @@ export module log;
 
 import string_view;
 
-export namespace via {
-    auto debug_log(StringView str) -> void;
-    auto debug_logln(StringView str) -> void;
-} // namespace via
+export namespace lj {
+    auto debug_log(String_view str) -> void;
+    auto debug_logln(String_view str) -> void;
+} // namespace lj
 
 module :private;
 
-namespace via {
-    auto debug_log(StringView str) -> void {
-        DbgPrint("Via vocis: ");
+namespace lj {
+    auto debug_log(String_view str) -> void {
+        DbgPrint("lesser-joy: ");
         DbgPrint(str.data());
     }
 
-    auto debug_logln(StringView str) -> void {
+    auto debug_logln(String_view str) -> void {
         debug_log(str);
         DbgPrint("\n");
     }
-} // namespace via
+} // namespace lj

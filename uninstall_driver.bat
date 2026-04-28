@@ -1,2 +1,2 @@
-sc stop via-vocis-driver
-sc delete via-vocis-driver
+sc stop lesser-joy-driver
+sc delete lesser-joy-driver

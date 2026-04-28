@@ -1,6 +1,5 @@
 module;
 
-#include <stdint.h>
 #include <string.h>
 
 #include <ntddk.h>
@@ -9,10 +8,16 @@ module;
 
 export module string_view;
 
-export namespace via {
-    class StringView {
+import string;
+
+export namespace lj {
+    class String_view {
       public:
-        constexpr StringView(const char* str);
+        template<size_t N>
+        constexpr String_view(const char (*str)[N]);
+        constexpr String_view(const char* str);
+        String_view(const string& str);
+        constexpr String_view(const char* str, size_t n);
 
         constexpr auto size() const -> size_t;
         constexpr auto data() const -> const char*;
@@ -20,13 +25,17 @@ export namespace via {
         constexpr auto operator[](size_t i) const -> size_t;
 
       private:
-        const char* m_data;
-        size_t      m_size;
+        const char* m_data = nullptr;
+        size_t      m_size = 0;
     };
-} // namespace via
+} // namespace lj
 
-namespace via {
-    constexpr StringView::StringView(const char* str) : m_data { str }, m_size { 0 } {
+namespace lj {
+    template<size_t N>
+    constexpr String_view::String_view(const char (*str)[N]) : m_data { str }, m_size { N } {
+    }
+
+    constexpr String_view::String_view(const char* str) : m_data { str }, m_size { 0 } {
         if consteval {
             auto c = str;
             while (*c != '\0') {
@@ -38,15 +47,21 @@ namespace via {
         }
     }
 
-    constexpr auto StringView::size() const -> size_t {
+    constexpr String_view::String_view(const char* str, size_t n) : m_data { str }, m_size { n } {
+    }
+
+    String_view::String_view(const string& str) : m_data { str.cbegin() }, m_size { str.size() } {
+    }
+
+    constexpr auto String_view::size() const -> size_t {
         return m_size;
     }
 
-    constexpr auto StringView::data() const -> const char* {
+    constexpr auto String_view::data() const -> const char* {
         return m_data;
     }
 
-    constexpr auto StringView::operator[](size_t i) const -> size_t {
+    constexpr auto String_view::operator[](size_t i) const -> size_t {
         if not consteval {
             if (i >= m_size) {
                 DbgPrint("OOB access to str ");
@@ -56,4 +71,4 @@ namespace via {
         }
         return m_data[i];
     }
-} // namespace via
+} // namespace lj
