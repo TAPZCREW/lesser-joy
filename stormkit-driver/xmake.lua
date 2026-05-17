@@ -9,14 +9,8 @@ target("stormkit-driver", function()
     set_policy("build.c++.modules.std", false)
     set_exceptions("no-cxx")
 
-    add_headerfiles("stormkit/(includes/*.hpp)")
-    add_includedirs("stormkit")
+    add_headerfiles("includes/**.hpp", { public = true })
+    add_includedirs("includes", { public = true })
 
     add_rules("wdk.env.kmdf")
-
-    -- if is_arch("x64") then
-    --     set_values("wdk.sdkdir", "packages/Microsoft.Windows.WDK.x64.10.0.26100.4204/c")
-    -- elseif is_arch("arm64") then
-    --     set_values("wdk.sdkdir", "packages/Microsoft.Windows.WDK.arm64.10.0.26100.4204/c")
-    -- end
 end)
