@@ -240,6 +240,8 @@ export namespace lj {
         }
 
       private:
+        friend class result_monadic_operations<T, E>;
+
         constexpr auto value_ptr() -> T* { return launder(bit_cast<T*>(&m_data[0])); }
 
         constexpr auto error_ptr() -> E* { return launder(bit_cast<E*>(&m_data[0])); }
@@ -356,6 +358,8 @@ export namespace lj {
         constexpr auto value() const -> void {}
 
       private:
+        friend class result_monadic_operations<void, E>;
+
         constexpr auto error_ptr() -> E* { return launder(bit_cast<E*>(&m_data[0])); }
 
         constexpr auto destroy() -> void {
