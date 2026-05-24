@@ -41,6 +41,12 @@ export namespace lj {
     template<typename T, typename U>
         requires(not meta::IsConst<T>)
     constexpr auto exchange(T& first, U&& second) -> decltype(auto);
+
+    template <class Dispose>
+    struct DisposeHandler {
+        Dispose dispose;
+        ~DisposeHandler() { dispose(); }
+    };
 } // namespace lj
 
 namespace lj {
