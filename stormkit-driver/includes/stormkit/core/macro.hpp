@@ -9,4 +9,17 @@
         static_cast<decltype(res)&&>(res).value();   \
     })
 
+#define NT_Try(m)                                \
+    ({                                           \
+        auto status = (m);                       \
+        if (not NT_SUCCESS(status)) [[unlikely]] \
+            return Unexpected { status };        \
+    })
+
+#define Assert(m, e)                 \
+    ({                               \
+        auto status = (m);           \
+        if (not status) [[unlikely]] \
+            return Unexpected { e }; \
+    })
 #endif
