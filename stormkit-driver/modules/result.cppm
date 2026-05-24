@@ -28,44 +28,42 @@ export namespace lj {
     template<typename T, typename E>
     struct result_monadic_operations {
         template<typename Self, typename Func>
-        constexpr auto and_then(this Self&& self, Func&& then) -> decltype(then(forward_like<Self>(*self.value_ptr()))) {
-            if (self.m_status != details::Status::VALUE) return forward<Self>(self);
+        constexpr auto and_then(this Self&& self, Func&& then) -> decltype(then(forward<Self>(self))) {
+            if (not self.has_value()) return forward<Self>(self);
 
             return then(forward<Self>(self));
         }
 
         template<typename Self, typename Func>
-        constexpr auto map(this Self&& self, Func&& then) -> result<decltype(then(forward_like<Self>(*self.value_ptr()))), E> {
-            using To = result<decltype(then(forward_like<Self>(*self.value_ptr()))), E>;
-            if (self.m_status != details::Status::VALUE) return To { forward<Self>(self).error() };
+        constexpr auto map(this Self&& self, Func&& then) -> result<decltype(then(self.value())), E> {
+            using To = result<decltype(then(value())), E>;
+            if (not self.has_value()) return To { forward<Self>(self).error() };
 
-            auto& value = *self.value_ptr();
             if constexpr (meta::IsAnyOf<Self, result<T, E>&&, const result<T, E>&&>) {
                 self.m_status = details::Status::EMPTY;
-                return then(move(value));
+                return then(move(self.value()));
             } else {
-                return then(value);
+                return then(self.value());
             }
         }
 
         template<typename Self, typename Func>
-        constexpr auto or_else(this Self&& self, Func&& then) -> decltype(then(forward_like<Self>(*self.error_ptr()))) {
-            if (self.m_status == details::Status::VALUE) return forward<Self>(self);
+        constexpr auto or_else(this Self&& self, Func&& then) -> decltype(then(forward<Self>(self))) {
+            if (not self.has_error()) return forward<Self>(self);
 
             return then(forward<Self>(self));
         }
 
         template<typename Self, typename Func>
-        constexpr auto map_error(this Self&& self, Func&& then)
-          -> result<T, decltype(then(forward_like<Self>(*self.error_ptr())))> {
-            if (self.m_status == details::Status::VALUE) return forward<Self>(self);
+        constexpr auto map_error(this Self&& self, Func&& then) -> result<T, decltype(then(self.error()))> {
+            if (not self.has_error()) return forward<Self>(self);
 
             auto& value = *self.error_ptr();
             if constexpr (meta::IsAnyOf<Self, result<T, E>&&, const result<T, E>&&>) {
                 self.m_status = details::Status::EMPTY;
-                return then(move(value));
+                return Unexpected{ then(move(value)) };
             } else {
-                return then(value);
+                return Unexpected{ then(value) };
             }
         }
     };
@@ -222,6 +220,8 @@ export namespace lj {
 
         constexpr auto has_value() const -> bool { return m_status == details::Status::VALUE; }
 
+        constexpr auto has_error() const -> bool { return m_status == details::Status::ERROR; }
+
         constexpr operator bool() const { return has_value(); }
 
         template<typename Self>
@@ -245,8 +245,9 @@ export namespace lj {
         constexpr auto error_ptr() -> E* { return launder(bit_cast<E*>(&m_data[0])); }
 
         constexpr auto destroy() -> void {
-            if (m_status == details::Status::VALUE) value_ptr()->~T();
-            else if (m_status == details::Status::ERROR)
+            if (has_value())
+                value_ptr()->~T();
+            else if (has_error())
                 error_ptr()->~E();
 
             m_status = details::Status::EMPTY;
@@ -343,6 +344,7 @@ export namespace lj {
         }
 
         constexpr auto has_value() const -> bool { return m_status == details::Status::VALUE; }
+        constexpr auto has_error() const -> bool { return m_status == details::Status::ERROR; }
 
         constexpr operator bool() const { return has_value(); }
 
@@ -351,14 +353,13 @@ export namespace lj {
             return forward_like<Self>(*self.error_ptr());
         }
 
-        template<typename Self>
         constexpr auto value() const -> void {}
 
       private:
         constexpr auto error_ptr() -> E* { return launder(bit_cast<E*>(&m_data[0])); }
 
         constexpr auto destroy() -> void {
-            if (m_status == details::Status::ERROR) error_ptr()->~E();
+            if (has_error()) error_ptr()->~E();
 
             m_status = details::Status::VALUE;
         }
