@@ -107,6 +107,7 @@ target("lesserjoy-driver", function()
         local pnputil_remove_args = {
             "/delete-driver",
             inf_file,
+            "/uninstall",
         }
         print("Removing old driver ---------")
         if option.get("verbose") then
