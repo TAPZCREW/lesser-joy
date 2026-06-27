@@ -88,6 +88,7 @@ namespace lj {
         const auto time = std::chrono::duration_cast<std::chrono::seconds>(now - m_start_time);
 
         const auto str = std::format("[{}, {:%S}] {}", severity, time, string);
+        OutputDebugStringA(stdr::data(str));
         DbgPrintEx(DPFLTR_IHVDRIVER_ID, 0, (stdr::data(str)));
     }
 
@@ -99,6 +100,7 @@ namespace lj {
         const auto time = std::chrono::duration_cast<std::chrono::seconds>(now - m_start_time);
 
         const auto str = std::format("[{}, {:%S}] {} {}", severity, time, module.name, string);
+        OutputDebugStringA(stdr::data(str));
         DbgPrintEx(DPFLTR_IHVDRIVER_ID, 0, (stdr::data(str)));
     }
 } // namespace lj
