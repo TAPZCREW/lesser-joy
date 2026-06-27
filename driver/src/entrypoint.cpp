@@ -28,8 +28,6 @@ namespace lj {
 
 extern "C" _Use_decl_annotations_ auto DriverEntry(_In_ PDRIVER_OBJECT driver_object, _In_ PUNICODE_STRING registry_path)
   -> NTSTATUS {
-    auto _ = log::Logger::create_logger_instance<lj::KernelLogger>();
-
     lj::dlog("Initializing lesserjoy driver...");
 
     auto attributes = WDF_OBJECT_ATTRIBUTES {};
@@ -45,4 +43,16 @@ extern "C" _Use_decl_annotations_ auto DriverEntry(_In_ PDRIVER_OBJECT driver_ob
         lj::dlog("lesserjoy: driver successfully initialized!");
 
     return status;
+}
+
+auto logger = Heap<lj::KernelLogger> {};
+
+extern "C" _Use_decl_annotations_ auto APIENTRY DllMain(HMODULE module, DWORD ul_reason_for_call, LPVOID) -> BOOL {
+    logger = log::Logger::allocate_logger_instance<lj::KernelLogger>();
+
+    DisableThreadLibraryCalls(module);
+
+    lj::dlog("lesserjoy starting ...");
+
+    return TRUE;
 }
