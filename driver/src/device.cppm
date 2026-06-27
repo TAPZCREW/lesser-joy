@@ -73,144 +73,117 @@ export {
     inline constexpr auto OUTPUT_REPORT_SIZE_CB = sizeof(Hid_output_info) - 1;
 
     inline constexpr auto DEFAULT_REPORT_DESCRIPTOR = to_array<u8>({
-
-      0x05,
-      0x01, /* Usage Page (Generic Desktop) */
-      0x09,
-      0x05, /* Usage (Game Pad) */
-      0xA1,
-      0x01, /* Collection (Application) */
-      0x85,
-      0x01, /*   Report ID (1) */
-      /* Left stick X, Y */
-      0x09,
-      0x30, /*   Usage (X) */
-      0x09,
-      0x31, /*   Usage (Y) */
-      0x15,
-      0x00, /*   Logical Minimum (0) */
-      0x27,
-      0xFF,
-      0xFF,
-      0x00,
-      0x00, /*   Logical Maximum (65535) */
-      0x75,
-      0x10, /*   Report Size (16) */
-      0x95,
-      0x02, /*   Report Count (2) */
-      0x81,
-      0x02, /*   INPUT (Data, Var, Abs) */
-      /* Right stick X, Y */
-      0x09,
-      0x33, /*   Usage (Rx) */
-      0x09,
-      0x34, /*   Usage (Ry) */
-      0x81,
-      0x02, /*   INPUT (Data, Var, Abs) */
-      /* Triggers */
-      0x09,
-      0x32, /*   Usage (Z) */
-      0x09,
-      0x35, /*   Usage (Rz) */
-      0x81,
-      0x02, /*   INPUT (Data, Var, Abs) */
-      /* Buttons 1-10 */
-      0x05,
-      0x09, /*   Usage Page (Button) */
-      0x19,
-      0x01, /*   Usage Minimum (1) */
-      0x29,
-      0x0A, /*   Usage Maximum (10) */
-      0x15,
-      0x00, /*   Logical Minimum (0) */
-      0x25,
-      0x01, /*   Logical Maximum (1) */
-      0x75,
-      0x01, /*   Report Size (1) */
-      0x95,
-      0x0A, /*   Report Count (10) */
-      0x81,
-      0x02, /*   INPUT (Data, Var, Abs) */
-      /* 6-bit padding */
-      0x75,
-      0x06, /*   Report Size (6) */
-      0x95,
-      0x01, /*   Report Count (1) */
-      0x81,
-      0x01, /*   INPUT (Cnst) */
-      /* Hat switch */
-      0x05,
-      0x01, /*   Usage Page (Generic Desktop) */
-      0x09,
-      0x39, /*   Usage (Hat switch) */
-      0x15,
-      0x01, /*   Logical Minimum (1) */
-      0x25,
-      0x08, /*   Logical Maximum (8) */
-      0x35,
-      0x00, /*   Physical Minimum (0) */
-      0x46,
-      0x3B,
-      0x01, /*   Physical Maximum (315) */
-      0x66,
-      0x14,
-      0x00, /*   Unit (Degrees) */
-      0x75,
-      0x04, /*   Report Size (4) */
-      0x95,
-      0x01, /*   Report Count (1) */
-      0x81,
-      0x42, /*   INPUT (Data, Var, Abs, Null) */
-      /* 4-bit padding */
-      0x75,
-      0x04,
-      0x95,
-      0x01,
-      0x15,
-      0x00,
-      0x25,
-      0x00,
-      0x35,
-      0x00,
-      0x45,
-      0x00,
-      0x65,
-      0x00,
-      0x81,
-      0x03, /*   INPUT (Cnst, Var) */
-      /* Feature report for user-mode → driver data channel */
-      0x85,
-      0x02, /*   Report ID (2) */
-      0x06,
-      0x00,
-      0xFF, /*   Usage Page (Vendor Defined) */
-      0x09,
-      0x01, /*   Usage (0x01) */
-      0x15,
-      0x00, /*   Logical Minimum (0) */
-      0x26,
-      0xFF,
-      0x00, /*   Logical Maximum (255) */
-      0x75,
-      0x08, /*   Report Size (8) */
-      0x95,
-      0x0E, /*   Report Count (14) */
-      0xB1,
-      0x02, /*   FEATURE (Data, Var, Abs) */
-      0xC0  /* End Collection */
+      0x05, 0x01,       // Usage Page (Generic Desktop Ctrls)
+      0x09, 0x05,       // Usage (Game Pad)
+      0xA1, 0x01,       // Collection (Application)
+      0x85, 0x01,       //   Report ID (1)
+      0x09, 0x30,       //   Usage (X)
+      0x09, 0x31,       //   Usage (Y)
+      0x09, 0x32,       //   Usage (Z)
+      0x09, 0x35,       //   Usage (Rz)
+      0x15, 0x00,       //   Logical Minimum (0)
+      0x26, 0xFF, 0x00, //   Logical Maximum (255)
+      0x75, 0x08,       //   Report Size (8)
+      0x95, 0x04,       //   Report Count (4)
+      0x81, 0x02,       //   Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
+      0x09, 0x39,       //   Usage (Hat switch)
+      0x15, 0x00,       //   Logical Minimum (0)
+      0x25, 0x07,       //   Logical Maximum (7)
+      0x35, 0x00,       //   Physical Minimum (0)
+      0x46, 0x3B, 0x01, //   Physical Maximum (315)
+      0x65, 0x14,       //   Unit (System: English Rotation, Length: Centimeter)
+      0x75, 0x04,       //   Report Size (4)
+      0x95, 0x01,       //   Report Count (1)
+      0x81, 0x42,       //   Input (Data,Var,Abs,No Wrap,Linear,Preferred State,Null State)
+      0x65, 0x00,       //   Unit (None)
+      0x05, 0x09,       //   Usage Page (Button)
+      0x19, 0x01,       //   Usage Minimum (0x01)
+      0x29, 0x11,       //   Usage Maximum (0x11)
+      0x15, 0x00,       //   Logical Minimum (0)
+      0x25, 0x01,       //   Logical Maximum (1)
+      0x75, 0x01,       //   Report Size (1)
+      0x95, 0x11,       //   Report Count (17)
+      0x81, 0x02,       //   Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
+      0x06, 0x00, 0xFF, //   Usage Page (Vendor Defined 0xFF00)
+      0x09, 0x20,       //   Usage (0x20)
+      0x75, 0x03,       //   Report Size (3)
+      0x95, 0x01,       //   Report Count (1)
+      0x15, 0x00,       //   Logical Minimum (0)
+      0x25, 0x7F,       //   Logical Maximum (127)
+      0x81, 0x02,       //   Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
+      0x05, 0x01,       //   Usage Page (Generic Desktop Ctrls)
+      0x09, 0x33,       //   Usage (Rx)
+      0x09, 0x34,       //   Usage (Ry)
+      0x15, 0x00,       //   Logical Minimum (0)
+      0x26, 0xFF, 0x00, //   Logical Maximum (255)
+      0x75, 0x08,       //   Report Size (8)
+      0x95, 0x02,       //   Report Count (2)
+      0x81, 0x02,       //   Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
+      0x75, 0x08,       //   Report Size (8)
+      0x95, 0x01,       //   Report Count (1)
+      0x15, 0x00,       //   Logical Minimum (0)
+      0x26, 0xFF, 0x00, //   Logical Maximum (255)
+      0xA1, 0x00,       //   Collection (Physical)
+      0xA1, 0x02,       //    Collection (Logical)
+      0x09, 0x36,       //    Usage (Slider)
+      0x81, 0x02,       //    Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
+      0xC0,             //    End Collection
+      0xA1, 0x02,       //    Collection (Logical)
+      0x09, 0x36,       //    Usage (Slider)
+      0x81, 0x02,       //    Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
+      0xC0,             //    End Collection
+      0xA1, 0x02,       //    Collection (Logical)
+      0x09, 0x36,       //    Usage (Slider)
+      0x81, 0x02,       //    Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
+      0xC0,             //    End Collection
+      0xA1, 0x02,       //    Collection (Logical)
+      0x09, 0x36,       //    Usage (Slider)
+      0x81, 0x02,       //    Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
+      0xC0,             //    End Collection
+      0xA1, 0x02,       //    Collection (Logical)
+      0x09, 0x36,       //    Usage (Slider)
+      0x81, 0x02,       //    Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
+      0xC0,             //    End Collection
+      0xA1, 0x02,       //    Collection (Logical)
+      0x09, 0x36,       //    Usage (Slider)
+      0x81, 0x02,       //    Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
+      0xC0,             //    End Collection
+      0xA1, 0x02,       //    Collection (Logical)
+      0x09, 0x36,       //    Usage (Slider)
+      0x81, 0x02,       //    Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
+      0xC0,             //    End Collection
+      0xA1, 0x02,       //    Collection (Logical)
+      0x09, 0x36,       //    Usage (Slider)
+      0x81, 0x02,       //    Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
+      0xC0,             //    End Collection
+      0xA1, 0x02,       //    Collection (Logical)
+      0x09, 0x36,       //    Usage (Slider)
+      0x81, 0x02,       //    Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
+      0xC0,             //    End Collection
+      0xA1, 0x02,       //    Collection (Logical)
+      0x09, 0x36,       //    Usage (Slider)
+      0x81, 0x02,       //    Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
+      0xC0,             //    End Collection
+      0xC0,             //   End Collection
+      0xA1, 0x01,       //   Collection (Application)
+      0x85, 0x01,       //    Report ID (1)
+      0x06, 0x01, 0xFF, //    Usage Page (Vendor Defined 0xFF01)
+      0x09, 0x01,       //    Usage (0x01)
+      0x75, 0x08,       //    Report Size (8)
+      0x95, 0x13,       //    Report Count (19)
+      0x15, 0x00,       //    Logical Minimum (0)
+      0x26, 0xFF, 0x00, //    Logical Maximum (255)
+      0x81, 0x02,       //    Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
+      0xC0,             //   End Collection
     });
 
     inline constexpr auto DEFAULT_HID_DESCRIPTOR = HID_DESCRIPTOR {
-        0x09, // length of HID descriptor
-        0x21, // descriptor type == HID  0x21
-        0x0100, // hid spec release
-        0x00, // country code == Not Specified
-        0x01, // number of HID class descriptors
-        {
-                                             // DescriptorList[0]
-          0x22,                             // report descriptor type 0x22
-          sizeof(DEFAULT_REPORT_DESCRIPTOR) // total length of report descriptor
-        }
+        .bLength         = sizeof(HID_DESCRIPTOR),
+        .bDescriptorType = 0x21, // HID == 0x21
+        .bcdHID          = 0x0100,
+        .bCountry        = 0x00,
+        .bNumDescriptors = 0x01,
+        .DescriptorList  = { { .bReportType = 0x22, .wReportLength = sizeof(DEFAULT_REPORT_DESCRIPTOR) } }
     };
 }
 
@@ -219,7 +192,50 @@ module: private;
 namespace lj {
     EVT_WDF_IO_QUEUE_IO_DEVICE_CONTROL event_io_device_control;
 
-    auto event_device_add(_In_ WDFDRIVER, _Inout_ PWDFDEVICE_INIT device_init) -> NTSTATUS {
+    namespace hid { namespace {
+        NTSTATUS
+        request_copy_from_buffer(WDFREQUEST request, std::span<const byte> from) {
+            auto memory = WDFMEMORY {};
+            auto status = WdfRequestRetrieveOutputMemory(request, &memory);
+            if (not NT_SUCCESS(status)) {
+                lj::elog("WdfRequestRetrieveOutputMemory failed : {:x}", status);
+                return status;
+            }
+
+            auto output_buffer_extent = 0_usize;
+            WdfMemoryGetBuffer(memory, &output_buffer_extent);
+            if (output_buffer_extent < stdr::size(from)) {
+                status = STATUS_INVALID_BUFFER_SIZE;
+                lj::elog("request_copy_from_buffer: buffer too small. Size {}, expects {}\n",
+                         output_buffer_extent,
+                         stdr::size(from));
+                return status;
+            }
+
+            status = WdfMemoryCopyFromBuffer(memory, 0, bit_cast<void*>(stdr::data(from)), stdr::size(from));
+            if (not NT_SUCCESS(status)) {
+                lj::elog("WdfMemoryCopyFromBuffer failed: {:0x}\n", status);
+                return status;
+            }
+
+            WdfRequestSetInformation(request, stdr::size(from));
+            return status;
+        }
+
+        auto get_device_descriptor(WDFREQUEST& request, Device_context& ctx) noexcept -> NTSTATUS {
+            return request_copy_from_buffer(request, as_bytes(ctx.hid_descriptor));
+        }
+
+        auto get_device_attributes(WDFREQUEST& request, Device_context& ctx) noexcept -> NTSTATUS {
+            return request_copy_from_buffer(request, as_bytes(ctx.hid_attributes));
+        }
+
+        auto get_report_descriptor(WDFREQUEST& request, Device_context& ctx) noexcept -> NTSTATUS {
+            return request_copy_from_buffer(request, as_bytes(ctx.report_descriptor));
+        }
+    }} // namespace hid
+
+    auto event_device_add(_In_ WDFDRIVER, _Inout_ PWDFDEVICE_INIT device_init) noexcept -> NTSTATUS {
         lj::dlog("Event device add!");
 
         WdfFdoInitSetFilter(device_init);
@@ -305,42 +321,11 @@ namespace lj {
         return status;
     }
 
-    NTSTATUS
-    RequestCopyFromBuffer(_In_ WDFREQUEST Request,
-                          _In_ PVOID      SourceBuffer,
-                          _When_(NumBytesToCopyFrom == 0, __drv_reportError(NumBytesToCopyFrom cannot be zero))
-                            _In_ size_t NumBytesToCopyFrom) {
-        NTSTATUS  status;
-        WDFMEMORY memory;
-        size_t    outputBufferLength;
-
-        status = WdfRequestRetrieveOutputMemory(Request, &memory);
-        if (!NT_SUCCESS(status)) {
-            KdPrint(("WdfRequestRetrieveOutputMemory failed 0x%x\n", status));
-            return status;
-        }
-
-        WdfMemoryGetBuffer(memory, &outputBufferLength);
-        if (outputBufferLength < NumBytesToCopyFrom) {
-            status = STATUS_INVALID_BUFFER_SIZE;
-            KdPrint(("RequestCopyFromBuffer: buffer too small. Size %d, expect %d\n",
-                     (int)outputBufferLength,
-                     (int)NumBytesToCopyFrom));
-            return status;
-        }
-
-        status = WdfMemoryCopyFromBuffer(memory, 0, SourceBuffer, NumBytesToCopyFrom);
-        if (!NT_SUCCESS(status)) {
-            KdPrint(("WdfMemoryCopyFromBuffer failed 0x%x\n", status));
-            return status;
-        }
-
-        WdfRequestSetInformation(Request, NumBytesToCopyFrom);
-        return status;
-    }
-
-    auto event_io_device_control(_In_ WDFQUEUE queue, _In_ WDFREQUEST request, _In_ usize, _In_ usize, _In_ ULONG io_control_code)
-      -> void {
+    auto event_io_device_control(_In_ WDFQUEUE   queue,
+                                 _In_ WDFREQUEST request,
+                                 _In_            usize,
+                                 _In_            usize,
+                                 _In_ ULONG      io_control_code) noexcept -> void {
         auto queue_ctx  = GetQueueContext(queue);
         auto device_ctx = queue_ctx->device_ctx;
 
@@ -348,23 +333,35 @@ namespace lj {
         auto status            = NTSTATUS { STATUS_NOT_IMPLEMENTED };
         switch (io_control_code) {
             case IOCTL_HID_GET_DEVICE_DESCRIPTOR: {
-                status = RequestCopyFromBuffer(request, &device_ctx->hid_descriptor, device_ctx->hid_descriptor.bLength);
+                status = hid::get_device_descriptor(request, *device_ctx);
             } break;
             case IOCTL_HID_GET_DEVICE_ATTRIBUTES: {
-                status = RequestCopyFromBuffer(request, &device_ctx->hid_attributes, sizeof(HID_DEVICE_ATTRIBUTES));
+                status = hid::get_device_attributes(request, *device_ctx);
             } break;
             case IOCTL_HID_GET_REPORT_DESCRIPTOR: {
-                status = RequestCopyFromBuffer(request,
-                                               &device_ctx->report_descriptor,
-                                               device_ctx->hid_descriptor.DescriptorList[0].wReportLength);
+                status = hid::get_report_descriptor(request, *device_ctx);
             } break;
             case IOCTL_HID_READ_REPORT: {
+                wlog("IOCTL_HID_READ_REPORT not supported");
                 // status = ReadReport(queue_ctx, request, &request_completed);
             } break;
 
             case IOCTL_HID_WRITE_REPORT: {
+                wlog("IOCTL_HID_WRITE_REPORT not supported");
                 // status = WriteReport(queueContext, Request);
             } break;
+
+            case IOCTL_HID_GET_STRING: wlog("IOCTL_HID_GET_STRING not supported");
+
+            case IOCTL_HID_DEVICERESET_NOTIFICATION: wlog("IOCTL_HID_DEVICERESET_NOTIFICATION not supported");
+            case IOCTL_HID_ACTIVATE_DEVICE: wlog("IOCTL_HID_ACTIVTE_DEVICE not supported");
+            case IOCTL_HID_DEACTIVATE_DEVICE: wlog("IOCTL_HID_DEACTIVATE_DEVICE not supported");
+            case IOCTL_HID_SEND_IDLE_NOTIFICATION_REQUEST: wlog("IOCTL_HID_SEND_IDLE_NOTIFICATION_REQUEST not supported");
+            case IOCTL_UMDF_GET_PHYSICAL_DESCRIPTOR: wlog("IOCTL_UMDF_GET_PHYSICAL_DESCRIPTOR not supported");
+            case IOCTL_UMDF_HID_GET_FEATURE: wlog("IOCTL_UMDF_HID_GET_FEATURE not supported");
+            case IOCTL_UMDF_HID_GET_INPUT_REPORT: wlog("IOCTL_UMDF_HID_GET_INPUT_REPORT not supported");
+            case IOCTL_UMDF_HID_SET_FEATURE: wlog("IOCTL_UMDF_HID_SET_FEATURE not supported");
+            case IOCTL_UMDF_HID_SET_OUTPUT_REPORT: wlog("IOCTL_UMDF_HID_SET_OUTPUT_REPORT not supported");
             default: break;
         }
 
