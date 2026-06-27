@@ -1,0 +1,7 @@
+#PRAGMA AUTORECOVER
+
+[Dynamic, Provider("WMIProv"), WMI, Description("Lesser joy driver information"), guid(""), locale("MS\\0x409")]
+class LesserJoyDriverDeviceInformation {
+	[key, read] string instanceName;
+	[read] boolean Active;
+}

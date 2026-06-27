@@ -1,0 +1,84 @@
+[Version]
+Signature="$WINDOWS NT$"
+Class=HIDClass
+ClassGuid={745a17a0-74d3-11d0-b6fe-00a0c90f57da}
+Provider=%ProviderName%
+CatalogFile=lesserjoy-driver.cat
+DriverVer=1.0
+PnpLockdown=1
+
+[DestinationDirs]
+DefaultDestDir = 13
+
+[SourceDisksNames]
+1 = %DiskName%,,,
+
+[SourceDisksFiles]
+lesserjoy-driver.dll = 1
+
+; -------- Device section
+[Manufacturer]
+%ManufacturerName%=Standard,NT$ARCH$.10.0...22000
+
+[Standard.NT$ARCH$.10.0...22000]
+%DeviceDesc% = lesserjoy, USB\VID_057E&PID_2069
+
+[lesserjoy.NT]
+CopyFiles=UMDriverCopy
+Include=MsHidUmdf.inf
+Needs=MsHidUmdf.NT
+Include=WUDFRD.inf
+Needs=WUDFRD_LowerFilter.NT
+
+[lesserjoy.NT.hw]
+Include=MsHidUmdf.inf
+Needs=MsHidUmdf.NT.hw
+Include=WUDFRD.inf
+Needs=WUDFRD_LowerFilter.NT.hw
+
+[lesserjoy.NT.Services]
+Include=MsHidUmdf.inf
+Needs=MsHidUmdf.NT.Services
+Include=WUDFRD.inf
+Needs=WUDFRD_LowerFilter.NT.Services
+
+[lesserjoy.NT.Filters]
+Include=WUDFRD.inf
+Needs=WUDFRD_LowerFilter.NT.Filters
+
+[lesserjoy.NT.Wdf]
+UmdfService                 = lesserjoy, lesserjoy_Install
+UmdfServiceOrder            = lesserjoy
+UmdfKernelModeClientPolicy  = AllowKernelModeClients
+UmdfFileObjectPolicy        = AllowNullAndUnknownFileObjects
+UmdfMethodNeitherAction     = Copy
+UmdfFsContextUsePolicy      = CanUseFsContext2
+
+[lesserjoy_Install]
+UmdfLibraryVersion = 2.0.0
+ServiceBinary      = %13%\lesserjoy-driver.dll
+
+[mshidumdf.AddService]
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\mshidumdf.sys; -------- copy files
+
+[WUDFRD_ServiceInstall]
+DisplayName    = %WudfRdDisplayName%
+ServiceType    = 1
+StartType      = 3
+ErrorControl   = 1
+ServiceBinary  = %12%\WUDFRd.sys
+
+[UMDriverCopy]
+lesserjoy-driver.dll ; ,,,0x00004000  ; COPYFLG_IN_USE_RENAME
+
+; -------- data section
+[strings]
+ProviderName="TapzCrew"
+ManufacturerName="TapzCrew"
+ClassName = "lesserjoy Device"
+DeviceDesc = "lesserjoy HID Device"
+DiskName = "lesserjoy Installation Disk"
+WudfRdDisplayName = "Windows Driver Foundation - User-mode Driver Framework Reflector"

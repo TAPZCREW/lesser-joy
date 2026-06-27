@@ -1,11 +1,10 @@
-#include <windows.h>
+#include <Windows.h>
 #include <ntverp.h>
 
-# define VER_FILETYPE                VFT_DRV
-#define VER_FILESUBTYPE              VFT2_DRV_SOUND
-#define VER_FILEDESCRIPTION_STR      "lesser-joy switch controllers driver"
-#define VER_INTERNALNAME_STR         "lesser-joy-driver.sys"
-#define VER_ORIGINALFILENAME_STR     "lesser-joy-driver.sys"
+#define VER_FILETYPE                 VFT_DLL
+#define VER_FILESUBTYPE              VFT2_UNKNOWN
+#define VER_FILEDESCRIPTION_STR      "lesserjoy switch controllers driver"
+#define VER_INTERNALNAME_STR         "lesserjoy-driver.dll"
 
 #define VER_LEGALCOPYRIGHT_YEARS "2026"
 #define VER_LEGALCOPYRIGHT_STR   "Copyright (C) Tapzcrew." VER_LEGALCOPYRIGHT_YEARS
