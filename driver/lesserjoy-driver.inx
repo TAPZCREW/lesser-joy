@@ -7,15 +7,6 @@ CatalogFile=lesserjoy-driver.cat
 DriverVer=1.0
 PnpLockdown=1
 
-[DestinationDirs]
-DefaultDestDir = 13
-
-[SourceDisksNames]
-1 = %DiskName%,,,
-
-[SourceDisksFiles]
-lesserjoy-driver.dll = 1
-
 ; -------- Device section
 [Manufacturer]
 %ManufacturerName%=Standard,NT$ARCH$.10.0...22000
@@ -54,10 +45,6 @@ UmdfFileObjectPolicy        = AllowNullAndUnknownFileObjects
 UmdfMethodNeitherAction     = Copy
 UmdfFsContextUsePolicy      = CanUseFsContext2
 
-[lesserjoy_Install]
-UmdfLibraryVersion = 2.0.0
-ServiceBinary      = %13%\lesserjoy-driver.dll
-
 [mshidumdf.AddService]
 ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
 StartType      = 3                  ; SERVICE_DEMAND_START
@@ -71,8 +58,26 @@ StartType      = 3
 ErrorControl   = 1
 ServiceBinary  = %12%\WUDFRd.sys
 
+[lesserjoy_Install]
+UmdfLibraryVersion = $UMDFVERSION$
+ServiceBinary      = %12%\UMDF\lesserjoy-driver.dll
+AddReg=UMDFVerifierAddReg
+
 [UMDriverCopy]
 lesserjoy-driver.dll ; ,,,0x00004000  ; COPYFLG_IN_USE_RENAME
+
+[SourceDisksNames]
+1 = %DiskName%,,,
+
+[SourceDisksFiles]
+lesserjoy-driver.dll = 1
+
+[DestinationDirs]
+DefaultDestDir = 12,UMDF
+
+[UMDFVerifierAddReg]
+; For verbose diagnostics, set to 1
+HKR,Parameters,VerboseOn,0x00010003,1 ; FLG_ADDREG_NOCLOBBER | FLG_ADDREG_TYPE_DWORD
 
 ; -------- data section
 [strings]

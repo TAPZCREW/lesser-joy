@@ -46,6 +46,8 @@ end)
 target("lesserjoy-driver", function()
     set_languages("c++26")
 
+    add_defines("_CRT_STDIO_ISO_WIDE_SPECIFIERS=1")
+    set_symbols(table.unwrap(symbols))
     add_rules("generate_cert")
     add_rules("wdk.driver", "wdk.env.umdf", "wdk.sign")
 
@@ -59,6 +61,18 @@ target("lesserjoy-driver", function()
     set_policy("build.c++.modules", true)
 
     set_runtimes("c++_static")
+
+    if is_mode("debug") then
+        set_symbols("hidden", "debug")
+    else
+        set_strip("all")
+
+        if is_mode("reldbg") then
+            set_symbols("hidden", "debug")
+        else
+            set_symbols("hidden")
+        end
+    end
 
     add_packages("frozen", "unordered_dense", "nontype_functional")
     add_packages("stormkit", { components = { "core", "log" } })

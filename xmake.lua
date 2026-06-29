@@ -78,6 +78,8 @@ add_requires(stormkit_dep_name, {
         shared = false,
         debug = is_mode("debug"),
         lto = get_config("lto"),
+
+        defines = { "_CRT_STDIO_ISO_WIDE_SPECIFIERS=1" },
     },
     version = "dev",
     alias = "stormkit",

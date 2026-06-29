@@ -84,17 +84,17 @@ namespace lj {
     ////////////////////////////////////////
     ////////////////////////////////////////
     inline auto KernelLogger::do_write(log::Severity severity, std::string_view string) noexcept -> void {
-        const auto str = std::format("[{}] {}", severity, string);
+        const auto str = std::format("[{}] {}\n", severity, string);
         OutputDebugStringA(stdr::data(str));
-        DbgPrintEx(DPFLTR_IHVDRIVER_ID, 0, (stdr::data(str)));
+        // DbgPrintEx(DPFLTR_IHVDRIVER_ID, 0, (stdr::data(str)));
     }
 
     ////////////////////////////////////////
     ////////////////////////////////////////
     inline auto KernelLogger::do_write(log::Severity severity, const log::Module& module, std::string_view string) noexcept
       -> void {
-        const auto str = std::format("[{}] {} {}", severity, module.name, string);
+        const auto str = std::format("[{}] {} {}\n", severity, module.name, string);
         OutputDebugStringA(stdr::data(str));
-        DbgPrintEx(DPFLTR_IHVDRIVER_ID, 0, (stdr::data(str)));
+        // DbgPrintEx(DPFLTR_IHVDRIVER_ID, 0, (stdr::data(str)));
     }
 } // namespace lj
