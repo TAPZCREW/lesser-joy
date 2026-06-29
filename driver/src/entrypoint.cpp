@@ -26,9 +26,14 @@ namespace lj {
     EVT_WDF_DRIVER_DEVICE_ADD event_device_add;
 }
 
+auto logger = Heap<lj::KernelLogger> {};
+
 extern "C" _Use_decl_annotations_ auto DriverEntry(_In_ PDRIVER_OBJECT driver_object, _In_ PUNICODE_STRING registry_path)
   -> NTSTATUS {
-    lj::dlog("Initializing lesserjoy driver...");
+    OutputDebugStringA("[lesserjoy] calling DriverEntry\n");
+
+    logger = log::Logger::allocate_logger_instance<lj::KernelLogger>();
+    lj::ilog("Initializing lesserjoy driver...");
 
     auto attributes = WDF_OBJECT_ATTRIBUTES {};
     WDF_OBJECT_ATTRIBUTES_INIT(&attributes);
@@ -37,22 +42,18 @@ extern "C" _Use_decl_annotations_ auto DriverEntry(_In_ PDRIVER_OBJECT driver_ob
     WDF_DRIVER_CONFIG_INIT(&config, lj::event_device_add);
 
     auto status = WdfDriverCreate(driver_object, registry_path, &attributes, &config, WDF_NO_HANDLE);
-
-    if (not NT_SUCCESS(status)) lj::dlog("Failed to initialize lesserjoy driver! status: {:x}", status);
+    if (not NT_SUCCESS(status)) lj::ilog("Failed to initialize lesserjoy driver! status: {:x}", status);
     else
-        lj::dlog("lesserjoy: driver successfully initialized!");
+        lj::ilog("lesserjoy: driver successfully initialized!");
 
     return status;
 }
 
-auto logger = Heap<lj::KernelLogger> {};
+// extern "C" _Use_decl_annotations_ auto APIENTRY DllMain(HMODULE module, DWORD ul_reason_for_call, LPVOID) -> BOOL {
 
-extern "C" _Use_decl_annotations_ auto APIENTRY DllMain(HMODULE module, DWORD ul_reason_for_call, LPVOID) -> BOOL {
-    logger = log::Logger::allocate_logger_instance<lj::KernelLogger>();
+//     DisableThreadLibraryCalls(module);
 
-    DisableThreadLibraryCalls(module);
+//     logger->write(log::Severity::INFO, log::Module {}, "lesserjoy starting ...");
 
-    lj::dlog("lesserjoy starting ...");
-
-    return TRUE;
-}
+//     return TRUE;
+// }
