@@ -2,13 +2,15 @@ module;
 
 #define WIN32_NO_STATUS
 #include <stormkit/core/platform/windows.hpp>
-#include <windows.h>
 #undef WIN32_NO_STATUS
 #include <devpropdef.h>
 #include <ntstatus.h>
 #include <wdf.h>
 
 #include <hidport.h>
+#include <usb.h>
+#include <usbspec.h>
+#include <wdfusb.h>
 
 export module lesserjoy.device;
 
@@ -18,13 +20,20 @@ import stormkit.core;
 
 import lesserjoy.log;
 import lesserjoy.constants;
+import lesserjoy.hid;
 
 using namespace stormkit;
 
 namespace stdr = std::ranges;
 
-export {
-    using Hid_report_descriptor = std::span<const u8>;
+export namespace lj {
+    struct Usb_device_context {
+        WDFUSBDEVICE device;
+
+        USB_DEVICE_DESCRIPTOR descriptor;
+
+        WDFMEMORY product_string;
+    };
 
     struct Device_context {
         WDFDEVICE device;
@@ -32,9 +41,16 @@ export {
         WDFQUEUE default_queue;
         WDFQUEUE manual_queue;
 
-        HID_DESCRIPTOR        hid_descriptor;
-        Hid_report_descriptor report_descriptor;
-        HID_DEVICE_ATTRIBUTES hid_attributes;
+        HID_DESCRIPTOR         hid_descriptor;
+        hid::Report_descriptor report_descriptor;
+        HID_DEVICE_ATTRIBUTES  hid_attributes;
+
+        WDFMEMORY output_report_memory;
+
+        Usb_device_context usb;
+
+        u16 vendor_id;
+        u16 product_id;
     };
 
     using PDevice_context = Device_context*;
@@ -49,208 +65,18 @@ export {
     using PQueue_context = Queue_context*;
     WDF_DECLARE_CONTEXT_TYPE_WITH_NAME(Queue_context, GetQueueContext)
 
-    struct Hid_control_info {
-        u8 report_id;
-        u8 control_code;
-    };
-
-    inline constexpr auto FEATURE_REPORT_SIZE_CB = sizeof(Hid_control_info) - 1;
-
-    struct Hid_input_info {
-        u8 report_id;
-        u8 data;
-    };
-
-    inline constexpr auto INPUT_REPORT_SIZE_CB = sizeof(Hid_input_info) - 1;
-
-    struct Hid_output_info {
-        u8  report_id;
-        u8  data;
-        u16 _;
-        u32 _;
-    };
-
-    inline constexpr auto OUTPUT_REPORT_SIZE_CB = sizeof(Hid_output_info) - 1;
-
-    inline constexpr auto DEFAULT_REPORT_DESCRIPTOR = to_array<u8>({
-      0x05, 0x01,       // Usage Page (Generic Desktop Ctrls)
-      0x09, 0x05,       // Usage (Game Pad)
-      0xA1, 0x01,       // Collection (Application)
-      0x85, 0x01,       //   Report ID (1)
-      0x09, 0x30,       //   Usage (X)
-      0x09, 0x31,       //   Usage (Y)
-      0x09, 0x32,       //   Usage (Z)
-      0x09, 0x35,       //   Usage (Rz)
-      0x15, 0x00,       //   Logical Minimum (0)
-      0x26, 0xFF, 0x00, //   Logical Maximum (255)
-      0x75, 0x08,       //   Report Size (8)
-      0x95, 0x04,       //   Report Count (4)
-      0x81, 0x02,       //   Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
-      0x09, 0x39,       //   Usage (Hat switch)
-      0x15, 0x00,       //   Logical Minimum (0)
-      0x25, 0x07,       //   Logical Maximum (7)
-      0x35, 0x00,       //   Physical Minimum (0)
-      0x46, 0x3B, 0x01, //   Physical Maximum (315)
-      0x65, 0x14,       //   Unit (System: English Rotation, Length: Centimeter)
-      0x75, 0x04,       //   Report Size (4)
-      0x95, 0x01,       //   Report Count (1)
-      0x81, 0x42,       //   Input (Data,Var,Abs,No Wrap,Linear,Preferred State,Null State)
-      0x65, 0x00,       //   Unit (None)
-      0x05, 0x09,       //   Usage Page (Button)
-      0x19, 0x01,       //   Usage Minimum (0x01)
-      0x29, 0x11,       //   Usage Maximum (0x11)
-      0x15, 0x00,       //   Logical Minimum (0)
-      0x25, 0x01,       //   Logical Maximum (1)
-      0x75, 0x01,       //   Report Size (1)
-      0x95, 0x11,       //   Report Count (17)
-      0x81, 0x02,       //   Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
-      0x06, 0x00, 0xFF, //   Usage Page (Vendor Defined 0xFF00)
-      0x09, 0x20,       //   Usage (0x20)
-      0x75, 0x03,       //   Report Size (3)
-      0x95, 0x01,       //   Report Count (1)
-      0x15, 0x00,       //   Logical Minimum (0)
-      0x25, 0x7F,       //   Logical Maximum (127)
-      0x81, 0x02,       //   Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
-      0x05, 0x01,       //   Usage Page (Generic Desktop Ctrls)
-      0x09, 0x33,       //   Usage (Rx)
-      0x09, 0x34,       //   Usage (Ry)
-      0x15, 0x00,       //   Logical Minimum (0)
-      0x26, 0xFF, 0x00, //   Logical Maximum (255)
-      0x75, 0x08,       //   Report Size (8)
-      0x95, 0x02,       //   Report Count (2)
-      0x81, 0x02,       //   Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
-      0x75, 0x08,       //   Report Size (8)
-      0x95, 0x01,       //   Report Count (1)
-      0x15, 0x00,       //   Logical Minimum (0)
-      0x26, 0xFF, 0x00, //   Logical Maximum (255)
-      0xA1, 0x00,       //   Collection (Physical)
-      0xA1, 0x02,       //    Collection (Logical)
-      0x09, 0x36,       //    Usage (Slider)
-      0x81, 0x02,       //    Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
-      0xC0,             //    End Collection
-      0xA1, 0x02,       //    Collection (Logical)
-      0x09, 0x36,       //    Usage (Slider)
-      0x81, 0x02,       //    Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
-      0xC0,             //    End Collection
-      0xA1, 0x02,       //    Collection (Logical)
-      0x09, 0x36,       //    Usage (Slider)
-      0x81, 0x02,       //    Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
-      0xC0,             //    End Collection
-      0xA1, 0x02,       //    Collection (Logical)
-      0x09, 0x36,       //    Usage (Slider)
-      0x81, 0x02,       //    Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
-      0xC0,             //    End Collection
-      0xA1, 0x02,       //    Collection (Logical)
-      0x09, 0x36,       //    Usage (Slider)
-      0x81, 0x02,       //    Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
-      0xC0,             //    End Collection
-      0xA1, 0x02,       //    Collection (Logical)
-      0x09, 0x36,       //    Usage (Slider)
-      0x81, 0x02,       //    Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
-      0xC0,             //    End Collection
-      0xA1, 0x02,       //    Collection (Logical)
-      0x09, 0x36,       //    Usage (Slider)
-      0x81, 0x02,       //    Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
-      0xC0,             //    End Collection
-      0xA1, 0x02,       //    Collection (Logical)
-      0x09, 0x36,       //    Usage (Slider)
-      0x81, 0x02,       //    Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
-      0xC0,             //    End Collection
-      0xA1, 0x02,       //    Collection (Logical)
-      0x09, 0x36,       //    Usage (Slider)
-      0x81, 0x02,       //    Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
-      0xC0,             //    End Collection
-      0xA1, 0x02,       //    Collection (Logical)
-      0x09, 0x36,       //    Usage (Slider)
-      0x81, 0x02,       //    Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
-      0xC0,             //    End Collection
-      0xC0,             //   End Collection
-      0xA1, 0x01,       //   Collection (Application)
-      0x85, 0x01,       //    Report ID (1)
-      0x06, 0x01, 0xFF, //    Usage Page (Vendor Defined 0xFF01)
-      0x09, 0x01,       //    Usage (0x01)
-      0x75, 0x08,       //    Report Size (8)
-      0x95, 0x13,       //    Report Count (19)
-      0x15, 0x00,       //    Logical Minimum (0)
-      0x26, 0xFF, 0x00, //    Logical Maximum (255)
-      0x81, 0x02,       //    Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
-      0xC0,             //   End Collection
-    });
-
-    inline constexpr auto DEFAULT_HID_DESCRIPTOR = HID_DESCRIPTOR {
-        .bLength         = sizeof(HID_DESCRIPTOR),
-        .bDescriptorType = 0x21, // HID == 0x21
-        .bcdHID          = 0x0100,
-        .bCountry        = 0x00,
-        .bNumDescriptors = 0x01,
-        .DescriptorList  = { { .bReportType = 0x22, .wReportLength = sizeof(DEFAULT_REPORT_DESCRIPTOR) } }
-    };
-}
+    EVT_WDF_DRIVER_DEVICE_ADD      event_device_add;
+    EVT_WDF_OBJECT_CONTEXT_CLEANUP event_device_cleanup;
+} // namespace lj
 
 module: private;
 
 namespace lj {
     EVT_WDF_IO_QUEUE_IO_DEVICE_CONTROL event_io_device_control;
+    EVT_WDF_DEVICE_PREPARE_HARDWARE    event_prepare_hardware;
 
-    namespace hid { namespace {
-        NTSTATUS
-        request_copy_from_buffer(WDFREQUEST request, std::span<const byte> from) {
-            auto memory = WDFMEMORY {};
-            auto status = WdfRequestRetrieveOutputMemory(request, &memory);
-            if (not NT_SUCCESS(status)) {
-                lj::elog("WdfRequestRetrieveOutputMemory failed : {:x}", status);
-                return status;
-            }
-
-            auto output_buffer_extent = 0_usize;
-            WdfMemoryGetBuffer(memory, &output_buffer_extent);
-            if (output_buffer_extent < stdr::size(from)) {
-                status = STATUS_INVALID_BUFFER_SIZE;
-                lj::elog("request_copy_from_buffer: buffer too small. Size {}, expects {}\n",
-                         output_buffer_extent,
-                         stdr::size(from));
-                return status;
-            }
-
-            status = WdfMemoryCopyFromBuffer(memory, 0, bit_cast<void*>(stdr::data(from)), stdr::size(from));
-            if (not NT_SUCCESS(status)) {
-                lj::elog("WdfMemoryCopyFromBuffer failed: {:0x}\n", status);
-                return status;
-            }
-
-            WdfRequestSetInformation(request, stdr::size(from));
-            return status;
-        }
-
-        auto get_device_descriptor(WDFREQUEST& request, Device_context& ctx) noexcept -> NTSTATUS {
-            return request_copy_from_buffer(request, as_bytes(ctx.hid_descriptor));
-        }
-
-        auto get_device_attributes(WDFREQUEST& request, Device_context& ctx) noexcept -> NTSTATUS {
-            return request_copy_from_buffer(request, as_bytes(ctx.hid_attributes));
-        }
-
-        auto get_report_descriptor(WDFREQUEST& request, Device_context& ctx) noexcept -> NTSTATUS {
-            return request_copy_from_buffer(request, as_bytes(ctx.report_descriptor));
-        }
-    }} // namespace hid
-
-    auto event_device_add(_In_ WDFDRIVER, _Inout_ PWDFDEVICE_INIT device_init) noexcept -> NTSTATUS {
-        lj::dlog("Event device add!");
-
-        WdfFdoInitSetFilter(device_init);
-
-        auto attributes = WDF_OBJECT_ATTRIBUTES {};
-        WDF_OBJECT_ATTRIBUTES_INIT_CONTEXT_TYPE(&attributes, Device_context);
-        attributes.EvtCleanupCallback = nullptr;
-
-        auto device = WDFDEVICE {};
-        auto status = WdfDeviceCreate(&device_init, &attributes, &device);
-
-        if (not NT_SUCCESS(status)) {
-            lj::elog("Failed to create device! status: {:x}", status);
-            return status;
-        }
+    auto init_device_context(WDFDEVICE device) -> NTSTATUS {
+        auto status = NTSTATUS { STATUS_SUCCESS };
 
         auto ctx = GetDeviceContext(device);
         std::memset(ctx, 0, sizeof(Device_context));
@@ -263,6 +89,7 @@ namespace lj {
 
         auto property_data = WDF_DEVICE_PROPERTY_DATA {};
         WDF_DEVICE_PROPERTY_DATA_INIT(&property_data, &bus_desc_key);
+        property_data.Flags |= PLUGPLAY_PROPERTY_PERSISTENT;
         property_data.Lcid = LOCALE_NEUTRAL;
 
         const auto& default_controller = CONTROLLERS_TYPE.at("pro_controller");
@@ -277,6 +104,65 @@ namespace lj {
         ctx->hid_attributes.Size      = sizeof(HID_DEVICE_ATTRIBUTES);
         ctx->hid_attributes.VendorID  = default_controller.vid;
         ctx->hid_attributes.ProductID = default_controller.pid;
+        ctx->hid_descriptor           = hid::DEFAULT_DESCRIPTOR;
+        ctx->report_descriptor        = hid::DEFAULT_REPORT_DESCRIPTOR;
+
+        auto report_buffer = PUCHAR { nullptr };
+        auto attributes    = WDF_OBJECT_ATTRIBUTES {};
+        WDF_OBJECT_ATTRIBUTES_INIT(&attributes);
+        attributes.ParentObject = device;
+
+        status = WdfMemoryCreate(&attributes,
+                                 NonPagedPoolNx,
+                                 POOL_TAG,
+                                 sizeof(hid::DEFAULT_OUTPUT_REPORT),
+                                 &ctx->output_report_memory,
+                                 std::bit_cast<PVOID*>(&report_buffer));
+        if (not NT_SUCCESS(status)) {
+            lj::elog("Failed to allocate hid report buffer memory! status: {:#x}", static_cast<u32>(status));
+            return status;
+        }
+
+        std::memcpy(report_buffer, stdr::data(hid::DEFAULT_OUTPUT_REPORT), sizeof(hid::DEFAULT_OUTPUT_REPORT));
+
+        return status;
+    }
+
+#pragma code_seg("PAGED")
+
+    auto event_device_add(_In_ WDFDRIVER, _Inout_ PWDFDEVICE_INIT device_init) noexcept -> NTSTATUS {
+        PAGED_CODE();
+
+        lj::dlog("Event device add!");
+
+        WdfFdoInitSetFilter(device_init);
+
+        auto attributes = WDF_OBJECT_ATTRIBUTES {};
+        WDF_OBJECT_ATTRIBUTES_INIT_CONTEXT_TYPE(&attributes, Device_context);
+        attributes.EvtCleanupCallback = nullptr;
+
+        auto power_callbacks = WDF_PNPPOWER_EVENT_CALLBACKS {};
+        WDF_PNPPOWER_EVENT_CALLBACKS_INIT(&power_callbacks);
+        power_callbacks.EvtDevicePrepareHardware = event_prepare_hardware;
+
+        WdfDeviceInitSetPnpPowerEventCallbacks(device_init, &power_callbacks);
+
+        auto device = WDFDEVICE {};
+        auto status = WdfDeviceCreate(&device_init, &attributes, &device);
+
+        if (not NT_SUCCESS(status)) {
+            lj::elog("Failed to create device! status: {:#x}", static_cast<u32>(status));
+            return status;
+        }
+
+        status = init_device_context(device);
+        if (not NT_SUCCESS(status)) {
+            lj::elog("Failed to device context! status: {:#x}", static_cast<u32>(status));
+            return status;
+        }
+
+        auto        ctx                = GetDeviceContext(device);
+        const auto& default_controller = CONTROLLERS_TYPE.at("pro_controller");
 
         {
             auto queue_config = WDF_IO_QUEUE_CONFIG {};
@@ -288,9 +174,10 @@ namespace lj {
 
             status = WdfIoQueueCreate(device, &queue_config, &queue_attributes, &ctx->default_queue);
             if (not NT_SUCCESS(status)) {
-                lj::elog("Failed to create io queue! status: {:x}", status);
+                lj::elog("Failed to create io queue! status: {:#x}", static_cast<u32>(status));
                 return status;
             }
+            lj::ilog("Io queue successfully created!");
 
             auto queue_ctx        = GetQueueContext(ctx->default_queue);
             queue_ctx->queue      = ctx->default_queue;
@@ -299,33 +186,47 @@ namespace lj {
 
         {
             auto queue_config = WDF_IO_QUEUE_CONFIG {};
-            WDF_IO_QUEUE_CONFIG_INIT_DEFAULT_QUEUE(&queue_config, WdfIoQueueDispatchManual);
+            WDF_IO_QUEUE_CONFIG_INIT(&queue_config, WdfIoQueueDispatchManual);
 
             auto queue_attributes = WDF_OBJECT_ATTRIBUTES {};
             WDF_OBJECT_ATTRIBUTES_INIT_CONTEXT_TYPE(&queue_attributes, Queue_context);
 
             status = WdfIoQueueCreate(device, &queue_config, &queue_attributes, &ctx->manual_queue);
             if (not NT_SUCCESS(status)) {
-                lj::elog("Failed to create io queue! status: {:x}", status);
+                lj::elog("Failed to create io queue! status): {:#x}", static_cast<u32>(status));
                 return status;
             }
+            lj::ilog("Manual io queue successfully created!");
 
             auto queue_ctx        = GetQueueContext(ctx->manual_queue);
             queue_ctx->queue      = ctx->manual_queue;
             queue_ctx->device_ctx = ctx;
         }
 
-        ctx->hid_descriptor    = DEFAULT_HID_DESCRIPTOR;
-        ctx->report_descriptor = DEFAULT_REPORT_DESCRIPTOR;
+        status = WdfDeviceCreateDeviceInterface(device, &DEVICE_INTERFACE_GUID.fmtid, nullptr);
+        if (not NT_SUCCESS(status)) {
+            lj::elog("Failed to expose device interface! status: {:#x}", static_cast<u32>(status));
+            return status;
+        }
+
+        ilog("{} connected!", default_controller.name);
 
         return status;
     }
+
+#pragma code_seg()
+
+#pragma code_seg("PAGED")
 
     auto event_io_device_control(_In_ WDFQUEUE   queue,
                                  _In_ WDFREQUEST request,
                                  _In_            usize,
                                  _In_            usize,
                                  _In_ ULONG      io_control_code) noexcept -> void {
+        PAGED_CODE();
+
+        lj::dlog("event_io_device_control Called!");
+
         auto queue_ctx  = GetQueueContext(queue);
         auto device_ctx = queue_ctx->device_ctx;
 
@@ -333,13 +234,13 @@ namespace lj {
         auto status            = NTSTATUS { STATUS_NOT_IMPLEMENTED };
         switch (io_control_code) {
             case IOCTL_HID_GET_DEVICE_DESCRIPTOR: {
-                status = hid::get_device_descriptor(request, *device_ctx);
+                status = hid::get_device_descriptor(request, device_ctx->hid_descriptor);
             } break;
             case IOCTL_HID_GET_DEVICE_ATTRIBUTES: {
-                status = hid::get_device_attributes(request, *device_ctx);
+                status = hid::get_device_attributes(request, device_ctx->hid_attributes);
             } break;
             case IOCTL_HID_GET_REPORT_DESCRIPTOR: {
-                status = hid::get_report_descriptor(request, *device_ctx);
+                status = hid::get_report_descriptor(request, device_ctx->report_descriptor);
             } break;
             case IOCTL_HID_READ_REPORT: {
                 wlog("IOCTL_HID_READ_REPORT not supported");
@@ -352,6 +253,7 @@ namespace lj {
             } break;
 
             case IOCTL_HID_GET_STRING: wlog("IOCTL_HID_GET_STRING not supported");
+            case IOCTL_HID_GET_INDEXED_STRING: wlog("IOCTL_HID_GET_INDEXED_STRING not supported");
 
             case IOCTL_HID_DEVICERESET_NOTIFICATION: wlog("IOCTL_HID_DEVICERESET_NOTIFICATION not supported");
             case IOCTL_HID_ACTIVATE_DEVICE: wlog("IOCTL_HID_ACTIVTE_DEVICE not supported");
@@ -367,4 +269,40 @@ namespace lj {
 
         if (request_completed) WdfRequestComplete(request, status);
     }
+
+#pragma code_seg()
+
+#pragma code_seg("PAGED")
+
+    auto event_device_cleanup(_In_ WDFOBJECT device) -> void {
+        PAGED_CODE();
+
+        lj::dlog("Cleanup up device {:#x}", std::bit_cast<uptr>(device));
+
+        // EventWriteUnloadObject(device);
+    }
+
+#pragma code_seg()
+
+    auto event_prepare_hardware(WDFDEVICE device, WDFCMRESLIST, WDFCMRESLIST) -> NTSTATUS {
+        auto status = STATUS_SUCCESS;
+
+        auto ctx = GetDeviceContext(device);
+
+        status = WdfUsbTargetDeviceCreate(device, WDF_NO_OBJECT_ATTRIBUTES, &ctx->usb.device);
+        if (not NT_SUCCESS(status)) {
+            lj::elog("Failed to create USB device context! status: {:#x}", static_cast<u32>(status));
+            return status;
+        }
+
+        WdfUsbTargetDeviceGetDeviceDescriptor(ctx->usb.device, &ctx->usb.descriptor);
+
+        ctx->vendor_id  = ctx->usb.descriptor.idVendor;
+        ctx->product_id = ctx->usb.descriptor.idProduct;
+
+        lj::ilog("Usb attached, PID: {:#x}, VID: {:#x}", ctx->vendor_id, ctx->product_id);
+
+        return status;
+    }
+
 } // namespace lj

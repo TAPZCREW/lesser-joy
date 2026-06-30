@@ -1,5 +1,3 @@
-// module;
-
 #define WIN32_NO_STATUS
 #include <stormkit/core/platform/windows.hpp>
 #undef WIN32_NO_STATUS
@@ -7,24 +5,23 @@
 #include <ntstatus.h>
 #include <wdf.h>
 
-// export module lesserjoy.entrypoint;
-
 import std;
 
 import stormkit.core;
 import stormkit.log;
 
 import lesserjoy.log;
+import lesserjoy.device;
 
 using namespace stormkit;
 
 extern "C" DRIVER_INITIALIZE DriverEntry;
 
-namespace lj {
-    EVT_WDF_DRIVER_DEVICE_ADD event_device_add;
-}
-
 auto logger = heap_ptr<lj::KernelLogger> {};
+
+namespace lj {
+    EVT_WDF_OBJECT_CONTEXT_CLEANUP event_driver_cleanup;
+}
 
 #pragma code_seg("INIT")
 
@@ -33,6 +30,7 @@ _Use_decl_annotations_ auto DriverEntry(_In_ PDRIVER_OBJECT driver_object, _In_ 
 
     auto attributes = WDF_OBJECT_ATTRIBUTES {};
     WDF_OBJECT_ATTRIBUTES_INIT(&attributes);
+    attributes.EvtCleanupCallback = lj::event_driver_cleanup;
 
     auto config = WDF_DRIVER_CONFIG {};
     WDF_DRIVER_CONFIG_INIT(&config, lj::event_device_add);
@@ -44,6 +42,18 @@ _Use_decl_annotations_ auto DriverEntry(_In_ PDRIVER_OBJECT driver_object, _In_ 
 
     return status;
 }
+
+#pragma code_seg()
+
+#pragma code_seg("PAGED")
+
+namespace lj {
+    auto event_driver_cleanup(_In_ WDFOBJECT driver) -> void {
+        PAGED_CODE();
+
+        lj::dlog("Cleanup up driver at {:#x}", std::bit_cast<uptr>(driver));
+    }
+} // namespace lj
 
 #pragma code_seg()
 
