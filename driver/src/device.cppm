@@ -174,10 +174,10 @@ namespace lj {
 
         auto device = WDFDEVICE {};
         LoggedTryOr(lj::win_call(WdfDeviceCreate, &device_init, &attributes, &device),
-                    core::monadic::unwrap(),
+                    monadic::unwrap(),
                     "Failed to create device!");
 
-        LoggedTryOr(init_device_context(device), core::monadic::unwrap(), "Failed to device context!");
+        LoggedTryOr(init_device_context(device), monadic::unwrap(), "Failed to device context!");
 
         auto        ctx                = GetDeviceContext(device);
         const auto& default_controller = CONTROLLERS_TYPE.at("pro_controller");
@@ -192,7 +192,7 @@ namespace lj {
             WDF_OBJECT_ATTRIBUTES_INIT_CONTEXT_TYPE(&queue_attributes, Queue_context);
 
             LoggedTryOr(lj::win_call(WdfIoQueueCreate, device, &queue_config, &queue_attributes, &ctx->default_queue),
-                        core::monadic::unwrap(),
+                        monadic::unwrap(),
                         "Failed to create io queue!");
             lj::ilog("Io queue successfully created!");
 
@@ -209,7 +209,7 @@ namespace lj {
             WDF_OBJECT_ATTRIBUTES_INIT_CONTEXT_TYPE(&queue_attributes, Queue_context);
 
             LoggedTryOr(lj::win_call(WdfIoQueueCreate, device, &queue_config, &queue_attributes, &ctx->manual_queue),
-                        core::monadic::unwrap(),
+                        monadic::unwrap(),
                         "Failed to create io queue!");
             lj::ilog("Manual io queue successfully created!");
 
@@ -219,7 +219,7 @@ namespace lj {
         }
 
         LoggedTryOr(lj::win_call(WdfDeviceCreateDeviceInterface, device, &DEVICE_INTERFACE_GUID.fmtid, nullptr),
-                    core::monadic::unwrap(),
+                    monadic::unwrap(),
                     "Failed to expose device interface!");
         lj::ilog("{} connected!", default_controller.name);
 
@@ -398,7 +398,7 @@ namespace lj {
                                      &init_config,
                                      WDF_NO_OBJECT_ATTRIBUTES,
                                      &ctx->usb.device),
-                        core::monadic::unwrap(),
+                        monadic::unwrap(),
                         "Failed to create USB device context!");
         }
 
@@ -412,7 +412,7 @@ namespace lj {
         WDF_USB_DEVICE_SELECT_CONFIG_PARAMS_INIT_MULTIPLE_INTERFACES(&select_config, 0, nullptr);
 
         LoggedTryOr(lj::win_call(WdfUsbTargetDeviceSelectConfig, ctx->usb.device, WDF_NO_OBJECT_ATTRIBUTES, &select_config),
-                    core::monadic::unwrap(),
+                    monadic::unwrap(),
                     "Failed to configure USB device!");
 
         ctx->usb.interface = select_config.Types.SingleInterface.ConfiguredUsbInterface;
