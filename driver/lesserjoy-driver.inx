@@ -44,6 +44,7 @@ UmdfKernelModeClientPolicy  = AllowKernelModeClients
 UmdfFileObjectPolicy        = AllowNullAndUnknownFileObjects
 UmdfMethodNeitherAction     = Copy
 UmdfFsContextUsePolicy      = CanUseFsContext2
+UmdfDispatcher              = NativeUSB
 
 [mshidumdf.AddService]
 ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
