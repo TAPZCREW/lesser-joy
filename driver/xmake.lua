@@ -94,7 +94,6 @@ target("lesserjoy-driver", function()
         import("privilege.sudo")
 
         local wdk = target:data("wdk")
-        local inf_file = path.absolute(target:targetfile()):gsub("dll", "inf")
 
         local buildenvs = target:compiler("cxx"):runenvs()
 
@@ -103,43 +102,28 @@ target("lesserjoy-driver", function()
         })
         assert(pnputil, "pnputil not found!")
 
-        local arch = assert(config.arch(), "arch not found!")
-        local devgen = path.join(wdk.sdkdir, "Tools", arch, "devgen.exe")
-        if not os.isexec(devgen) then devgen = path.join(wdk.sdkdir, "Tools", wdk.sdkver, arch, "devgen.exe") end
-        if not os.isexec(devgen) then devgen = path.join(wdk.sdkdir, "Tools", wdk.sdkver, "x86", "devgen.exe") end
-        assert(os.isexec(devgen), "devgen not found!")
-
-        -- local remove_devgen_args = {
-        --     "/remove",
-        --     "/instanceid",
-        --     "Lesserjoy",
-        -- }
-        -- print("Removing old virtual hardware ---------")
-        -- if option.get("verbose") then print("running", "sudo " .. devgen, table.concat(remove_devgen_args, " ")) end
-        -- sudo.execv(devgen, remove_devgen_args)
-
-        local pnputil_remove_args = {
-            "/delete-driver",
-            inf_file,
-            "/uninstall",
-        }
         print("Removing old driver ---------")
-        if option.get("verbose") then
-            print("running", "sudo " .. pnputil.program, table.concat(pnputil_remove_args, " "))
+        local out, err = os.iorunv(pnputil.program, { "/e" })
+        assert(err, err)
+        if out then
+            for _, driver in ipairs(out:split("\n\n")) do
+                if driver:find("TapzCrew") then
+                    local inf_file = driver:match("Nom publié :            (.-)\n")
+                    print("Found", inf_file)
+                    local pnputil_remove_args = {
+                        "/delete-driver",
+                        inf_file,
+                        "/uninstall",
+                    }
+                    if option.get("verbose") then
+                        print("running", "sudo " .. pnputil.program, table.concat(pnputil_remove_args, " "))
+                    end
+                    try({ function() sudo.execv(pnputil.program, pnputil_remove_args) end })
+                    catch({ function(...) end })
+                end
+            end
         end
-        try({ function() sudo.execv(pnputil.program, pnputil_remove_args) end })
-        catch({ function(...) end })
-
-        -- local devgen_args = {
-        --     "/add",
-        --     "/hardwareid",
-        --     "ROOT\\lesserjoy",
-        --     "/instanceid",
-        --     "Lesserjoy",
-        -- }
-        -- print("Creating virtual hardware ---------")
-        -- if option.get("verbose") then print("running", "sudo " .. devgen, table.concat(devgen_args, " ")) end
-        -- sudo.execv(devgen, devgen_args)
+        local inf_file = path.absolute(target:targetfile()):gsub("dll", "inf")
 
         local pnputil_args = {
             "/add-driver",
@@ -149,7 +133,5 @@ target("lesserjoy-driver", function()
         print("Installing driver ---------")
         if option.get("verbose") then print("running", "sudo " .. pnputil.program, table.concat(pnputil_args, " ")) end
         sudo.execv(pnputil.program, pnputil_args)
-
-        -- sudo.exec("windbgx -pn WUDFHost.exe")
     end)
 end)
