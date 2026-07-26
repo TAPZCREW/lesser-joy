@@ -7,6 +7,7 @@ import stormkit.log;
 
 import lesserjoy.log;
 import lesserjoy.device;
+import lesserjoy.ntstatus;
 
 using namespace stormkit;
 
@@ -30,12 +31,15 @@ _Use_decl_annotations_ auto DriverEntry(_In_ PDRIVER_OBJECT driver_object, _In_ 
     auto config = WDF_DRIVER_CONFIG {};
     WDF_DRIVER_CONFIG_INIT(&config, lj::event_device_add);
 
-    auto status = WdfDriverCreate(driver_object, registry_path, &attributes, &config, WDF_NO_HANDLE);
-    if (not NT_SUCCESS(status)) lj::ilog("Failed to initialize lesserjoy driver! status: {:x}", status);
-    else
-        lj::ilog("lesserjoy: driver successfully initialized!");
+    auto result = lj::win_call(WdfDriverCreate, driver_object, registry_path, &attributes, &config, nullptr);
+    if (not result) {
+        lj::elog("Failed to initialize lessjoy driver! status: {}", result.error());
+        return result.error().value();
+    }
 
-    return status;
+    lj::ilog("driver successfully initialized!");
+
+    return 0;
 }
 
 #pragma code_seg()
@@ -46,7 +50,7 @@ namespace lj {
     auto event_driver_cleanup(_In_ WDFOBJECT driver) -> void {
         PAGED_CODE();
 
-        lj::dlog("Cleanup up driver at {:#x}", std::bit_cast<uptr>(driver));
+        lj::dlog("Cleanup up driver at {}", std::bit_cast<uptr>(driver));
     }
 } // namespace lj
 
@@ -58,5 +62,6 @@ extern "C" __declspec(dllexport) auto APIENTRY DllMain(HMODULE module, DWORD, LP
     lj::ilog("Calling DllMain...");
 
     DisableThreadLibraryCalls(module);
+
     return TRUE;
 }

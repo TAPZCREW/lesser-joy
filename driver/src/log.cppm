@@ -11,6 +11,8 @@ import std;
 import stormkit.core;
 import stormkit.log;
 
+import lesserjoy.ntstatus;
+
 using namespace stormkit;
 using namespace std::literals;
 

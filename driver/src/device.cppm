@@ -13,20 +13,14 @@ import stormkit.core;
 import lesserjoy.log;
 import lesserjoy.constants;
 import lesserjoy.hid;
+import lesserjoy.ntstatus;
+import lesserjoy.usb;
 
 using namespace stormkit;
 
 namespace stdr = std::ranges;
 
 export namespace lj {
-    struct Usb_device_context {
-        WDFUSBDEVICE device;
-
-        USB_DEVICE_DESCRIPTOR descriptor;
-
-        WDFMEMORY product_string;
-    };
-
     struct Device_context {
         WDFDEVICE device;
 
@@ -39,14 +33,19 @@ export namespace lj {
 
         WDFMEMORY output_report_memory;
 
-        Usb_device_context usb;
+        usb::Usb_device_context usb;
 
         u16 vendor_id;
         u16 product_id;
+
+        array<byte, 64> input_report;
     };
 
+    STORMKIT_PUSH_WARNINGS
+#pragma clang diagnostic ignored "-Wduplicate-decl-specifier"
     using PDevice_context = Device_context*;
     WDF_DECLARE_CONTEXT_TYPE_WITH_NAME(Device_context, GetDeviceContext)
+    STORMKIT_POP_WARNINGS
 
     struct Queue_context {
         WDFQUEUE queue;
@@ -54,8 +53,11 @@ export namespace lj {
         Device_context* device_ctx;
     };
 
+    STORMKIT_PUSH_WARNINGS
+#pragma clang diagnostic ignored "-Wduplicate-decl-specifier"
     using PQueue_context = Queue_context*;
     WDF_DECLARE_CONTEXT_TYPE_WITH_NAME(Queue_context, GetQueueContext)
+    STORMKIT_POP_WARNINGS
 
     EVT_WDF_DRIVER_DEVICE_ADD      event_device_add;
     EVT_WDF_OBJECT_CONTEXT_CLEANUP event_device_cleanup;
@@ -63,9 +65,40 @@ export namespace lj {
 
 module: private;
 
+auto format_as(const USB_DEVICE_DESCRIPTOR& descriptor, auto& ctx) noexcept -> decltype(ctx.out()) {
+    return std::format_to(ctx.out(),
+                          "[USB_DEVICE_DESCRIPTOR\n"
+                          "    bLength:            {}\n"
+                          "    bDescriptorType:    {}\n"
+                          "    bcdUSB:             {}\n"
+                          "    bDeviceClass:       {}\n"
+                          "    bDeviceSubClass:    {}\n"
+                          "    bDeviceProtocol:    {}\n"
+                          "    bMaxPacketSize0:    {}\n"
+                          "    idVendor:           {:#x}\n"
+                          "    idProduct:          {:#x}\n"
+                          "    bcdDevice:          {}\n"
+                          "    iSerialNumber:      {}\n"
+                          "    bNumConfigurations: {}]",
+                          descriptor.bLength,
+                          descriptor.bDescriptorType,
+                          descriptor.bcdUSB,
+                          descriptor.bDeviceClass,
+                          descriptor.bDeviceSubClass,
+                          descriptor.bDeviceProtocol,
+                          descriptor.bMaxPacketSize0,
+                          descriptor.idVendor,
+                          descriptor.idProduct,
+                          descriptor.bcdDevice,
+                          descriptor.iSerialNumber,
+                          descriptor.bNumConfigurations);
+}
+
 namespace lj {
     EVT_WDF_IO_QUEUE_IO_DEVICE_CONTROL event_io_device_control;
     EVT_WDF_DEVICE_PREPARE_HARDWARE    event_prepare_hardware;
+    EVT_WDF_DEVICE_D0_ENTRY            event_device_entry;
+    EVT_WDF_DEVICE_D0_EXIT             event_device_exit;
 
     auto init_device_context(WDFDEVICE device) -> NTSTATUS {
         auto status = NTSTATUS { STATUS_SUCCESS };
@@ -107,22 +140,22 @@ namespace lj {
         status = WdfMemoryCreate(&attributes,
                                  NonPagedPoolNx,
                                  POOL_TAG,
-                                 sizeof(hid::DEFAULT_OUTPUT_REPORT),
+                                 64,
                                  &ctx->output_report_memory,
                                  std::bit_cast<PVOID*>(&report_buffer));
         if (not NT_SUCCESS(status)) {
-            lj::elog("Failed to allocate hid report buffer memory! status: {:#x}", static_cast<u32>(status));
+            lj::elog("Failed to allocate hid report buffer memory! status: {}", narrow<Ntstatus>(status));
             return status;
         }
 
-        std::memcpy(report_buffer, stdr::data(hid::DEFAULT_OUTPUT_REPORT), sizeof(hid::DEFAULT_OUTPUT_REPORT));
+        // std::memcpy(report_buffer, stdr::data(hid::DEFAULT_OUTPUT_REPORT), sizeof(hid::DEFAULT_OUTPUT_REPORT));
 
         return status;
     }
 
 #pragma code_seg("PAGED")
 
-    auto event_device_add(_In_ WDFDRIVER, _Inout_ PWDFDEVICE_INIT device_init) noexcept -> NTSTATUS {
+    auto event_device_add(_In_ WDFDRIVER, _Inout_ PWDFDEVICE_INIT device_init) -> NTSTATUS {
         PAGED_CODE();
 
         lj::dlog("Event device add!");
@@ -136,6 +169,8 @@ namespace lj {
         auto power_callbacks = WDF_PNPPOWER_EVENT_CALLBACKS {};
         WDF_PNPPOWER_EVENT_CALLBACKS_INIT(&power_callbacks);
         power_callbacks.EvtDevicePrepareHardware = event_prepare_hardware;
+        power_callbacks.EvtDeviceD0Entry         = event_device_entry;
+        power_callbacks.EvtDeviceD0Exit          = event_device_exit;
 
         WdfDeviceInitSetPnpPowerEventCallbacks(device_init, &power_callbacks);
 
@@ -143,13 +178,13 @@ namespace lj {
         auto status = WdfDeviceCreate(&device_init, &attributes, &device);
 
         if (not NT_SUCCESS(status)) {
-            lj::elog("Failed to create device! status: {:#x}", static_cast<u32>(status));
+            lj::elog("Failed to create device! status: {}", narrow<Ntstatus>(status));
             return status;
         }
 
         status = init_device_context(device);
         if (not NT_SUCCESS(status)) {
-            lj::elog("Failed to device context! status: {:#x}", static_cast<u32>(status));
+            lj::elog("Failed to device context! status: {}", narrow<Ntstatus>(status));
             return status;
         }
 
@@ -159,6 +194,7 @@ namespace lj {
         {
             auto queue_config = WDF_IO_QUEUE_CONFIG {};
             WDF_IO_QUEUE_CONFIG_INIT_DEFAULT_QUEUE(&queue_config, WdfIoQueueDispatchParallel);
+            queue_config.PowerManaged       = WdfTrue;
             queue_config.EvtIoDeviceControl = event_io_device_control;
 
             auto queue_attributes = WDF_OBJECT_ATTRIBUTES {};
@@ -166,7 +202,7 @@ namespace lj {
 
             status = WdfIoQueueCreate(device, &queue_config, &queue_attributes, &ctx->default_queue);
             if (not NT_SUCCESS(status)) {
-                lj::elog("Failed to create io queue! status: {:#x}", static_cast<u32>(status));
+                lj::elog("Failed to create io queue! status: {}", narrow<Ntstatus>(status));
                 return status;
             }
             lj::ilog("Io queue successfully created!");
@@ -185,7 +221,7 @@ namespace lj {
 
             status = WdfIoQueueCreate(device, &queue_config, &queue_attributes, &ctx->manual_queue);
             if (not NT_SUCCESS(status)) {
-                lj::elog("Failed to create io queue! status): {:#x}", static_cast<u32>(status));
+                lj::elog("Failed to create io queue! status): {}", narrow<Ntstatus>(status));
                 return status;
             }
             lj::ilog("Manual io queue successfully created!");
@@ -197,7 +233,7 @@ namespace lj {
 
         status = WdfDeviceCreateDeviceInterface(device, &DEVICE_INTERFACE_GUID.fmtid, nullptr);
         if (not NT_SUCCESS(status)) {
-            lj::elog("Failed to expose device interface! status: {:#x}", static_cast<u32>(status));
+            lj::elog("Failed to expose device interface! status: {}", narrow<Ntstatus>(status));
             return status;
         }
 
@@ -212,9 +248,9 @@ namespace lj {
 
     auto event_io_device_control(_In_ WDFQUEUE   queue,
                                  _In_ WDFREQUEST request,
-                                 _In_            usize,
-                                 _In_            usize,
-                                 _In_ ULONG      io_control_code) noexcept -> void {
+                                 _In_ usize      output_buffer_size,
+                                 _In_ usize      input_buffer_size,
+                                 _In_ ULONG      io_control_code) -> void {
         PAGED_CODE();
 
         lj::dlog("event_io_device_control Called!");
@@ -235,12 +271,12 @@ namespace lj {
                 status = hid::get_report_descriptor(request, device_ctx->report_descriptor);
             } break;
             case IOCTL_HID_READ_REPORT: {
-                wlog("IOCTL_HID_READ_REPORT not supported");
+                wlog("IOCTL_HID_READ_REPORT not supported {}", input_buffer_size);
                 // status = ReadReport(queue_ctx, request, &request_completed);
             } break;
 
             case IOCTL_HID_WRITE_REPORT: {
-                wlog("IOCTL_HID_WRITE_REPORT not supported");
+                wlog("IOCTL_HID_WRITE_REPORT not supported {}", output_buffer_size);
                 // status = WriteReport(queueContext, Request);
             } break;
 
@@ -269,22 +305,57 @@ namespace lj {
     auto event_device_cleanup(_In_ WDFOBJECT device) -> void {
         PAGED_CODE();
 
-        lj::dlog("Cleanup up device {:#x}", std::bit_cast<uptr>(device));
+        lj::dlog("Cleanup up device {}", std::bit_cast<uptr>(device));
 
         // EventWriteUnloadObject(device);
     }
 
 #pragma code_seg()
 
+    ////////////////////////////////////////
+    ////////////////////////////////////////
+    inline auto wide_to_ascii(wstring_view input) -> string {
+        [[maybe_unused]]
+        auto state = std::mbstate_t {};
+        [[maybe_unused]]
+        auto output = string {};
+
+        auto count = WideCharToMultiByte(CP_ACP, 0, stdr::data(input), stdr::size(input), nullptr, 0, nullptr, nullptr);
+        output.resize(count);
+
+        WideCharToMultiByte(CP_UTF8,
+                            0,
+                            stdr::data(input),
+                            stdr::size(input),
+                            stdr::data(output),
+                            stdr::size(output),
+                            nullptr,
+                            nullptr);
+
+        // // #if defined(STORMKIT_COMPILER_MSVC)
+        // for (const auto& c : input) [[maybe_unused]]
+        //     auto _ = std::c16rtomb(stdr::data(output), narrow<char16_t>(c), &state);
+
+        return output;
+    }
+
     auto event_prepare_hardware(WDFDEVICE device, WDFCMRESLIST, WDFCMRESLIST) -> NTSTATUS {
         auto status = STATUS_SUCCESS;
 
         auto ctx = GetDeviceContext(device);
 
-        status = WdfUsbTargetDeviceCreate(device, WDF_NO_OBJECT_ATTRIBUTES, &ctx->usb.device);
-        if (not NT_SUCCESS(status)) {
-            lj::elog("Failed to create USB device context! status: {:#x}", static_cast<u32>(status));
-            return status;
+        // Init usb device
+
+        if (ctx->usb.device == nullptr) {
+            auto init_config = WDF_USB_DEVICE_CREATE_CONFIG {};
+            WDF_USB_DEVICE_CREATE_CONFIG_INIT(&init_config, 0x602);
+
+            status = WdfUsbTargetDeviceCreateWithParameters(device, &init_config, WDF_NO_OBJECT_ATTRIBUTES, &ctx->usb.device);
+            // status = WdfUsbTargetDeviceCreate(device, WDF_NO_OBJECT_ATTRIBUTES, &ctx->usb.device);
+            if (not NT_SUCCESS(status)) {
+                lj::elog("Failed to create USB device context! status: {}", narrow<Ntstatus>(status));
+                return status;
+            }
         }
 
         WdfUsbTargetDeviceGetDeviceDescriptor(ctx->usb.device, &ctx->usb.descriptor);
@@ -292,9 +363,77 @@ namespace lj {
         ctx->vendor_id  = ctx->usb.descriptor.idVendor;
         ctx->product_id = ctx->usb.descriptor.idProduct;
 
-        lj::ilog("Usb attached, PID: {:#x}, VID: {:#x}", ctx->vendor_id, ctx->product_id);
+        // TODO read about USB interfaces to ensure correct usage
+        auto select_config = WDF_USB_DEVICE_SELECT_CONFIG_PARAMS {};
+        WDF_USB_DEVICE_SELECT_CONFIG_PARAMS_INIT_MULTIPLE_INTERFACES(&select_config, 0, nullptr);
+
+        status = WdfUsbTargetDeviceSelectConfig(ctx->usb.device, WDF_NO_OBJECT_ATTRIBUTES, &select_config);
+        if (not NT_SUCCESS(status)) {
+            lj::elog("Failed to configure USB device! status: {}", narrow<Ntstatus>(status));
+            return status;
+        }
+
+        ctx->usb.interface = select_config.Types.SingleInterface.ConfiguredUsbInterface;
+
+        lj::ilog("Usb attached, PID: {}, VID: {}", ctx->vendor_id, ctx->product_id);
+
+        // get product name if available
+
+        status = WdfUsbTargetDeviceAllocAndQueryString(ctx->usb.device,
+                                                       WDF_NO_OBJECT_ATTRIBUTES,
+                                                       &ctx->usb.product_string,
+                                                       nullptr,
+                                                       ctx->usb.descriptor.iProduct,
+                                                       0x409);
+        if (NT_SUCCESS(status)) {
+            auto size           = 0_usize;
+            auto memory_buffer  = WdfMemoryGetBuffer(ctx->usb.product_string, &size);
+            auto product_string = wide_to_ascii({ std::bit_cast<const wchar_t*>(memory_buffer), (size / sizeof(wchar_t)) });
+
+            lj::ilog("Product string: {} {}", size, product_string);
+            // WDF_DEVICE_PROPERTY_DATA_INIT(&)
+        } else
+            lj::wlog("Failed to get product string from USB device! status: {}", narrow<Ntstatus>(status));
 
         return status;
     }
 
+    auto event_device_entry(WDFDEVICE device, WDF_POWER_DEVICE_STATE) -> NTSTATUS {
+        ilog("event_device_entry called!");
+
+        auto ctx = GetDeviceContext(device);
+        // auto status = WdfIoTargetStart(device, &queue_config, &queue_attributes, &ctx->manual_queue);
+        // if (not NT_SUCCESS(status)) {
+        //     lj::elog("Failed to start interrupt read pipe: {}", narrow<Ntstatus>(status));
+        //     return status;
+        // }
+
+        // init sequence
+        usb::send_command(ctx->usb, hid::commands::INIT);
+        usb::send_command(ctx->usb, hid::commands::UNKNOWN_COMMAND_0x07);
+        usb::send_command(ctx->usb, hid::commands::UNKNOWN_COMMAND_0x16);
+        usb::send_command(ctx->usb, hid::commands::REQUEST_CONTROLLER_MAC);
+        usb::send_command(ctx->usb, hid::commands::LTK_REQUEST);
+        usb::send_command(ctx->usb, hid::commands::UNKNOWN_COMMAND_0x15);
+        usb::send_command(ctx->usb, hid::commands::UNKNOWN_COMMAND_0x09);
+        usb::send_command(ctx->usb, hid::commands::IMU_COMMAND_0x02);
+        usb::send_command(ctx->usb, hid::commands::UNKNOWN_COMMAND_0x11);
+        usb::send_command(ctx->usb, hid::commands::UNKNOWN_COMMAND_0x0A);
+        usb::send_command(ctx->usb, hid::commands::IMU_COMMAND_0x04);
+        // usb::send_command(ctx->usb, hid::commands::ENABLE_HAPTICS);
+        usb::send_command(ctx->usb, hid::commands::UNKNOWN_COMMAND_0x10);
+        usb::send_command(ctx->usb, hid::commands::UNKNOWN_COMMAND_0x01);
+        usb::send_command(ctx->usb, hid::commands::UNKNOWN_COMMAND_0x03);
+        usb::send_command(ctx->usb, hid::commands::UNKNOWN_COMMAND_0x0A_ALT);
+        usb::send_command(ctx->usb, hid::commands::SET_PLAYER_LED);
+
+        ilog("pro controller initialized!");
+
+        return STATUS_SUCCESS;
+    }
+
+    auto event_device_exit(WDFDEVICE, WDF_POWER_DEVICE_STATE) -> NTSTATUS {
+        ilog("event_device_exit called!");
+        return STATUS_SUCCESS;
+    }
 } // namespace lj
