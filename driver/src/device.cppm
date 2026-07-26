@@ -1,16 +1,8 @@
 module;
 
-#define WIN32_NO_STATUS
-#include <stormkit/core/platform/windows.hpp>
-#undef WIN32_NO_STATUS
-#include <devpropdef.h>
-#include <ntstatus.h>
-#include <wdf.h>
+#include "windows.hpp"
 
-#include <hidport.h>
-#include <usb.h>
-#include <usbspec.h>
-#include <wdfusb.h>
+#include "usb.hpp"
 
 export module lesserjoy.device;
 

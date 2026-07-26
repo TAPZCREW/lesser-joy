@@ -1,11 +1,6 @@
 module;
 
-#define WIN32_NO_STATUS
-#include <stormkit/core/platform/windows.hpp>
-#undef WIN32_NO_STATUS
-#include <devpropdef.h>
-#include <ntstatus.h>
-#include <wdf.h>
+#include "windows.hpp"
 
 #include <stormkit/log/log_macro.hpp>
 

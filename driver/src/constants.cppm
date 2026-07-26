@@ -1,11 +1,6 @@
 module;
 
-#define WIN32_NO_STATUS
-#include <stormkit/core/platform/windows.hpp>
-#undef WIN32_NO_STATUS
-#include <devpropdef.h>
-
-#include <wdf.h>
+#include "windows.hpp"
 
 export module lesserjoy.constants;
 
@@ -44,8 +39,4 @@ export {
 
         inline constexpr auto POOL_TAG = u32 { 'lyoj' };
     } // namespace lj
-
-    constexpr auto format_as(NTSTATUS status, auto& ctx) noexcept -> decltype(ctx.out()) {
-        std::format_to(ctx, "{:#x}", static_cast<u32>(status));
-    }
 }
