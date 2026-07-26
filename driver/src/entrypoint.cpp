@@ -1,5 +1,7 @@
 #include "windows.hpp"
 
+#include <stormkit/core/try_expected.hpp>
+
 import std;
 
 import stormkit.core;
@@ -31,11 +33,10 @@ _Use_decl_annotations_ auto DriverEntry(_In_ PDRIVER_OBJECT driver_object, _In_ 
     auto config = WDF_DRIVER_CONFIG {};
     WDF_DRIVER_CONFIG_INIT(&config, lj::event_device_add);
 
-    auto result = lj::win_call(WdfDriverCreate, driver_object, registry_path, &attributes, &config, nullptr);
-    if (not result) {
-        lj::elog("Failed to initialize lessjoy driver! status: {}", result.error());
-        return result.error().value();
-    }
+    CustomLoggedTryOr(lj::win_call(WdfDriverCreate, driver_object, registry_path, &attributes, &config, nullptr),
+                      monadic::unwrap(),
+                      lj::elog,
+                      "Failed to initialize lessjoy driver!{}");
 
     lj::ilog("driver successfully initialized!");
 
