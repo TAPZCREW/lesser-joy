@@ -10,4 +10,10 @@
 #include <ntstatus.h>
 #include <wdf.h>
 
+#undef WDF_NO_HANDLE
+#define WDF_NO_HANDLE nullptr
+
+#undef WDF_NO_OBJECT_ATTRIBUTES
+#define WDF_NO_OBJECT_ATTRIBUTES nullptr
+
 #endif

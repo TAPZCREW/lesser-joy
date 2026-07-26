@@ -6,6 +6,10 @@ module;
 
 #include <hidport.h>
 
+#include <stormkit/core/try_expected.hpp>
+
+#undef move
+
 export module lesserjoy.usb;
 
 import std;
@@ -31,13 +35,13 @@ export namespace lj::usb {
         WDFUSBINTERFACE interface;
     };
 
-    auto send_command(Usb_device_context& ctx, array_view<const byte> buffer) -> Ntstatus;
+    auto send_command(Usb_device_context& ctx, array_view<const byte> buffer) -> Expected<void>;
 } // namespace lj::usb
 
 module: private;
 
 namespace lj::usb {
-    auto send_command(Usb_device_context& ctx, array_view<const byte> buffer) -> Ntstatus {
+    auto send_command(Usb_device_context& ctx, array_view<const byte> buffer) -> Expected<void> {
         auto send_options = WDF_REQUEST_SEND_OPTIONS {};
         WDF_REQUEST_SEND_OPTIONS_INIT(&send_options, WDF_REQUEST_SEND_OPTION_TIMEOUT);
         WDF_REQUEST_SEND_OPTIONS_SET_TIMEOUT(&send_options, WDF_REL_TIMEOUT_IN_SEC(3));
@@ -54,19 +58,17 @@ namespace lj::usb {
         WDF_MEMORY_DESCRIPTOR_INIT_BUFFER(&buffer_descriptor, std::bit_cast<PVOID>(stdr::data(buffer)), stdr::size(buffer));
 
         auto byte_transferred = ULONG { 0 };
-        auto status           = narrow<Ntstatus>(WdfUsbTargetDeviceSendControlTransferSynchronously(ctx.device,
-                                                                                                    WDF_NO_HANDLE,
-                                                                                                    &send_options,
-                                                                                                    &control_setup_packet,
-                                                                                                    &buffer_descriptor,
-                                                                                                    &byte_transferred));
-        if (not NT_SUCCESS(status)) {
-            lj::elog("Failed to send buffer to USB device! status: {}", narrow<Ntstatus>(status));
-            return narrow<Ntstatus>(status);
-        }
+        LoggedTry(lj::win_call(WdfUsbTargetDeviceSendControlTransferSynchronously,
+                               ctx.device,
+                               WDF_NO_HANDLE,
+                               &send_options,
+                               &control_setup_packet,
+                               &buffer_descriptor,
+                               &byte_transferred),
+                  "Failed to send buffer to USB device!");
 
         ilog("USB: {} bytes sent", byte_transferred);
 
-        return Ntstatus::SUCCESS;
+        Return {};
     }
 } // namespace lj::usb

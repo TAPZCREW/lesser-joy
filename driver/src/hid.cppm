@@ -4,6 +4,8 @@ module;
 
 #include <hidport.h>
 
+#include <stormkit/core/try_expected.hpp>
+
 export module lesserjoy.hid;
 
 import std;
@@ -38,11 +40,11 @@ export namespace lj::hid {
         u32 _;
     };
 
-    auto get_device_descriptor(WDFREQUEST& request, const HID_DESCRIPTOR& descriptor) noexcept -> NTSTATUS;
-    auto get_device_attributes(WDFREQUEST& request, const HID_DEVICE_ATTRIBUTES& attributes) noexcept -> NTSTATUS;
-    auto get_report_descriptor(WDFREQUEST& request, const hid::Report_descriptor& descriptor) noexcept -> NTSTATUS;
+    auto get_device_descriptor(WDFREQUEST& request, const HID_DESCRIPTOR& descriptor) noexcept -> Expected<void>;
+    auto get_device_attributes(WDFREQUEST& request, const HID_DEVICE_ATTRIBUTES& attributes) noexcept -> Expected<void>;
+    auto get_report_descriptor(WDFREQUEST& request, const hid::Report_descriptor& descriptor) noexcept -> Expected<void>;
 
-    auto read_report(WDFREQUEST& request) -> NTSTATUS;
+    auto read_report(WDFREQUEST& request) -> Expected<void>;
 
     inline constexpr auto DEFAULT_REPORT_DESCRIPTOR = to_array<u8>({
       0x05, 0x01,                   // Usage Page (Generic Desktop Ctrls)
@@ -227,45 +229,36 @@ module: private;
 
 namespace lj::hid {
     namespace {
-        NTSTATUS
-        request_copy_from_buffer(WDFREQUEST request, std::span<const byte> from) {
+        auto request_copy_from_buffer(WDFREQUEST request, std::span<const byte> from) -> Expected<void> {
             auto memory = WDFMEMORY {};
-            auto status = WdfRequestRetrieveOutputMemory(request, &memory);
-            if (not NT_SUCCESS(status)) {
-                lj::elog("WdfRequestRetrieveOutputMemory failed : {}", narrow<Ntstatus>(status));
-                return status;
-            }
+            LoggedTry(lj::win_call(WdfRequestRetrieveOutputMemory, request, &memory), "WdfRequestRetrieveOutputMemory failed!");
 
             auto output_buffer_extent = 0_usize;
             WdfMemoryGetBuffer(memory, &output_buffer_extent);
             if (output_buffer_extent < stdr::size(from)) {
-                status = STATUS_INVALID_BUFFER_SIZE;
-                lj::elog("request_copy_from_buffer: buffer too small. Size {}, expects {}\n",
+                lj::elog("request_copy_from_buffer: buffer too small! Size {}, expects {}\n",
                          output_buffer_extent,
                          stdr::size(from));
-                return status;
+                Return std::unexpected<system_error2::nt_code> { std::in_place, STATUS_INVALID_BUFFER_SIZE };
             }
 
-            status = WdfMemoryCopyFromBuffer(memory, 0, bit_cast<void*>(stdr::data(from)), stdr::size(from));
-            if (not NT_SUCCESS(status)) {
-                lj::elog("WdfMemoryCopyFromBuffer failed: {}\n", narrow<Ntstatus>(status));
-                return status;
-            }
+            LoggedTry(lj::win_call(WdfMemoryCopyFromBuffer, memory, 0, bit_cast<void*>(stdr::data(from)), stdr::size(from)),
+                      "WdfMemoryCopyFromBuffer failed!");
 
             WdfRequestSetInformation(request, stdr::size(from));
-            return status;
+            Return {};
         }
     } // namespace
 
-    auto get_device_descriptor(WDFREQUEST& request, const HID_DESCRIPTOR& descriptor) noexcept -> NTSTATUS {
+    auto get_device_descriptor(WDFREQUEST& request, const HID_DESCRIPTOR& descriptor) noexcept -> Expected<void> {
         return request_copy_from_buffer(request, as_bytes(descriptor));
     }
 
-    auto get_device_attributes(WDFREQUEST& request, const HID_DEVICE_ATTRIBUTES& attributes) noexcept -> NTSTATUS {
+    auto get_device_attributes(WDFREQUEST& request, const HID_DEVICE_ATTRIBUTES& attributes) noexcept -> Expected<void> {
         return request_copy_from_buffer(request, as_bytes(attributes));
     }
 
-    auto get_report_descriptor(WDFREQUEST& request, const Report_descriptor& descriptor) noexcept -> NTSTATUS {
+    auto get_report_descriptor(WDFREQUEST& request, const Report_descriptor& descriptor) noexcept -> Expected<void> {
         return request_copy_from_buffer(request, as_bytes(descriptor));
     }
 } // namespace lj::hid

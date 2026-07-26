@@ -4,6 +4,8 @@ module;
 
 #include "usb.hpp"
 
+#include <stormkit/core/try_expected.hpp>
+
 export module lesserjoy.device;
 
 import std;
@@ -100,9 +102,7 @@ namespace lj {
     EVT_WDF_DEVICE_D0_ENTRY            event_device_entry;
     EVT_WDF_DEVICE_D0_EXIT             event_device_exit;
 
-    auto init_device_context(WDFDEVICE device) -> NTSTATUS {
-        auto status = NTSTATUS { STATUS_SUCCESS };
-
+    auto init_device_context(WDFDEVICE device) -> Expected<void> {
         auto ctx = GetDeviceContext(device);
         std::memset(ctx, 0, sizeof(Device_context));
         ctx->device = device;
@@ -137,20 +137,18 @@ namespace lj {
         WDF_OBJECT_ATTRIBUTES_INIT(&attributes);
         attributes.ParentObject = device;
 
-        status = WdfMemoryCreate(&attributes,
-                                 NonPagedPoolNx,
-                                 POOL_TAG,
-                                 64,
-                                 &ctx->output_report_memory,
-                                 std::bit_cast<PVOID*>(&report_buffer));
-        if (not NT_SUCCESS(status)) {
-            lj::elog("Failed to allocate hid report buffer memory! status: {}", narrow<Ntstatus>(status));
-            return status;
-        }
+        LoggedTry(lj::win_call(WdfMemoryCreate,
+                               &attributes,
+                               NonPagedPoolNx,
+                               POOL_TAG,
+                               64,
+                               &ctx->output_report_memory,
+                               std::bit_cast<PVOID*>(&report_buffer)),
+                  "Failed to allocate hid report buffer memory!");
 
         // std::memcpy(report_buffer, stdr::data(hid::DEFAULT_OUTPUT_REPORT), sizeof(hid::DEFAULT_OUTPUT_REPORT));
 
-        return status;
+        Return {};
     }
 
 #pragma code_seg("PAGED")
@@ -175,18 +173,11 @@ namespace lj {
         WdfDeviceInitSetPnpPowerEventCallbacks(device_init, &power_callbacks);
 
         auto device = WDFDEVICE {};
-        auto status = WdfDeviceCreate(&device_init, &attributes, &device);
+        LoggedTryOr(lj::win_call(WdfDeviceCreate, &device_init, &attributes, &device),
+                    core::monadic::unwrap(),
+                    "Failed to create device!");
 
-        if (not NT_SUCCESS(status)) {
-            lj::elog("Failed to create device! status: {}", narrow<Ntstatus>(status));
-            return status;
-        }
-
-        status = init_device_context(device);
-        if (not NT_SUCCESS(status)) {
-            lj::elog("Failed to device context! status: {}", narrow<Ntstatus>(status));
-            return status;
-        }
+        LoggedTryOr(init_device_context(device), core::monadic::unwrap(), "Failed to device context!");
 
         auto        ctx                = GetDeviceContext(device);
         const auto& default_controller = CONTROLLERS_TYPE.at("pro_controller");
@@ -200,11 +191,9 @@ namespace lj {
             auto queue_attributes = WDF_OBJECT_ATTRIBUTES {};
             WDF_OBJECT_ATTRIBUTES_INIT_CONTEXT_TYPE(&queue_attributes, Queue_context);
 
-            status = WdfIoQueueCreate(device, &queue_config, &queue_attributes, &ctx->default_queue);
-            if (not NT_SUCCESS(status)) {
-                lj::elog("Failed to create io queue! status: {}", narrow<Ntstatus>(status));
-                return status;
-            }
+            LoggedTryOr(lj::win_call(WdfIoQueueCreate, device, &queue_config, &queue_attributes, &ctx->default_queue),
+                        core::monadic::unwrap(),
+                        "Failed to create io queue!");
             lj::ilog("Io queue successfully created!");
 
             auto queue_ctx        = GetQueueContext(ctx->default_queue);
@@ -219,11 +208,9 @@ namespace lj {
             auto queue_attributes = WDF_OBJECT_ATTRIBUTES {};
             WDF_OBJECT_ATTRIBUTES_INIT_CONTEXT_TYPE(&queue_attributes, Queue_context);
 
-            status = WdfIoQueueCreate(device, &queue_config, &queue_attributes, &ctx->manual_queue);
-            if (not NT_SUCCESS(status)) {
-                lj::elog("Failed to create io queue! status): {}", narrow<Ntstatus>(status));
-                return status;
-            }
+            LoggedTryOr(lj::win_call(WdfIoQueueCreate, device, &queue_config, &queue_attributes, &ctx->manual_queue),
+                        core::monadic::unwrap(),
+                        "Failed to create io queue!");
             lj::ilog("Manual io queue successfully created!");
 
             auto queue_ctx        = GetQueueContext(ctx->manual_queue);
@@ -231,15 +218,12 @@ namespace lj {
             queue_ctx->device_ctx = ctx;
         }
 
-        status = WdfDeviceCreateDeviceInterface(device, &DEVICE_INTERFACE_GUID.fmtid, nullptr);
-        if (not NT_SUCCESS(status)) {
-            lj::elog("Failed to expose device interface! status: {}", narrow<Ntstatus>(status));
-            return status;
-        }
+        LoggedTryOr(lj::win_call(WdfDeviceCreateDeviceInterface, device, &DEVICE_INTERFACE_GUID.fmtid, nullptr),
+                    core::monadic::unwrap(),
+                    "Failed to expose device interface!");
+        lj::ilog("{} connected!", default_controller.name);
 
-        ilog("{} connected!", default_controller.name);
-
-        return status;
+        return STATUS_SUCCESS;
     }
 
 #pragma code_seg()
@@ -259,40 +243,99 @@ namespace lj {
         auto device_ctx = queue_ctx->device_ctx;
 
         auto request_completed = true;
-        auto status            = NTSTATUS { STATUS_NOT_IMPLEMENTED };
+        auto status            = NTSTATUS { STATUS_SUCCESS };
+
+        const auto update_status = [&status](auto&& error) noexcept { status = error.value(); };
+
         switch (io_control_code) {
             case IOCTL_HID_GET_DEVICE_DESCRIPTOR: {
-                status = hid::get_device_descriptor(request, device_ctx->hid_descriptor);
+                LoggedTryOr(hid::get_device_descriptor(request, device_ctx->hid_descriptor),
+                            update_status,
+                            "Failed to get device descriptor!");
             } break;
+
             case IOCTL_HID_GET_DEVICE_ATTRIBUTES: {
-                status = hid::get_device_attributes(request, device_ctx->hid_attributes);
+                LoggedTryOr(hid::get_device_attributes(request, device_ctx->hid_attributes),
+                            update_status,
+                            "Failed to get device attributes!");
             } break;
+
             case IOCTL_HID_GET_REPORT_DESCRIPTOR: {
-                status = hid::get_report_descriptor(request, device_ctx->report_descriptor);
+                LoggedTryOr(hid::get_report_descriptor(request, device_ctx->report_descriptor),
+                            update_status,
+                            "Failed to get report descriptor");
             } break;
+
             case IOCTL_HID_READ_REPORT: {
                 wlog("IOCTL_HID_READ_REPORT not supported {}", input_buffer_size);
+                status = STATUS_NOT_IMPLEMENTED;
                 // status = ReadReport(queue_ctx, request, &request_completed);
             } break;
 
             case IOCTL_HID_WRITE_REPORT: {
+                status = STATUS_NOT_IMPLEMENTED;
                 wlog("IOCTL_HID_WRITE_REPORT not supported {}", output_buffer_size);
                 // status = WriteReport(queueContext, Request);
             } break;
 
-            case IOCTL_HID_GET_STRING: wlog("IOCTL_HID_GET_STRING not supported");
-            case IOCTL_HID_GET_INDEXED_STRING: wlog("IOCTL_HID_GET_INDEXED_STRING not supported");
+            case IOCTL_HID_GET_STRING: {
+                wlog("IOCTL_HID_GET_STRING not supported");
+                status = STATUS_NOT_IMPLEMENTED;
+            } break;
 
-            case IOCTL_HID_DEVICERESET_NOTIFICATION: wlog("IOCTL_HID_DEVICERESET_NOTIFICATION not supported");
-            case IOCTL_HID_ACTIVATE_DEVICE: wlog("IOCTL_HID_ACTIVTE_DEVICE not supported");
-            case IOCTL_HID_DEACTIVATE_DEVICE: wlog("IOCTL_HID_DEACTIVATE_DEVICE not supported");
-            case IOCTL_HID_SEND_IDLE_NOTIFICATION_REQUEST: wlog("IOCTL_HID_SEND_IDLE_NOTIFICATION_REQUEST not supported");
-            case IOCTL_UMDF_GET_PHYSICAL_DESCRIPTOR: wlog("IOCTL_UMDF_GET_PHYSICAL_DESCRIPTOR not supported");
-            case IOCTL_UMDF_HID_GET_FEATURE: wlog("IOCTL_UMDF_HID_GET_FEATURE not supported");
-            case IOCTL_UMDF_HID_GET_INPUT_REPORT: wlog("IOCTL_UMDF_HID_GET_INPUT_REPORT not supported");
-            case IOCTL_UMDF_HID_SET_FEATURE: wlog("IOCTL_UMDF_HID_SET_FEATURE not supported");
-            case IOCTL_UMDF_HID_SET_OUTPUT_REPORT: wlog("IOCTL_UMDF_HID_SET_OUTPUT_REPORT not supported");
-            default: break;
+            case IOCTL_HID_GET_INDEXED_STRING: {
+                wlog("IOCTL_HID_GET_INDEXED_STRING not supported");
+                status = STATUS_NOT_IMPLEMENTED;
+            } break;
+
+            case IOCTL_HID_DEVICERESET_NOTIFICATION: {
+                wlog("IOCTL_HID_DEVICERESET_NOTIFICATION not supported");
+                status = STATUS_NOT_IMPLEMENTED;
+            } break;
+
+            case IOCTL_HID_ACTIVATE_DEVICE: {
+                wlog("IOCTL_HID_ACTIVTE_DEVICE not supported");
+                status = STATUS_NOT_IMPLEMENTED;
+            } break;
+
+            case IOCTL_HID_DEACTIVATE_DEVICE: {
+                wlog("IOCTL_HID_DEACTIVATE_DEVICE not supported");
+                status = STATUS_NOT_IMPLEMENTED;
+            } break;
+
+            case IOCTL_HID_SEND_IDLE_NOTIFICATION_REQUEST: {
+                wlog("IOCTL_HID_SEND_IDLE_NOTIFICATION_REQUEST not supported");
+                status = STATUS_NOT_IMPLEMENTED;
+            } break;
+
+            case IOCTL_UMDF_GET_PHYSICAL_DESCRIPTOR: {
+                wlog("IOCTL_UMDF_GET_PHYSICAL_DESCRIPTOR not supported");
+                status = STATUS_NOT_IMPLEMENTED;
+            } break;
+
+            case IOCTL_UMDF_HID_GET_FEATURE: {
+                wlog("IOCTL_UMDF_HID_GET_FEATURE not supported");
+                status = STATUS_NOT_IMPLEMENTED;
+            } break;
+
+            case IOCTL_UMDF_HID_GET_INPUT_REPORT: {
+                wlog("IOCTL_UMDF_HID_GET_INPUT_REPORT not supported");
+                status = STATUS_NOT_IMPLEMENTED;
+            } break;
+
+            case IOCTL_UMDF_HID_SET_FEATURE: {
+                wlog("IOCTL_UMDF_HID_SET_FEATURE not supported");
+                status = STATUS_NOT_IMPLEMENTED;
+            } break;
+
+            case IOCTL_UMDF_HID_SET_OUTPUT_REPORT: {
+                wlog("IOCTL_UMDF_HID_SET_OUTPUT_REPORT not supported");
+                status = STATUS_NOT_IMPLEMENTED;
+            } break;
+
+            default: {
+                status = STATUS_NOT_IMPLEMENTED;
+            } break;
         }
 
         if (request_completed) WdfRequestComplete(request, status);
@@ -350,12 +393,13 @@ namespace lj {
             auto init_config = WDF_USB_DEVICE_CREATE_CONFIG {};
             WDF_USB_DEVICE_CREATE_CONFIG_INIT(&init_config, 0x602);
 
-            status = WdfUsbTargetDeviceCreateWithParameters(device, &init_config, WDF_NO_OBJECT_ATTRIBUTES, &ctx->usb.device);
-            // status = WdfUsbTargetDeviceCreate(device, WDF_NO_OBJECT_ATTRIBUTES, &ctx->usb.device);
-            if (not NT_SUCCESS(status)) {
-                lj::elog("Failed to create USB device context! status: {}", narrow<Ntstatus>(status));
-                return status;
-            }
+            LoggedTryOr(lj::win_call(WdfUsbTargetDeviceCreateWithParameters,
+                                     device,
+                                     &init_config,
+                                     WDF_NO_OBJECT_ATTRIBUTES,
+                                     &ctx->usb.device),
+                        core::monadic::unwrap(),
+                        "Failed to create USB device context!");
         }
 
         WdfUsbTargetDeviceGetDeviceDescriptor(ctx->usb.device, &ctx->usb.descriptor);
@@ -367,11 +411,9 @@ namespace lj {
         auto select_config = WDF_USB_DEVICE_SELECT_CONFIG_PARAMS {};
         WDF_USB_DEVICE_SELECT_CONFIG_PARAMS_INIT_MULTIPLE_INTERFACES(&select_config, 0, nullptr);
 
-        status = WdfUsbTargetDeviceSelectConfig(ctx->usb.device, WDF_NO_OBJECT_ATTRIBUTES, &select_config);
-        if (not NT_SUCCESS(status)) {
-            lj::elog("Failed to configure USB device! status: {}", narrow<Ntstatus>(status));
-            return status;
-        }
+        LoggedTryOr(lj::win_call(WdfUsbTargetDeviceSelectConfig, ctx->usb.device, WDF_NO_OBJECT_ATTRIBUTES, &select_config),
+                    core::monadic::unwrap(),
+                    "Failed to configure USB device!");
 
         ctx->usb.interface = select_config.Types.SingleInterface.ConfiguredUsbInterface;
 
@@ -379,13 +421,14 @@ namespace lj {
 
         // get product name if available
 
-        status = WdfUsbTargetDeviceAllocAndQueryString(ctx->usb.device,
-                                                       WDF_NO_OBJECT_ATTRIBUTES,
-                                                       &ctx->usb.product_string,
-                                                       nullptr,
-                                                       ctx->usb.descriptor.iProduct,
-                                                       0x409);
-        if (NT_SUCCESS(status)) {
+        const auto result = lj::win_call(WdfUsbTargetDeviceAllocAndQueryString,
+                                         ctx->usb.device,
+                                         WDF_NO_OBJECT_ATTRIBUTES,
+                                         &ctx->usb.product_string,
+                                         nullptr,
+                                         ctx->usb.descriptor.iProduct,
+                                         0x409);
+        if (result.has_value()) {
             auto size           = 0_usize;
             auto memory_buffer  = WdfMemoryGetBuffer(ctx->usb.product_string, &size);
             auto product_string = wide_to_ascii({ std::bit_cast<const wchar_t*>(memory_buffer), (size / sizeof(wchar_t)) });
@@ -393,7 +436,7 @@ namespace lj {
             lj::ilog("Product string: {} {}", size, product_string);
             // WDF_DEVICE_PROPERTY_DATA_INIT(&)
         } else
-            lj::wlog("Failed to get product string from USB device! status: {}", narrow<Ntstatus>(status));
+            lj::wlog("Failed to get product string from USB device!\n    error: {}", result.error());
 
         return status;
     }
@@ -402,7 +445,7 @@ namespace lj {
         ilog("event_device_entry called!");
 
         auto ctx = GetDeviceContext(device);
-        // auto status = WdfIoTargetStart(device, &queue_config, &queue_attributes, &ctx->manual_queue);
+        // auto LoggedTryOr(lj::win_call(WdfIoTargetStart,device, &queue_config, &queue_attributes, &ctx->manual_queue), );
         // if (not NT_SUCCESS(status)) {
         //     lj::elog("Failed to start interrupt read pipe: {}", narrow<Ntstatus>(status));
         //     return status;

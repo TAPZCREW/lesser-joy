@@ -20,7 +20,7 @@ export {
             auto expected = Expected<void> {};
 
             const auto status = std::forward<Func>(func)(std::forward<Args>(args)...);
-            if (not NT_SUCCESS(status)) expected = std::unexpected { std::in_place, status };
+            if (not NT_SUCCESS(status)) expected = std::unexpected<system_error2::nt_code> { std::in_place, status };
 
             return expected;
         }
