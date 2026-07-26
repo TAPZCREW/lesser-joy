@@ -153,7 +153,7 @@ namespace lj {
 
 #pragma code_seg("PAGED")
 
-    auto event_device_add(_In_ WDFDRIVER, _Inout_ PWDFDEVICE_INIT device_init) -> NTSTATUS {
+    _Use_decl_annotations_ auto event_device_add(_In_ WDFDRIVER, _Inout_ PWDFDEVICE_INIT device_init) -> NTSTATUS {
         PAGED_CODE();
 
         lj::dlog("Event device add!");
@@ -230,11 +230,11 @@ namespace lj {
 
 #pragma code_seg("PAGED")
 
-    auto event_io_device_control(_In_ WDFQUEUE   queue,
-                                 _In_ WDFREQUEST request,
-                                 _In_ usize      output_buffer_size,
-                                 _In_ usize      input_buffer_size,
-                                 _In_ ULONG      io_control_code) -> void {
+    _Use_decl_annotations_ auto event_io_device_control(_In_ WDFQUEUE   queue,
+                                                        _In_ WDFREQUEST request,
+                                                        _In_ usize      output_buffer_size,
+                                                        _In_ usize      input_buffer_size,
+                                                        _In_ ULONG      io_control_code) -> void {
         PAGED_CODE();
 
         lj::dlog("event_io_device_control Called!");
@@ -345,7 +345,7 @@ namespace lj {
 
 #pragma code_seg("PAGED")
 
-    auto event_device_cleanup(_In_ WDFOBJECT device) -> void {
+    _Use_decl_annotations_ auto event_device_cleanup(_In_ WDFOBJECT device) -> void {
         PAGED_CODE();
 
         lj::dlog("Cleanup up device {}", std::bit_cast<uptr>(device));
@@ -382,7 +382,7 @@ namespace lj {
         return output;
     }
 
-    auto event_prepare_hardware(WDFDEVICE device, WDFCMRESLIST, WDFCMRESLIST) -> NTSTATUS {
+    _Use_decl_annotations_ auto event_prepare_hardware(WDFDEVICE device, WDFCMRESLIST, WDFCMRESLIST) -> NTSTATUS {
         auto status = STATUS_SUCCESS;
 
         auto ctx = GetDeviceContext(device);
@@ -441,7 +441,7 @@ namespace lj {
         return status;
     }
 
-    auto event_device_entry(WDFDEVICE device, WDF_POWER_DEVICE_STATE) -> NTSTATUS {
+    _Use_decl_annotations_ auto event_device_entry(WDFDEVICE device, WDF_POWER_DEVICE_STATE) -> NTSTATUS {
         ilog("event_device_entry called!");
 
         auto ctx = GetDeviceContext(device);
@@ -475,7 +475,7 @@ namespace lj {
         return STATUS_SUCCESS;
     }
 
-    auto event_device_exit(WDFDEVICE, WDF_POWER_DEVICE_STATE) -> NTSTATUS {
+    _Use_decl_annotations_ auto event_device_exit(WDFDEVICE, WDF_POWER_DEVICE_STATE) -> NTSTATUS {
         ilog("event_device_exit called!");
         return STATUS_SUCCESS;
     }

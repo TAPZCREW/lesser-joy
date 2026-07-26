@@ -47,7 +47,7 @@ _Use_decl_annotations_ auto DriverEntry(_In_ PDRIVER_OBJECT driver_object, _In_ 
 #pragma code_seg("PAGED")
 
 namespace lj {
-    auto event_driver_cleanup(_In_ WDFOBJECT driver) -> void {
+    _Use_decl_annotations_ auto event_driver_cleanup(_In_ WDFOBJECT driver) -> void {
         PAGED_CODE();
 
         lj::dlog("Cleanup up driver at {}", std::bit_cast<uptr>(driver));
