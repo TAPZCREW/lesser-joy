@@ -69,6 +69,8 @@ export namespace lj {
 
 module: private;
 
+using namespace stormkit::literals;
+
 auto format_as(const USB_DEVICE_DESCRIPTOR& descriptor, auto& ctx) noexcept -> decltype(ctx.out()) {
     return std::format_to(ctx.out(),
                           "[USB_DEVICE_DESCRIPTOR\n"
@@ -452,24 +454,38 @@ namespace lj {
         // }
 
         // init sequence
-        LoggedTryOr(usb::send_command(ctx->usb, hid::commands::INIT)
-                      .and_then(bind_back(usb::send_command, hid::commands::UNKNOWN_COMMAND_0x07))
-                      .and_then(bind_back(usb::send_command, hid::commands::UNKNOWN_COMMAND_0x16))
-                      .and_then(bind_back(usb::send_command, hid::commands::REQUEST_CONTROLLER_MAC))
-                      .and_then(bind_back(usb::send_command, hid::commands::LTK_REQUEST))
-                      .and_then(bind_back(usb::send_command, hid::commands::UNKNOWN_COMMAND_0x15))
-                      .and_then(bind_back(usb::send_command, hid::commands::UNKNOWN_COMMAND_0x09))
-                      .and_then(bind_back(usb::send_command, hid::commands::IMU_COMMAND_0x02))
-                      .and_then(bind_back(usb::send_command, hid::commands::UNKNOWN_COMMAND_0x11))
-                      .and_then(bind_back(usb::send_command, hid::commands::UNKNOWN_COMMAND_0x0A))
-                      .and_then(bind_back(usb::send_command, hid::commands::IMU_COMMAND_0x04))
-                      .and_then(bind_back(usb::send_command, hid::commands::UNKNOWN_COMMAND_0x10))
-                      .and_then(bind_back(usb::send_command, hid::commands::UNKNOWN_COMMAND_0x01))
-                      .and_then(bind_back(usb::send_command, hid::commands::UNKNOWN_COMMAND_0x03))
-                      .and_then(bind_back(usb::send_command, hid::commands::UNKNOWN_COMMAND_0x0A_ALT))
-                      .and_then(bind_back(usb::send_command, hid::commands::SET_PLAYER_LED)),
+        // initialize USB
+        constexpr auto transport = hid::Transport::USB;
+        LoggedTryOr(usb::send_command(ctx->usb, hid::commands::init::initialize_usb(transport)),
                     monadic::unwrap(),
-                    "Initialization sequence failed!");
+                    "Failed to initialize USB link!");
+        LoggedTryOr(usb::send_command(ctx->usb, hid::commands::UNKNOWN_COMMAND_0x07),
+                    monadic::unwrap(),
+                    "Unknown Command (0x07) failed!");
+        LoggedTryOr(usb::send_command(ctx->usb, hid::commands::leds::all_leds_off(transport)),
+                    monadic::unwrap(),
+                    "Failed to clear LEDs state!");
+        LoggedTryOr(usb::send_command(ctx->usb, hid::commands::SET_FEATURE_MASK),
+                    monadic::unwrap(),
+                    "Failed to set feature mask!");
+        LoggedTryOr(usb::send_command(ctx->usb, hid::commands::UNKNOWN_COMMAND_0x11),
+                    monadic::unwrap(),
+                    "Unknown command (0x11) failed!");
+        LoggedTryOr(usb::send_command(ctx->usb, hid::commands::RESET_VIBRATION_STATE),
+                    monadic::unwrap(),
+                    "Failed to reset vibration state!");
+        LoggedTryOr(usb::send_command(ctx->usb, hid::commands::NFC_UNKNOWN_COMMAND),
+                    monadic::unwrap(),
+                    "Unknown command (NFC) failed!");
+        LoggedTryOr(usb::send_command(ctx->usb, hid::commands::init::enable_usb_hid_report()),
+                    monadic::unwrap(),
+                    "Failed to enable HID reports!");
+        LoggedTryOr(usb::send_command(ctx->usb, hid::commands::init::select_input_report(transport, 0x05_b)),
+                    monadic::unwrap(),
+                    "Failed to enable HID reports!");
+        LoggedTryOr(usb::send_command(ctx->usb, hid::commands::leds::set_player_1(transport)),
+                    monadic::unwrap(),
+                    "Failed to setup player LED");
 
         ilog("{} initialized!", ctx->product_string);
 

@@ -47,12 +47,12 @@ namespace lj::usb {
         WDF_REQUEST_SEND_OPTIONS_SET_TIMEOUT(&send_options, WDF_REL_TIMEOUT_IN_SEC(3));
 
         auto control_setup_packet = WDF_USB_CONTROL_SETUP_PACKET {};
-        // WDF_USB_CONTROL_SETUP_PACKET_INIT_CLASS(&control_setup_packet,
-        //                                         WDF_USB_BMREQUEST_DIRECTION::BmRequestHostToDevice,
-        //                                         WDF_USB_BMREQUEST_TYPE::BmRequestClass,
-        //                                         0x09,
-
-        //    );
+        WDF_USB_CONTROL_SETUP_PACKET_INIT_CLASS(&control_setup_packet,
+                                                WDF_USB_BMREQUEST_DIRECTION::BmRequestHostToDevice,
+                                                WDF_USB_BMREQUEST_RECIPIENT::BmRequestToInterface,
+                                                0,
+                                                0,
+                                                0);
 
         auto buffer_descriptor = WDF_MEMORY_DESCRIPTOR {};
         WDF_MEMORY_DESCRIPTOR_INIT_BUFFER(&buffer_descriptor, std::bit_cast<PVOID>(stdr::data(buffer)), stdr::size(buffer));
