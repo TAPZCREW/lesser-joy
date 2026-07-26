@@ -224,7 +224,6 @@ namespace lj {
         LoggedTryOr(lj::win_call(WdfDeviceCreateDeviceInterface, device, &DEVICE_INTERFACE_GUID.fmtid, nullptr),
                     monadic::unwrap(),
                     "Failed to expose device interface!");
-        lj::ilog("{} connected!", default_controller.name);
 
         return STATUS_SUCCESS;
     }
@@ -442,9 +441,10 @@ namespace lj {
     }
 
     _Use_decl_annotations_ auto event_device_entry(WDFDEVICE device, WDF_POWER_DEVICE_STATE) -> NTSTATUS {
-        ilog("event_device_entry called!");
-
         auto ctx = GetDeviceContext(device);
+
+        lj::ilog("{} connected! (USB)", ctx->product_string);
+
         // auto LoggedTryOr(lj::win_call(WdfIoTargetStart,device, &queue_config, &queue_attributes, &ctx->manual_queue), );
         // if (not NT_SUCCESS(status)) {
         //     lj::elog("Failed to start interrupt read pipe: {}", narrow<Ntstatus>(status));
@@ -476,8 +476,10 @@ namespace lj {
         return STATUS_SUCCESS;
     }
 
-    _Use_decl_annotations_ auto event_device_exit(WDFDEVICE, WDF_POWER_DEVICE_STATE) -> NTSTATUS {
-        ilog("event_device_exit called!");
+    _Use_decl_annotations_ auto event_device_exit(WDFDEVICE device, WDF_POWER_DEVICE_STATE) -> NTSTATUS {
+        auto ctx = GetDeviceContext(device);
+
+        lj::ilog("{} disconnected! (USB)", ctx->product_string);
         return STATUS_SUCCESS;
     }
 } // namespace lj
