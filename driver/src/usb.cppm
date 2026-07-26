@@ -26,22 +26,22 @@ namespace stdr = std::ranges;
 
 export namespace lj::usb {
     struct Usb_device_context {
-        WDFUSBDEVICE device;
+        WDFUSBDEVICE device = nullptr;
 
-        USB_DEVICE_DESCRIPTOR descriptor;
+        USB_DEVICE_DESCRIPTOR descriptor = {};
 
-        WDFMEMORY product_string;
+        WDFMEMORY product_string = nullptr;
 
-        WDFUSBINTERFACE interface;
+        WDFUSBINTERFACE interface = nullptr;
     };
 
-    auto send_command(Usb_device_context& ctx, array_view<const byte> buffer) -> Expected<void>;
+    auto send_command(const Usb_device_context& ctx, array_view<const byte> buffer) -> Expected<ref<const Usb_device_context>>;
 } // namespace lj::usb
 
 module: private;
 
 namespace lj::usb {
-    auto send_command(Usb_device_context& ctx, array_view<const byte> buffer) -> Expected<void> {
+    auto send_command(const Usb_device_context& ctx, array_view<const byte> buffer) -> Expected<ref<const Usb_device_context>> {
         auto send_options = WDF_REQUEST_SEND_OPTIONS {};
         WDF_REQUEST_SEND_OPTIONS_INIT(&send_options, WDF_REQUEST_SEND_OPTION_TIMEOUT);
         WDF_REQUEST_SEND_OPTIONS_SET_TIMEOUT(&send_options, WDF_REL_TIMEOUT_IN_SEC(3));
@@ -67,8 +67,8 @@ namespace lj::usb {
                                &byte_transferred),
                   "Failed to send buffer to USB device!");
 
-        ilog("USB: {} bytes sent", byte_transferred);
+        dlog("USB: {} bytes sent", byte_transferred);
 
-        Return {};
+        Return { as_ref(ctx) };
     }
 } // namespace lj::usb

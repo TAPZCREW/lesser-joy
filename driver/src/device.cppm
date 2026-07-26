@@ -24,23 +24,25 @@ namespace stdr = std::ranges;
 
 export namespace lj {
     struct Device_context {
-        WDFDEVICE device;
+        WDFDEVICE device = nullptr;
 
-        WDFQUEUE default_queue;
-        WDFQUEUE manual_queue;
+        WDFQUEUE default_queue = nullptr;
+        WDFQUEUE manual_queue  = nullptr;
 
-        HID_DESCRIPTOR         hid_descriptor;
-        hid::Report_descriptor report_descriptor;
-        HID_DEVICE_ATTRIBUTES  hid_attributes;
+        HID_DESCRIPTOR         hid_descriptor    = {};
+        hid::Report_descriptor report_descriptor = {};
+        HID_DEVICE_ATTRIBUTES  hid_attributes    = {};
 
-        WDFMEMORY output_report_memory;
+        WDFMEMORY output_report_memory = nullptr;
 
-        usb::Usb_device_context usb;
+        usb::Usb_device_context usb = {};
 
-        u16 vendor_id;
-        u16 product_id;
+        u16 vendor_id  = 0;
+        u16 product_id = 0;
 
-        array<byte, 64> input_report;
+        string product_string = {};
+
+        array<byte, 64> input_report = {};
     };
 
     STORMKIT_PUSH_WARNINGS
@@ -50,9 +52,9 @@ export namespace lj {
     STORMKIT_POP_WARNINGS
 
     struct Queue_context {
-        WDFQUEUE queue;
+        WDFQUEUE queue = nullptr;
 
-        Device_context* device_ctx;
+        Device_context* device_ctx = nullptr;
     };
 
     STORMKIT_PUSH_WARNINGS
@@ -104,7 +106,8 @@ namespace lj {
 
     auto init_device_context(WDFDEVICE device) -> Expected<void> {
         auto ctx = GetDeviceContext(device);
-        std::memset(ctx, 0, sizeof(Device_context));
+        *ctx     = Device_context {};
+
         ctx->device = device;
 
         constexpr auto bus_desc_key = DEVPROPKEY {
@@ -420,7 +423,6 @@ namespace lj {
         lj::ilog("Usb attached, PID: {}, VID: {}", ctx->vendor_id, ctx->product_id);
 
         // get product name if available
-
         const auto result = lj::win_call(WdfUsbTargetDeviceAllocAndQueryString,
                                          ctx->usb.device,
                                          WDF_NO_OBJECT_ATTRIBUTES,
@@ -431,9 +433,7 @@ namespace lj {
         if (result.has_value()) {
             auto size           = 0_usize;
             auto memory_buffer  = WdfMemoryGetBuffer(ctx->usb.product_string, &size);
-            auto product_string = wide_to_ascii({ std::bit_cast<const wchar_t*>(memory_buffer), (size / sizeof(wchar_t)) });
-
-            lj::ilog("Product string: {} {}", size, product_string);
+            ctx->product_string = wide_to_ascii({ std::bit_cast<const wchar_t*>(memory_buffer), (size / sizeof(wchar_t)) });
             // WDF_DEVICE_PROPERTY_DATA_INIT(&)
         } else
             lj::wlog("Failed to get product string from USB device!\n    error: {}", result.error());
@@ -452,25 +452,26 @@ namespace lj {
         // }
 
         // init sequence
-        usb::send_command(ctx->usb, hid::commands::INIT);
-        usb::send_command(ctx->usb, hid::commands::UNKNOWN_COMMAND_0x07);
-        usb::send_command(ctx->usb, hid::commands::UNKNOWN_COMMAND_0x16);
-        usb::send_command(ctx->usb, hid::commands::REQUEST_CONTROLLER_MAC);
-        usb::send_command(ctx->usb, hid::commands::LTK_REQUEST);
-        usb::send_command(ctx->usb, hid::commands::UNKNOWN_COMMAND_0x15);
-        usb::send_command(ctx->usb, hid::commands::UNKNOWN_COMMAND_0x09);
-        usb::send_command(ctx->usb, hid::commands::IMU_COMMAND_0x02);
-        usb::send_command(ctx->usb, hid::commands::UNKNOWN_COMMAND_0x11);
-        usb::send_command(ctx->usb, hid::commands::UNKNOWN_COMMAND_0x0A);
-        usb::send_command(ctx->usb, hid::commands::IMU_COMMAND_0x04);
-        // usb::send_command(ctx->usb, hid::commands::ENABLE_HAPTICS);
-        usb::send_command(ctx->usb, hid::commands::UNKNOWN_COMMAND_0x10);
-        usb::send_command(ctx->usb, hid::commands::UNKNOWN_COMMAND_0x01);
-        usb::send_command(ctx->usb, hid::commands::UNKNOWN_COMMAND_0x03);
-        usb::send_command(ctx->usb, hid::commands::UNKNOWN_COMMAND_0x0A_ALT);
-        usb::send_command(ctx->usb, hid::commands::SET_PLAYER_LED);
+        LoggedTryOr(usb::send_command(ctx->usb, hid::commands::INIT)
+                      .and_then(bind_back(usb::send_command, hid::commands::UNKNOWN_COMMAND_0x07))
+                      .and_then(bind_back(usb::send_command, hid::commands::UNKNOWN_COMMAND_0x16))
+                      .and_then(bind_back(usb::send_command, hid::commands::REQUEST_CONTROLLER_MAC))
+                      .and_then(bind_back(usb::send_command, hid::commands::LTK_REQUEST))
+                      .and_then(bind_back(usb::send_command, hid::commands::UNKNOWN_COMMAND_0x15))
+                      .and_then(bind_back(usb::send_command, hid::commands::UNKNOWN_COMMAND_0x09))
+                      .and_then(bind_back(usb::send_command, hid::commands::IMU_COMMAND_0x02))
+                      .and_then(bind_back(usb::send_command, hid::commands::UNKNOWN_COMMAND_0x11))
+                      .and_then(bind_back(usb::send_command, hid::commands::UNKNOWN_COMMAND_0x0A))
+                      .and_then(bind_back(usb::send_command, hid::commands::IMU_COMMAND_0x04))
+                      .and_then(bind_back(usb::send_command, hid::commands::UNKNOWN_COMMAND_0x10))
+                      .and_then(bind_back(usb::send_command, hid::commands::UNKNOWN_COMMAND_0x01))
+                      .and_then(bind_back(usb::send_command, hid::commands::UNKNOWN_COMMAND_0x03))
+                      .and_then(bind_back(usb::send_command, hid::commands::UNKNOWN_COMMAND_0x0A_ALT))
+                      .and_then(bind_back(usb::send_command, hid::commands::SET_PLAYER_LED)),
+                    monadic::unwrap(),
+                    "Initialization sequence failed!");
 
-        ilog("pro controller initialized!");
+        ilog("{} initialized!", ctx->product_string);
 
         return STATUS_SUCCESS;
     }
