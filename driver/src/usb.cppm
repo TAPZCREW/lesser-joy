@@ -17,6 +17,7 @@ import std;
 import stormkit.core;
 
 import lesserjoy.ntstatus;
+import lesserjoy.constants;
 import lesserjoy.log;
 
 using namespace stormkit;
@@ -26,7 +27,9 @@ namespace stdr = std::ranges;
 
 export namespace lj::usb {
     struct Usb_device_context {
-        WDFUSBDEVICE device = nullptr;
+        WDFUSBDEVICE device   = nullptr;
+        WDFUSBPIPE   in_pipe  = nullptr;
+        WDFUSBPIPE   out_pipe = nullptr;
 
         USB_DEVICE_DESCRIPTOR descriptor = {};
 
@@ -35,40 +38,93 @@ export namespace lj::usb {
         WDFUSBINTERFACE interface = nullptr;
     };
 
-    auto send_command(const Usb_device_context& ctx, array_view<const byte> buffer) -> Expected<ref<const Usb_device_context>>;
+    auto send_command_async(const Usb_device_context& ctx, array_view<const byte> payload) -> Expected<void>;
+    auto send_command_sync(const Usb_device_context& ctx, array_view<const byte> payload) -> Expected<usize>;
+
+    auto receive_response_sync(const Usb_device_context& ctx, array_view<byte> to) -> Expected<usize>;
+} // namespace lj::usb
+
+namespace lj::usb {
 } // namespace lj::usb
 
 module: private;
 
 namespace lj::usb {
-    auto send_command(const Usb_device_context& ctx, array_view<const byte> buffer) -> Expected<ref<const Usb_device_context>> {
-        auto send_options = WDF_REQUEST_SEND_OPTIONS {};
-        WDF_REQUEST_SEND_OPTIONS_INIT(&send_options, WDF_REQUEST_SEND_OPTION_TIMEOUT);
-        WDF_REQUEST_SEND_OPTIONS_SET_TIMEOUT(&send_options, WDF_REL_TIMEOUT_IN_SEC(3));
+    EVT_WDF_REQUEST_COMPLETION_ROUTINE event_request_completion_routine;
 
-        auto control_setup_packet = WDF_USB_CONTROL_SETUP_PACKET {};
-        WDF_USB_CONTROL_SETUP_PACKET_INIT_CLASS(&control_setup_packet,
-                                                WDF_USB_BMREQUEST_DIRECTION::BmRequestHostToDevice,
-                                                WDF_USB_BMREQUEST_RECIPIENT::BmRequestToInterface,
-                                                0,
-                                                0,
-                                                0);
+    auto send_command_async(const Usb_device_context& ctx, array_view<const byte> payload) -> Expected<void> {
+        ilog("Sending {::#x}", array_view<const u8> { std::bit_cast<const u8*>(stdr::data(payload)), stdr::size(payload) });
 
-        auto buffer_descriptor = WDF_MEMORY_DESCRIPTOR {};
-        WDF_MEMORY_DESCRIPTOR_INIT_BUFFER(&buffer_descriptor, std::bit_cast<PVOID>(stdr::data(buffer)), stdr::size(buffer));
+        auto attributes = WDF_OBJECT_ATTRIBUTES {};
+        WDF_OBJECT_ATTRIBUTES_INIT(&attributes);
 
-        auto byte_transferred = ULONG { 0 };
-        LoggedTry(lj::win_call(WdfUsbTargetDeviceSendControlTransferSynchronously,
-                               ctx.device,
-                               WDF_NO_HANDLE,
-                               &send_options,
-                               &control_setup_packet,
-                               &buffer_descriptor,
-                               &byte_transferred),
-                  "Failed to send buffer to USB device!");
+        auto target  = WdfUsbTargetDeviceGetIoTarget(ctx.device);
+        auto request = WDFREQUEST {};
+        LoggedTry(lj::win_call(WdfRequestCreate, &attributes, target, &request), "WdfRequestCreate failed!");
 
-        dlog("USB: {} bytes sent", byte_transferred);
+        WDF_OBJECT_ATTRIBUTES_INIT(&attributes);
+        attributes.ParentObject = request;
 
-        Return { as_ref(ctx) };
+        auto memory           = WDFMEMORY {};
+        auto write_buffer_ptr = PVOID { nullptr };
+        LoggedTry(lj::win_call(WdfMemoryCreate,
+                               &attributes,
+                               NonPagedPoolNx,
+                               POOL_TAG,
+                               stdr::size(payload),
+                               &memory,
+                               &write_buffer_ptr),
+                  "WdfMemoryCreate failed!");
+
+        auto write_buffer = array_view<byte> { std::bit_cast<byte*>(write_buffer_ptr), stdr::size(payload) };
+        stdr::copy(payload, stdr::begin(write_buffer));
+
+        LoggedTry(lj::win_call(WdfUsbTargetPipeFormatRequestForWrite, ctx.out_pipe, request, memory, nullptr),
+                  "WdfUsbTargetPipeFormatRequestForWrite failed!");
+
+        WdfRequestSetCompletionRoutine(request, event_request_completion_routine, nullptr);
+
+        if (WdfRequestSend(request, target, nullptr) == FALSE) {
+            const auto status = WdfRequestGetStatus(request);
+            elog("WdfRequestSend failed!\n    reason: {:#x}", narrow<cpp::ULong>(status));
+            return std::unexpected<system_error2::nt_code> { std::in_place, status };
+        }
+
+        Return {};
+    }
+
+    auto send_command_sync(const Usb_device_context& ctx, array_view<const byte> payload) -> Expected<usize> {
+        auto attributes = WDF_OBJECT_ATTRIBUTES {};
+        WDF_OBJECT_ATTRIBUTES_INIT(&attributes);
+
+        auto memory_descriptor = WDF_MEMORY_DESCRIPTOR {};
+        WDF_MEMORY_DESCRIPTOR_INIT_BUFFER(&memory_descriptor, std::bit_cast<PVOID>(stdr::data(payload)), stdr::size(payload));
+
+        auto written = cpp::ULong { 0 };
+        LoggedTry(lj::win_call(WdfUsbTargetPipeWriteSynchronously, ctx.out_pipe, nullptr, nullptr, &memory_descriptor, &written),
+                  "WdfUsbTargetPipeWriteSynchronously failed!");
+
+        Return { as<usize>(written) };
+    }
+
+    auto receive_response_sync(const Usb_device_context& ctx, array_view<byte> to) -> Expected<usize> {
+        auto attributes = WDF_OBJECT_ATTRIBUTES {};
+        WDF_OBJECT_ATTRIBUTES_INIT(&attributes);
+
+        auto memory_descriptor = WDF_MEMORY_DESCRIPTOR {};
+        WDF_MEMORY_DESCRIPTOR_INIT_BUFFER(&memory_descriptor, std::bit_cast<PVOID>(stdr::data(to)), stdr::size(to));
+
+        auto readed = cpp::ULong { 0 };
+        LoggedTry(lj::win_call(WdfUsbTargetPipeReadSynchronously, ctx.in_pipe, nullptr, nullptr, &memory_descriptor, &readed),
+                  "WdfUsbTargetPipeReadSynchronously failed!");
+
+        return { as<usize>(readed) };
+    }
+
+    _Use_decl_annotations_ auto event_request_completion_routine(WDFREQUEST,
+                                                                 WDFIOTARGET,
+                                                                 PWDF_REQUEST_COMPLETION_PARAMS,
+                                                                 WDFCONTEXT) -> void {
+        ilog("HELLO");
     }
 } // namespace lj::usb

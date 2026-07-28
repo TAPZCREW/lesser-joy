@@ -41,6 +41,7 @@ export namespace lj {
         u16 product_id = 0;
 
         string product_string = {};
+        string serial_string  = {};
 
         array<byte, 64> input_report = {};
     };
@@ -255,41 +256,39 @@ namespace lj {
             case IOCTL_HID_GET_DEVICE_DESCRIPTOR: {
                 LoggedTryOr(hid::get_device_descriptor(request, device_ctx->hid_descriptor),
                             update_status,
-                            "Failed to get device descriptor!");
+                            "IOCTL Failed to get device descriptor!");
             } break;
 
             case IOCTL_HID_GET_DEVICE_ATTRIBUTES: {
                 LoggedTryOr(hid::get_device_attributes(request, device_ctx->hid_attributes),
                             update_status,
-                            "Failed to get device attributes!");
+                            "IOCTL Failed to get device attributes!");
             } break;
 
             case IOCTL_HID_GET_REPORT_DESCRIPTOR: {
                 LoggedTryOr(hid::get_report_descriptor(request, device_ctx->report_descriptor),
                             update_status,
-                            "Failed to get report descriptor");
+                            "IOCTL Failed to get report descriptor!");
             } break;
 
             case IOCTL_HID_READ_REPORT: {
-                wlog("IOCTL_HID_READ_REPORT not supported {}", input_buffer_size);
-                status = STATUS_NOT_IMPLEMENTED;
-                // status = ReadReport(queue_ctx, request, &request_completed);
+                LoggedTryOr(hid::read_report(request, device_ctx->input_report), update_status, "IOCTL Failed to read report!");
             } break;
 
             case IOCTL_HID_WRITE_REPORT: {
-                status = STATUS_NOT_IMPLEMENTED;
-                wlog("IOCTL_HID_WRITE_REPORT not supported {}", output_buffer_size);
-                // status = WriteReport(queueContext, Request);
+                LoggedTryOr(hid::write_report(request, device_ctx->input_report), update_status, "IOCTL Failed to write report!");
             } break;
 
             case IOCTL_HID_GET_STRING: {
-                wlog("IOCTL_HID_GET_STRING not supported");
-                status = STATUS_NOT_IMPLEMENTED;
+                LoggedTryOr(hid::get_string(request, device_ctx->product_string, device_ctx->serial_string),
+                            update_status,
+                            "IOCTL Failed to get string!");
             } break;
 
             case IOCTL_HID_GET_INDEXED_STRING: {
-                wlog("IOCTL_HID_GET_INDEXED_STRING not supported");
-                status = STATUS_NOT_IMPLEMENTED;
+                LoggedTryOr(hid::get_indexed_string(request, device_ctx->serial_string),
+                            update_status,
+                            "IOCTL Failed to get indexed string!");
             } break;
 
             case IOCTL_HID_DEVICERESET_NOTIFICATION: {
@@ -298,18 +297,18 @@ namespace lj {
             } break;
 
             case IOCTL_HID_ACTIVATE_DEVICE: {
-                wlog("IOCTL_HID_ACTIVTE_DEVICE not supported");
-                status = STATUS_NOT_IMPLEMENTED;
+                // wlog("IOCTL_HID_ACTIVTE_DEVICE not supported");
+                // status = STATUS_NOT_IMPLEMENTED;
             } break;
 
             case IOCTL_HID_DEACTIVATE_DEVICE: {
-                wlog("IOCTL_HID_DEACTIVATE_DEVICE not supported");
-                status = STATUS_NOT_IMPLEMENTED;
+                // wlog("IOCTL_HID_DEACTIVATE_DEVICE not supported");
+                // status = STATUS_NOT_IMPLEMENTED;
             } break;
 
             case IOCTL_HID_SEND_IDLE_NOTIFICATION_REQUEST: {
-                wlog("IOCTL_HID_SEND_IDLE_NOTIFICATION_REQUEST not supported");
-                status = STATUS_NOT_IMPLEMENTED;
+                // wlog("IOCTL_HID_SEND_IDLE_NOTIFICATION_REQUEST not supported");
+                // status = STATUS_NOT_IMPLEMENTED;
             } break;
 
             case IOCTL_UMDF_GET_PHYSICAL_DESCRIPTOR: {
@@ -419,7 +418,7 @@ namespace lj {
                     monadic::unwrap(),
                     "Failed to configure USB device!");
 
-        ctx->usb.interface = select_config.Types.SingleInterface.ConfiguredUsbInterface;
+        ctx->usb.interface = WdfUsbTargetDeviceGetInterface(ctx->usb.device, 1);
 
         lj::ilog("Usb attached, PID: {}, VID: {}", ctx->vendor_id, ctx->product_id);
 
@@ -439,53 +438,73 @@ namespace lj {
         } else
             lj::wlog("Failed to get product string from USB device!\n    error: {}", result.error());
 
+        // get pipe handles
+        for (auto pipe_index : range(WdfUsbInterfaceGetNumConfiguredPipes(ctx->usb.interface))) {
+            auto pipe_info = WDF_USB_PIPE_INFORMATION {};
+            WDF_USB_PIPE_INFORMATION_INIT(&pipe_info);
+
+            const auto pipe = WdfUsbInterfaceGetConfiguredPipe(ctx->usb.interface, pipe_index, &pipe_info);
+
+            WdfUsbTargetPipeSetNoMaximumPacketSizeCheck(pipe);
+
+            if (pipe_info.PipeType == WdfUsbPipeTypeBulk and WdfUsbTargetPipeIsInEndpoint(pipe)) ctx->usb.in_pipe = pipe;
+            if (pipe_info.PipeType == WdfUsbPipeTypeBulk and WdfUsbTargetPipeIsOutEndpoint(pipe)) ctx->usb.out_pipe = pipe;
+        }
+
+        if (not ctx->usb.in_pipe or not ctx->usb.out_pipe) {
+            elog("Failed to get usb pipes! in_pipe: {}, out_pipe: {}", ctx->usb.in_pipe, ctx->usb.out_pipe);
+            status = STATUS_INVALID_DEVICE_STATE;
+        }
+
         return status;
     }
 
     _Use_decl_annotations_ auto event_device_entry(WDFDEVICE device, WDF_POWER_DEVICE_STATE) -> NTSTATUS {
         auto ctx = GetDeviceContext(device);
 
-        lj::ilog("{} connected! (USB)", ctx->product_string);
-
-        // auto LoggedTryOr(lj::win_call(WdfIoTargetStart,device, &queue_config, &queue_attributes, &ctx->manual_queue), );
-        // if (not NT_SUCCESS(status)) {
-        //     lj::elog("Failed to start interrupt read pipe: {}", narrow<Ntstatus>(status));
-        //     return status;
-        // }
-
         // init sequence
         // initialize USB
-        constexpr auto transport = hid::Transport::USB;
-        LoggedTryOr(usb::send_command(ctx->usb, hid::commands::init::initialize_usb(transport)),
-                    monadic::unwrap(),
-                    "Failed to initialize USB link!");
-        LoggedTryOr(usb::send_command(ctx->usb, hid::commands::UNKNOWN_COMMAND_0x07),
-                    monadic::unwrap(),
-                    "Unknown Command (0x07) failed!");
-        LoggedTryOr(usb::send_command(ctx->usb, hid::commands::leds::all_leds_off(transport)),
-                    monadic::unwrap(),
-                    "Failed to clear LEDs state!");
-        LoggedTryOr(usb::send_command(ctx->usb, hid::commands::SET_FEATURE_MASK),
-                    monadic::unwrap(),
-                    "Failed to set feature mask!");
-        LoggedTryOr(usb::send_command(ctx->usb, hid::commands::UNKNOWN_COMMAND_0x11),
-                    monadic::unwrap(),
-                    "Unknown command (0x11) failed!");
-        LoggedTryOr(usb::send_command(ctx->usb, hid::commands::RESET_VIBRATION_STATE),
-                    monadic::unwrap(),
-                    "Failed to reset vibration state!");
-        LoggedTryOr(usb::send_command(ctx->usb, hid::commands::NFC_UNKNOWN_COMMAND),
-                    monadic::unwrap(),
-                    "Unknown command (NFC) failed!");
-        LoggedTryOr(usb::send_command(ctx->usb, hid::commands::init::enable_usb_hid_report()),
-                    monadic::unwrap(),
-                    "Failed to enable HID reports!");
-        LoggedTryOr(usb::send_command(ctx->usb, hid::commands::init::select_input_report(transport, 0x05_b)),
-                    monadic::unwrap(),
-                    "Failed to enable HID reports!");
-        LoggedTryOr(usb::send_command(ctx->usb, hid::commands::leds::set_player_1(transport)),
-                    monadic::unwrap(),
-                    "Failed to setup player LED");
+        LoggedDiscardTryOr((hid::send_command_receive_response_sync<hid::init::Initialize_usb_command<hid::Transport::USB>,
+                                                                    hid::Validate::YES>(ctx->usb)),
+                           monadic::unwrap(),
+                           "Failed to initialize USB link!");
+        LoggedDiscardTryOr((hid::send_command_receive_response_sync<hid::unknown_0x07::Unknown_0x01_command<hid::Transport::USB>,
+                                                                    hid::Validate::YES>(ctx->usb)),
+                           monadic::unwrap(),
+                           "Unknown Command (0x07) failed!");
+        LoggedDiscardTryOr((hid::send_command_receive_response_sync<hid::leds::All_leds_off_command<hid::Transport::USB>,
+                                                                    hid::Validate::YES>(ctx->usb)),
+                           monadic::unwrap(),
+                           "Failed to clear LEDs state!");
+        // LoggedDiscardTryOr((hid::send_command_receive_response_sync<hid::init::Set_feature_mask_command<hid::Transport::USB>,
+        //                                                             hid::Validate::YES>(ctx->usb)),
+        //                    monadic::unwrap(),
+        //                    "Failed to set feature mask!");
+        // LoggedDiscardTryOr((hid::send_command_receive_response_sync<hid::init::Unknown_0x11_command<hid::Transport::USB>,
+        //                                                             hid::Validate::YES>(ctx->usb)),
+        //                    monadic::unwrap(),
+        //                    "Unknown command (0x11) failed!");
+        // LoggedDiscardTryOr((hid::send_command_receive_response_sync<hid::rumble::reset_state_command<hid::Transport::USB>,
+        //                                                             hid::Validate::YES>(ctx->usb)),
+        //                    monadic::unwrap(),
+        //                    "Failed to reset vibration state!");
+        // LoggedDiscardTryOr((hid::send_command_receive_response_sync<hid::nfc::unknown_0x_command<hid::Transport::USB>,
+        //                                                             hid::Validate::YES>(ctx->usb)),
+        //                    monadic::unwrap(),
+        //                    "Unknown command (NFC) failed!");
+        LoggedDiscardTryOr((hid::send_command_receive_response_sync<hid::init::Enable_usb_hid_report_command<hid::Transport::USB>,
+                                                                    hid::Validate::YES>(ctx->usb)),
+                           monadic::unwrap(),
+                           "Failed to enable HID reports!");
+        LoggedDiscardTryOr((hid::send_command_receive_response_sync<
+                             hid::init::Select_input_report_command<hid::Transport::USB>,
+                             hid::Validate::YES>(ctx->usb, hid::init::Input_report_id::ALT_PROCON_2)),
+                           monadic::unwrap(),
+                           "Failed to select input report!");
+        LoggedDiscardTryOr((hid::send_command_receive_response_sync<hid::leds::Set_player_1_command<hid::Transport::USB>,
+                                                                    hid::Validate::YES>(ctx->usb)),
+                           monadic::unwrap(),
+                           "Failed to setup player LED!");
 
         ilog("{} initialized!", ctx->product_string);
 

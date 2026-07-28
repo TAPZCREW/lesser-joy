@@ -4,24 +4,28 @@ module;
 
 #include <hidport.h>
 
+#include <stormkit/core/contract_macro.hpp>
 #include <stormkit/core/try_expected.hpp>
 
 export module lesserjoy.hid;
 
 import std;
+import frozen;
 
 import stormkit.core;
 
 import lesserjoy.log;
 import lesserjoy.constants;
 import lesserjoy.ntstatus;
+import lesserjoy.usb;
 
 using namespace stormkit;
 
 namespace stdr = std::ranges;
+namespace stdv = std::views;
 
 export namespace lj::hid {
-    using Report_descriptor = std::span<const byte>;
+    using Report_descriptor = array_view<const byte>;
 
     struct Control_info {
         u8 report_id    = 0;
@@ -40,12 +44,6 @@ export namespace lj::hid {
         u32 _;
     };
 
-    auto get_device_descriptor(WDFREQUEST& request, const HID_DESCRIPTOR& descriptor) noexcept -> Expected<void>;
-    auto get_device_attributes(WDFREQUEST& request, const HID_DEVICE_ATTRIBUTES& attributes) noexcept -> Expected<void>;
-    auto get_report_descriptor(WDFREQUEST& request, const hid::Report_descriptor& descriptor) noexcept -> Expected<void>;
-
-    auto read_report(WDFREQUEST& request) -> Expected<void>;
-
     enum class Direction : u8 {
         HOST_TO_DEVICE = 0x91,
         DEVICE_TO_HOST = 0x01,
@@ -55,6 +53,75 @@ export namespace lj::hid {
         USB       = 0x00,
         BLUETOOTH = 0x01,
     };
+
+    auto get_device_descriptor(WDFREQUEST& request, const HID_DESCRIPTOR& descriptor) noexcept -> Expected<void>;
+    auto get_device_attributes(WDFREQUEST& request, const HID_DEVICE_ATTRIBUTES& attributes) noexcept -> Expected<void>;
+    auto get_report_descriptor(WDFREQUEST& request, const hid::Report_descriptor& descriptor) noexcept -> Expected<void>;
+
+    auto read_report(WDFREQUEST& request, array_view<byte> to) -> Expected<void>;
+    auto write_report(WDFREQUEST& request, array_view<const byte> from) -> Expected<void>;
+    auto get_string(WDFREQUEST& request, string_view product_string, string_view serial_string) -> Expected<void>;
+    auto get_indexed_string(WDFREQUEST& request, string_view product_string) -> Expected<void>;
+
+    enum class Validate {
+        YES,
+        NO,
+    };
+
+    template<typename Command, typename... Args>
+    auto send_command_sync(const auto& ctx, Args&&... args) -> Expected<usize>;
+    template<typename Command, Validate VALIDATE = Validate::NO>
+    auto receive_command_sync(const auto& ctx) -> Expected<array<byte, Command::RESPONSE_LENGTH>>;
+    template<typename Command, Validate VALIDATE = Validate::NO, typename... Args>
+    auto send_command_receive_response_sync(const auto& ctx, Args&&... args) -> Expected<array<byte, Command::RESPONSE_LENGTH>>;
+
+    inline constexpr auto DEFAULT_OUTPUT_REPORT_PRO_CONTROLLER = into_bytes({
+      0x02, // report id
+      // hd rumble data left
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      // hd rumble data right
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      // unused
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+    });
 
     inline constexpr auto DEFAULT_REPORT_DESCRIPTOR = into_bytes({
       0x05, 0x01,       // Usage Page (Generic Desktop Ctrls)
@@ -107,473 +174,467 @@ export namespace lj::hid {
       0xC0,             // End Collection
     });
 
-    // inline constexpr auto DEFAULT_REPORT_DESCRIPTOR = to_array<u8>({
-    //   0x05, 0x01,                   // Usage Page (Generic Desktop Ctrls)
-    //   0x15, 0x00,                   // Logical Minimum (0)
-    //   0x09, 0x04,                   // Usage (Joystick)
-    //   0xA1, 0x01,                   // Collection (Application)
-    //   0x85, 0x30,                   //   Report ID (48)
-    //   0x05, 0x01,                   //   Usage Page (Generic Desktop Ctrls)
-    //   0x05, 0x09,                   //   Usage Page (Button)
-    //   0x19, 0x01,                   //   Usage Minimum (0x01)
-    //   0x29, 0x0A,                   //   Usage Maximum (0x0A)
-    //   0x15, 0x00,                   //   Logical Minimum (0)
-    //   0x25, 0x01,                   //   Logical Maximum (1)
-    //   0x75, 0x01,                   //   Report Size (1)
-    //   0x95, 0x0A,                   //   Report Count (10)
-    //   0x55, 0x00,                   //   Unit Exponent (0)
-    //   0x65, 0x00,                   //   Unit (None)
-    //   0x81, 0x02,                   //   Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
-    //   0x05, 0x09,                   //   Usage Page (Button)
-    //   0x19, 0x0B,                   //   Usage Minimum (0x0B)
-    //   0x29, 0x0E,                   //   Usage Maximum (0x0E)
-    //   0x15, 0x00,                   //   Logical Minimum (0)
-    //   0x25, 0x01,                   //   Logical Maximum (1)
-    //   0x75, 0x01,                   //   Report Size (1)
-    //   0x95, 0x04,                   //   Report Count (4)
-    //   0x81, 0x02,                   //   Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
-    //   0x75, 0x01,                   //   Report Size (1)
-    //   0x95, 0x02,                   //   Report Count (2)
-    //   0x81, 0x03,                   //   Input (Const,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
-    //   0x0B, 0x01, 0x00, 0x01, 0x00, //   Usage (0x010001)
-    //   0xA1, 0x00,                   //   Collection (Physical)
-    //   0x0B, 0x30, 0x00, 0x01, 0x00, //    Usage (0x010030)
-    //   0x0B, 0x31, 0x00, 0x01, 0x00, //    Usage (0x010031)
-    //   0x0B, 0x32, 0x00, 0x01, 0x00, //    Usage (0x010032)
-    //   0x0B, 0x35, 0x00, 0x01, 0x00, //    Usage (0x010035)
-    //   0x15, 0x00,                   //    Logical Minimum (0)
-    //   0x27, 0xFF, 0xFF, 0x00, 0x00, //    Logical Maximum (65534)
-    //   0x75, 0x10,                   //    Report Size (16)
-    //   0x95, 0x04,                   //    Report Count (4)
-    //   0x81, 0x02,                   //    Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
-    //   0xC0,                         //   End Collection
-    //   0x0B, 0x39, 0x00, 0x01, 0x00, //   Usage (0x010039)
-    //   0x15, 0x00,                   //   Logical Minimum (0)
-    //   0x25, 0x07,                   //   Logical Maximum (7)
-    //   0x35, 0x00,                   //   Physical Minimum (0)
-    //   0x46, 0x3B, 0x01,             //   Physical Maximum (315)
-    //   0x65, 0x14,                   //   Unit (System: English Rotation, Length: Centimeter)
-    //   0x75, 0x04,                   //   Report Size (4)
-    //   0x95, 0x01,                   //   Report Count (1) Data, Var,  Abs,  No Wrap, Linear, Preferred State, Null State
-    //   0x81, 0x02,                   //   Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
-    //   0x05, 0x09,                   //   Usage Page (Button)
-    //   0x19, 0x0F,                   //   Usage Minimum (0x0F)
-    //   0x29, 0x12,                   //   Usage Maximum (0x12)
-    //   0x15, 0x00,                   //   Logical Minimum (0)
-    //   0x25, 0x01,                   //   Logical Maximum (1)
-    //   0x75, 0x01,                   //   Report Size (1)
-    //   0x95, 0x04,                   //   Report Count (4)
-    //   0x81, 0x02,                   //   Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
-    //   0x75, 0x08,                   //   Report Size (8)
-    //   0x95, 0x34,                   //   Report Count (52)
-    //   0x81, 0x03,                   //   Input (Const,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
-    //   0x06, 0x00, 0xFF,             //   Usage Page (Vendor Defined 0xFF00)
-    //   0x85, 0x21,                   //   Report ID (33)
-    //   0x09, 0x01,                   //   Usage (0x01)
-    //   0x75, 0x08,                   //   Report Size (8)
-    //   0x95, 0x3F,                   //   Report Count (63)
-    //   0x81, 0x03,                   //   Input (Const,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
-    //   0x85, 0x81,                   //   Report ID (-127)
-    //   0x09, 0x02,                   //   Usage (0x02)
-    //   0x75, 0x08,                   //   Report Size (8)
-    //   0x95, 0x3F,                   //   Report Count (63)
-    //   0x81, 0x03,                   //   Input (Const,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
-    //   0x85, 0x01,                   //   Report ID (1)
-    //   0x09, 0x03,                   //   Usage (0x03)
-    //   0x75, 0x08,                   //   Report Size (8)
-    //   0x95, 0x3F,                   //   Report Count (63)
-    //   0x91, 0x83,                   //   Output (Const,Var,Abs,No Wrap,Linear,Preferred State,No Null Position,Volatile)
-    //   0x85, 0x10,                   //   Report ID (16)
-    //   0x09, 0x04,                   //   Usage (0x04)
-    //   0x75, 0x08,                   //   Report Size (8)
-    //   0x95, 0x3F,                   //   Report Count (63)
-    //   0x91, 0x83,                   //   Output (Const,Var,Abs,No Wrap,Linear,Preferred State,No Null Position,Volatile)
-    //   0x85, 0x80,                   //   Report ID (-128)
-    //   0x09, 0x05,                   //   Usage (0x05)
-    //   0x75, 0x08,                   //   Report Size (8)
-    //   0x95, 0x3F,                   //   Report Count (63)
-    //   0x91, 0x83,                   //   Output (Const,Var,Abs,No Wrap,Linear,Preferred State,No Null Position,Volatile)
-    //   0x85, 0x82,                   //   Report ID (-126)
-    //   0x09, 0x06,                   //   Usage (0x06)
-    //   0x75, 0x08,                   //   Report Size (8)
-    //   0x95, 0x3F,                   //   Report Count (63)
-    //   0x91, 0x83,                   //   Output (Const,Var,Abs,No Wrap,Linear,Preferred State,No Null Position,Volatile)
-    //   0xC0,                         // End Collection
-    // });
-
     inline constexpr auto DEFAULT_DESCRIPTOR = HID_DESCRIPTOR {
         .bLength         = sizeof(HID_DESCRIPTOR),
         .bDescriptorType = 0x21, // HID == 0x21
         .bcdHID          = 0x0111,
         .bCountry        = 0x00, // UNUSED
         .bNumDescriptors = 0x01,
-        // .DescriptorList  = { { .bReportType = 0x22, .wReportLength = 0x61 } }
-        .DescriptorList = { { .bReportType = 0x22, .wReportLength = sizeof(DEFAULT_REPORT_DESCRIPTOR) } }
+        .DescriptorList  = { { .bReportType = 0x22, .wReportLength = sizeof(DEFAULT_REPORT_DESCRIPTOR) } }
     };
 
-    namespace commands {
-        namespace init {
-            // @see https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#command-0x03---initialisation
-            enum class Sub_command : u8 {
-                BT_WAKE               = 0x01,
-                BT_CANCEL             = 0x02,
-                ENABLE_USB_HID_REPORT = 0x03,
-                UNKNOWN_0x04          = 0x04,
-                UNKNOWN_0x05          = 0x05,
-                UNKNOWN_0x06          = 0x06,
-                SEND_PAIRING_INFO     = 0x07,
-                CLEAR_PAIRING_INFO    = 0x08,
-                STORE_PAIRING_INFO    = 0x09,
-                SELECT_INPUT_REPORT   = 0x0A,
-                UNKNOWN_0x0C          = 0x0C,
-                INITIALIZE_USB        = 0x0D,
-                UNKNOWN_0x0F          = 0x0F,
-            };
+    // @see
+    // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md
+    enum class Command_id : u8 {
+        INIT         = 0x03,
+        UNKNOWN_0x07 = 0x07,
+        LEDS         = 0x09,
+    };
 
+    struct CommandData {
+        u8 ack                     = 0xF8;
+        u8 request_payload_length  = 0x00;
+        u8 response_payload_length = 0x00;
+    };
+
+    template<Command_id>
+    struct Subcommand_enum;
+
+    template<Transport                           TRANSPORT_,
+             Command_id                          ID_,
+             typename Subcommand_enum<ID_>::type SUB_ID_,
+             CommandData                         DATA         = {},
+             auto                                FILL_PAYLOAD = monadic::noop()>
+    struct Command {
+        static constexpr auto ID        = ID_;
+        static constexpr auto SUB_ID    = SUB_ID_;
+        static constexpr auto TRANSPORT = TRANSPORT_;
+
+        static constexpr auto ACK                     = DATA.ack;
+        static constexpr auto REQUEST_PAYLOAD_LENGTH  = DATA.request_payload_length;
+        static constexpr auto RESPONSE_PAYLOAD_LENGTH = DATA.response_payload_length;
+
+        static constexpr auto
+          REQUEST_HEADER = into_bytes({ narrow<u8>(ID),
+                                        narrow<u8>(Direction::HOST_TO_DEVICE),
+                                        narrow<u8>(TRANSPORT),
+                                        narrow<u8>(SUB_ID),
+                                        0x00_u8,
+                                        narrow<u8>(REQUEST_PAYLOAD_LENGTH),
+                                        0x00_u8,
+                                        0x00_u8 });
+        static constexpr auto
+          RESPONSE_HEADER = into_bytes({ narrow<u8>(ID),
+                                         narrow<u8>(Direction::DEVICE_TO_HOST),
+                                         narrow<u8>(TRANSPORT),
+                                         narrow<u8>(SUB_ID),
+                                         0x00_u8,
+                                         narrow<u8>(ACK),
+                                         0x00_u8,
+                                         0x00_u8 });
+
+        static constexpr auto REQUEST_LENGTH  = stdr::size(REQUEST_HEADER) + REQUEST_PAYLOAD_LENGTH;
+        static constexpr auto RESPONSE_LENGTH = stdr::size(RESPONSE_HEADER) + RESPONSE_PAYLOAD_LENGTH;
+
+        template<typename... Args>
+        static constexpr auto make_payload(Args&&... args) noexcept -> array<byte, REQUEST_PAYLOAD_LENGTH>;
+        template<typename... Args>
+        static constexpr auto make_request(Args&&... args) noexcept -> array<byte, REQUEST_LENGTH>;
+        static constexpr auto make_response() noexcept -> array<byte, RESPONSE_LENGTH>;
+        static constexpr auto validate_response(array_view<const byte> response) noexcept -> bool;
+    };
+
+    namespace init {
+        // @see
+        // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#command-0x03---initialisation
+        enum class Subcommand_id : u8 {
             // @see
             // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#subcommand-0x01---bluetooth-wake
-            STORMKIT_FORCE_INLINE STORMKIT_PURE
-            constexpr auto bt_wake(Transport transport) noexcept -> decltype(auto) {
-                return into_bytes({ 0x03_u8,
-                                    narrow<u8>(Direction::HOST_TO_DEVICE),
-                                    narrow<u8>(transport),
-                                    narrow<u8>(Sub_command::BT_WAKE),
-                                    0x00_u8,
-                                    0x04_u8,
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x01_u8,
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8 });
-            }
-
+            BT_WAKE = 0x01,
             // @see
             // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#subcommand-0x02---bluetooth-cancel
-            STORMKIT_FORCE_INLINE STORMKIT_PURE
-            constexpr auto bt_cancel(Transport transport) noexcept -> decltype(auto) {
-                return into_bytes({ 0x03_u8,
-                                    narrow<u8>(Direction::HOST_TO_DEVICE),
-                                    narrow<u8>(transport),
-                                    narrow<u8>(Sub_command::BT_CANCEL),
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8 });
-            }
-
+            BT_CANCEL = 0x02,
             // @see
             // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#subcommand-0x03---enable-usb-hid-reports
-            STORMKIT_FORCE_INLINE STORMKIT_PURE
-            constexpr auto enable_usb_hid_report() noexcept -> decltype(auto) {
-                return into_bytes({ 0x03_u8,
-                                    narrow<u8>(Direction::HOST_TO_DEVICE),
-                                    narrow<u8>(Transport::USB),
-                                    narrow<u8>(Sub_command::ENABLE_USB_HID_REPORT),
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8 });
-            }
-
-            // TODO
+            ENABLE_USB_HID_REPORT = 0x03,
             // @see
             // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#subcommand-0x07---send-pairing-info
-            // STORMKIT_FORCE_INLINE STORMKIT_PURE
-            // constexpr auto send_pairing_info(Transport transport) noexcept -> decltype(auto) {
-            //     return into_bytes({ 0x03,
-            //                         narrow<u8>(Direction::HOST_TO_DEVICE),
-            //                         narrow<u8>(transport),
-            //                         narrow<u8>(Command),
-            //                         0x00,
-            //                         0x00,
-            //                         0x00,
-            //                         0x00 });
-            // }
-
+            UNKNOWN_0x04 = 0x04,
+            UNKNOWN_0x05 = 0x05,
+            UNKNOWN_0x06 = 0x06,
+            // @see
+            // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#subcommand-0x07---send-pairing-info
+            SEND_PAIRING_INFO = 0x07,
             // @see
             // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#subcommand-0x08---clear-pairing-info
-            STORMKIT_FORCE_INLINE STORMKIT_PURE
-            constexpr auto clear_pairing_info(Transport transport) noexcept -> decltype(auto) {
-                return into_bytes({ 0x03_u8,
-                                    narrow<u8>(Direction::HOST_TO_DEVICE),
-                                    narrow<u8>(transport),
-                                    narrow<u8>(Sub_command::CLEAR_PAIRING_INFO),
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8 });
-            }
-
+            CLEAR_PAIRING_INFO = 0x08,
             // @see
             // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#subcommand-0x09---store-pairing-info
-            STORMKIT_FORCE_INLINE STORMKIT_PURE
-            constexpr auto store_pairing_info(Transport transport) noexcept -> decltype(auto) {
-                return into_bytes({ 0x03_u8,
-                                    narrow<u8>(Direction::HOST_TO_DEVICE),
-                                    narrow<u8>(transport),
-                                    narrow<u8>(Sub_command::STORE_PAIRING_INFO),
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8 });
-            }
-
+            STORE_PAIRING_INFO = 0x09,
             // @see
             // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#subcommand-0x0a---select-input-report
-            STORMKIT_FORCE_INLINE STORMKIT_PURE
-            constexpr auto select_input_report(Transport transport, byte report_id) noexcept -> decltype(auto) {
-                return into_bytes({ 0x03_u8,
-                                    narrow<u8>(Direction::HOST_TO_DEVICE),
-                                    narrow<u8>(transport),
-                                    narrow<u8>(Sub_command::SELECT_INPUT_REPORT),
-                                    0x0A_u8,
-                                    0x00_u8,
-                                    0x04_u8,
-                                    0x00_u8,
-                                    0x00_u8,
-                                    narrow<u8>(report_id),
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8 });
-            }
-
+            SELECT_INPUT_REPORT = 0x0A,
+            // @see
+            // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#subcommand-0x0c---initialise-usb
+            UNKNOWN_0x0C = 0x0C,
             // @see
             // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#subcommand-0x0d---initialise-usb
-            STORMKIT_FORCE_INLINE STORMKIT_PURE
-            constexpr auto initialize_usb(Transport transport) noexcept -> decltype(auto) {
-                return into_bytes({ 0x03_u8,
-                                    narrow<u8>(Direction::HOST_TO_DEVICE),
-                                    narrow<u8>(transport),
-                                    narrow<u8>(Sub_command::INITIALIZE_USB),
-                                    0x00_u8,
-                                    0x08_u8,
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8 });
-            }
-        } // namespace init
+            INITIALIZE_USB = 0x0D,
+            // @see
+            // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#subcommand-0x0c---initialise-usb
+            UNKNOWN_0x0F = 0x0F,
+        };
 
-        namespace leds {
-            enum class Sub_command : u8 {
-                SET_PLAYER_1,
-                SET_PLAYER_2,
-                SET_PLAYER_3,
-                SET_PLAYER_4,
-                ALL_LEDS_ON,
-                ALL_LEDS_OFF,
-                SET_PLAYER_LED_MASK,
-                FLASH_LEDS,
-            };
+        enum class Input_report_id {
+            GENERIC        = 0x05,
+            ALT_JOYCON_L_2 = 0x07,
+            ALT_JOYCON_R_2 = 0x08,
+            ALT_PROCON_2   = 0x09,
+            ALT_NSO_GC_2   = 0x01,
+        };
 
-            enum class Player {
-                PLAYER_1 = 0x1,
-                PLAYER_2 = 0x2,
-                PLAYER_3 = 0x4,
-                PLAYER_4 = 0x8,
-            };
+        enum class Output_report_id {
+            JOYCON_L_2 = 0x01,
+            JOYCON_R_2 = 0x01,
+            PROCON_2   = 0x02,
+            NSO_GC_2   = 0x03,
+        };
+    } // namespace init
 
+    namespace leds {
+        enum class Subcommand_id : u8 {
             // @see
             // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#subcommand-0x01---set-player-1-led
-            STORMKIT_FORCE_INLINE STORMKIT_PURE
-            constexpr auto set_player_1(Transport transport) noexcept -> decltype(auto) {
-                return into_bytes({ 0x03_u8,
-                                    narrow<u8>(Direction::HOST_TO_DEVICE),
-                                    narrow<u8>(transport),
-                                    narrow<u8>(Sub_command::SET_PLAYER_1),
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8 });
-            }
-
+            SET_PLAYER_1 = 0x01,
             // @see
             // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#subcommand-0x02---set-player-2-led
-            STORMKIT_FORCE_INLINE STORMKIT_PURE
-            constexpr auto set_player_2(Transport transport) noexcept -> decltype(auto) {
-                return into_bytes({ 0x03_u8,
-                                    narrow<u8>(Direction::HOST_TO_DEVICE),
-                                    narrow<u8>(transport),
-                                    narrow<u8>(Sub_command::SET_PLAYER_2),
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8 });
-            }
-
+            SET_PLAYER_2 = 0x02,
             // @see
             // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#subcommand-0x03---set-player-3-led
-            STORMKIT_FORCE_INLINE STORMKIT_PURE
-            constexpr auto set_player_3(Transport transport) noexcept -> decltype(auto) {
-                return into_bytes({ 0x03_u8,
-                                    narrow<u8>(Direction::HOST_TO_DEVICE),
-                                    narrow<u8>(transport),
-                                    narrow<u8>(Sub_command::SET_PLAYER_3),
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8 });
-            }
-
+            SET_PLAYER_3 = 0x03,
             // @see
             // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#subcommand-0x04---set-player-4-led
-            STORMKIT_FORCE_INLINE STORMKIT_PURE
-            constexpr auto set_player_4(Transport transport) noexcept -> decltype(auto) {
-                return into_bytes({ 0x03_u8,
-                                    narrow<u8>(Direction::HOST_TO_DEVICE),
-                                    narrow<u8>(transport),
-                                    narrow<u8>(Sub_command::SET_PLAYER_4),
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8 });
-            }
-
+            SET_PLAYER_4 = 0x04,
             // @see
             // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#subcommand-0x05---set-all-leds-on
-            STORMKIT_FORCE_INLINE STORMKIT_PURE
-            constexpr auto all_leds_on(Transport transport) noexcept -> decltype(auto) {
-                return into_bytes({ 0x03_u8,
-                                    narrow<u8>(Direction::HOST_TO_DEVICE),
-                                    narrow<u8>(transport),
-                                    narrow<u8>(Sub_command::ALL_LEDS_ON),
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8 });
-            }
-
+            ALL_LEDS_ON = 0x05,
             // @see
             // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#subcommand-0x06---set-all-leds-off
-            STORMKIT_FORCE_INLINE STORMKIT_PURE
-            constexpr auto all_leds_off(Transport transport) noexcept -> decltype(auto) {
-                return into_bytes({ 0x03_u8,
-                                    narrow<u8>(Direction::HOST_TO_DEVICE),
-                                    narrow<u8>(transport),
-                                    narrow<u8>(Sub_command::ALL_LEDS_OFF),
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8 });
-            }
-
+            ALL_LEDS_OFF = 0x06,
             // @see
             // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#subcommand-0x07---set-led-pattern
-            STORMKIT_FORCE_INLINE STORMKIT_PURE
-            constexpr auto set_player_led_mask(Transport transport, u8 mask) noexcept -> decltype(auto) {
-                return into_bytes({ 0x03_u8,
-                                    narrow<u8>(Direction::HOST_TO_DEVICE),
-                                    narrow<u8>(transport),
-                                    narrow<u8>(Sub_command::SET_PLAYER_LED_MASK),
-                                    0x00_u8,
-                                    0x08_u8,
-                                    0x00_u8,
-                                    0x00_u8,
-                                    narrow<u8>(mask),
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8 });
-            }
-
+            SET_PLAYER_LED_MASK = 0x07,
             // @see
             // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#subcommand-0x08---flash-leds
-            STORMKIT_FORCE_INLINE STORMKIT_PURE
-            constexpr auto flash_leds(Transport transport, bool enabled) noexcept -> decltype(auto) {
-                return into_bytes({ 0x03_u8,
-                                    narrow<u8>(Direction::HOST_TO_DEVICE),
-                                    narrow<u8>(transport),
-                                    narrow<u8>(Sub_command::FLASH_LEDS),
-                                    0x00_u8,
-                                    0x08_u8,
-                                    0x00_u8,
-                                    0x00_u8,
-                                    enabled ? 0x01_u8 : 0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8,
-                                    0x00_u8 });
-            }
-        } // namespace leds
+            FLASH_LEDS = 0x08,
+        };
 
-        inline constexpr auto UNKNOWN_COMMAND_0x07 = into_bytes({ 0x07, 0x91, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00 });
+        enum class Player : u8 {
+            PLAYER_1 = 0x1,
+            PLAYER_2 = 0x2,
+            PLAYER_3 = 0x4,
+            PLAYER_4 = 0x8,
+        };
 
-        inline constexpr auto REQUEST_CONTROLLER_MAC = into_bytes({
-          0x15, 0x91, 0x00, 0x01, 0x00, 0x0E, 0x00, 0x00,
-          0x00, 0x02, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, // Console MAC Address (Little Endian)
-          0xFF,                                           // Byte 14 with bit 0 masked off
-          0xFF, 0xFF, 0xFF, 0xFF, 0xFF                    // Remainder of Console MAC Address
-        });
+    } // namespace leds
 
-        inline constexpr auto LTK_REQUEST = into_bytes({ 0x15, 0x91, 0x00, 0x02, 0x00, 0x11, 0x00, 0x00, 0x00,
-                                                         0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, // LTK - 16 byte key
-                                                         0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF });
+    namespace unknown_0x07 {
+        enum class Subcommand_id : u8 {
+            UNKNOWN_0x01 = 0x01,
+            UNKNOWN_0x02 = 0x02,
+        };
+    } // namespace unknown_0x07
 
-        inline constexpr auto
-          SET_FEATURE_MASK = into_bytes({ 0x0c, 0x91, 0x00, 0x02, 0x00, 0x04, 0x00, 0x00, 0xff, 0x00, 0x00, 0x00 });
-        inline constexpr auto UNKNOWN_COMMAND_0x11  = into_bytes({ 0x11, 0x91, 0x00, 0x03, 0x00, 0x00, 0x00, 0x00 });
-        inline constexpr auto RESET_VIBRATION_STATE = into_bytes({ 0x0a, 0x91, 0x00, 0x08, 0x00, 0x14, 0x00, 0x00, 0x01, 0xff,
-                                                                   0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x35, 0x00, 0x46,
-                                                                   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
-        inline constexpr auto
-          ENABLE_HAPTICS = into_bytes({ 0x03, 0x91, 0x00, 0x0a, 0x00, 0x04, 0x00, 0x00, 0x09, 0x00, 0x00, 0x00 });
-        inline constexpr auto GET_FIRMWARE_INFO = into_bytes({ 0x10, 0x91, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00 });
-        inline constexpr auto
-          ENABLE_HID_REPORTS = into_bytes({ 0x03, 0x91, 0x00, 0x03, 0x00, 0x04, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00 });
-        inline constexpr auto NFC_UNKNOWN_COMMAND = into_bytes({ 0x01, 0x91, 0x00, 0x0c, 0x00, 0x00, 0x00, 0x00 });
+    template<>
+    struct Subcommand_enum<Command_id::INIT> {
+        using type = init::Subcommand_id;
+    };
 
-    } // namespace commands
+    template<>
+    struct Subcommand_enum<Command_id::LEDS> {
+        using type = leds::Subcommand_id;
+    };
 
+    template<>
+    struct Subcommand_enum<Command_id::UNKNOWN_0x07> {
+        using type = unknown_0x07::Subcommand_id;
+    };
+
+    namespace init {
+        template<Transport TRANSPORT, Subcommand_id SUB_ID, CommandData DATA = {}, auto FILL_PAYLOAD = monadic::noop()>
+        using Command = hid::Command<TRANSPORT, Command_id::INIT, SUB_ID, DATA, FILL_PAYLOAD>;
+
+        template<Transport TRANSPORT>
+        using Bt_wake_command = Command<TRANSPORT, Subcommand_id::BT_WAKE, CommandData { .request_payload_length = 0x04 }>;
+        template<Transport TRANSPORT>
+        using Bt_cancel_command = Command<TRANSPORT, Subcommand_id::BT_CANCEL>;
+        template<Transport TRANSPORT>
+        using Enable_usb_hid_report_command = Command<
+          TRANSPORT,
+          Subcommand_id::ENABLE_USB_HID_REPORT,
+          CommandData { .request_payload_length = 0x04, .response_payload_length = 0x04 }>;
+        template<Transport TRANSPORT>
+        using Unknown_0x04_command = Command<TRANSPORT, Subcommand_id::UNKNOWN_0x04>;
+        template<Transport TRANSPORT>
+        using Unknown_0x05_command = Command<TRANSPORT, Subcommand_id::UNKNOWN_0x05>;
+        template<Transport TRANSPORT>
+        using Unknown_0x06_command = Command<TRANSPORT, Subcommand_id::UNKNOWN_0x06>;
+        template<Transport TRANSPORT>
+        using Send_pairing_info_command = Command<TRANSPORT,
+                                                  Subcommand_id::SEND_PAIRING_INFO,
+                                                  CommandData { .ack = 0x78, .request_payload_length = 0x16 }>;
+        template<Transport TRANSPORT>
+        using Clear_pairing_info_command = Command<TRANSPORT, Subcommand_id::CLEAR_PAIRING_INFO>;
+        template<Transport TRANSPORT>
+        using Store_pairing_command = Command<TRANSPORT, Subcommand_id::STORE_PAIRING_INFO, CommandData { .ack = 0x78 }>;
+        template<Transport TRANSPORT>
+        using Select_input_report_command = Command<
+          TRANSPORT,
+          Subcommand_id::SELECT_INPUT_REPORT,
+          CommandData { .request_payload_length = 0x04 },
+          [](array_view<byte, 0x04> payload, Input_report_id id) static noexcept { payload[0] = narrow<byte>(id); }>;
+        template<Transport TRANSPORT>
+        using Unknown_0x0C_command = Command<TRANSPORT,
+                                             Subcommand_id::UNKNOWN_0x0C,
+                                             CommandData { .request_payload_length = 0x04 }>;
+        template<Transport TRANSPORT>
+        using Initialize_usb_command = Command<TRANSPORT,
+                                               Subcommand_id::INITIALIZE_USB,
+                                               CommandData { .request_payload_length = 0x08, .response_payload_length = 0x04 }>;
+        template<Transport TRANSPORT>
+        using Unknown_0x0F_command = Command<TRANSPORT,
+                                             Subcommand_id::UNKNOWN_0x0F,
+                                             CommandData { .response_payload_length = 0x04 }>;
+    } // namespace init
+
+    namespace unknown_0x07 {
+        template<Transport TRANSPORT, Subcommand_id SUB_ID, CommandData DATA = {}, auto FILL_PAYLOAD = monadic::noop()>
+        using Command = hid::Command<TRANSPORT, Command_id::UNKNOWN_0x07, SUB_ID, DATA, FILL_PAYLOAD>;
+
+        template<Transport TRANSPORT>
+        using Unknown_0x01_command = Command<TRANSPORT,
+                                             Subcommand_id::UNKNOWN_0x01,
+                                             CommandData { .response_payload_length = 0x01 }>;
+        template<Transport TRANSPORT>
+        using Unknown_0x02_command = Command<TRANSPORT, Subcommand_id::UNKNOWN_0x02>;
+    } // namespace unknown_0x07
+
+    namespace leds {
+        template<Transport TRANSPORT, Subcommand_id SUB_ID, CommandData DATA = {}, auto FILL_PAYLOAD = monadic::noop()>
+        using Command = hid::Command<TRANSPORT, Command_id::LEDS, SUB_ID, DATA, FILL_PAYLOAD>;
+
+        template<Transport TRANSPORT>
+        using Set_player_1_command = Command<TRANSPORT, Subcommand_id::SET_PLAYER_1>;
+        template<Transport TRANSPORT>
+        using Set_player_2_command = Command<TRANSPORT, Subcommand_id::SET_PLAYER_2>;
+        template<Transport TRANSPORT>
+        using Set_player_3_command = Command<TRANSPORT, Subcommand_id::SET_PLAYER_3>;
+        template<Transport TRANSPORT>
+        using Set_player_4_command = Command<TRANSPORT, Subcommand_id::SET_PLAYER_4>;
+        template<Transport TRANSPORT>
+        using All_leds_on_command = Command<TRANSPORT, Subcommand_id::ALL_LEDS_ON>;
+        template<Transport TRANSPORT>
+        using All_leds_off_command = Command<TRANSPORT, Subcommand_id::ALL_LEDS_OFF>;
+        template<Transport TRANSPORT>
+        using Set_player_led_mask = Command<TRANSPORT,
+                                            Subcommand_id::SET_PLAYER_LED_MASK,
+                                            CommandData { .request_payload_length = 0x08 }>;
+        template<Transport TRANSPORT>
+        using Flash_leds_command = Command<TRANSPORT, Subcommand_id::FLASH_LEDS, CommandData { .request_payload_length = 0x04 }>;
+    } // namespace leds
 } // namespace lj::hid
 
 export namespace stormkit { inline namespace core { namespace meta {
     template<>
-    inline constexpr auto FLAG_TRAIT<lj::hid::commands::leds::Player> = true;
+    inline constexpr auto FLAG_TRAIT<lj::hid::leds::Player> = true;
 }}} // namespace stormkit::core::meta
+
+namespace lj::hid {
+    template<typename Command, typename... Args>
+    STORMKIT_FORCE_INLINE
+    inline auto send_command_sync(const auto& ctx, Args&&... args) -> Expected<usize> {
+        if constexpr (Command::TRANSPORT == Transport::USB)
+            return usb::send_command_sync(ctx, Command::make_request(std::forward<Args>(args)...));
+    }
+
+    template<typename Command, Validate VALIDATE>
+    inline auto receive_command_sync(const auto& ctx) -> Expected<array<byte, Command::RESPONSE_LENGTH>> {
+        auto response = array<byte, Command::RESPONSE_LENGTH> {};
+
+        auto size = 0_usize;
+        if constexpr (Command::TRANSPORT == Transport::USB) size = Try(usb::receive_response_sync(ctx, response));
+
+        if constexpr (VALIDATE == Validate::YES) {
+            if (size != Command::RESPONSE_LENGTH) {
+                elog("Response byte count mismatch! got: {} expected: {}", size, Command::RESPONSE_LENGTH);
+                Return std::unexpected<system_error2::nt_code> { STATUS_UNSUCCESSFUL };
+            } else if (not Command::validate_response(response)) {
+                const auto got      = array_view<const u8> { std::bit_cast<const u8*>(stdr::data(response)),
+                                                             stdr::size(Command::RESPONSE_HEADER) };
+                const auto expected = array_view<const u8> { std::bit_cast<const u8*>(stdr::data(Command::RESPONSE_HEADER)),
+                                                             stdr::size(Command::RESPONSE_HEADER) };
+                elog("Response bytes mismatch! got: {::#x} expected: {::#x}", got, expected);
+                Return std::unexpected<system_error2::nt_code> { STATUS_UNSUCCESSFUL };
+            }
+        }
+
+        return { std::move(response) };
+    }
+
+    template<typename Command, Validate VALIDATE, typename... Args>
+    STORMKIT_FORCE_INLINE
+    inline auto send_command_receive_response_sync(const auto& ctx, Args&&... args)
+      -> Expected<array<byte, Command::RESPONSE_LENGTH>> {
+        DiscardTry(send_command_sync<Command>(ctx, std::forward<Args>(args)...));
+        Return Try((receive_command_sync<Command, VALIDATE>(ctx)));
+    }
+
+    template<Transport                           TRANSPORT_,
+             Command_id                          ID_,
+             typename Subcommand_enum<ID_>::type SUB_ID_,
+             CommandData                         DATA,
+             auto                                FILL_PAYLOAD>
+    template<typename... Args>
+             STORMKIT_FORCE_INLINE
+    constexpr auto Command<TRANSPORT_, ID_, SUB_ID_, DATA, FILL_PAYLOAD>::make_payload(Args&&... args) noexcept
+      -> array<byte, REQUEST_PAYLOAD_LENGTH> {
+        auto out = array<byte, REQUEST_PAYLOAD_LENGTH> {};
+        FILL_PAYLOAD(out, std::forward<Args>(args)...);
+        return out;
+    }
+
+    template<Transport                           TRANSPORT_,
+             Command_id                          ID_,
+             typename Subcommand_enum<ID_>::type SUB_ID_,
+             CommandData                         DATA,
+             auto                                FILL_PAYLOAD>
+    template<typename... Args>
+    constexpr auto Command<TRANSPORT_, ID_, SUB_ID_, DATA, FILL_PAYLOAD>::make_request(Args&&... args) noexcept
+      -> array<byte, REQUEST_LENGTH> {
+        const auto payload = make_payload(std::forward<Args>(args)...);
+        ENSURES(stdr::size(payload) == REQUEST_PAYLOAD_LENGTH);
+
+        auto request = array<byte, REQUEST_LENGTH> {};
+        stdr::copy(stdv::concat(REQUEST_HEADER, payload), stdr::begin(request));
+        return request;
+    }
+
+    template<Transport                           TRANSPORT_,
+             Command_id                          ID_,
+             typename Subcommand_enum<ID_>::type SUB_ID_,
+             CommandData                         DATA,
+             auto                                FILL_PAYLOAD>
+    constexpr auto Command<TRANSPORT_, ID_, SUB_ID_, DATA, FILL_PAYLOAD>::make_response() noexcept
+      -> array<byte, RESPONSE_LENGTH> {
+        auto response = array<byte, RESPONSE_LENGTH> {};
+        stdr::copy(RESPONSE_HEADER, stdr::begin(response));
+        return response;
+    }
+
+    template<Transport                           TRANSPORT_,
+             Command_id                          ID_,
+             typename Subcommand_enum<ID_>::type SUB_ID_,
+             CommandData                         DATA,
+             auto                                FILL_PAYLOAD>
+             STORMKIT_FORCE_INLINE
+    constexpr auto Command<TRANSPORT_, ID_, SUB_ID_, DATA, FILL_PAYLOAD>::validate_response(array_view<const byte>
+                                                                                              response) noexcept -> bool {
+        return std::memcmp(std::bit_cast<void*>(stdr::data(response)),
+                           std::bit_cast<void*>(stdr::data(RESPONSE_HEADER)),
+                           stdr::size(RESPONSE_HEADER))
+               == 0;
+    }
+} // namespace lj::hid
 
 module: private;
 
 namespace lj::hid {
     namespace {
-        auto request_copy_from_buffer(WDFREQUEST request, std::span<const byte> from) -> Expected<void> {
+        auto request_copy_from_buffer(WDFREQUEST request, array_view<const byte> to) -> Expected<usize> {
             auto memory = WDFMEMORY {};
             LoggedTry(lj::win_call(WdfRequestRetrieveOutputMemory, request, &memory), "WdfRequestRetrieveOutputMemory failed!");
 
             auto output_buffer_extent = 0_usize;
             WdfMemoryGetBuffer(memory, &output_buffer_extent);
-            if (output_buffer_extent < stdr::size(from)) {
+            if (output_buffer_extent < stdr::size(to)) {
                 lj::elog("request_copy_from_buffer: buffer too small! Size {}, expects {}\n",
                          output_buffer_extent,
-                         stdr::size(from));
+                         stdr::size(to));
                 Return std::unexpected<system_error2::nt_code> { std::in_place, STATUS_INVALID_BUFFER_SIZE };
             }
 
-            LoggedTry(lj::win_call(WdfMemoryCopyFromBuffer, memory, 0, bit_cast<void*>(stdr::data(from)), stdr::size(from)),
+            LoggedTry(lj::win_call(WdfMemoryCopyFromBuffer, memory, 0, bit_cast<void*>(stdr::data(to)), stdr::size(to)),
                       "WdfMemoryCopyFromBuffer failed!");
 
-            WdfRequestSetInformation(request, stdr::size(from));
-            Return {};
+            WdfRequestSetInformation(request, stdr::size(to));
+
+            Return { output_buffer_extent };
         }
     } // namespace
 
     auto get_device_descriptor(WDFREQUEST& request, const HID_DESCRIPTOR& descriptor) noexcept -> Expected<void> {
-        return request_copy_from_buffer(request, as_bytes(descriptor));
+        DiscardTry(request_copy_from_buffer(request, as_bytes(descriptor)));
+        Return {};
     }
 
     auto get_device_attributes(WDFREQUEST& request, const HID_DEVICE_ATTRIBUTES& attributes) noexcept -> Expected<void> {
-        return request_copy_from_buffer(request, as_bytes(attributes));
+        DiscardTry(request_copy_from_buffer(request, as_bytes(attributes)));
+        Return {};
     }
 
     auto get_report_descriptor(WDFREQUEST& request, const Report_descriptor& descriptor) noexcept -> Expected<void> {
-        return request_copy_from_buffer(request, as_bytes(descriptor));
+        DiscardTry(request_copy_from_buffer(request, as_bytes(descriptor)));
+        Return {};
+    }
+
+    auto read_report(WDFREQUEST& request, array_view<byte> to) -> Expected<void> {
+        const auto size = Try(request_copy_from_buffer(request, to));
+
+        dlog("readed {} byte(s):\n{}", size, array_view<const u8> { std::bit_cast<const u8*>(stdr::data(to)), size });
+
+        Return {};
+    }
+
+    auto write_report(WDFREQUEST& request, array_view<const byte> from) -> Expected<void> {
+        auto raw_buffer  = PVOID { nullptr };
+        auto buffer_size = 0_usize;
+
+        Try(lj::win_call(WdfRequestRetrieveInputBuffer, request, sizeof(u32), &raw_buffer, &buffer_size));
+
+        auto data = array_view<const byte> { std::bit_cast<const byte*>(raw_buffer), buffer_size };
+        // stdr::copy(from, to);
+
+        // const auto size = Try(request_copy_from_buffer(request, from));
+
+        dlog("wrote {} byte(s):\n{}",
+             buffer_size,
+             array_view<const u8> { std::bit_cast<const u8*>(stdr::data(data)), buffer_size });
+
+        Return {};
+    }
+
+    auto get_string(WDFREQUEST& request, string_view product_string, string_view serial_string) -> Expected<void> {
+        auto raw_buffer  = PVOID { nullptr };
+        auto buffer_size = 0_usize;
+
+        auto string_id = 0_u32;
+
+        Try(lj::win_call(WdfRequestRetrieveInputBuffer, request, sizeof(u32), &raw_buffer, &buffer_size));
+
+        string_id = *std::bit_cast<u32*>(raw_buffer) & 0xFFFF;
+
+        const auto is_serial = (string_id == 16 or string_id == 3); // HID_STRING_ID_ISERIALNUMBER
+
+        if (is_serial) Try(request_copy_from_buffer(request, as_bytes(stdr::data(serial_string), stdr::size(serial_string))));
+        else
+            Try(request_copy_from_buffer(request, as_bytes(stdr::data(product_string), stdr::size(product_string))));
+
+        Return {};
+    }
+
+    auto get_indexed_string(WDFREQUEST& request, string_view product_string) -> Expected<void> {
+        Try(request_copy_from_buffer(request, as_bytes(stdr::data(product_string), stdr::size(product_string))));
+
+        Return {};
     }
 } // namespace lj::hid
