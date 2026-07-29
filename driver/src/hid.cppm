@@ -548,9 +548,11 @@ namespace lj::hid {
 
 module: private;
 
+using namespace stormkit::literals;
+
 namespace lj::hid {
     namespace {
-        auto request_copy_from_buffer(WDFREQUEST request, array_view<const byte> to) -> Expected<usize> {
+        auto copy_to_request_memory(WDFREQUEST request, array_view<const byte> to) -> Expected<usize> {
             auto memory = WDFMEMORY {};
             LoggedTry(lj::win_call(WdfRequestRetrieveOutputMemory, request, &memory), "WdfRequestRetrieveOutputMemory failed!");
 
@@ -570,27 +572,45 @@ namespace lj::hid {
 
             Return { output_buffer_extent };
         }
+
+        auto copy_from_request_memory(WDFREQUEST request) -> Expected<dynarray<byte>> {
+            auto memory = WDFMEMORY {};
+            LoggedTry(lj::win_call(WdfRequestRetrieveOutputMemory, request, &memory), "WdfRequestRetrieveOutputMemory failed!");
+
+            auto output_buffer_extent = 0_usize;
+            WdfMemoryGetBuffer(memory, &output_buffer_extent);
+
+            auto to = dynarray<byte> {};
+            to.resize(output_buffer_extent, 0x00_b);
+
+            LoggedTry(lj::win_call(WdfMemoryCopyToBuffer, memory, 0, bit_cast<void*>(stdr::data(to)), stdr::size(to)),
+                      "WdfMemoryCopyFromBuffer failed!");
+
+            Return { std::move(to) };
+        }
     } // namespace
 
     auto get_device_descriptor(WDFREQUEST& request, const HID_DESCRIPTOR& descriptor) noexcept -> Expected<void> {
-        DiscardTry(request_copy_from_buffer(request, as_bytes(descriptor)));
+        DiscardTry(copy_to_request_memory(request, as_bytes(descriptor)));
         Return {};
     }
 
     auto get_device_attributes(WDFREQUEST& request, const HID_DEVICE_ATTRIBUTES& attributes) noexcept -> Expected<void> {
-        DiscardTry(request_copy_from_buffer(request, as_bytes(attributes)));
+        DiscardTry(copy_to_request_memory(request, as_bytes(attributes)));
         Return {};
     }
 
     auto get_report_descriptor(WDFREQUEST& request, const Report_descriptor& descriptor) noexcept -> Expected<void> {
-        DiscardTry(request_copy_from_buffer(request, as_bytes(descriptor)));
+        DiscardTry(copy_to_request_memory(request, as_bytes(descriptor)));
         Return {};
     }
 
-    auto read_report(WDFREQUEST& request, array_view<byte> to) -> Expected<void> {
-        const auto size = Try(request_copy_from_buffer(request, to));
+    auto read_report(WDFREQUEST& request, array_view<byte>) -> Expected<void> {
+        const auto data = Try(copy_from_request_memory(request));
 
-        dlog("readed {} byte(s):\n{}", size, array_view<const u8> { std::bit_cast<const u8*>(stdr::data(to)), size });
+        ilog("readed {} byte(s):\n{}",
+             stdr::size(data),
+             array_view<const u8> { std::bit_cast<const u8*>(stdr::data(data)), stdr::size(data) });
 
         Return {};
     }
@@ -625,15 +645,15 @@ namespace lj::hid {
 
         const auto is_serial = (string_id == 16 or string_id == 3); // HID_STRING_ID_ISERIALNUMBER
 
-        if (is_serial) Try(request_copy_from_buffer(request, as_bytes(stdr::data(serial_string), stdr::size(serial_string))));
+        if (is_serial) Try(copy_to_request_memory(request, as_bytes(stdr::data(serial_string), stdr::size(serial_string))));
         else
-            Try(request_copy_from_buffer(request, as_bytes(stdr::data(product_string), stdr::size(product_string))));
+            Try(copy_to_request_memory(request, as_bytes(stdr::data(product_string), stdr::size(product_string))));
 
         Return {};
     }
 
     auto get_indexed_string(WDFREQUEST& request, string_view product_string) -> Expected<void> {
-        Try(request_copy_from_buffer(request, as_bytes(stdr::data(product_string), stdr::size(product_string))));
+        Try(copy_to_request_memory(request, as_bytes(stdr::data(product_string), stdr::size(product_string))));
 
         Return {};
     }

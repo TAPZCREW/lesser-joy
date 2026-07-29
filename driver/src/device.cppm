@@ -273,10 +273,12 @@ namespace lj {
 
             case IOCTL_HID_READ_REPORT: {
                 LoggedTryOr(hid::read_report(request, device_ctx->input_report), update_status, "IOCTL Failed to read report!");
+                // status = STATUS_NOT_IMPLEMENTED;
             } break;
 
             case IOCTL_HID_WRITE_REPORT: {
                 LoggedTryOr(hid::write_report(request, device_ctx->input_report), update_status, "IOCTL Failed to write report!");
+                // status = STATUS_NOT_IMPLEMENTED;
             } break;
 
             case IOCTL_HID_GET_STRING: {
@@ -297,18 +299,12 @@ namespace lj {
             } break;
 
             case IOCTL_HID_ACTIVATE_DEVICE: {
-                // wlog("IOCTL_HID_ACTIVTE_DEVICE not supported");
-                // status = STATUS_NOT_IMPLEMENTED;
             } break;
 
             case IOCTL_HID_DEACTIVATE_DEVICE: {
-                // wlog("IOCTL_HID_DEACTIVATE_DEVICE not supported");
-                // status = STATUS_NOT_IMPLEMENTED;
             } break;
 
             case IOCTL_HID_SEND_IDLE_NOTIFICATION_REQUEST: {
-                // wlog("IOCTL_HID_SEND_IDLE_NOTIFICATION_REQUEST not supported");
-                // status = STATUS_NOT_IMPLEMENTED;
             } break;
 
             case IOCTL_UMDF_GET_PHYSICAL_DESCRIPTOR: {
@@ -476,22 +472,6 @@ namespace lj {
                                                                     hid::Validate::YES>(ctx->usb)),
                            monadic::unwrap(),
                            "Failed to clear LEDs state!");
-        // LoggedDiscardTryOr((hid::send_command_receive_response_sync<hid::init::Set_feature_mask_command<hid::Transport::USB>,
-        //                                                             hid::Validate::YES>(ctx->usb)),
-        //                    monadic::unwrap(),
-        //                    "Failed to set feature mask!");
-        // LoggedDiscardTryOr((hid::send_command_receive_response_sync<hid::init::Unknown_0x11_command<hid::Transport::USB>,
-        //                                                             hid::Validate::YES>(ctx->usb)),
-        //                    monadic::unwrap(),
-        //                    "Unknown command (0x11) failed!");
-        // LoggedDiscardTryOr((hid::send_command_receive_response_sync<hid::rumble::reset_state_command<hid::Transport::USB>,
-        //                                                             hid::Validate::YES>(ctx->usb)),
-        //                    monadic::unwrap(),
-        //                    "Failed to reset vibration state!");
-        // LoggedDiscardTryOr((hid::send_command_receive_response_sync<hid::nfc::unknown_0x_command<hid::Transport::USB>,
-        //                                                             hid::Validate::YES>(ctx->usb)),
-        //                    monadic::unwrap(),
-        //                    "Unknown command (NFC) failed!");
         LoggedDiscardTryOr((hid::send_command_receive_response_sync<hid::init::Enable_usb_hid_report_command<hid::Transport::USB>,
                                                                     hid::Validate::YES>(ctx->usb)),
                            monadic::unwrap(),
