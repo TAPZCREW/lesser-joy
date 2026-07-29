@@ -59,6 +59,9 @@ namespace lj {
 
 extern "C" __declspec(dllexport) auto APIENTRY DllMain(HMODULE module, DWORD, LPVOID) -> BOOL {
     if (not logger) logger = log::Logger::allocate_logger_instance<lj::KernelLogger>();
+#ifdef STORMKIT_DEBUG_MODE
+    logger->set_severity_mask(logger->severity_mask() | log::Severity::DEBUG);
+#endif
 
     lj::ilog("Calling DllMain...");
 

@@ -53,8 +53,6 @@ namespace lj::usb {
     EVT_WDF_REQUEST_COMPLETION_ROUTINE event_request_completion_routine;
 
     auto send_command_async(const Usb_device_context& ctx, array_view<const byte> payload) -> Expected<void> {
-        ilog("Sending {::#x}", array_view<const u8> { std::bit_cast<const u8*>(stdr::data(payload)), stdr::size(payload) });
-
         auto attributes = WDF_OBJECT_ATTRIBUTES {};
         WDF_OBJECT_ATTRIBUTES_INIT(&attributes);
 
@@ -90,6 +88,8 @@ namespace lj::usb {
             return std::unexpected<system_error2::nt_code> { std::in_place, status };
         }
 
+        dlog("{::#x} sent", array_view<const u8> { std::bit_cast<const u8*>(stdr::data(payload)), stdr::size(payload) });
+
         Return {};
     }
 
@@ -104,6 +104,8 @@ namespace lj::usb {
         LoggedTry(lj::win_call(WdfUsbTargetPipeWriteSynchronously, ctx.out_pipe, nullptr, nullptr, &memory_descriptor, &written),
                   "WdfUsbTargetPipeWriteSynchronously failed!");
 
+        dlog("Sent {::#x}", array_view<const u8> { std::bit_cast<const u8*>(stdr::data(payload)), stdr::size(payload) });
+
         Return { as<usize>(written) };
     }
 
@@ -117,6 +119,8 @@ namespace lj::usb {
         auto readed = cpp::ULong { 0 };
         LoggedTry(lj::win_call(WdfUsbTargetPipeReadSynchronously, ctx.in_pipe, nullptr, nullptr, &memory_descriptor, &readed),
                   "WdfUsbTargetPipeReadSynchronously failed!");
+
+        dlog("Received {::#x}", array_view<const u8> { std::bit_cast<const u8*>(stdr::data(to)), readed });
 
         return { as<usize>(readed) };
     }
