@@ -458,6 +458,8 @@ namespace lj {
     _Use_decl_annotations_ auto event_device_entry(WDFDEVICE device, WDF_POWER_DEVICE_STATE) -> NTSTATUS {
         auto ctx = GetDeviceContext(device);
 
+        using enum hid::feature_select::Feature_flag;
+
         // init sequence
         // initialize USB
         LoggedDiscardTryOr((hid::send_command_receive_response_sync<hid::init::Initialize_usb_command<hid::Transport::USB>,
@@ -467,20 +469,59 @@ namespace lj {
         LoggedDiscardTryOr((hid::send_command_receive_response_sync<hid::unknown_0x07::Unknown_0x01_command<hid::Transport::USB>,
                                                                     hid::Validate::YES>(ctx->usb)),
                            monadic::unwrap(),
-                           "Unknown Command (0x07) failed!");
+                           "Unknown Command (0x07, 0x01) failed!");
+        LoggedDiscardTryOr((hid::send_command_receive_response_sync<hid::unknown_0x16::Unknown_0x01_command<hid::Transport::USB>,
+                                                                    hid::Validate::YES>(ctx->usb)),
+                           monadic::unwrap(),
+                           "Unknown Command (0x16, 0x01) failed!");
+        LoggedDiscardTryOr((hid::send_command_receive_response_sync<
+                             hid::bluetooth_pairing::Exchange_bluetooth_address_command<hid::Transport::USB>,
+                             hid::Validate::YES>(ctx->usb)),
+                           monadic::unwrap(),
+                           "Failed to exchange bluetooth addresses!");
+        LoggedDiscardTryOr((hid::send_command_receive_response_sync<
+                             hid::bluetooth_pairing::Confirm_ltk_command<hid::Transport::USB>,
+                             hid::Validate::YES>(ctx->usb)),
+                           monadic::unwrap(),
+                           "Failed to confirm LTK!");
+        LoggedDiscardTryOr((hid::send_command_receive_response_sync<
+                             hid::bluetooth_pairing::Finalize_pairing_command<hid::Transport::USB>,
+                             hid::Validate::YES>(ctx->usb)),
+                           monadic::unwrap(),
+                           "Failed to finalize bluetooth pairing!");
         LoggedDiscardTryOr((hid::send_command_receive_response_sync<hid::leds::All_leds_off_command<hid::Transport::USB>,
                                                                     hid::Validate::YES>(ctx->usb)),
                            monadic::unwrap(),
                            "Failed to clear LEDs state!");
-        LoggedDiscardTryOr((hid::send_command_receive_response_sync<hid::init::Enable_usb_hid_report_command<hid::Transport::USB>,
+        LoggedDiscardTryOr((hid::send_command_receive_response_sync<
+                             hid::feature_select::Set_feature_mask_command<hid::Transport::USB>,
+                             hid::Validate::YES>(ctx->usb, BUTTON_STATE | ANALOG_STICKS | RUMBLE)),
+                           monadic::unwrap(),
+                           "Failed to set feature mask!");
+        LoggedDiscardTryOr((hid::send_command_receive_response_sync<hid::unknown_0x11::Unknown_0x03_command<hid::Transport::USB>,
                                                                     hid::Validate::YES>(ctx->usb)),
                            monadic::unwrap(),
-                           "Failed to enable HID reports!");
+                           "Unknown Command (0x11, 0x03) failed!");
+        // RUMBLE there
+        LoggedDiscardTryOr((hid::send_command_receive_response_sync<
+                             hid::feature_select::Enable_features_command<hid::Transport::USB>,
+                             hid::Validate::YES>(ctx->usb, BUTTON_STATE | ANALOG_STICKS | RUMBLE)),
+                           monadic::unwrap(),
+                           "Failed to enable features!");
         LoggedDiscardTryOr((hid::send_command_receive_response_sync<
                              hid::init::Select_input_report_command<hid::Transport::USB>,
                              hid::Validate::YES>(ctx->usb, hid::init::Input_report_id::ALT_PROCON_2)),
                            monadic::unwrap(),
                            "Failed to select input report!");
+        LoggedDiscardTryOr((hid::send_command_receive_response_sync<hid::init::Enable_usb_hid_report_command<hid::Transport::USB>,
+                                                                    hid::Validate::YES>(ctx->usb)),
+                           monadic::unwrap(),
+                           "Failed to enable HID reports!");
+        LoggedDiscardTryOr((hid::send_command_receive_response_sync<hid::init::Bt_wake_command<hid::Transport::USB>,
+                                                                    hid::Validate::YES>(ctx->usb, false)),
+                           monadic::unwrap(),
+                           "Failed to finalize bluetooth pairing!");
+
         LoggedDiscardTryOr((hid::send_command_receive_response_sync<hid::leds::Set_player_1_command<hid::Transport::USB>,
                                                                     hid::Validate::YES>(ctx->usb)),
                            monadic::unwrap(),

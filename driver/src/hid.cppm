@@ -20,6 +20,7 @@ import lesserjoy.ntstatus;
 import lesserjoy.usb;
 
 using namespace stormkit;
+using namespace stormkit::literals;
 
 namespace stdr = std::ranges;
 namespace stdv = std::views;
@@ -186,13 +187,16 @@ export namespace lj::hid {
     // @see
     // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md
     enum class Command_id : u8 {
-        INIT         = 0x03,
-        UNKNOWN_0x07 = 0x07,
-        LEDS         = 0x09,
+        INIT              = 0x03,
+        UNKNOWN_0x07      = 0x07,
+        LEDS              = 0x09,
+        FEATURE_SELECT    = 0x0C,
+        UNKNOWN_0x11      = 0x11,
+        BLUETOOTH_PAIRING = 0x15,
+        UNKNOWN_0x16      = 0x16,
     };
 
     struct CommandData {
-        u8 ack                     = 0xF8;
         u8 request_payload_length  = 0x00;
         u8 response_payload_length = 0x00;
     };
@@ -210,7 +214,7 @@ export namespace lj::hid {
         static constexpr auto SUB_ID    = SUB_ID_;
         static constexpr auto TRANSPORT = TRANSPORT_;
 
-        static constexpr auto ACK                     = DATA.ack;
+        static constexpr auto ACK                     = TRANSPORT == Transport::USB ? 0xF8 : 0x78;
         static constexpr auto REQUEST_PAYLOAD_LENGTH  = DATA.request_payload_length;
         static constexpr auto RESPONSE_PAYLOAD_LENGTH = DATA.response_payload_length;
 
@@ -301,6 +305,15 @@ export namespace lj::hid {
         };
     } // namespace init
 
+    namespace unknown_0x07 {
+        // @see
+        // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#command-0x07---unknown
+        enum class Subcommand_id : u8 {
+            UNKNOWN_0x01 = 0x01,
+            UNKNOWN_0x02 = 0x02,
+        };
+    } // namespace unknown_0x07
+
     namespace leds {
         enum class Subcommand_id : u8 {
             // @see
@@ -335,19 +348,75 @@ export namespace lj::hid {
             PLAYER_3 = 0x4,
             PLAYER_4 = 0x8,
         };
-
     } // namespace leds
 
-    namespace unknown_0x07 {
+    namespace feature_select {
+        enum class Subcommand_id : u8 {
+            GET_FEATURE_INFO   = 0x01,
+            SET_FEATURE_MASK   = 0x02,
+            CLEAR_FEATURE_MASK = 0x03,
+            ENABLE_FEATURES    = 0x04,
+            DISABLE_FEATURES   = 0x05,
+            CONFIGURE_FEATURES = 0x06,
+        };
+
+        enum class Feature_flag : u8 {
+            BUTTON_STATE  = 0x01,
+            ANALOG_STICKS = 0x02,
+            IMU           = 0x04,
+            UNUSED_1      = 0x08,
+            MOUSE_DATA    = 0x10,
+            RUMBLE        = 0x20,
+            UNUSED_2      = 0x40,
+            MAGNETOMETER  = 0x80,
+        };
+    } // namespace feature_select
+
+    namespace unknown_0x11 {
+        // @see
+        // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#command-0x11---unknown
+        enum class Subcommand_id {
+            UNKNOWN_0x01 = 0x01,
+            UNKNOWN_0x03 = 0x03,
+            UNKNOWN_0x04 = 0x04,
+        };
+    } // namespace unknown_0x11
+
+    namespace bluetooth_pairing {
+        // @see
+        // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#command-0x15---bluetooth-pairing
+        enum class Subcommand_id : u8 {
+            // @see
+            // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#subcommand-0x01---exchange-addresses
+            EXCHANGE_BLUETOOTH_ADDRESS = 0x01,
+            // @see
+            // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#subcommand-0x02---confirm-ltk
+            CONFIRM_LTK = 0x02,
+            // @see
+            // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#subcommand-0x03---finalise-pairing
+            FINALIZE_PAIRING = 0x03,
+            // @see
+            // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#subcommand-0x04---exchange-keys
+            EXCHANGE_LTK_COMPONENTS = 0x04,
+        };
+    } // namespace bluetooth_pairing
+
+    namespace unknown_0x16 {
+        // @see
+        // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#command-0x16---unknown
         enum class Subcommand_id : u8 {
             UNKNOWN_0x01 = 0x01,
-            UNKNOWN_0x02 = 0x02,
         };
-    } // namespace unknown_0x07
+    } // namespace unknown_0x16
 
     template<>
     struct Subcommand_enum<Command_id::INIT> {
         using type = init::Subcommand_id;
+    };
+
+    template<>
+    struct Subcommand_enum<Command_id::UNKNOWN_0x07> {
+        using type = unknown_0x07::Subcommand_id;
     };
 
     template<>
@@ -356,8 +425,23 @@ export namespace lj::hid {
     };
 
     template<>
-    struct Subcommand_enum<Command_id::UNKNOWN_0x07> {
-        using type = unknown_0x07::Subcommand_id;
+    struct Subcommand_enum<Command_id::FEATURE_SELECT> {
+        using type = feature_select::Subcommand_id;
+    };
+
+    template<>
+    struct Subcommand_enum<Command_id::UNKNOWN_0x11> {
+        using type = unknown_0x11::Subcommand_id;
+    };
+
+    template<>
+    struct Subcommand_enum<Command_id::BLUETOOTH_PAIRING> {
+        using type = bluetooth_pairing::Subcommand_id;
+    };
+
+    template<>
+    struct Subcommand_enum<Command_id::UNKNOWN_0x16> {
+        using type = unknown_0x16::Subcommand_id;
     };
 
     namespace init {
@@ -365,7 +449,11 @@ export namespace lj::hid {
         using Command = hid::Command<TRANSPORT, Command_id::INIT, SUB_ID, DATA, FILL_PAYLOAD>;
 
         template<Transport TRANSPORT>
-        using Bt_wake_command = Command<TRANSPORT, Subcommand_id::BT_WAKE, CommandData { .request_payload_length = 0x04 }>;
+        using Bt_wake_command = Command<
+          TRANSPORT,
+          Subcommand_id::BT_WAKE,
+          CommandData { .request_payload_length = 0x04 },
+          [](array_view<byte, 0x04> payload, bool enabled = true) static noexcept { payload[0] = (enabled) ? 0x01_b : 0x00_b; }>;
         template<Transport TRANSPORT>
         using Bt_cancel_command = Command<TRANSPORT, Subcommand_id::BT_CANCEL>;
         template<Transport TRANSPORT>
@@ -382,11 +470,12 @@ export namespace lj::hid {
         template<Transport TRANSPORT>
         using Send_pairing_info_command = Command<TRANSPORT,
                                                   Subcommand_id::SEND_PAIRING_INFO,
-                                                  CommandData { .ack = 0x78, .request_payload_length = 0x16 }>;
+                                                  CommandData { .request_payload_length = 0x16 }>;
         template<Transport TRANSPORT>
         using Clear_pairing_info_command = Command<TRANSPORT, Subcommand_id::CLEAR_PAIRING_INFO>;
         template<Transport TRANSPORT>
-        using Store_pairing_command = Command<TRANSPORT, Subcommand_id::STORE_PAIRING_INFO, CommandData { .ack = 0x78 }>;
+        using Store_pairing_command = Command<TRANSPORT, Subcommand_id::STORE_PAIRING_INFO>;
+
         template<Transport TRANSPORT>
         using Select_input_report_command = Command<
           TRANSPORT,
@@ -442,11 +531,128 @@ export namespace lj::hid {
         template<Transport TRANSPORT>
         using Flash_leds_command = Command<TRANSPORT, Subcommand_id::FLASH_LEDS, CommandData { .request_payload_length = 0x04 }>;
     } // namespace leds
+
+    namespace feature_select {
+        template<Transport TRANSPORT, Subcommand_id SUB_ID, CommandData DATA = {}, auto FILL_PAYLOAD = monadic::noop()>
+        using Command = hid::Command<TRANSPORT, Command_id::FEATURE_SELECT, SUB_ID, DATA, FILL_PAYLOAD>;
+
+        template<Transport TRANSPORT>
+        using Get_feature_info_command = Command<
+          TRANSPORT,
+          Subcommand_id::GET_FEATURE_INFO,
+          { .request_payload_length = 0x04, .response_payload_length = 0x0B },
+          [](array_view<byte, 0x04> payload, Feature_flag flags) static noexcept { payload[0] = narrow<byte>(flags); }>;
+
+        template<Transport TRANSPORT>
+        using Set_feature_mask_command = Command<
+          TRANSPORT,
+          Subcommand_id::SET_FEATURE_MASK,
+          { .request_payload_length = 0x04, .response_payload_length = 0x04 },
+          [](array_view<byte, 0x04> payload, Feature_flag flags) static noexcept { payload[0] = narrow<byte>(flags); }>;
+
+        template<Transport TRANSPORT>
+        using Clear_feature_mask_command = Command<TRANSPORT,
+                                                   Subcommand_id::CLEAR_FEATURE_MASK,
+                                                   { .request_payload_length = 0x04, .response_payload_length = 0x04 }>;
+
+        template<Transport TRANSPORT>
+        using Enable_features_command = Command<
+          TRANSPORT,
+          Subcommand_id::ENABLE_FEATURES,
+          { .request_payload_length = 0x04, .response_payload_length = 0x04 },
+          [](array_view<byte, 0x04> payload, Feature_flag flags) static noexcept { payload[0] = narrow<byte>(flags); }>;
+
+        template<Transport TRANSPORT>
+        using Disable_features_command = Command<
+          TRANSPORT,
+          Subcommand_id::DISABLE_FEATURES,
+          { .request_payload_length = 0x04, .response_payload_length = 0x04 },
+          [](array_view<byte, 0x04> payload, Feature_flag flags) static noexcept { payload[0] = narrow<byte>(flags); }>;
+
+        template<Transport TRANSPORT>
+        using Configure_features_command = Command<
+          TRANSPORT,
+          Subcommand_id::CONFIGURE_FEATURES,
+          { .request_payload_length = 0x0A, .response_payload_length = 0x28 },
+          [](array_view<byte, 0x04> payload, Feature_flag flags) static noexcept { payload[0] = narrow<byte>(flags); }>;
+    } // namespace feature_select
+
+    namespace unknown_0x11 {
+        template<Transport TRANSPORT, Subcommand_id SUB_ID, CommandData DATA = {}, auto FILL_PAYLOAD = monadic::noop()>
+        using Command = hid::Command<TRANSPORT, Command_id::UNKNOWN_0x11, SUB_ID, DATA, FILL_PAYLOAD>;
+
+        template<Transport TRANSPORT>
+        using Unknown_0x01_command = Command<TRANSPORT,
+                                             Subcommand_id::UNKNOWN_0x01,
+                                             CommandData { .response_payload_length = 0x04 }>;
+
+        template<Transport TRANSPORT>
+        using Unknown_0x03_command = Command<TRANSPORT,
+                                             Subcommand_id::UNKNOWN_0x03,
+                                             CommandData { .response_payload_length = 0x1D }>;
+
+        template<Transport TRANSPORT>
+        using Unknown_0x04_command = Command<TRANSPORT, Subcommand_id::UNKNOWN_0x04>;
+    } // namespace unknown_0x11
+
+    namespace bluetooth_pairing {
+        template<Transport TRANSPORT, Subcommand_id SUB_ID, CommandData DATA = {}, auto FILL_PAYLOAD = monadic::noop()>
+        using Command = hid::Command<TRANSPORT, Command_id::BLUETOOTH_PAIRING, SUB_ID, DATA, FILL_PAYLOAD>;
+
+        template<Transport TRANSPORT>
+        using Exchange_bluetooth_address_command = Command<
+          TRANSPORT,
+          Subcommand_id::EXCHANGE_BLUETOOTH_ADDRESS,
+          CommandData { .request_payload_length = 0x0E, .response_payload_length = 0x09 },
+          [](array_view<byte, 0x0E> payload) static noexcept {
+              payload[1] = 0x01_b;
+              stdr::copy(into_bytes({ 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }), stdr::begin(payload) + 2);
+          }>;
+
+        template<Transport TRANSPORT>
+        using Confirm_ltk_command = Command<
+          TRANSPORT,
+          Subcommand_id::CONFIRM_LTK,
+          CommandData { .request_payload_length = 0x11, .response_payload_length = 0x11 },
+          [](array_view<byte, 0x11> payload) static noexcept {
+              stdr::copy(
+                into_bytes({ 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }),
+                stdr::begin(payload) + 1);
+          }>;
+
+        template<Transport TRANSPORT>
+        using Finalize_pairing_command = Command<TRANSPORT,
+                                                 Subcommand_id::FINALIZE_PAIRING,
+                                                 CommandData { .request_payload_length = 0x01, .response_payload_length = 0x01 }>;
+
+        template<Transport TRANSPORT>
+        using Exchange_ltk_components_command = Command<
+          TRANSPORT,
+          Subcommand_id::EXCHANGE_LTK_COMPONENTS,
+          CommandData { .request_payload_length = 0x11, .response_payload_length = 0x11 },
+          [](array_view<byte, 0x11> payload) static noexcept {
+              stdr::copy(
+                into_bytes({ 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }),
+                stdr::begin(payload) + 1);
+          }>;
+    } // namespace bluetooth_pairing
+
+    namespace unknown_0x16 {
+        template<Transport TRANSPORT, Subcommand_id SUB_ID, CommandData DATA = {}, auto FILL_PAYLOAD = monadic::noop()>
+        using Command = hid::Command<TRANSPORT, Command_id::UNKNOWN_0x16, SUB_ID, DATA, FILL_PAYLOAD>;
+
+        template<Transport TRANSPORT>
+        using Unknown_0x01_command = Command<TRANSPORT,
+                                             Subcommand_id::UNKNOWN_0x01,
+                                             CommandData { .response_payload_length = 0x18 }>;
+    } // namespace unknown_0x16
 } // namespace lj::hid
 
 export namespace stormkit { inline namespace core { namespace meta {
     template<>
     inline constexpr auto FLAG_TRAIT<lj::hid::leds::Player> = true;
+    template<>
+    inline constexpr auto FLAG_TRAIT<lj::hid::feature_select::Feature_flag> = true;
 }}} // namespace stormkit::core::meta
 
 namespace lj::hid {
@@ -466,14 +672,15 @@ namespace lj::hid {
 
         if constexpr (VALIDATE == Validate::YES) {
             if (size != Command::RESPONSE_LENGTH) {
-                elog("Response byte count mismatch! got: {} expected: {}", size, Command::RESPONSE_LENGTH);
+                const auto got = array_view<const u8> { std::bit_cast<const u8*>(stdr::data(response)), stdr::size(response) };
+                elog("Response byte count mismatch! got: {}, expected: {}\n    {::#x}", size, Command::RESPONSE_LENGTH, got);
                 Return std::unexpected<system_error2::nt_code> { STATUS_UNSUCCESSFUL };
             } else if (not Command::validate_response(response)) {
                 const auto got      = array_view<const u8> { std::bit_cast<const u8*>(stdr::data(response)),
                                                              stdr::size(Command::RESPONSE_HEADER) };
                 const auto expected = array_view<const u8> { std::bit_cast<const u8*>(stdr::data(Command::RESPONSE_HEADER)),
                                                              stdr::size(Command::RESPONSE_HEADER) };
-                elog("Response bytes mismatch! got: {::#x} expected: {::#x}", got, expected);
+                elog("Response bytes mismatch! got: {::#x}, expected: {::#x}", got, expected);
                 Return std::unexpected<system_error2::nt_code> { STATUS_UNSUCCESSFUL };
             }
         }
@@ -547,8 +754,6 @@ namespace lj::hid {
 } // namespace lj::hid
 
 module: private;
-
-using namespace stormkit::literals;
 
 namespace lj::hid {
     namespace {
