@@ -11,8 +11,6 @@ import std;
 import stormkit.core;
 import stormkit.log;
 
-import lesserjoy.ntstatus;
-
 using namespace stormkit;
 using namespace std::literals;
 
@@ -42,6 +40,10 @@ export namespace lj {
 
     IN_MODULE_LOGGER("lesserjoy")
 } // namespace lj
+
+////////////////////////////////////////////////////////////////////
+///                      IMPLEMENTATION                          ///
+////////////////////////////////////////////////////////////////////
 
 namespace lj {
     ////////////////////////////////////////
@@ -83,7 +85,6 @@ namespace lj {
     inline auto KernelLogger::do_write(log::Severity severity, std::string_view string) noexcept -> void {
         const auto str = std::format("[{}] {}\n", severity, string);
         OutputDebugStringA(stdr::data(str));
-        // DbgPrintEx(DPFLTR_IHVDRIVER_ID, 0, (stdr::data(str)));
     }
 
     ////////////////////////////////////////
@@ -92,6 +93,5 @@ namespace lj {
       -> void {
         const auto str = std::format("[{}] {}: {}\n", severity, module.name, string);
         OutputDebugStringA(stdr::data(str));
-        // DbgPrintEx(DPFLTR_IHVDRIVER_ID, 0, (stdr::data(str)));
     }
 } // namespace lj

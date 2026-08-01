@@ -57,7 +57,7 @@ target("lesserjoy-driver", function()
     add_files("src/*.rc")
     add_files("*.inx")
 
-    add_files("src/*.cpp", "src/*.cppm")
+    add_files("src/**.cpp", "src/**.cppm")
     set_policy("build.c++.modules", true)
 
     set_runtimes("c++_static")

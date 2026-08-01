@@ -11,9 +11,12 @@
 #include <wdf.h>
 
 #undef WDF_NO_HANDLE
-#define WDF_NO_HANDLE nullptr
+inline constexpr auto WDF_NO_HANDLE = nullptr;
 
 #undef WDF_NO_OBJECT_ATTRIBUTES
-#define WDF_NO_OBJECT_ATTRIBUTES nullptr
+inline constexpr auto WDF_NO_OBJECT_ATTRIBUTES = nullptr;
+
+#undef WDF_NO_SEND_OPTIONS
+inline constexpr auto WDF_NO_SEND_OPTIONS = nullptr;
 
 #endif

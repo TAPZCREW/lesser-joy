@@ -8,6 +8,8 @@
 #include <usbspec.h>
 #include <wdfusb.h>
 
+#define USBD_CLIENT_CONTRACT_VERSION_602 0x602
+
 #undef interface
 
 #endif

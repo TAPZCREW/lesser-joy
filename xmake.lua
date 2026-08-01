@@ -35,6 +35,7 @@ option("vsxmake", { default = false, category = "root menu/support" })
 option("devmode", {
     category = "root menu/support",
     deps = { "lto", "sanitizers" },
+    defines = { "INCREMENTAL_BUILD" },
     after_check = function(option)
         if option:enabled() then
             for _, name in ipairs({ "sanitizers" }) do
@@ -50,6 +51,8 @@ if get_config("vsxmake") then add_rules("plugin.vsxmake.autoupdate") end
 if get_config("compile_commands") then
     add_rules("plugin.compile_commands.autoupdate", { outputdir = "build", lsp = "clangd" })
 end
+
+set_policy("build.c++.modules.two_phases", false)
 
 local stormkit_dep_name = "stormkit"
 stormkit_rule_prefix = "@stormkit/"
