@@ -12,6 +12,7 @@ import stormkit.core;
 import lesserjoy.constants;
 
 using namespace stormkit;
+using namespace stormkit::literals;
 
 namespace stdr = std::ranges;
 namespace stdv = std::views;
@@ -20,7 +21,7 @@ export {
     namespace lj::hid {
         // @see
         // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md
-        enum class Command_id : u8 {
+        enum class command_id : u8 {
             INIT              = 0x03,
             UNKNOWN_0x07      = 0x07,
             LEDS              = 0x09,
@@ -34,7 +35,7 @@ export {
         namespace init {
             // @see
             // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#command-0x03---initialisation
-            enum class Subcommand_id : u8 {
+            enum class subcommand_id : u8 {
                 // @see
                 // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#subcommand-0x01---bluetooth-wake
                 BT_WAKE = 0x01,
@@ -72,7 +73,7 @@ export {
                 UNKNOWN_0x0F = 0x0F,
             };
 
-            enum class Input_report_id {
+            enum class input_report_id {
                 GENERIC        = 0x05,
                 ALT_JOYCON_L_2 = 0x07,
                 ALT_JOYCON_R_2 = 0x08,
@@ -80,7 +81,7 @@ export {
                 ALT_NSO_GC_2   = 0x01,
             };
 
-            enum class Output_report_id {
+            enum class output_report_id {
                 JOYCON_L_2 = 0x01,
                 JOYCON_R_2 = 0x01,
                 PROCON_2   = 0x02,
@@ -91,14 +92,14 @@ export {
         namespace unknown_0x07 {
             // @see
             // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#command-0x07---unknown
-            enum class Subcommand_id : u8 {
+            enum class subcommand_id : u8 {
                 UNKNOWN_0x01 = 0x01,
                 UNKNOWN_0x02 = 0x02,
             };
         } // namespace unknown_0x07
 
         namespace leds {
-            enum class Subcommand_id : u8 {
+            enum class subcommand_id : u8 {
                 // @see
                 // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#subcommand-0x01---set-player-1-led
                 SET_PLAYER_1 = 0x01,
@@ -134,7 +135,7 @@ export {
         } // namespace leds
 
         namespace feature_select {
-            enum class Subcommand_id : u8 {
+            enum class subcommand_id : u8 {
                 GET_FEATURE_INFO   = 0x01,
                 SET_FEATURE_MASK   = 0x02,
                 CLEAR_FEATURE_MASK = 0x03,
@@ -143,7 +144,7 @@ export {
                 CONFIGURE_FEATURES = 0x06,
             };
 
-            enum class Feature_flag : u8 {
+            enum class feature_flag : u8 {
                 BUTTON_STATE  = 0x01,
                 ANALOG_STICKS = 0x02,
                 IMU           = 0x04,
@@ -158,7 +159,7 @@ export {
         namespace unknown_0x11 {
             // @see
             // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#command-0x11---unknown
-            enum class Subcommand_id {
+            enum class subcommand_id {
                 UNKNOWN_0x01 = 0x01,
                 UNKNOWN_0x03 = 0x03,
                 UNKNOWN_0x04 = 0x04,
@@ -168,7 +169,7 @@ export {
         namespace bluetooth_pairing {
             // @see
             // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#command-0x15---bluetooth-pairing
-            enum class Subcommand_id : u8 {
+            enum class subcommand_id : u8 {
                 // @see
                 // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#subcommand-0x01---exchange-addresses
                 EXCHANGE_BLUETOOTH_ADDRESS = 0x01,
@@ -187,7 +188,7 @@ export {
         namespace unknown_0x16 {
             // @see
             // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#command-0x16---unknown
-            enum class Subcommand_id : u8 {
+            enum class subcommand_id : u8 {
                 UNKNOWN_0x01 = 0x01,
             };
         } // namespace unknown_0x16
@@ -195,95 +196,97 @@ export {
         namespace unknown_0x18 {
             // @see
             // https://github.com/ndeadly/switch2_controller_research/blob/master/commands.md#command-0x18---unknown
-            enum class Subcommand_id : u8 {
+            enum class subcommand_id : u8 {
                 UNKNOWN_0x01 = 0x01,
                 UNKNOWN_0x03 = 0x03,
             };
         } // namespace unknown_0x18
 
-        template<Command_id>
-        struct Subcommand_enum;
+        template<command_id>
+        struct subcommand_enum;
 
         template<>
-        struct Subcommand_enum<Command_id::INIT> {
-            using type = init::Subcommand_id;
-        };
-
-        template<>
-        struct Subcommand_enum<Command_id::UNKNOWN_0x07> {
-            using type = unknown_0x07::Subcommand_id;
+        struct subcommand_enum<command_id::INIT> {
+            using type = init::subcommand_id;
         };
 
         template<>
-        struct Subcommand_enum<Command_id::LEDS> {
-            using type = leds::Subcommand_id;
+        struct subcommand_enum<command_id::UNKNOWN_0x07> {
+            using type = unknown_0x07::subcommand_id;
         };
 
         template<>
-        struct Subcommand_enum<Command_id::FEATURE_SELECT> {
-            using type = feature_select::Subcommand_id;
+        struct subcommand_enum<command_id::LEDS> {
+            using type = leds::subcommand_id;
         };
 
         template<>
-        struct Subcommand_enum<Command_id::UNKNOWN_0x11> {
-            using type = unknown_0x11::Subcommand_id;
+        struct subcommand_enum<command_id::FEATURE_SELECT> {
+            using type = feature_select::subcommand_id;
         };
 
         template<>
-        struct Subcommand_enum<Command_id::BLUETOOTH_PAIRING> {
-            using type = bluetooth_pairing::Subcommand_id;
+        struct subcommand_enum<command_id::UNKNOWN_0x11> {
+            using type = unknown_0x11::subcommand_id;
         };
 
         template<>
-        struct Subcommand_enum<Command_id::UNKNOWN_0x16> {
-            using type = unknown_0x16::Subcommand_id;
+        struct subcommand_enum<command_id::BLUETOOTH_PAIRING> {
+            using type = bluetooth_pairing::subcommand_id;
         };
 
         template<>
-        struct Subcommand_enum<Command_id::UNKNOWN_0x18> {
-            using type = unknown_0x18::Subcommand_id;
+        struct subcommand_enum<command_id::UNKNOWN_0x16> {
+            using type = unknown_0x16::subcommand_id;
         };
 
-        struct CommandData {
-            u8 command_payload_length  = 0x00;
-            u8 report_payload_length = 0x00;
+        template<>
+        struct subcommand_enum<command_id::UNKNOWN_0x18> {
+            using type = unknown_0x18::subcommand_id;
         };
 
-        template<Transport                           TRANSPORT_,
-                 Command_id                          ID_,
-                 typename Subcommand_enum<ID_>::type SUB_ID_,
-                 CommandData                         DATA         = {},
+        struct command_data {
+            u8 command_payload_length = 0x00;
+            u8 report_payload_length  = 0x00;
+        };
+
+        template<transport                           TRANSPORT_,
+                 command_id                          ID_,
+                 typename subcommand_enum<ID_>::type SUB_ID_,
+                 command_data                        DATA         = {},
                  auto                                FILL_PAYLOAD = monadic::noop()>
-        struct Command {
+        struct command {
             static constexpr auto ID        = ID_;
             static constexpr auto SUB_ID    = SUB_ID_;
             static constexpr auto TRANSPORT = TRANSPORT_;
 
-            static constexpr auto ACK                     = TRANSPORT == Transport::USB ? 0xF8 : 0x78;
-            static constexpr auto COMMAND_PAYLOAD_LENGTH  = DATA.command_payload_length;
-            static constexpr auto REPORT_PAYLOAD_LENGTH = DATA.report_payload_length;
+            static constexpr auto ACK                    = TRANSPORT == transport::USB ? 0xF8 : 0x78;
+            static constexpr auto COMMAND_PAYLOAD_LENGTH = DATA.command_payload_length;
+            static constexpr auto REPORT_PAYLOAD_LENGTH  = DATA.report_payload_length;
 
-            static constexpr auto
-              COMMAND_HEADER = into_bytes({ narrow<u8>(ID),
-                                            narrow<u8>(Direction::HOST_TO_DEVICE),
-                                            narrow<u8>(TRANSPORT),
-                                            narrow<u8>(SUB_ID),
-                                            0x00_u8,
-                                            narrow<u8>(COMMAND_PAYLOAD_LENGTH),
-                                            0x00_u8,
-                                            0x00_u8 });
-            static constexpr auto
-              REPORT_HEADER = into_bytes({ narrow<u8>(ID),
-                                             narrow<u8>(Direction::DEVICE_TO_HOST),
-                                             narrow<u8>(TRANSPORT),
-                                             narrow<u8>(SUB_ID),
-                                             0x00_u8,
-                                             narrow<u8>(ACK),
-                                             0x00_u8,
-                                             0x00_u8 });
+            static constexpr auto COMMAND_HEADER = into<
+              array>(as_bytes,
+                     { as<u8>(ID),
+                       as<u8>(direction::HOST_TO_DEVICE),
+                       as<u8>(TRANSPORT),
+                       as<u8>(SUB_ID),
+                       0x00_u8,
+                       as<u8>(COMMAND_PAYLOAD_LENGTH),
+                       0x00_u8,
+                       0x00_u8 });
+            static constexpr auto REPORT_HEADER = into<
+              array>(as_bytes,
+                     { as<u8>(ID),
+                       as<u8>(direction::DEVICE_TO_HOST),
+                       as<u8>(TRANSPORT),
+                       as<u8>(SUB_ID),
+                       0x00_u8,
+                       as<u8>(ACK),
+                       0x00_u8,
+                       0x00_u8 });
 
-            static constexpr auto COMMAND_LENGTH  = stdr::size(COMMAND_HEADER) + COMMAND_PAYLOAD_LENGTH;
-            static constexpr auto REPORT_LENGTH = stdr::size(REPORT_HEADER) + REPORT_PAYLOAD_LENGTH;
+            static constexpr auto COMMAND_LENGTH = stdr::size(COMMAND_HEADER) + COMMAND_PAYLOAD_LENGTH;
+            static constexpr auto REPORT_LENGTH  = stdr::size(REPORT_HEADER) + REPORT_PAYLOAD_LENGTH;
 
             template<typename... Args>
             static constexpr auto make_payload(Args&&... args) noexcept -> array<byte, COMMAND_PAYLOAD_LENGTH>;
@@ -297,7 +300,7 @@ export {
     template<>
     inline constexpr auto stormkit::core::meta::FLAG_TRAIT<lj::hid::leds::Player> = true;
     template<>
-    inline constexpr auto stormkit::core::meta::FLAG_TRAIT<lj::hid::feature_select::Feature_flag> = true;
+    inline constexpr auto stormkit::core::meta::FLAG_TRAIT<lj::hid::feature_select::feature_flag> = true;
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -307,14 +310,14 @@ export {
 namespace lj::hid {
     ////////////////////////////////////////
     ////////////////////////////////////////
-    template<Transport                           TRANSPORT_,
-             Command_id                          ID_,
-             typename Subcommand_enum<ID_>::type SUB_ID_,
-             CommandData                         DATA,
+    template<transport                           TRANSPORT_,
+             command_id                          ID_,
+             typename subcommand_enum<ID_>::type SUB_ID_,
+             command_data                        DATA,
              auto                                FILL_PAYLOAD>
     template<typename... Args>
              STORMKIT_FORCE_INLINE
-    constexpr auto Command<TRANSPORT_, ID_, SUB_ID_, DATA, FILL_PAYLOAD>::make_payload(Args&&... args) noexcept
+    constexpr auto command<TRANSPORT_, ID_, SUB_ID_, DATA, FILL_PAYLOAD>::make_payload(Args&&... args) noexcept
       -> array<byte, COMMAND_PAYLOAD_LENGTH> {
         auto out = array<byte, COMMAND_PAYLOAD_LENGTH> {};
         FILL_PAYLOAD(out, std::forward<Args>(args)...);
@@ -323,13 +326,13 @@ namespace lj::hid {
 
     ////////////////////////////////////////
     ////////////////////////////////////////
-    template<Transport                           TRANSPORT_,
-             Command_id                          ID_,
-             typename Subcommand_enum<ID_>::type SUB_ID_,
-             CommandData                         DATA,
+    template<transport                           TRANSPORT_,
+             command_id                          ID_,
+             typename subcommand_enum<ID_>::type SUB_ID_,
+             command_data                        DATA,
              auto                                FILL_PAYLOAD>
     template<typename... Args>
-    constexpr auto Command<TRANSPORT_, ID_, SUB_ID_, DATA, FILL_PAYLOAD>::make_command(Args&&... args) noexcept
+    constexpr auto command<TRANSPORT_, ID_, SUB_ID_, DATA, FILL_PAYLOAD>::make_command(Args&&... args) noexcept
       -> array<byte, COMMAND_LENGTH> {
         const auto payload = make_payload(std::forward<Args>(args)...);
         ENSURES(stdr::size(payload) == COMMAND_PAYLOAD_LENGTH);
@@ -341,13 +344,12 @@ namespace lj::hid {
 
     ////////////////////////////////////////
     ////////////////////////////////////////
-    template<Transport                           TRANSPORT_,
-             Command_id                          ID_,
-             typename Subcommand_enum<ID_>::type SUB_ID_,
-             CommandData                         DATA,
+    template<transport                           TRANSPORT_,
+             command_id                          ID_,
+             typename subcommand_enum<ID_>::type SUB_ID_,
+             command_data                        DATA,
              auto                                FILL_PAYLOAD>
-    constexpr auto Command<TRANSPORT_, ID_, SUB_ID_, DATA, FILL_PAYLOAD>::make_report() noexcept
-      -> array<byte, REPORT_LENGTH> {
+    constexpr auto command<TRANSPORT_, ID_, SUB_ID_, DATA, FILL_PAYLOAD>::make_report() noexcept -> array<byte, REPORT_LENGTH> {
         auto report = array<byte, REPORT_LENGTH> {};
         stdr::copy(REPORT_HEADER, stdr::begin(report));
         return report;
@@ -355,14 +357,14 @@ namespace lj::hid {
 
     ////////////////////////////////////////
     ////////////////////////////////////////
-    template<Transport                           TRANSPORT_,
-             Command_id                          ID_,
-             typename Subcommand_enum<ID_>::type SUB_ID_,
-             CommandData                         DATA,
+    template<transport                           TRANSPORT_,
+             command_id                          ID_,
+             typename subcommand_enum<ID_>::type SUB_ID_,
+             command_data                        DATA,
              auto                                FILL_PAYLOAD>
              STORMKIT_FORCE_INLINE
-    constexpr auto Command<TRANSPORT_, ID_, SUB_ID_, DATA, FILL_PAYLOAD>::validate_report(array_view<const byte>
-                                                                                              report) noexcept -> bool {
+    constexpr auto command<TRANSPORT_, ID_, SUB_ID_, DATA, FILL_PAYLOAD>::validate_report(array_view<const byte> report) noexcept
+      -> bool {
         return std::memcmp(std::bit_cast<void*>(stdr::data(report)),
                            std::bit_cast<void*>(stdr::data(REPORT_HEADER)),
                            stdr::size(REPORT_HEADER))

@@ -15,40 +15,40 @@ import lesserjoy.constants;
 using namespace stormkit;
 
 export namespace lj {
-    using Clock = std::chrono::high_resolution_clock;
+    using clock = std::chrono::high_resolution_clock;
 
     namespace hid {
-        enum class Output_report_source : u8 {
+        enum class output_report_source : u8 {
             DRIVER_HIGH_PRIORITY = 0,
             DRIVER_LOW_PRIORITY  = 1,
             DRIVER_XINPUTHID     = 2,
         };
 
-        using Command_report_buffer = array<byte, INPUT_REPORT_SIZE>;
-        using Input_report_buffer   = array<byte, INPUT_REPORT_SIZE>;
-        using Output_report_buffer  = array<byte, OUTPUT_REPORT_SIZE>;
+        using command_report_buffer = array<byte, INPUT_REPORT_SIZE>;
+        using input_report_buffer   = array<byte, INPUT_REPORT_SIZE>;
+        using output_report_buffer  = array<byte, OUTPUT_REPORT_SIZE>;
 
         using Report_descriptor = array_view<const byte>;
 
-        struct Input_report {
-            Input_report_buffer buffer = {};
+        struct input_report {
+            input_report_buffer buffer = {};
             usize               size;
         };
 
-        using Output_report = Output_report_buffer;
+        using output_report = output_report_buffer;
     } // namespace hid
 
     namespace usb {
-        struct Context;
+        struct context;
 
-        struct Input_report {
-            Clock::time_point timestamp;
+        struct input_report {
+            clock::time_point timestamp;
 
             usize                    size;
-            hid::Input_report_buffer buffer;
+            hid::input_report_buffer buffer;
         };
 
-        struct Continuous_reader {
+        struct continuous_reader {
             bool started = false;
 
             struct Sync {
@@ -61,37 +61,37 @@ export namespace lj {
 
             heap_ptr<Sync> sync;
 
-            std::vector<Input_report> pending_input_reports = {};
+            std::vector<input_report> pending_input_reports = {};
 
-            Locked<Input_report> last_input_report;
+            locked<input_report> last_input_report;
         };
 
-        struct Context {
+        struct context {
             WDFUSBDEVICE device = nullptr;
 
-            struct Endpoint {
+            struct endpoint {
                 WDFUSBINTERFACE interface = nullptr;
 
                 WDFUSBPIPE in_pipe  = nullptr;
                 WDFUSBPIPE out_pipe = nullptr;
             };
 
-            Endpoint hid;
-            Endpoint command;
+            endpoint hid;
+            endpoint command;
 
             USB_DEVICE_DESCRIPTOR descriptor = {};
 
             WDFMEMORY product_string = nullptr;
 
-            Continuous_reader continuous_reader = {};
+            continuous_reader continuous_reader = {};
         };
     } // namespace usb
 
     namespace ble {
-        struct Context {};
+        struct context {};
     } // namespace ble
 
-    struct Device_context {
+    struct device_context {
         WDFDEVICE device = nullptr;
         WDFQUEUE  default_queue;
 
@@ -99,9 +99,9 @@ export namespace lj {
         hid::Report_descriptor report_descriptor = {};
         HID_DEVICE_ATTRIBUTES  hid_attributes    = {};
 
-        hid::Output_report output_report = {};
+        hid::output_report output_report = {};
 
-        std::variant<std::monostate, usb::Context, ble::Context> transport = {};
+        std::variant<std::monostate, usb::context, ble::context> transport = {};
 
         u16 vendor_id  = 0;
         u16 product_id = 0;
@@ -109,16 +109,16 @@ export namespace lj {
         string product_string = {};
         string serial_string  = {};
 
-        // Locked<std::queue<hid::Raw_input_report>> reports;
+        // locked<std::queue<hid::Raw_input_report>> reports;
     };
 
-    using PDevice_context = Device_context*;
+    using Pdevice_context = device_context*;
 
-    struct Queue_context {
+    struct queue_context {
         WDFQUEUE queue = nullptr;
 
-        Device_context* device_ctx = nullptr;
+        device_context* device_ctx = nullptr;
     };
 
-    using PQueue_context = Queue_context*;
+    using Pqueue_context = queue_context*;
 } // namespace lj

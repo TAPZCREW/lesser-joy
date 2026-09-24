@@ -38,7 +38,7 @@ extern "C++" {
         CustomLoggedTryOr(lj::win_call(WdfDriverCreate, driver_object, registry_path, &attributes, &config, WDF_NO_HANDLE),
                           monadic::unwrap(),
                           lj::elog,
-                          "Failed to initialize lessjoy driver!{}");
+                          "Failed to initialize lessjoy driver! {}");
 
         lj::ilog("Driver successfully initialized!");
 

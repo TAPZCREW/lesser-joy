@@ -14,30 +14,30 @@ import lesserjoy.wdf;
 namespace lj::hid::ioctl {
     ////////////////////////////////////////
     ////////////////////////////////////////
-    auto get_device_descriptor(WDFREQUEST& request, const HID_DESCRIPTOR& descriptor) noexcept -> Expected<void> {
-        Try(fill_wdf_request_memory(request, as_bytes(descriptor)));
-        Return {};
+    auto get_device_descriptor(WDFREQUEST& request, const HID_DESCRIPTOR& descriptor) noexcept -> system_result<void> {
+        Try(fill_wdf_request_memory(request, bytes_of(descriptor)));
+        return {};
     }
 
     ////////////////////////////////////////
     ////////////////////////////////////////
-    auto get_device_attributes(WDFREQUEST& request, const HID_DEVICE_ATTRIBUTES& attributes) noexcept -> Expected<void> {
-        Try(fill_wdf_request_memory(request, as_bytes(attributes)));
-        Return {};
+    auto get_device_attributes(WDFREQUEST& request, const HID_DEVICE_ATTRIBUTES& attributes) noexcept -> system_result<void> {
+        Try(fill_wdf_request_memory(request, bytes_of(attributes)));
+        return {};
     }
 
     ////////////////////////////////////////
     ////////////////////////////////////////
-    auto get_report_descriptor(WDFREQUEST& request, const Report_descriptor& descriptor) noexcept -> Expected<void> {
-        Try(fill_wdf_request_memory(request, as_bytes(descriptor)));
-        Return {};
+    auto get_report_descriptor(WDFREQUEST& request, const Report_descriptor& descriptor) noexcept -> system_result<void> {
+        Try(fill_wdf_request_memory(request, bytes_of(descriptor)));
+        return {};
     }
 
     ////////////////////////////////////////
     ////////////////////////////////////////
-    auto read_report(WDFREQUEST& request, usb::Context& usb) -> Expected<void> {
-        const auto data = Try(get_wdf_request_memory(request));
-        auto&      ctx  = usb.continuous_reader;
+    auto read_report(WDFREQUEST& request, usb::context& usb) -> system_result<void> {
+        TryTo(data, get_wdf_request_memory(request));
+        auto& ctx = usb.continuous_reader;
 
         return ctx.last_input_report.read([&request](const auto& report) noexcept {
             return fill_wdf_request_memory(request, array_view { stdr::data(report.buffer), report.size });
@@ -87,20 +87,20 @@ namespace lj::hid::ioctl {
         //      array_view<const u8> { std::bit_cast<const u8*>(stdr::data(data)), stdr::size(data) });
         // get last hid report
 
-        // Return {};
+        // return {};
     }
 
     ////////////////////////////////////////
     ////////////////////////////////////////
-    auto write_report(WDFREQUEST& request, array_view<const byte> report) -> Expected<void> {
+    auto write_report(WDFREQUEST& request, array_view<const byte> report) -> system_result<void> {
         Try(fill_wdf_request_memory(request, report));
 
-        Return {};
+        return {};
     }
 
     ////////////////////////////////////////
     ////////////////////////////////////////
-    auto get_string(WDFREQUEST& request, string_view product_string, string_view serial_string) -> Expected<void> {
+    auto get_string(WDFREQUEST& request, string_view product_string, string_view serial_string) -> system_result<void> {
         auto raw_buffer  = PVOID { nullptr };
         auto buffer_size = 0_usize;
 
@@ -115,18 +115,20 @@ namespace lj::hid::ioctl {
         const auto is_serial = (string_id == 16 or string_id == 3); // HID_STRING_ID_ISERIALNUMBER
         ilog("AAAAAA {} {}", product_string, serial_string);
 
-        if (is_serial) Try(fill_wdf_request_memory(request, as_bytes(stdr::data(serial_string), stdr::size(serial_string))));
-        else
-            Try(fill_wdf_request_memory(request, as_bytes(stdr::data(product_string), stdr::size(product_string))));
+        if (is_serial) {
+            Try(fill_wdf_request_memory(request, bytes_of(serial_string)));
+        } else {
+            Try(fill_wdf_request_memory(request, bytes_of(product_string)));
+        }
 
-        Return {};
+        return {};
     }
 
     ////////////////////////////////////////
     ////////////////////////////////////////
-    auto get_indexed_string(WDFREQUEST& request, string_view product_string) -> Expected<void> {
-        Try(fill_wdf_request_memory(request, as_bytes(stdr::data(product_string), stdr::size(product_string))));
+    auto get_indexed_string(WDFREQUEST& request, string_view product_string) -> system_result<void> {
+        Try(fill_wdf_request_memory(request, bytes_of(product_string)));
 
-        Return {};
+        return {};
     }
 } // namespace lj::hid::ioctl

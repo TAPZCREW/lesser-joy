@@ -44,7 +44,7 @@ rule("generate_cert", function()
 end)
 
 target("lesserjoy-driver", function()
-    set_languages("c++26")
+    set_languages("c++latest")
 
     add_defines("_CRT_STDIO_ISO_WIDE_SPECIFIERS=1")
     set_symbols(table.unwrap(symbols))
@@ -85,6 +85,8 @@ target("lesserjoy-driver", function()
     set_values("wdk.sign.company", "lesserjoy")
     set_values("wdk.sign.machine_store", true)
 
+    add_cxxflags("-fexperimental-library")
+    add_ldflags("-fexperimental-library")
     on_run(function(target)
         import("lib.detect.find_tool")
         import("core.base.option")

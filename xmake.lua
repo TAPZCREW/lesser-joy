@@ -69,6 +69,7 @@ add_requires(stormkit_dep_name, {
     configs = {
         log = true,
         wsi = false,
+        math = false,
         entities = false,
         image = false,
         gpu = false,

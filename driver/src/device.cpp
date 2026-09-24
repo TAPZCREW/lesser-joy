@@ -31,7 +31,7 @@ namespace lj {
         WdfFdoInitSetFilter(device_init);
 
         auto attributes = WDF_OBJECT_ATTRIBUTES {};
-        WDF_OBJECT_ATTRIBUTES_INIT_CONTEXT_TYPE(&attributes, Device_context);
+        WDF_OBJECT_ATTRIBUTES_INIT_CONTEXT_TYPE(&attributes, device_context);
         attributes.EvtCleanupCallback = nullptr;
 
         auto power_callbacks = WDF_PNPPOWER_EVENT_CALLBACKS {};
@@ -44,11 +44,11 @@ namespace lj {
 
         auto device = WDFDEVICE {};
         LoggedTryOr(lj::win_call(WdfDeviceCreate, &device_init, &attributes, &device),
-                    monadic::unwrap(),
+                    monadic::map(monadic::unwrap(), monadic::as<NTSTATUS>()),
                     "Failed to create device!");
 
-        auto ctx = GetDeviceContext(device);
-        *ctx     = Device_context {};
+        auto ctx = get_device_context(device);
+        *ctx     = device_context {};
 
         constexpr auto DEFAULT_CONTROLLER = CONTROLLERS_TYPE.at("pro_controller");
 
@@ -68,14 +68,14 @@ namespace lj {
             queue_config.EvtIoDeviceControl = event_io_device_control;
 
             auto queue_attributes = WDF_OBJECT_ATTRIBUTES {};
-            WDF_OBJECT_ATTRIBUTES_INIT_CONTEXT_TYPE(&queue_attributes, Queue_context);
+            WDF_OBJECT_ATTRIBUTES_INIT_CONTEXT_TYPE(&queue_attributes, queue_context);
 
             LoggedTryOr(lj::win_call(WdfIoQueueCreate, device, &queue_config, &queue_attributes, &ctx->default_queue),
-                        monadic::unwrap(),
+                        monadic::map(monadic::unwrap(), monadic::as<NTSTATUS>()),
                         "Failed to create io queue!");
             lj::dlog("Io queue successfully created!");
 
-            auto queue_ctx        = GetQueueContext(ctx->default_queue);
+            auto queue_ctx        = get_queue_context(ctx->default_queue);
             queue_ctx->queue      = ctx->default_queue;
             queue_ctx->device_ctx = ctx;
         }
@@ -85,14 +85,14 @@ namespace lj {
         //     WDF_IO_QUEUE_CONFIG_INIT(&queue_config, WdfIoQueueDispatchManual);
 
         //    auto queue_attributes = WDF_OBJECT_ATTRIBUTES {};
-        //    WDF_OBJECT_ATTRIBUTES_INIT_CONTEXT_TYPE(&queue_attributes, Queue_context);
+        //    WDF_OBJECT_ATTRIBUTES_INIT_CONTEXT_TYPE(&queue_attributes, queue_context);
 
         //    LoggedTryOr(lj::win_call(WdfIoQueueCreate, device, &queue_config, &queue_attributes, &ctx->manual_queue),
         //                monadic::unwrap(),
         //                "Failed to create io queue!");
         //    lj::dlog("Manual io queue successfully created!");
 
-        //    auto queue_ctx        = GetQueueContext(ctx->manual_queue);
+        //    auto queue_ctx        = get_queue_context(ctx->manual_queue);
         //    queue_ctx->queue      = ctx->manual_queue;
         //    queue_ctx->device_ctx = ctx;
         // }
@@ -101,7 +101,7 @@ namespace lj {
         //             monadic::unwrap(),
         //             "Failed to expose device interface!");
         LoggedTryOr(lj::win_call(WdfDeviceCreateDeviceInterface, device, &DEV_INTERFACE_HID_GUID, nullptr),
-                    monadic::unwrap(),
+                    monadic::map(monadic::unwrap(), monadic::as<NTSTATUS>()),
                     "Failed to expose device interface!");
 
         return STATUS_SUCCESS;
@@ -122,7 +122,7 @@ namespace lj {
                                                         _In_ usize      output_buffer_size,
                                                         _In_ usize      input_buffer_size,
                                                         _In_ ULONG      io_control_code) -> void {
-        auto queue_ctx  = GetQueueContext(queue);
+        auto queue_ctx  = get_queue_context(queue);
         auto device_ctx = queue_ctx->device_ctx;
 
         auto request_completed = true;
@@ -163,7 +163,8 @@ namespace lj {
             } break;
 
             case IOCTL_HID_READ_REPORT: {
-                LoggedTryOr(hid::ioctl::read_report(request, as<usb::Context>(device_ctx->transport)),
+                // LoggedTryOr(hid::ioctl::read_report(request, as<usb::context>(device_ctx->transport)),
+                LoggedTryOr(hid::ioctl::read_report(request, std::get<usb::context>(device_ctx->transport)),
                             update_status,
                             "IOCTL Failed to read report!");
             } break;
@@ -234,9 +235,11 @@ namespace lj {
     ////////////////////////////////////////
     ////////////////////////////////////////
     _Use_decl_annotations_ auto event_prepare_hardware(WDFDEVICE device, WDFCMRESLIST, WDFCMRESLIST) -> NTSTATUS {
-        auto ctx = GetDeviceContext(device);
+        auto ctx = get_device_context(device);
 
-        LoggedTryOr(usb::init_context(*ctx, device), monadic::unwrap(), "Failed to initialize USB context!");
+        LoggedTryOr(usb::init_context(*ctx, device),
+                    monadic::map(monadic::unwrap(), monadic::as<NTSTATUS>()),
+                    "Failed to initialize USB context!");
         lj::ilog("{} attached (USB), PID: {:#x}, VID: {:#x}", ctx->product_string, ctx->vendor_id, ctx->product_id);
 
         return STATUS_SUCCESS;
@@ -245,7 +248,7 @@ namespace lj {
     ////////////////////////////////////////
     ////////////////////////////////////////
     _Use_decl_annotations_ auto event_device_entry(WDFDEVICE device, WDF_POWER_DEVICE_STATE) -> NTSTATUS {
-        auto& ctx = *GetDeviceContext(device);
+        auto& ctx = *get_device_context(device);
         usb::event_device_entry(ctx);
 
         return STATUS_SUCCESS;
@@ -254,7 +257,7 @@ namespace lj {
     ////////////////////////////////////////
     ////////////////////////////////////////
     _Use_decl_annotations_ auto event_device_exit(WDFDEVICE device, WDF_POWER_DEVICE_STATE) -> NTSTATUS {
-        auto& ctx = *GetDeviceContext(device);
+        auto& ctx = *get_device_context(device);
         usb::event_device_exit(ctx);
 
         return STATUS_SUCCESS;
