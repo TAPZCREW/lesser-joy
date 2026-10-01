@@ -29,7 +29,7 @@ export namespace lj {
         using input_report_buffer_scaled = array<byte, INPUT_REPORT_SIZE_SCALED>;
         using output_report_buffer       = array<byte, OUTPUT_REPORT_SIZE>;
 
-        using Report_descriptor = array_view<const byte>;
+        using report_descriptor = array_view<const byte>;
 
         struct input_report {
             input_report_buffer buffer = {};
@@ -84,35 +84,4 @@ export namespace lj {
     namespace ble {
         struct context {};
     } // namespace ble
-
-    struct device_context {
-        WDFDEVICE device = nullptr;
-        WDFQUEUE  default_queue;
-
-        HID_DESCRIPTOR         hid_descriptor    = {};
-        hid::Report_descriptor report_descriptor = {};
-        HID_DEVICE_ATTRIBUTES  hid_attributes    = {};
-
-        hid::output_report output_report = {};
-
-        std::variant<std::monostate, usb::context, ble::context> transport = {};
-
-        u16 vendor_id  = 0;
-        u16 product_id = 0;
-
-        string product_string = {};
-        string serial_string  = {};
-
-        // locked<std::queue<hid::Raw_input_report>> reports;
-    };
-
-    using Pdevice_context = device_context*;
-
-    struct queue_context {
-        WDFQUEUE queue = nullptr;
-
-        device_context* device_ctx = nullptr;
-    };
-
-    using Pqueue_context = queue_context*;
 } // namespace lj

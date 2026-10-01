@@ -33,7 +33,7 @@ extern "C++" {
         attributes.EvtCleanupCallback = lj::event_driver_cleanup;
 
         auto config = WDF_DRIVER_CONFIG {};
-        WDF_DRIVER_CONFIG_INIT(&config, lj::event_device_add);
+        WDF_DRIVER_CONFIG_INIT(&config, lj::device_context::create);
 
         CustomLoggedTryOr(lj::win_call(WdfDriverCreate, driver_object, registry_path, &attributes, &config, WDF_NO_HANDLE),
                           monadic::unwrap(),

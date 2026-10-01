@@ -83,8 +83,8 @@ HKR,Parameters,VerboseOn,0x00010003,1 ; FLG_ADDREG_NOCLOBBER | FLG_ADDREG_TYPE_D
 ; -------- data section
 [strings]
 ProviderName="TapzCrew"
-ManufacturerName="TapzCrew"
-ClassName = "lesserjoy Device"
-DeviceDesc = "lesserjoy HID Device"
+ManufacturerName="Nintendo"
+ClassName = "lesserjoy device"
+DeviceDesc = "Switch 2 Pro Controller (USB)"
 DiskName = "lesserjoy Installation Disk"
 WudfRdDisplayName = "Windows Driver Foundation - User-mode Driver Framework Reflector"

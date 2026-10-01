@@ -49,15 +49,21 @@ export namespace lj {
     inline constexpr auto DRIVER_POOL_TAG  = u32 { 'lyoj' };
     inline constexpr auto DRIVER_MAX_SLOTS = 8_usize;
 
-    inline constexpr auto CONTROLLERS_TYPE = frozen::unordered_map<frozen::string, controller_type, 1> {
-        { "pro_controller",
-         { .name                = "Nintendo Switch 2 Pro Controller",
-            .vendor              = "Nintendo",
-            .vid                 = 0x057E,
-            .pid                 = 0x2069,
-            .product_string      = "Pro Controller",
-            .manufacturer_string = "Nintendo Co., Ltd." } },
-    };
+    // inline constexpr auto CONTROLLERS_TYPE = frozen::unordered_map<frozen::string, controller_type, 1> {
+    inline constexpr auto CONTROLLERS_TYPE = make_static_hash_map<frozen::string, controller_type>({
+      { "pro_controller",
+       { .name                = "Nintendo Switch 2 Pro Controller",
+          .vendor              = "Nintendo",
+          .vid                 = 0x057E,
+          .pid                 = 0x2069,
+          .product_string      = "Pro Controller",
+          .manufacturer_string = "Nintendo Co., Ltd." } }
+    });
+
+    // inline constexpr auto CONTROLLERS_MAP = frozen::unordered_map<u32, frozen::string, 1> {
+    inline constexpr auto CONTROLLERS_MAP = make_static_hash_map<u32, frozen::string>({
+      { CONTROLLERS_TYPE.at("pro_controller").vid | (CONTROLLERS_TYPE.at("pro_controller").pid << 16), "pro_controller" }
+    });
 
     namespace hid {
         inline constexpr auto DISABLE_SCALING = true;

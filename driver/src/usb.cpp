@@ -25,13 +25,11 @@ namespace lj::usb {
 
     ////////////////////////////////////////
     ////////////////////////////////////////
-    auto init_context(device_context& ctx, WDFDEVICE device) noexcept -> system_result<void> {
-        // initialize usb context
-        ctx.transport = usb::context {};
+    auto init_context(device_context& ctx) noexcept -> system_result<void> {
+        expects(ctx.is_usb());
+        const auto device = ctx.device();
 
-        // clang ICE
-        // auto& usb = as<usb::context>(ctx.transport);
-        auto& usb = std::get<usb::context>(ctx.transport);
+        auto& usb = ctx.usb_ctx();
 
         auto init_config = WDF_USB_DEVICE_CREATE_CONFIG {};
         WDF_USB_DEVICE_CREATE_CONFIG_INIT(&init_config, USBD_CLIENT_CONTRACT_VERSION_602);
@@ -44,8 +42,8 @@ namespace lj::usb {
 
         WdfUsbTargetDeviceGetDeviceDescriptor(usb.device, &usb.descriptor);
 
-        ctx.vendor_id  = usb.descriptor.idVendor;
-        ctx.product_id = usb.descriptor.idProduct;
+        // ctx.vendor_id  = usb.descriptor.idVendor;
+        // ctx.product_id = usb.descriptor.idProduct;
 
         // get usb interface
         // TODO read about USB interfaces to ensure correct usage
@@ -69,7 +67,7 @@ namespace lj::usb {
         if (result.has_value()) {
             auto size          = 0_usize;
             auto memory_buffer = WdfMemoryGetBuffer(usb.product_string, &size);
-            ctx.product_string = wide_to_ascii({ reinterpret_cast<const wchar_t*>(memory_buffer), (size / sizeof(wchar_t)) });
+            // ctx.product_string = wide_to_ascii({ reinterpret_cast<const wchar_t*>(memory_buffer), (size / sizeof(wchar_t)) });
         } else
             lj::wlog("Failed to get product string from USB device!\n    error: {}", result.error());
 
@@ -122,10 +120,11 @@ namespace lj::usb {
 
     ////////////////////////////////////////
     ////////////////////////////////////////
-    auto event_device_entry(device_context& ctx) noexcept -> system_result<void> {
-        // clang ICE
-        // auto& usb = as<usb::context>(ctx.transport);
-        auto& usb = std::get<usb::context>(ctx.transport);
+    auto event_device_entry(const device_context& ctx) noexcept -> system_result<void> {
+        expects(ctx.is_usb());
+        const auto device = ctx.device();
+
+        auto& usb = ctx.usb_ctx();
 
         using enum hid::feature_select::feature_flag;
 
@@ -148,7 +147,7 @@ namespace lj::usb {
                     hid::init::select_input_report_command<transport::USB>>(usb, hid::init::input_report_id::ALT_PROCON_2)),
                   "Failed to select input report!");
 
-        ilog("{} initialized! (USB)", ctx.product_string);
+        ilog("{} initialized! (USB)", ctx.product_string());
 
         // start continuous USB reader
         auto io_target = WdfUsbTargetPipeGetIoTarget(usb.hid.in_pipe);
@@ -160,10 +159,11 @@ namespace lj::usb {
 
     ////////////////////////////////////////
     ////////////////////////////////////////
-    auto event_device_exit(device_context& ctx) noexcept -> system_result<void> {
-        // clang ICE
-        // auto& usb = as<usb::context>(ctx.transport);
-        auto& usb = std::get<usb::context>(ctx.transport);
+    auto event_device_exit(const device_context& ctx) noexcept -> system_result<void> {
+        expects(ctx.is_usb());
+        const auto device = ctx.device();
+
+        auto& usb = ctx.usb_ctx();
 
         // stop continueous reader
         auto io_target = WdfUsbTargetPipeGetIoTarget(usb.command.out_pipe);
@@ -174,14 +174,14 @@ namespace lj::usb {
         WdfIoTargetStop(io_target, WdfIoTargetCancelSentIo);
         dlog("USB continuous reader stopped (hid)!");
 
-        ilog("{} disconnected! (USB)", ctx.product_string);
+        ilog("{} disconnected! (USB)", ctx.product_string());
 
         return {};
     }
 
     ////////////////////////////////////////
     ////////////////////////////////////////
-    auto send_data(context& ctx, array_view<const byte> payload) noexcept -> system_result<void> {
+    auto send_data(const context& ctx, array_view<const byte> payload) noexcept -> system_result<void> {
         auto attributes = WDF_OBJECT_ATTRIBUTES {};
         WDF_OBJECT_ATTRIBUTES_INIT(&attributes);
 

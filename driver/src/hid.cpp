@@ -30,21 +30,15 @@ namespace lj::hid::ioctl {
 
     ////////////////////////////////////////
     ////////////////////////////////////////
-    auto get_report_descriptor(WDFREQUEST& request, const Report_descriptor& descriptor) noexcept -> system_result<void> {
+    auto get_report_descriptor(WDFREQUEST& request, const report_descriptor& descriptor) noexcept -> system_result<void> {
         Try(fill_wdf_request_memory(request, bytes_of(descriptor)));
         return {};
     }
 
     ////////////////////////////////////////
     ////////////////////////////////////////
-    auto read_report(WDFREQUEST& request, usb::context& usb) -> system_result<void> {
-        auto& ctx = usb.continuous_reader;
-
-        // if (ctx.mutex) {
-        //     auto _ = std::unique_lock { *ctx.mutex };
-        //     auto& report = ctx.last_input_report;
-        //     return fill_wdf_request_memory(request, array_view { stdr::data(report.buffer), report.size });
-        // }
+    auto read_report(WDFREQUEST& request, const usb::context& usb) -> system_result<void> {
+        const auto& ctx = usb.continuous_reader;
 
         return ctx.last_input_report.read([&request](const auto& report) noexcept {
             return fill_wdf_request_memory(request, array_view { stdr::data(report.buffer), report.size });
