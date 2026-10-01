@@ -12,7 +12,8 @@ PnpLockdown=1
 %ManufacturerName%=Standard,NT$ARCH$.10.0...22000
 
 [Standard.NT$ARCH$.10.0...22000]
-%DeviceDesc% = lesserjoy, USB\VID_057E&PID_2069
+%Procon2USBDeviceDesc% = lesserjoy, USB\VID_057E&PID_2069
+%Procon2BluetoothDeviceDesc% = lesserjoy, BTHLE\Dev_98e255c10f7d
 
 [lesserjoy.NT]
 CopyFiles=UMDriverCopy
@@ -83,8 +84,9 @@ HKR,Parameters,VerboseOn,0x00010003,1 ; FLG_ADDREG_NOCLOBBER | FLG_ADDREG_TYPE_D
 ; -------- data section
 [strings]
 ProviderName="TapzCrew"
-ManufacturerName="TapzCrew"
-ClassName = "lesserjoy Device"
-DeviceDesc = "lesserjoy HID Device"
+ManufacturerName="Nintendo"
+ClassName = "lesserjoy device"
+Procon2USBDeviceDesc = "Switch 2 pro controller (USB)"
+Procon2BluetoothDeviceDesc = "Switch 2 pro controller (Bluetooth)"
 DiskName = "lesserjoy Installation Disk"
 WudfRdDisplayName = "Windows Driver Foundation - User-mode Driver Framework Reflector"
