@@ -13,6 +13,7 @@ PnpLockdown=1
 
 [Standard.NT$ARCH$.10.0...22000]
 %DeviceDesc% = lesserjoy, USB\VID_057E&PID_2069
+# %Procon2BluetoothDeviceDesc% = lesserjoy, BTHLE\Dev_98e255c10f7d
 
 [lesserjoy.NT]
 CopyFiles=UMDriverCopy
