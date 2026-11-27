@@ -4,7 +4,7 @@ Class=HIDClass
 ClassGuid={745a17a0-74d3-11d0-b6fe-00a0c90f57da}
 Provider=%ProviderName%
 CatalogFile=lesserjoy-driver.cat
-DriverVer=1.0
+DriverVer=10/22/2026,0.1.0.0
 PnpLockdown=1
 
 ; -------- Device section
@@ -62,7 +62,6 @@ ServiceBinary  = %12%\WUDFRd.sys
 [lesserjoy_Install]
 UmdfLibraryVersion = $UMDFVERSION$
 ServiceBinary      = %12%\UMDF\lesserjoy-driver.dll
-AddReg=UMDFVerifierAddReg
 
 [UMDriverCopy]
 lesserjoy-driver.dll ; ,,,0x00004000  ; COPYFLG_IN_USE_RENAME
@@ -76,9 +75,13 @@ lesserjoy-driver.dll = 1
 [DestinationDirs]
 DefaultDestDir = 12,UMDF
 
-[UMDFVerifierAddReg]
-; For verbose diagnostics, set to 1
-HKR,Parameters,VerboseOn,0x00010003,1 ; FLG_ADDREG_NOCLOBBER | FLG_ADDREG_TYPE_DWORD
+; No diagnostics values are installed on purpose. The framework reads them from the service's
+; Parameters\Wdf subkey (the previous section wrote Parameters\VerboseOn, which nothing reads),
+; and VerboseOn makes the framework event logger record an entry for every framework operation
+; -- per-poll overhead for a HID device whose stack polls continuously. Turn it on by hand while
+; debugging, then reboot (UMDF registry values are read at host start):
+;   reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\WUDF\Services\lesserjoy\Parameters\Wdf" ^
+;       /v VerboseOn /t REG_DWORD /d 1 /f
 
 ; -------- data section
 [strings]

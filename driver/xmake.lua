@@ -64,6 +64,7 @@ target("lesserjoy-driver", function()
 
     if is_mode("debug") then
         set_symbols("hidden", "debug")
+        add_defines("LESSERJOY_DEBUG_MODE")
     else
         set_strip("all")
 
@@ -74,7 +75,7 @@ target("lesserjoy-driver", function()
         end
     end
 
-    add_packages("frozen", "unordered_dense", "nontype_functional")
+    add_packages("frozen", "unordered_dense", "nontype_functional", "status-code", "mdspan")
     add_packages("stormkit", { components = { "core", "log" } })
 
     set_values("wdk.sdkdir", get_config("wdk"))

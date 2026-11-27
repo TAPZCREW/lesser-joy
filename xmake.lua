@@ -71,9 +71,11 @@ add_shflags("-fuse-ld=lld-link", { force = true })
 
 set_policy("check.auto_ignore_flags", true)
 
+add_requires("status-code", { system = false })
 add_requires("frozen", { system = false, configs = { modules = true, std_import = true, cpp = "latest" } })
 add_requires("unordered_dense", { system = false, configs = { modules = true, std_import = true } })
 add_requires("nontype_functional main", { system = false })
+add_requires("mdspan")
 
 add_requires(stormkit_dep_name, {
     configs = {
@@ -83,7 +85,6 @@ add_requires(stormkit_dep_name, {
         entities = false,
         image = false,
         gpu = false,
-        lua = false,
 
         examples = false,
         tests = false,

@@ -1,0 +1,12624 @@
+module;
+
+#include <stormkit/core/platform_macro.hpp>
+
+#define WIN32_LEAN_AND_MEAN
+
+#include <SDKDDKVer.h>
+
+#include <Windows.h>
+
+#include <devpropdef.h>
+#include <ntstatus.h>
+#include <wdf.h>
+
+export module wdk.ntstatus;
+
+import std;
+
+export namespace wdk {
+    using ::NTSTATUS;
+
+    auto NtSuccess(NTSTATUS) noexcept -> bool;
+    auto NtInformation(NTSTATUS) noexcept -> bool;
+    auto NtWarning(NTSTATUS) noexcept -> bool;
+    auto NtError(NTSTATUS) noexcept -> bool;
+
+#pragma push_macro("STATUS_SUCCESS")
+#undef STATUS_SUCCESS
+    inline constexpr auto STATUS_SUCCESS = NTSTATUS {
+#pragma pop_macro("STATUS_SUCCESS")
+        STATUS_SUCCESS
+    };
+
+#pragma push_macro("STATUS_WAIT_0")
+#undef STATUS_WAIT_0
+    inline constexpr auto STATUS_WAIT_0 = NTSTATUS {
+#pragma pop_macro("STATUS_WAIT_0")
+        STATUS_WAIT_0
+    };
+
+#pragma push_macro("STATUS_WAIT_1")
+#undef STATUS_WAIT_1
+    inline constexpr auto STATUS_WAIT_1 = NTSTATUS {
+#pragma pop_macro("STATUS_WAIT_1")
+        STATUS_WAIT_1
+    };
+
+#pragma push_macro("STATUS_WAIT_2")
+#undef STATUS_WAIT_2
+    inline constexpr auto STATUS_WAIT_2 = NTSTATUS {
+#pragma pop_macro("STATUS_WAIT_2")
+        STATUS_WAIT_2
+    };
+
+#pragma push_macro("STATUS_WAIT_3")
+#undef STATUS_WAIT_3
+    inline constexpr auto STATUS_WAIT_3 = NTSTATUS {
+#pragma pop_macro("STATUS_WAIT_3")
+        STATUS_WAIT_3
+    };
+
+#pragma push_macro("STATUS_WAIT_63")
+#undef STATUS_WAIT_63
+    inline constexpr auto STATUS_WAIT_63 = NTSTATUS {
+#pragma pop_macro("STATUS_WAIT_63")
+        STATUS_WAIT_63
+    };
+
+#pragma push_macro("STATUS_ABANDONED")
+#undef STATUS_ABANDONED
+    inline constexpr auto STATUS_ABANDONED = NTSTATUS {
+#pragma pop_macro("STATUS_ABANDONED")
+        STATUS_ABANDONED
+    };
+
+#pragma push_macro("STATUS_ABANDONED_WAIT_0")
+#undef STATUS_ABANDONED_WAIT_0
+    inline constexpr auto STATUS_ABANDONED_WAIT_0 = NTSTATUS {
+#pragma pop_macro("STATUS_ABANDONED_WAIT_0")
+        STATUS_ABANDONED_WAIT_0
+    };
+
+#pragma push_macro("STATUS_ABANDONED_WAIT_63")
+#undef STATUS_ABANDONED_WAIT_63
+    inline constexpr auto STATUS_ABANDONED_WAIT_63 = NTSTATUS {
+#pragma pop_macro("STATUS_ABANDONED_WAIT_63")
+        STATUS_ABANDONED_WAIT_63
+    };
+
+#pragma push_macro("STATUS_USER_APC")
+#undef STATUS_USER_APC
+    inline constexpr auto STATUS_USER_APC = NTSTATUS {
+#pragma pop_macro("STATUS_USER_APC")
+        STATUS_USER_APC
+    };
+
+#pragma push_macro("STATUS_ALERTED")
+#undef STATUS_ALERTED
+    inline constexpr auto STATUS_ALERTED = NTSTATUS {
+#pragma pop_macro("STATUS_ALERTED")
+        STATUS_ALERTED
+    };
+
+#pragma push_macro("STATUS_TIMEOUT")
+#undef STATUS_TIMEOUT
+    inline constexpr auto STATUS_TIMEOUT = NTSTATUS {
+#pragma pop_macro("STATUS_TIMEOUT")
+        STATUS_TIMEOUT
+    };
+
+#pragma push_macro("STATUS_PENDING")
+#undef STATUS_PENDING
+    inline constexpr auto STATUS_PENDING = NTSTATUS {
+#pragma pop_macro("STATUS_PENDING")
+        STATUS_PENDING
+    };
+
+#pragma push_macro("STATUS_REPARSE")
+#undef STATUS_REPARSE
+    inline constexpr auto STATUS_REPARSE = NTSTATUS {
+#pragma pop_macro("STATUS_REPARSE")
+        STATUS_REPARSE
+    };
+
+#pragma push_macro("STATUS_MORE_ENTRIES")
+#undef STATUS_MORE_ENTRIES
+    inline constexpr auto STATUS_MORE_ENTRIES = NTSTATUS {
+#pragma pop_macro("STATUS_MORE_ENTRIES")
+        STATUS_MORE_ENTRIES
+    };
+
+#pragma push_macro("STATUS_NOT_ALL_ASSIGNED")
+#undef STATUS_NOT_ALL_ASSIGNED
+    inline constexpr auto STATUS_NOT_ALL_ASSIGNED = NTSTATUS {
+#pragma pop_macro("STATUS_NOT_ALL_ASSIGNED")
+        STATUS_NOT_ALL_ASSIGNED
+    };
+
+#pragma push_macro("STATUS_SOME_NOT_MAPPED")
+#undef STATUS_SOME_NOT_MAPPED
+    inline constexpr auto STATUS_SOME_NOT_MAPPED = NTSTATUS {
+#pragma pop_macro("STATUS_SOME_NOT_MAPPED")
+        STATUS_SOME_NOT_MAPPED
+    };
+
+#pragma push_macro("STATUS_OPLOCK_BREAK_IN_PROGRESS")
+#undef STATUS_OPLOCK_BREAK_IN_PROGRESS
+    inline constexpr auto STATUS_OPLOCK_BREAK_IN_PROGRESS = NTSTATUS {
+#pragma pop_macro("STATUS_OPLOCK_BREAK_IN_PROGRESS")
+        STATUS_OPLOCK_BREAK_IN_PROGRESS
+    };
+
+#pragma push_macro("STATUS_VOLUME_MOUNTED")
+#undef STATUS_VOLUME_MOUNTED
+    inline constexpr auto STATUS_VOLUME_MOUNTED = NTSTATUS {
+#pragma pop_macro("STATUS_VOLUME_MOUNTED")
+        STATUS_VOLUME_MOUNTED
+    };
+
+#pragma push_macro("STATUS_RXACT_COMMITTED")
+#undef STATUS_RXACT_COMMITTED
+    inline constexpr auto STATUS_RXACT_COMMITTED = NTSTATUS {
+#pragma pop_macro("STATUS_RXACT_COMMITTED")
+        STATUS_RXACT_COMMITTED
+    };
+
+#pragma push_macro("STATUS_NOTIFY_CLEANUP")
+#undef STATUS_NOTIFY_CLEANUP
+    inline constexpr auto STATUS_NOTIFY_CLEANUP = NTSTATUS {
+#pragma pop_macro("STATUS_NOTIFY_CLEANUP")
+        STATUS_NOTIFY_CLEANUP
+    };
+
+#pragma push_macro("STATUS_NOTIFY_ENUM_DIR")
+#undef STATUS_NOTIFY_ENUM_DIR
+    inline constexpr auto STATUS_NOTIFY_ENUM_DIR = NTSTATUS {
+#pragma pop_macro("STATUS_NOTIFY_ENUM_DIR")
+        STATUS_NOTIFY_ENUM_DIR
+    };
+
+#pragma push_macro("STATUS_NO_QUOTAS_FOR_ACCOUNT")
+#undef STATUS_NO_QUOTAS_FOR_ACCOUNT
+    inline constexpr auto STATUS_NO_QUOTAS_FOR_ACCOUNT = NTSTATUS {
+#pragma pop_macro("STATUS_NO_QUOTAS_FOR_ACCOUNT")
+        STATUS_NO_QUOTAS_FOR_ACCOUNT
+    };
+
+#pragma push_macro("STATUS_PRIMARY_TRANSPORT_CONNECT_FAILED")
+#undef STATUS_PRIMARY_TRANSPORT_CONNECT_FAILED
+    inline constexpr auto STATUS_PRIMARY_TRANSPORT_CONNECT_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_PRIMARY_TRANSPORT_CONNECT_FAILED")
+        STATUS_PRIMARY_TRANSPORT_CONNECT_FAILED
+    };
+
+#pragma push_macro("STATUS_PAGE_FAULT_TRANSITION")
+#undef STATUS_PAGE_FAULT_TRANSITION
+    inline constexpr auto STATUS_PAGE_FAULT_TRANSITION = NTSTATUS {
+#pragma pop_macro("STATUS_PAGE_FAULT_TRANSITION")
+        STATUS_PAGE_FAULT_TRANSITION
+    };
+
+#pragma push_macro("STATUS_PAGE_FAULT_DEMAND_ZERO")
+#undef STATUS_PAGE_FAULT_DEMAND_ZERO
+    inline constexpr auto STATUS_PAGE_FAULT_DEMAND_ZERO = NTSTATUS {
+#pragma pop_macro("STATUS_PAGE_FAULT_DEMAND_ZERO")
+        STATUS_PAGE_FAULT_DEMAND_ZERO
+    };
+
+#pragma push_macro("STATUS_PAGE_FAULT_COPY_ON_WRITE")
+#undef STATUS_PAGE_FAULT_COPY_ON_WRITE
+    inline constexpr auto STATUS_PAGE_FAULT_COPY_ON_WRITE = NTSTATUS {
+#pragma pop_macro("STATUS_PAGE_FAULT_COPY_ON_WRITE")
+        STATUS_PAGE_FAULT_COPY_ON_WRITE
+    };
+
+#pragma push_macro("STATUS_PAGE_FAULT_GUARD_PAGE")
+#undef STATUS_PAGE_FAULT_GUARD_PAGE
+    inline constexpr auto STATUS_PAGE_FAULT_GUARD_PAGE = NTSTATUS {
+#pragma pop_macro("STATUS_PAGE_FAULT_GUARD_PAGE")
+        STATUS_PAGE_FAULT_GUARD_PAGE
+    };
+
+#pragma push_macro("STATUS_PAGE_FAULT_PAGING_FILE")
+#undef STATUS_PAGE_FAULT_PAGING_FILE
+    inline constexpr auto STATUS_PAGE_FAULT_PAGING_FILE = NTSTATUS {
+#pragma pop_macro("STATUS_PAGE_FAULT_PAGING_FILE")
+        STATUS_PAGE_FAULT_PAGING_FILE
+    };
+
+#pragma push_macro("STATUS_CACHE_PAGE_LOCKED")
+#undef STATUS_CACHE_PAGE_LOCKED
+    inline constexpr auto STATUS_CACHE_PAGE_LOCKED = NTSTATUS {
+#pragma pop_macro("STATUS_CACHE_PAGE_LOCKED")
+        STATUS_CACHE_PAGE_LOCKED
+    };
+
+#pragma push_macro("STATUS_CRASH_DUMP")
+#undef STATUS_CRASH_DUMP
+    inline constexpr auto STATUS_CRASH_DUMP = NTSTATUS {
+#pragma pop_macro("STATUS_CRASH_DUMP")
+        STATUS_CRASH_DUMP
+    };
+
+#pragma push_macro("STATUS_BUFFER_ALL_ZEROS")
+#undef STATUS_BUFFER_ALL_ZEROS
+    inline constexpr auto STATUS_BUFFER_ALL_ZEROS = NTSTATUS {
+#pragma pop_macro("STATUS_BUFFER_ALL_ZEROS")
+        STATUS_BUFFER_ALL_ZEROS
+    };
+
+#pragma push_macro("STATUS_REPARSE_OBJECT")
+#undef STATUS_REPARSE_OBJECT
+    inline constexpr auto STATUS_REPARSE_OBJECT = NTSTATUS {
+#pragma pop_macro("STATUS_REPARSE_OBJECT")
+        STATUS_REPARSE_OBJECT
+    };
+
+#pragma push_macro("STATUS_RESOURCE_REQUIREMENTS_CHANGED")
+#undef STATUS_RESOURCE_REQUIREMENTS_CHANGED
+    inline constexpr auto STATUS_RESOURCE_REQUIREMENTS_CHANGED = NTSTATUS {
+#pragma pop_macro("STATUS_RESOURCE_REQUIREMENTS_CHANGED")
+        STATUS_RESOURCE_REQUIREMENTS_CHANGED
+    };
+
+#pragma push_macro("STATUS_TRANSLATION_COMPLETE")
+#undef STATUS_TRANSLATION_COMPLETE
+    inline constexpr auto STATUS_TRANSLATION_COMPLETE = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSLATION_COMPLETE")
+        STATUS_TRANSLATION_COMPLETE
+    };
+
+#pragma push_macro("STATUS_DS_MEMBERSHIP_EVALUATED_LOCALLY")
+#undef STATUS_DS_MEMBERSHIP_EVALUATED_LOCALLY
+    inline constexpr auto STATUS_DS_MEMBERSHIP_EVALUATED_LOCALLY = NTSTATUS {
+#pragma pop_macro("STATUS_DS_MEMBERSHIP_EVALUATED_LOCALLY")
+        STATUS_DS_MEMBERSHIP_EVALUATED_LOCALLY
+    };
+
+#pragma push_macro("STATUS_NOTHING_TO_TERMINATE")
+#undef STATUS_NOTHING_TO_TERMINATE
+    inline constexpr auto STATUS_NOTHING_TO_TERMINATE = NTSTATUS {
+#pragma pop_macro("STATUS_NOTHING_TO_TERMINATE")
+        STATUS_NOTHING_TO_TERMINATE
+    };
+
+#pragma push_macro("STATUS_PROCESS_NOT_IN_JOB")
+#undef STATUS_PROCESS_NOT_IN_JOB
+    inline constexpr auto STATUS_PROCESS_NOT_IN_JOB = NTSTATUS {
+#pragma pop_macro("STATUS_PROCESS_NOT_IN_JOB")
+        STATUS_PROCESS_NOT_IN_JOB
+    };
+
+#pragma push_macro("STATUS_PROCESS_IN_JOB")
+#undef STATUS_PROCESS_IN_JOB
+    inline constexpr auto STATUS_PROCESS_IN_JOB = NTSTATUS {
+#pragma pop_macro("STATUS_PROCESS_IN_JOB")
+        STATUS_PROCESS_IN_JOB
+    };
+
+#pragma push_macro("STATUS_VOLSNAP_HIBERNATE_READY")
+#undef STATUS_VOLSNAP_HIBERNATE_READY
+    inline constexpr auto STATUS_VOLSNAP_HIBERNATE_READY = NTSTATUS {
+#pragma pop_macro("STATUS_VOLSNAP_HIBERNATE_READY")
+        STATUS_VOLSNAP_HIBERNATE_READY
+    };
+
+#pragma push_macro("STATUS_FSFILTER_OP_COMPLETED_SUCCESSFULLY")
+#undef STATUS_FSFILTER_OP_COMPLETED_SUCCESSFULLY
+    inline constexpr auto STATUS_FSFILTER_OP_COMPLETED_SUCCESSFULLY = NTSTATUS {
+#pragma pop_macro("STATUS_FSFILTER_OP_COMPLETED_SUCCESSFULLY")
+        STATUS_FSFILTER_OP_COMPLETED_SUCCESSFULLY
+    };
+
+#pragma push_macro("STATUS_INTERRUPT_VECTOR_ALREADY_CONNECTED")
+#undef STATUS_INTERRUPT_VECTOR_ALREADY_CONNECTED
+    inline constexpr auto STATUS_INTERRUPT_VECTOR_ALREADY_CONNECTED = NTSTATUS {
+#pragma pop_macro("STATUS_INTERRUPT_VECTOR_ALREADY_CONNECTED")
+        STATUS_INTERRUPT_VECTOR_ALREADY_CONNECTED
+    };
+
+#pragma push_macro("STATUS_INTERRUPT_STILL_CONNECTED")
+#undef STATUS_INTERRUPT_STILL_CONNECTED
+    inline constexpr auto STATUS_INTERRUPT_STILL_CONNECTED = NTSTATUS {
+#pragma pop_macro("STATUS_INTERRUPT_STILL_CONNECTED")
+        STATUS_INTERRUPT_STILL_CONNECTED
+    };
+
+#pragma push_macro("STATUS_PROCESS_CLONED")
+#undef STATUS_PROCESS_CLONED
+    inline constexpr auto STATUS_PROCESS_CLONED = NTSTATUS {
+#pragma pop_macro("STATUS_PROCESS_CLONED")
+        STATUS_PROCESS_CLONED
+    };
+
+#pragma push_macro("STATUS_FILE_LOCKED_WITH_ONLY_READERS")
+#undef STATUS_FILE_LOCKED_WITH_ONLY_READERS
+    inline constexpr auto STATUS_FILE_LOCKED_WITH_ONLY_READERS = NTSTATUS {
+#pragma pop_macro("STATUS_FILE_LOCKED_WITH_ONLY_READERS")
+        STATUS_FILE_LOCKED_WITH_ONLY_READERS
+    };
+
+#pragma push_macro("STATUS_FILE_LOCKED_WITH_WRITERS")
+#undef STATUS_FILE_LOCKED_WITH_WRITERS
+    inline constexpr auto STATUS_FILE_LOCKED_WITH_WRITERS = NTSTATUS {
+#pragma pop_macro("STATUS_FILE_LOCKED_WITH_WRITERS")
+        STATUS_FILE_LOCKED_WITH_WRITERS
+    };
+
+#pragma push_macro("STATUS_RESOURCEMANAGER_READ_ONLY")
+#undef STATUS_RESOURCEMANAGER_READ_ONLY
+    inline constexpr auto STATUS_RESOURCEMANAGER_READ_ONLY = NTSTATUS {
+#pragma pop_macro("STATUS_RESOURCEMANAGER_READ_ONLY")
+        STATUS_RESOURCEMANAGER_READ_ONLY
+    };
+
+#pragma push_macro("STATUS_WAIT_FOR_OPLOCK")
+#undef STATUS_WAIT_FOR_OPLOCK
+    inline constexpr auto STATUS_WAIT_FOR_OPLOCK = NTSTATUS {
+#pragma pop_macro("STATUS_WAIT_FOR_OPLOCK")
+        STATUS_WAIT_FOR_OPLOCK
+    };
+
+#pragma push_macro("DBG_EXCEPTION_HANDLED")
+#undef DBG_EXCEPTION_HANDLED
+    inline constexpr auto DBG_EXCEPTION_HANDLED = NTSTATUS {
+#pragma pop_macro("DBG_EXCEPTION_HANDLED")
+        DBG_EXCEPTION_HANDLED
+    };
+
+#pragma push_macro("DBG_CONTINUE")
+#undef DBG_CONTINUE
+    inline constexpr auto DBG_CONTINUE = NTSTATUS {
+#pragma pop_macro("DBG_CONTINUE")
+        DBG_CONTINUE
+    };
+
+#pragma push_macro("STATUS_FLT_IO_COMPLETE")
+#undef STATUS_FLT_IO_COMPLETE
+    inline constexpr auto STATUS_FLT_IO_COMPLETE = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_IO_COMPLETE")
+        STATUS_FLT_IO_COMPLETE
+    };
+
+#pragma push_macro("STATUS_FILE_NOT_AVAILABLE")
+#undef STATUS_FILE_NOT_AVAILABLE
+    inline constexpr auto STATUS_FILE_NOT_AVAILABLE = NTSTATUS {
+#pragma pop_macro("STATUS_FILE_NOT_AVAILABLE")
+        STATUS_FILE_NOT_AVAILABLE
+    };
+
+#pragma push_macro("STATUS_SHARE_UNAVAILABLE")
+#undef STATUS_SHARE_UNAVAILABLE
+    inline constexpr auto STATUS_SHARE_UNAVAILABLE = NTSTATUS {
+#pragma pop_macro("STATUS_SHARE_UNAVAILABLE")
+        STATUS_SHARE_UNAVAILABLE
+    };
+
+#pragma push_macro("STATUS_CALLBACK_RETURNED_THREAD_AFFINITY")
+#undef STATUS_CALLBACK_RETURNED_THREAD_AFFINITY
+    inline constexpr auto STATUS_CALLBACK_RETURNED_THREAD_AFFINITY = NTSTATUS {
+#pragma pop_macro("STATUS_CALLBACK_RETURNED_THREAD_AFFINITY")
+        STATUS_CALLBACK_RETURNED_THREAD_AFFINITY
+    };
+
+#pragma push_macro("STATUS_OBJECT_NAME_EXISTS")
+#undef STATUS_OBJECT_NAME_EXISTS
+    inline constexpr auto STATUS_OBJECT_NAME_EXISTS = NTSTATUS {
+#pragma pop_macro("STATUS_OBJECT_NAME_EXISTS")
+        STATUS_OBJECT_NAME_EXISTS
+    };
+
+#pragma push_macro("STATUS_THREAD_WAS_SUSPENDED")
+#undef STATUS_THREAD_WAS_SUSPENDED
+    inline constexpr auto STATUS_THREAD_WAS_SUSPENDED = NTSTATUS {
+#pragma pop_macro("STATUS_THREAD_WAS_SUSPENDED")
+        STATUS_THREAD_WAS_SUSPENDED
+    };
+
+#pragma push_macro("STATUS_WORKING_SET_LIMIT_RANGE")
+#undef STATUS_WORKING_SET_LIMIT_RANGE
+    inline constexpr auto STATUS_WORKING_SET_LIMIT_RANGE = NTSTATUS {
+#pragma pop_macro("STATUS_WORKING_SET_LIMIT_RANGE")
+        STATUS_WORKING_SET_LIMIT_RANGE
+    };
+
+#pragma push_macro("STATUS_IMAGE_NOT_AT_BASE")
+#undef STATUS_IMAGE_NOT_AT_BASE
+    inline constexpr auto STATUS_IMAGE_NOT_AT_BASE = NTSTATUS {
+#pragma pop_macro("STATUS_IMAGE_NOT_AT_BASE")
+        STATUS_IMAGE_NOT_AT_BASE
+    };
+
+#pragma push_macro("STATUS_RXACT_STATE_CREATED")
+#undef STATUS_RXACT_STATE_CREATED
+    inline constexpr auto STATUS_RXACT_STATE_CREATED = NTSTATUS {
+#pragma pop_macro("STATUS_RXACT_STATE_CREATED")
+        STATUS_RXACT_STATE_CREATED
+    };
+
+#pragma push_macro("STATUS_SEGMENT_NOTIFICATION")
+#undef STATUS_SEGMENT_NOTIFICATION
+    inline constexpr auto STATUS_SEGMENT_NOTIFICATION = NTSTATUS {
+#pragma pop_macro("STATUS_SEGMENT_NOTIFICATION")
+        STATUS_SEGMENT_NOTIFICATION
+    };
+
+#pragma push_macro("STATUS_LOCAL_USER_SESSION_KEY")
+#undef STATUS_LOCAL_USER_SESSION_KEY
+    inline constexpr auto STATUS_LOCAL_USER_SESSION_KEY = NTSTATUS {
+#pragma pop_macro("STATUS_LOCAL_USER_SESSION_KEY")
+        STATUS_LOCAL_USER_SESSION_KEY
+    };
+
+#pragma push_macro("STATUS_BAD_CURRENT_DIRECTORY")
+#undef STATUS_BAD_CURRENT_DIRECTORY
+    inline constexpr auto STATUS_BAD_CURRENT_DIRECTORY = NTSTATUS {
+#pragma pop_macro("STATUS_BAD_CURRENT_DIRECTORY")
+        STATUS_BAD_CURRENT_DIRECTORY
+    };
+
+#pragma push_macro("STATUS_SERIAL_MORE_WRITES")
+#undef STATUS_SERIAL_MORE_WRITES
+    inline constexpr auto STATUS_SERIAL_MORE_WRITES = NTSTATUS {
+#pragma pop_macro("STATUS_SERIAL_MORE_WRITES")
+        STATUS_SERIAL_MORE_WRITES
+    };
+
+#pragma push_macro("STATUS_REGISTRY_RECOVERED")
+#undef STATUS_REGISTRY_RECOVERED
+    inline constexpr auto STATUS_REGISTRY_RECOVERED = NTSTATUS {
+#pragma pop_macro("STATUS_REGISTRY_RECOVERED")
+        STATUS_REGISTRY_RECOVERED
+    };
+
+#pragma push_macro("STATUS_FT_READ_RECOVERY_FROM_BACKUP")
+#undef STATUS_FT_READ_RECOVERY_FROM_BACKUP
+    inline constexpr auto STATUS_FT_READ_RECOVERY_FROM_BACKUP = NTSTATUS {
+#pragma pop_macro("STATUS_FT_READ_RECOVERY_FROM_BACKUP")
+        STATUS_FT_READ_RECOVERY_FROM_BACKUP
+    };
+
+#pragma push_macro("STATUS_FT_WRITE_RECOVERY")
+#undef STATUS_FT_WRITE_RECOVERY
+    inline constexpr auto STATUS_FT_WRITE_RECOVERY = NTSTATUS {
+#pragma pop_macro("STATUS_FT_WRITE_RECOVERY")
+        STATUS_FT_WRITE_RECOVERY
+    };
+
+#pragma push_macro("STATUS_SERIAL_COUNTER_TIMEOUT")
+#undef STATUS_SERIAL_COUNTER_TIMEOUT
+    inline constexpr auto STATUS_SERIAL_COUNTER_TIMEOUT = NTSTATUS {
+#pragma pop_macro("STATUS_SERIAL_COUNTER_TIMEOUT")
+        STATUS_SERIAL_COUNTER_TIMEOUT
+    };
+
+#pragma push_macro("STATUS_NULL_LM_PASSWORD")
+#undef STATUS_NULL_LM_PASSWORD
+    inline constexpr auto STATUS_NULL_LM_PASSWORD = NTSTATUS {
+#pragma pop_macro("STATUS_NULL_LM_PASSWORD")
+        STATUS_NULL_LM_PASSWORD
+    };
+
+#pragma push_macro("STATUS_IMAGE_MACHINE_TYPE_MISMATCH")
+#undef STATUS_IMAGE_MACHINE_TYPE_MISMATCH
+    inline constexpr auto STATUS_IMAGE_MACHINE_TYPE_MISMATCH = NTSTATUS {
+#pragma pop_macro("STATUS_IMAGE_MACHINE_TYPE_MISMATCH")
+        STATUS_IMAGE_MACHINE_TYPE_MISMATCH
+    };
+
+#pragma push_macro("STATUS_RECEIVE_PARTIAL")
+#undef STATUS_RECEIVE_PARTIAL
+    inline constexpr auto STATUS_RECEIVE_PARTIAL = NTSTATUS {
+#pragma pop_macro("STATUS_RECEIVE_PARTIAL")
+        STATUS_RECEIVE_PARTIAL
+    };
+
+#pragma push_macro("STATUS_RECEIVE_EXPEDITED")
+#undef STATUS_RECEIVE_EXPEDITED
+    inline constexpr auto STATUS_RECEIVE_EXPEDITED = NTSTATUS {
+#pragma pop_macro("STATUS_RECEIVE_EXPEDITED")
+        STATUS_RECEIVE_EXPEDITED
+    };
+
+#pragma push_macro("STATUS_RECEIVE_PARTIAL_EXPEDITED")
+#undef STATUS_RECEIVE_PARTIAL_EXPEDITED
+    inline constexpr auto STATUS_RECEIVE_PARTIAL_EXPEDITED = NTSTATUS {
+#pragma pop_macro("STATUS_RECEIVE_PARTIAL_EXPEDITED")
+        STATUS_RECEIVE_PARTIAL_EXPEDITED
+    };
+
+#pragma push_macro("STATUS_EVENT_DONE")
+#undef STATUS_EVENT_DONE
+    inline constexpr auto STATUS_EVENT_DONE = NTSTATUS {
+#pragma pop_macro("STATUS_EVENT_DONE")
+        STATUS_EVENT_DONE
+    };
+
+#pragma push_macro("STATUS_EVENT_PENDING")
+#undef STATUS_EVENT_PENDING
+    inline constexpr auto STATUS_EVENT_PENDING = NTSTATUS {
+#pragma pop_macro("STATUS_EVENT_PENDING")
+        STATUS_EVENT_PENDING
+    };
+
+#pragma push_macro("STATUS_CHECKING_FILE_SYSTEM")
+#undef STATUS_CHECKING_FILE_SYSTEM
+    inline constexpr auto STATUS_CHECKING_FILE_SYSTEM = NTSTATUS {
+#pragma pop_macro("STATUS_CHECKING_FILE_SYSTEM")
+        STATUS_CHECKING_FILE_SYSTEM
+    };
+
+#pragma push_macro("STATUS_FATAL_APP_EXIT")
+#undef STATUS_FATAL_APP_EXIT
+    inline constexpr auto STATUS_FATAL_APP_EXIT = NTSTATUS {
+#pragma pop_macro("STATUS_FATAL_APP_EXIT")
+        STATUS_FATAL_APP_EXIT
+    };
+
+#pragma push_macro("STATUS_PREDEFINED_HANDLE")
+#undef STATUS_PREDEFINED_HANDLE
+    inline constexpr auto STATUS_PREDEFINED_HANDLE = NTSTATUS {
+#pragma pop_macro("STATUS_PREDEFINED_HANDLE")
+        STATUS_PREDEFINED_HANDLE
+    };
+
+#pragma push_macro("STATUS_WAS_UNLOCKED")
+#undef STATUS_WAS_UNLOCKED
+    inline constexpr auto STATUS_WAS_UNLOCKED = NTSTATUS {
+#pragma pop_macro("STATUS_WAS_UNLOCKED")
+        STATUS_WAS_UNLOCKED
+    };
+
+#pragma push_macro("STATUS_SERVICE_NOTIFICATION")
+#undef STATUS_SERVICE_NOTIFICATION
+    inline constexpr auto STATUS_SERVICE_NOTIFICATION = NTSTATUS {
+#pragma pop_macro("STATUS_SERVICE_NOTIFICATION")
+        STATUS_SERVICE_NOTIFICATION
+    };
+
+#pragma push_macro("STATUS_WAS_LOCKED")
+#undef STATUS_WAS_LOCKED
+    inline constexpr auto STATUS_WAS_LOCKED = NTSTATUS {
+#pragma pop_macro("STATUS_WAS_LOCKED")
+        STATUS_WAS_LOCKED
+    };
+
+#pragma push_macro("STATUS_LOG_HARD_ERROR")
+#undef STATUS_LOG_HARD_ERROR
+    inline constexpr auto STATUS_LOG_HARD_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_HARD_ERROR")
+        STATUS_LOG_HARD_ERROR
+    };
+
+#pragma push_macro("STATUS_ALREADY_WIN32")
+#undef STATUS_ALREADY_WIN32
+    inline constexpr auto STATUS_ALREADY_WIN32 = NTSTATUS {
+#pragma pop_macro("STATUS_ALREADY_WIN32")
+        STATUS_ALREADY_WIN32
+    };
+
+#pragma push_macro("STATUS_WX86_UNSIMULATE")
+#undef STATUS_WX86_UNSIMULATE
+    inline constexpr auto STATUS_WX86_UNSIMULATE = NTSTATUS {
+#pragma pop_macro("STATUS_WX86_UNSIMULATE")
+        STATUS_WX86_UNSIMULATE
+    };
+
+#pragma push_macro("STATUS_WX86_CONTINUE")
+#undef STATUS_WX86_CONTINUE
+    inline constexpr auto STATUS_WX86_CONTINUE = NTSTATUS {
+#pragma pop_macro("STATUS_WX86_CONTINUE")
+        STATUS_WX86_CONTINUE
+    };
+
+#pragma push_macro("STATUS_WX86_SINGLE_STEP")
+#undef STATUS_WX86_SINGLE_STEP
+    inline constexpr auto STATUS_WX86_SINGLE_STEP = NTSTATUS {
+#pragma pop_macro("STATUS_WX86_SINGLE_STEP")
+        STATUS_WX86_SINGLE_STEP
+    };
+
+#pragma push_macro("STATUS_WX86_BREAKPOINT")
+#undef STATUS_WX86_BREAKPOINT
+    inline constexpr auto STATUS_WX86_BREAKPOINT = NTSTATUS {
+#pragma pop_macro("STATUS_WX86_BREAKPOINT")
+        STATUS_WX86_BREAKPOINT
+    };
+
+#pragma push_macro("STATUS_WX86_EXCEPTION_CONTINUE")
+#undef STATUS_WX86_EXCEPTION_CONTINUE
+    inline constexpr auto STATUS_WX86_EXCEPTION_CONTINUE = NTSTATUS {
+#pragma pop_macro("STATUS_WX86_EXCEPTION_CONTINUE")
+        STATUS_WX86_EXCEPTION_CONTINUE
+    };
+
+#pragma push_macro("STATUS_WX86_EXCEPTION_LASTCHANCE")
+#undef STATUS_WX86_EXCEPTION_LASTCHANCE
+    inline constexpr auto STATUS_WX86_EXCEPTION_LASTCHANCE = NTSTATUS {
+#pragma pop_macro("STATUS_WX86_EXCEPTION_LASTCHANCE")
+        STATUS_WX86_EXCEPTION_LASTCHANCE
+    };
+
+#pragma push_macro("STATUS_WX86_EXCEPTION_CHAIN")
+#undef STATUS_WX86_EXCEPTION_CHAIN
+    inline constexpr auto STATUS_WX86_EXCEPTION_CHAIN = NTSTATUS {
+#pragma pop_macro("STATUS_WX86_EXCEPTION_CHAIN")
+        STATUS_WX86_EXCEPTION_CHAIN
+    };
+
+#pragma push_macro("STATUS_IMAGE_MACHINE_TYPE_MISMATCH_EXE")
+#undef STATUS_IMAGE_MACHINE_TYPE_MISMATCH_EXE
+    inline constexpr auto STATUS_IMAGE_MACHINE_TYPE_MISMATCH_EXE = NTSTATUS {
+#pragma pop_macro("STATUS_IMAGE_MACHINE_TYPE_MISMATCH_EXE")
+        STATUS_IMAGE_MACHINE_TYPE_MISMATCH_EXE
+    };
+
+#pragma push_macro("STATUS_NO_YIELD_PERFORMED")
+#undef STATUS_NO_YIELD_PERFORMED
+    inline constexpr auto STATUS_NO_YIELD_PERFORMED = NTSTATUS {
+#pragma pop_macro("STATUS_NO_YIELD_PERFORMED")
+        STATUS_NO_YIELD_PERFORMED
+    };
+
+#pragma push_macro("STATUS_TIMER_RESUME_IGNORED")
+#undef STATUS_TIMER_RESUME_IGNORED
+    inline constexpr auto STATUS_TIMER_RESUME_IGNORED = NTSTATUS {
+#pragma pop_macro("STATUS_TIMER_RESUME_IGNORED")
+        STATUS_TIMER_RESUME_IGNORED
+    };
+
+#pragma push_macro("STATUS_ARBITRATION_UNHANDLED")
+#undef STATUS_ARBITRATION_UNHANDLED
+    inline constexpr auto STATUS_ARBITRATION_UNHANDLED = NTSTATUS {
+#pragma pop_macro("STATUS_ARBITRATION_UNHANDLED")
+        STATUS_ARBITRATION_UNHANDLED
+    };
+
+#pragma push_macro("STATUS_CARDBUS_NOT_SUPPORTED")
+#undef STATUS_CARDBUS_NOT_SUPPORTED
+    inline constexpr auto STATUS_CARDBUS_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_CARDBUS_NOT_SUPPORTED")
+        STATUS_CARDBUS_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_WX86_CREATEWX86TIB")
+#undef STATUS_WX86_CREATEWX86TIB
+    inline constexpr auto STATUS_WX86_CREATEWX86TIB = NTSTATUS {
+#pragma pop_macro("STATUS_WX86_CREATEWX86TIB")
+        STATUS_WX86_CREATEWX86TIB
+    };
+
+#pragma push_macro("STATUS_MP_PROCESSOR_MISMATCH")
+#undef STATUS_MP_PROCESSOR_MISMATCH
+    inline constexpr auto STATUS_MP_PROCESSOR_MISMATCH = NTSTATUS {
+#pragma pop_macro("STATUS_MP_PROCESSOR_MISMATCH")
+        STATUS_MP_PROCESSOR_MISMATCH
+    };
+
+#pragma push_macro("STATUS_HIBERNATED")
+#undef STATUS_HIBERNATED
+    inline constexpr auto STATUS_HIBERNATED = NTSTATUS {
+#pragma pop_macro("STATUS_HIBERNATED")
+        STATUS_HIBERNATED
+    };
+
+#pragma push_macro("STATUS_RESUME_HIBERNATION")
+#undef STATUS_RESUME_HIBERNATION
+    inline constexpr auto STATUS_RESUME_HIBERNATION = NTSTATUS {
+#pragma pop_macro("STATUS_RESUME_HIBERNATION")
+        STATUS_RESUME_HIBERNATION
+    };
+
+#pragma push_macro("STATUS_FIRMWARE_UPDATED")
+#undef STATUS_FIRMWARE_UPDATED
+    inline constexpr auto STATUS_FIRMWARE_UPDATED = NTSTATUS {
+#pragma pop_macro("STATUS_FIRMWARE_UPDATED")
+        STATUS_FIRMWARE_UPDATED
+    };
+
+#pragma push_macro("STATUS_DRIVERS_LEAKING_LOCKED_PAGES")
+#undef STATUS_DRIVERS_LEAKING_LOCKED_PAGES
+    inline constexpr auto STATUS_DRIVERS_LEAKING_LOCKED_PAGES = NTSTATUS {
+#pragma pop_macro("STATUS_DRIVERS_LEAKING_LOCKED_PAGES")
+        STATUS_DRIVERS_LEAKING_LOCKED_PAGES
+    };
+
+#pragma push_macro("STATUS_MESSAGE_RETRIEVED")
+#undef STATUS_MESSAGE_RETRIEVED
+    inline constexpr auto STATUS_MESSAGE_RETRIEVED = NTSTATUS {
+#pragma pop_macro("STATUS_MESSAGE_RETRIEVED")
+        STATUS_MESSAGE_RETRIEVED
+    };
+
+#pragma push_macro("STATUS_SYSTEM_POWERSTATE_TRANSITION")
+#undef STATUS_SYSTEM_POWERSTATE_TRANSITION
+    inline constexpr auto STATUS_SYSTEM_POWERSTATE_TRANSITION = NTSTATUS {
+#pragma pop_macro("STATUS_SYSTEM_POWERSTATE_TRANSITION")
+        STATUS_SYSTEM_POWERSTATE_TRANSITION
+    };
+
+#pragma push_macro("STATUS_ALPC_CHECK_COMPLETION_LIST")
+#undef STATUS_ALPC_CHECK_COMPLETION_LIST
+    inline constexpr auto STATUS_ALPC_CHECK_COMPLETION_LIST = NTSTATUS {
+#pragma pop_macro("STATUS_ALPC_CHECK_COMPLETION_LIST")
+        STATUS_ALPC_CHECK_COMPLETION_LIST
+    };
+
+#pragma push_macro("STATUS_SYSTEM_POWERSTATE_COMPLEX_TRANSITION")
+#undef STATUS_SYSTEM_POWERSTATE_COMPLEX_TRANSITION
+    inline constexpr auto STATUS_SYSTEM_POWERSTATE_COMPLEX_TRANSITION = NTSTATUS {
+#pragma pop_macro("STATUS_SYSTEM_POWERSTATE_COMPLEX_TRANSITION")
+        STATUS_SYSTEM_POWERSTATE_COMPLEX_TRANSITION
+    };
+
+#pragma push_macro("STATUS_ACCESS_AUDIT_BY_POLICY")
+#undef STATUS_ACCESS_AUDIT_BY_POLICY
+    inline constexpr auto STATUS_ACCESS_AUDIT_BY_POLICY = NTSTATUS {
+#pragma pop_macro("STATUS_ACCESS_AUDIT_BY_POLICY")
+        STATUS_ACCESS_AUDIT_BY_POLICY
+    };
+
+#pragma push_macro("STATUS_ABANDON_HIBERFILE")
+#undef STATUS_ABANDON_HIBERFILE
+    inline constexpr auto STATUS_ABANDON_HIBERFILE = NTSTATUS {
+#pragma pop_macro("STATUS_ABANDON_HIBERFILE")
+        STATUS_ABANDON_HIBERFILE
+    };
+
+#pragma push_macro("STATUS_BIZRULES_NOT_ENABLED")
+#undef STATUS_BIZRULES_NOT_ENABLED
+    inline constexpr auto STATUS_BIZRULES_NOT_ENABLED = NTSTATUS {
+#pragma pop_macro("STATUS_BIZRULES_NOT_ENABLED")
+        STATUS_BIZRULES_NOT_ENABLED
+    };
+
+#pragma push_macro("STATUS_WAKE_SYSTEM")
+#undef STATUS_WAKE_SYSTEM
+    inline constexpr auto STATUS_WAKE_SYSTEM = NTSTATUS {
+#pragma pop_macro("STATUS_WAKE_SYSTEM")
+        STATUS_WAKE_SYSTEM
+    };
+
+#pragma push_macro("STATUS_DS_SHUTTING_DOWN")
+#undef STATUS_DS_SHUTTING_DOWN
+    inline constexpr auto STATUS_DS_SHUTTING_DOWN = NTSTATUS {
+#pragma pop_macro("STATUS_DS_SHUTTING_DOWN")
+        STATUS_DS_SHUTTING_DOWN
+    };
+
+#pragma push_macro("DBG_REPLY_LATER")
+#undef DBG_REPLY_LATER
+    inline constexpr auto DBG_REPLY_LATER = NTSTATUS {
+#pragma pop_macro("DBG_REPLY_LATER")
+        DBG_REPLY_LATER
+    };
+
+#pragma push_macro("DBG_UNABLE_TO_PROVIDE_HANDLE")
+#undef DBG_UNABLE_TO_PROVIDE_HANDLE
+    inline constexpr auto DBG_UNABLE_TO_PROVIDE_HANDLE = NTSTATUS {
+#pragma pop_macro("DBG_UNABLE_TO_PROVIDE_HANDLE")
+        DBG_UNABLE_TO_PROVIDE_HANDLE
+    };
+
+#pragma push_macro("DBG_TERMINATE_THREAD")
+#undef DBG_TERMINATE_THREAD
+    inline constexpr auto DBG_TERMINATE_THREAD = NTSTATUS {
+#pragma pop_macro("DBG_TERMINATE_THREAD")
+        DBG_TERMINATE_THREAD
+    };
+
+#pragma push_macro("DBG_TERMINATE_PROCESS")
+#undef DBG_TERMINATE_PROCESS
+    inline constexpr auto DBG_TERMINATE_PROCESS = NTSTATUS {
+#pragma pop_macro("DBG_TERMINATE_PROCESS")
+        DBG_TERMINATE_PROCESS
+    };
+
+#pragma push_macro("DBG_CONTROL_C")
+#undef DBG_CONTROL_C
+    inline constexpr auto DBG_CONTROL_C = NTSTATUS {
+#pragma pop_macro("DBG_CONTROL_C")
+        DBG_CONTROL_C
+    };
+
+#pragma push_macro("DBG_PRINTEXCEPTION_C")
+#undef DBG_PRINTEXCEPTION_C
+    inline constexpr auto DBG_PRINTEXCEPTION_C = NTSTATUS {
+#pragma pop_macro("DBG_PRINTEXCEPTION_C")
+        DBG_PRINTEXCEPTION_C
+    };
+
+#pragma push_macro("DBG_RIPEXCEPTION")
+#undef DBG_RIPEXCEPTION
+    inline constexpr auto DBG_RIPEXCEPTION = NTSTATUS {
+#pragma pop_macro("DBG_RIPEXCEPTION")
+        DBG_RIPEXCEPTION
+    };
+
+#pragma push_macro("DBG_CONTROL_BREAK")
+#undef DBG_CONTROL_BREAK
+    inline constexpr auto DBG_CONTROL_BREAK = NTSTATUS {
+#pragma pop_macro("DBG_CONTROL_BREAK")
+        DBG_CONTROL_BREAK
+    };
+
+#pragma push_macro("DBG_COMMAND_EXCEPTION")
+#undef DBG_COMMAND_EXCEPTION
+    inline constexpr auto DBG_COMMAND_EXCEPTION = NTSTATUS {
+#pragma pop_macro("DBG_COMMAND_EXCEPTION")
+        DBG_COMMAND_EXCEPTION
+    };
+
+#pragma push_macro("RPC_NT_UUID_LOCAL_ONLY")
+#undef RPC_NT_UUID_LOCAL_ONLY
+    inline constexpr auto RPC_NT_UUID_LOCAL_ONLY = NTSTATUS {
+#pragma pop_macro("RPC_NT_UUID_LOCAL_ONLY")
+        RPC_NT_UUID_LOCAL_ONLY
+    };
+
+#pragma push_macro("RPC_NT_SEND_INCOMPLETE")
+#undef RPC_NT_SEND_INCOMPLETE
+    inline constexpr auto RPC_NT_SEND_INCOMPLETE = NTSTATUS {
+#pragma pop_macro("RPC_NT_SEND_INCOMPLETE")
+        RPC_NT_SEND_INCOMPLETE
+    };
+
+#pragma push_macro("STATUS_CTX_CDM_CONNECT")
+#undef STATUS_CTX_CDM_CONNECT
+    inline constexpr auto STATUS_CTX_CDM_CONNECT = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_CDM_CONNECT")
+        STATUS_CTX_CDM_CONNECT
+    };
+
+#pragma push_macro("STATUS_CTX_CDM_DISCONNECT")
+#undef STATUS_CTX_CDM_DISCONNECT
+    inline constexpr auto STATUS_CTX_CDM_DISCONNECT = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_CDM_DISCONNECT")
+        STATUS_CTX_CDM_DISCONNECT
+    };
+
+#pragma push_macro("STATUS_SXS_RELEASE_ACTIVATION_CONTEXT")
+#undef STATUS_SXS_RELEASE_ACTIVATION_CONTEXT
+    inline constexpr auto STATUS_SXS_RELEASE_ACTIVATION_CONTEXT = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_RELEASE_ACTIVATION_CONTEXT")
+        STATUS_SXS_RELEASE_ACTIVATION_CONTEXT
+    };
+
+#pragma push_macro("STATUS_RECOVERY_NOT_NEEDED")
+#undef STATUS_RECOVERY_NOT_NEEDED
+    inline constexpr auto STATUS_RECOVERY_NOT_NEEDED = NTSTATUS {
+#pragma pop_macro("STATUS_RECOVERY_NOT_NEEDED")
+        STATUS_RECOVERY_NOT_NEEDED
+    };
+
+#pragma push_macro("STATUS_RM_ALREADY_STARTED")
+#undef STATUS_RM_ALREADY_STARTED
+    inline constexpr auto STATUS_RM_ALREADY_STARTED = NTSTATUS {
+#pragma pop_macro("STATUS_RM_ALREADY_STARTED")
+        STATUS_RM_ALREADY_STARTED
+    };
+
+#pragma push_macro("STATUS_LOG_NO_RESTART")
+#undef STATUS_LOG_NO_RESTART
+    inline constexpr auto STATUS_LOG_NO_RESTART = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_NO_RESTART")
+        STATUS_LOG_NO_RESTART
+    };
+
+#pragma push_macro("STATUS_VIDEO_DRIVER_DEBUG_REPORT_REQUEST")
+#undef STATUS_VIDEO_DRIVER_DEBUG_REPORT_REQUEST
+    inline constexpr auto STATUS_VIDEO_DRIVER_DEBUG_REPORT_REQUEST = NTSTATUS {
+#pragma pop_macro("STATUS_VIDEO_DRIVER_DEBUG_REPORT_REQUEST")
+        STATUS_VIDEO_DRIVER_DEBUG_REPORT_REQUEST
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_PARTIAL_DATA_POPULATED")
+#undef STATUS_GRAPHICS_PARTIAL_DATA_POPULATED
+    inline constexpr auto STATUS_GRAPHICS_PARTIAL_DATA_POPULATED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_PARTIAL_DATA_POPULATED")
+        STATUS_GRAPHICS_PARTIAL_DATA_POPULATED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_DRIVER_MISMATCH")
+#undef STATUS_GRAPHICS_DRIVER_MISMATCH
+    inline constexpr auto STATUS_GRAPHICS_DRIVER_MISMATCH = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_DRIVER_MISMATCH")
+        STATUS_GRAPHICS_DRIVER_MISMATCH
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_MODE_NOT_PINNED")
+#undef STATUS_GRAPHICS_MODE_NOT_PINNED
+    inline constexpr auto STATUS_GRAPHICS_MODE_NOT_PINNED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_MODE_NOT_PINNED")
+        STATUS_GRAPHICS_MODE_NOT_PINNED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_NO_PREFERRED_MODE")
+#undef STATUS_GRAPHICS_NO_PREFERRED_MODE
+    inline constexpr auto STATUS_GRAPHICS_NO_PREFERRED_MODE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_NO_PREFERRED_MODE")
+        STATUS_GRAPHICS_NO_PREFERRED_MODE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_DATASET_IS_EMPTY")
+#undef STATUS_GRAPHICS_DATASET_IS_EMPTY
+    inline constexpr auto STATUS_GRAPHICS_DATASET_IS_EMPTY = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_DATASET_IS_EMPTY")
+        STATUS_GRAPHICS_DATASET_IS_EMPTY
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_NO_MORE_ELEMENTS_IN_DATASET")
+#undef STATUS_GRAPHICS_NO_MORE_ELEMENTS_IN_DATASET
+    inline constexpr auto STATUS_GRAPHICS_NO_MORE_ELEMENTS_IN_DATASET = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_NO_MORE_ELEMENTS_IN_DATASET")
+        STATUS_GRAPHICS_NO_MORE_ELEMENTS_IN_DATASET
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_PATH_CONTENT_GEOMETRY_TRANSFORMATION_NOT_PINNED")
+#undef STATUS_GRAPHICS_PATH_CONTENT_GEOMETRY_TRANSFORMATION_NOT_PINNED
+    inline constexpr auto STATUS_GRAPHICS_PATH_CONTENT_GEOMETRY_TRANSFORMATION_NOT_PINNED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_PATH_CONTENT_GEOMETRY_TRANSFORMATION_NOT_PINNED")
+        STATUS_GRAPHICS_PATH_CONTENT_GEOMETRY_TRANSFORMATION_NOT_PINNED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_UNKNOWN_CHILD_STATUS")
+#undef STATUS_GRAPHICS_UNKNOWN_CHILD_STATUS
+    inline constexpr auto STATUS_GRAPHICS_UNKNOWN_CHILD_STATUS = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_UNKNOWN_CHILD_STATUS")
+        STATUS_GRAPHICS_UNKNOWN_CHILD_STATUS
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_LEADLINK_START_DEFERRED")
+#undef STATUS_GRAPHICS_LEADLINK_START_DEFERRED
+    inline constexpr auto STATUS_GRAPHICS_LEADLINK_START_DEFERRED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_LEADLINK_START_DEFERRED")
+        STATUS_GRAPHICS_LEADLINK_START_DEFERRED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_POLLING_TOO_FREQUENTLY")
+#undef STATUS_GRAPHICS_POLLING_TOO_FREQUENTLY
+    inline constexpr auto STATUS_GRAPHICS_POLLING_TOO_FREQUENTLY = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_POLLING_TOO_FREQUENTLY")
+        STATUS_GRAPHICS_POLLING_TOO_FREQUENTLY
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_START_DEFERRED")
+#undef STATUS_GRAPHICS_START_DEFERRED
+    inline constexpr auto STATUS_GRAPHICS_START_DEFERRED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_START_DEFERRED")
+        STATUS_GRAPHICS_START_DEFERRED
+    };
+
+#pragma push_macro("STATUS_NDIS_INDICATION_REQUIRED")
+#undef STATUS_NDIS_INDICATION_REQUIRED
+    inline constexpr auto STATUS_NDIS_INDICATION_REQUIRED = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_INDICATION_REQUIRED")
+        STATUS_NDIS_INDICATION_REQUIRED
+    };
+
+#pragma push_macro("STATUS_GUARD_PAGE_VIOLATION")
+#undef STATUS_GUARD_PAGE_VIOLATION
+    inline constexpr auto STATUS_GUARD_PAGE_VIOLATION = NTSTATUS {
+#pragma pop_macro("STATUS_GUARD_PAGE_VIOLATION")
+        STATUS_GUARD_PAGE_VIOLATION
+    };
+
+#pragma push_macro("STATUS_DATATYPE_MISALIGNMENT")
+#undef STATUS_DATATYPE_MISALIGNMENT
+    inline constexpr auto STATUS_DATATYPE_MISALIGNMENT = NTSTATUS {
+#pragma pop_macro("STATUS_DATATYPE_MISALIGNMENT")
+        STATUS_DATATYPE_MISALIGNMENT
+    };
+
+#pragma push_macro("STATUS_BREAKPOINT")
+#undef STATUS_BREAKPOINT
+    inline constexpr auto STATUS_BREAKPOINT = NTSTATUS {
+#pragma pop_macro("STATUS_BREAKPOINT")
+        STATUS_BREAKPOINT
+    };
+
+#pragma push_macro("STATUS_SINGLE_STEP")
+#undef STATUS_SINGLE_STEP
+    inline constexpr auto STATUS_SINGLE_STEP = NTSTATUS {
+#pragma pop_macro("STATUS_SINGLE_STEP")
+        STATUS_SINGLE_STEP
+    };
+
+#pragma push_macro("STATUS_BUFFER_OVERFLOW")
+#undef STATUS_BUFFER_OVERFLOW
+    inline constexpr auto STATUS_BUFFER_OVERFLOW = NTSTATUS {
+#pragma pop_macro("STATUS_BUFFER_OVERFLOW")
+        STATUS_BUFFER_OVERFLOW
+    };
+
+#pragma push_macro("STATUS_NO_MORE_FILES")
+#undef STATUS_NO_MORE_FILES
+    inline constexpr auto STATUS_NO_MORE_FILES = NTSTATUS {
+#pragma pop_macro("STATUS_NO_MORE_FILES")
+        STATUS_NO_MORE_FILES
+    };
+
+#pragma push_macro("STATUS_WAKE_SYSTEM_DEBUGGER")
+#undef STATUS_WAKE_SYSTEM_DEBUGGER
+    inline constexpr auto STATUS_WAKE_SYSTEM_DEBUGGER = NTSTATUS {
+#pragma pop_macro("STATUS_WAKE_SYSTEM_DEBUGGER")
+        STATUS_WAKE_SYSTEM_DEBUGGER
+    };
+
+#pragma push_macro("STATUS_HANDLES_CLOSED")
+#undef STATUS_HANDLES_CLOSED
+    inline constexpr auto STATUS_HANDLES_CLOSED = NTSTATUS {
+#pragma pop_macro("STATUS_HANDLES_CLOSED")
+        STATUS_HANDLES_CLOSED
+    };
+
+#pragma push_macro("STATUS_NO_INHERITANCE")
+#undef STATUS_NO_INHERITANCE
+    inline constexpr auto STATUS_NO_INHERITANCE = NTSTATUS {
+#pragma pop_macro("STATUS_NO_INHERITANCE")
+        STATUS_NO_INHERITANCE
+    };
+
+#pragma push_macro("STATUS_GUID_SUBSTITUTION_MADE")
+#undef STATUS_GUID_SUBSTITUTION_MADE
+    inline constexpr auto STATUS_GUID_SUBSTITUTION_MADE = NTSTATUS {
+#pragma pop_macro("STATUS_GUID_SUBSTITUTION_MADE")
+        STATUS_GUID_SUBSTITUTION_MADE
+    };
+
+#pragma push_macro("STATUS_PARTIAL_COPY")
+#undef STATUS_PARTIAL_COPY
+    inline constexpr auto STATUS_PARTIAL_COPY = NTSTATUS {
+#pragma pop_macro("STATUS_PARTIAL_COPY")
+        STATUS_PARTIAL_COPY
+    };
+
+#pragma push_macro("STATUS_DEVICE_PAPER_EMPTY")
+#undef STATUS_DEVICE_PAPER_EMPTY
+    inline constexpr auto STATUS_DEVICE_PAPER_EMPTY = NTSTATUS {
+#pragma pop_macro("STATUS_DEVICE_PAPER_EMPTY")
+        STATUS_DEVICE_PAPER_EMPTY
+    };
+
+#pragma push_macro("STATUS_DEVICE_POWERED_OFF")
+#undef STATUS_DEVICE_POWERED_OFF
+    inline constexpr auto STATUS_DEVICE_POWERED_OFF = NTSTATUS {
+#pragma pop_macro("STATUS_DEVICE_POWERED_OFF")
+        STATUS_DEVICE_POWERED_OFF
+    };
+
+#pragma push_macro("STATUS_DEVICE_OFF_LINE")
+#undef STATUS_DEVICE_OFF_LINE
+    inline constexpr auto STATUS_DEVICE_OFF_LINE = NTSTATUS {
+#pragma pop_macro("STATUS_DEVICE_OFF_LINE")
+        STATUS_DEVICE_OFF_LINE
+    };
+
+#pragma push_macro("STATUS_DEVICE_BUSY")
+#undef STATUS_DEVICE_BUSY
+    inline constexpr auto STATUS_DEVICE_BUSY = NTSTATUS {
+#pragma pop_macro("STATUS_DEVICE_BUSY")
+        STATUS_DEVICE_BUSY
+    };
+
+#pragma push_macro("STATUS_NO_MORE_EAS")
+#undef STATUS_NO_MORE_EAS
+    inline constexpr auto STATUS_NO_MORE_EAS = NTSTATUS {
+#pragma pop_macro("STATUS_NO_MORE_EAS")
+        STATUS_NO_MORE_EAS
+    };
+
+#pragma push_macro("STATUS_INVALID_EA_NAME")
+#undef STATUS_INVALID_EA_NAME
+    inline constexpr auto STATUS_INVALID_EA_NAME = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_EA_NAME")
+        STATUS_INVALID_EA_NAME
+    };
+
+#pragma push_macro("STATUS_EA_LIST_INCONSISTENT")
+#undef STATUS_EA_LIST_INCONSISTENT
+    inline constexpr auto STATUS_EA_LIST_INCONSISTENT = NTSTATUS {
+#pragma pop_macro("STATUS_EA_LIST_INCONSISTENT")
+        STATUS_EA_LIST_INCONSISTENT
+    };
+
+#pragma push_macro("STATUS_INVALID_EA_FLAG")
+#undef STATUS_INVALID_EA_FLAG
+    inline constexpr auto STATUS_INVALID_EA_FLAG = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_EA_FLAG")
+        STATUS_INVALID_EA_FLAG
+    };
+
+#pragma push_macro("STATUS_VERIFY_REQUIRED")
+#undef STATUS_VERIFY_REQUIRED
+    inline constexpr auto STATUS_VERIFY_REQUIRED = NTSTATUS {
+#pragma pop_macro("STATUS_VERIFY_REQUIRED")
+        STATUS_VERIFY_REQUIRED
+    };
+
+#pragma push_macro("STATUS_EXTRANEOUS_INFORMATION")
+#undef STATUS_EXTRANEOUS_INFORMATION
+    inline constexpr auto STATUS_EXTRANEOUS_INFORMATION = NTSTATUS {
+#pragma pop_macro("STATUS_EXTRANEOUS_INFORMATION")
+        STATUS_EXTRANEOUS_INFORMATION
+    };
+
+#pragma push_macro("STATUS_RXACT_COMMIT_NECESSARY")
+#undef STATUS_RXACT_COMMIT_NECESSARY
+    inline constexpr auto STATUS_RXACT_COMMIT_NECESSARY = NTSTATUS {
+#pragma pop_macro("STATUS_RXACT_COMMIT_NECESSARY")
+        STATUS_RXACT_COMMIT_NECESSARY
+    };
+
+#pragma push_macro("STATUS_NO_MORE_ENTRIES")
+#undef STATUS_NO_MORE_ENTRIES
+    inline constexpr auto STATUS_NO_MORE_ENTRIES = NTSTATUS {
+#pragma pop_macro("STATUS_NO_MORE_ENTRIES")
+        STATUS_NO_MORE_ENTRIES
+    };
+
+#pragma push_macro("STATUS_FILEMARK_DETECTED")
+#undef STATUS_FILEMARK_DETECTED
+    inline constexpr auto STATUS_FILEMARK_DETECTED = NTSTATUS {
+#pragma pop_macro("STATUS_FILEMARK_DETECTED")
+        STATUS_FILEMARK_DETECTED
+    };
+
+#pragma push_macro("STATUS_MEDIA_CHANGED")
+#undef STATUS_MEDIA_CHANGED
+    inline constexpr auto STATUS_MEDIA_CHANGED = NTSTATUS {
+#pragma pop_macro("STATUS_MEDIA_CHANGED")
+        STATUS_MEDIA_CHANGED
+    };
+
+#pragma push_macro("STATUS_BUS_RESET")
+#undef STATUS_BUS_RESET
+    inline constexpr auto STATUS_BUS_RESET = NTSTATUS {
+#pragma pop_macro("STATUS_BUS_RESET")
+        STATUS_BUS_RESET
+    };
+
+#pragma push_macro("STATUS_END_OF_MEDIA")
+#undef STATUS_END_OF_MEDIA
+    inline constexpr auto STATUS_END_OF_MEDIA = NTSTATUS {
+#pragma pop_macro("STATUS_END_OF_MEDIA")
+        STATUS_END_OF_MEDIA
+    };
+
+#pragma push_macro("STATUS_BEGINNING_OF_MEDIA")
+#undef STATUS_BEGINNING_OF_MEDIA
+    inline constexpr auto STATUS_BEGINNING_OF_MEDIA = NTSTATUS {
+#pragma pop_macro("STATUS_BEGINNING_OF_MEDIA")
+        STATUS_BEGINNING_OF_MEDIA
+    };
+
+#pragma push_macro("STATUS_MEDIA_CHECK")
+#undef STATUS_MEDIA_CHECK
+    inline constexpr auto STATUS_MEDIA_CHECK = NTSTATUS {
+#pragma pop_macro("STATUS_MEDIA_CHECK")
+        STATUS_MEDIA_CHECK
+    };
+
+#pragma push_macro("STATUS_SETMARK_DETECTED")
+#undef STATUS_SETMARK_DETECTED
+    inline constexpr auto STATUS_SETMARK_DETECTED = NTSTATUS {
+#pragma pop_macro("STATUS_SETMARK_DETECTED")
+        STATUS_SETMARK_DETECTED
+    };
+
+#pragma push_macro("STATUS_NO_DATA_DETECTED")
+#undef STATUS_NO_DATA_DETECTED
+    inline constexpr auto STATUS_NO_DATA_DETECTED = NTSTATUS {
+#pragma pop_macro("STATUS_NO_DATA_DETECTED")
+        STATUS_NO_DATA_DETECTED
+    };
+
+#pragma push_macro("STATUS_REDIRECTOR_HAS_OPEN_HANDLES")
+#undef STATUS_REDIRECTOR_HAS_OPEN_HANDLES
+    inline constexpr auto STATUS_REDIRECTOR_HAS_OPEN_HANDLES = NTSTATUS {
+#pragma pop_macro("STATUS_REDIRECTOR_HAS_OPEN_HANDLES")
+        STATUS_REDIRECTOR_HAS_OPEN_HANDLES
+    };
+
+#pragma push_macro("STATUS_SERVER_HAS_OPEN_HANDLES")
+#undef STATUS_SERVER_HAS_OPEN_HANDLES
+    inline constexpr auto STATUS_SERVER_HAS_OPEN_HANDLES = NTSTATUS {
+#pragma pop_macro("STATUS_SERVER_HAS_OPEN_HANDLES")
+        STATUS_SERVER_HAS_OPEN_HANDLES
+    };
+
+#pragma push_macro("STATUS_ALREADY_DISCONNECTED")
+#undef STATUS_ALREADY_DISCONNECTED
+    inline constexpr auto STATUS_ALREADY_DISCONNECTED = NTSTATUS {
+#pragma pop_macro("STATUS_ALREADY_DISCONNECTED")
+        STATUS_ALREADY_DISCONNECTED
+    };
+
+#pragma push_macro("STATUS_LONGJUMP")
+#undef STATUS_LONGJUMP
+    inline constexpr auto STATUS_LONGJUMP = NTSTATUS {
+#pragma pop_macro("STATUS_LONGJUMP")
+        STATUS_LONGJUMP
+    };
+
+#pragma push_macro("STATUS_CLEANER_CARTRIDGE_INSTALLED")
+#undef STATUS_CLEANER_CARTRIDGE_INSTALLED
+    inline constexpr auto STATUS_CLEANER_CARTRIDGE_INSTALLED = NTSTATUS {
+#pragma pop_macro("STATUS_CLEANER_CARTRIDGE_INSTALLED")
+        STATUS_CLEANER_CARTRIDGE_INSTALLED
+    };
+
+#pragma push_macro("STATUS_PLUGPLAY_QUERY_VETOED")
+#undef STATUS_PLUGPLAY_QUERY_VETOED
+    inline constexpr auto STATUS_PLUGPLAY_QUERY_VETOED = NTSTATUS {
+#pragma pop_macro("STATUS_PLUGPLAY_QUERY_VETOED")
+        STATUS_PLUGPLAY_QUERY_VETOED
+    };
+
+#pragma push_macro("STATUS_UNWIND_CONSOLIDATE")
+#undef STATUS_UNWIND_CONSOLIDATE
+    inline constexpr auto STATUS_UNWIND_CONSOLIDATE = NTSTATUS {
+#pragma pop_macro("STATUS_UNWIND_CONSOLIDATE")
+        STATUS_UNWIND_CONSOLIDATE
+    };
+
+#pragma push_macro("STATUS_REGISTRY_HIVE_RECOVERED")
+#undef STATUS_REGISTRY_HIVE_RECOVERED
+    inline constexpr auto STATUS_REGISTRY_HIVE_RECOVERED = NTSTATUS {
+#pragma pop_macro("STATUS_REGISTRY_HIVE_RECOVERED")
+        STATUS_REGISTRY_HIVE_RECOVERED
+    };
+
+#pragma push_macro("STATUS_DLL_MIGHT_BE_INSECURE")
+#undef STATUS_DLL_MIGHT_BE_INSECURE
+    inline constexpr auto STATUS_DLL_MIGHT_BE_INSECURE = NTSTATUS {
+#pragma pop_macro("STATUS_DLL_MIGHT_BE_INSECURE")
+        STATUS_DLL_MIGHT_BE_INSECURE
+    };
+
+#pragma push_macro("STATUS_DLL_MIGHT_BE_INCOMPATIBLE")
+#undef STATUS_DLL_MIGHT_BE_INCOMPATIBLE
+    inline constexpr auto STATUS_DLL_MIGHT_BE_INCOMPATIBLE = NTSTATUS {
+#pragma pop_macro("STATUS_DLL_MIGHT_BE_INCOMPATIBLE")
+        STATUS_DLL_MIGHT_BE_INCOMPATIBLE
+    };
+
+#pragma push_macro("STATUS_STOPPED_ON_SYMLINK")
+#undef STATUS_STOPPED_ON_SYMLINK
+    inline constexpr auto STATUS_STOPPED_ON_SYMLINK = NTSTATUS {
+#pragma pop_macro("STATUS_STOPPED_ON_SYMLINK")
+        STATUS_STOPPED_ON_SYMLINK
+    };
+
+#pragma push_macro("STATUS_DEVICE_REQUIRES_CLEANING")
+#undef STATUS_DEVICE_REQUIRES_CLEANING
+    inline constexpr auto STATUS_DEVICE_REQUIRES_CLEANING = NTSTATUS {
+#pragma pop_macro("STATUS_DEVICE_REQUIRES_CLEANING")
+        STATUS_DEVICE_REQUIRES_CLEANING
+    };
+
+#pragma push_macro("STATUS_DEVICE_DOOR_OPEN")
+#undef STATUS_DEVICE_DOOR_OPEN
+    inline constexpr auto STATUS_DEVICE_DOOR_OPEN = NTSTATUS {
+#pragma pop_macro("STATUS_DEVICE_DOOR_OPEN")
+        STATUS_DEVICE_DOOR_OPEN
+    };
+
+#pragma push_macro("STATUS_DATA_LOST_REPAIR")
+#undef STATUS_DATA_LOST_REPAIR
+    inline constexpr auto STATUS_DATA_LOST_REPAIR = NTSTATUS {
+#pragma pop_macro("STATUS_DATA_LOST_REPAIR")
+        STATUS_DATA_LOST_REPAIR
+    };
+
+#pragma push_macro("DBG_EXCEPTION_NOT_HANDLED")
+#undef DBG_EXCEPTION_NOT_HANDLED
+    inline constexpr auto DBG_EXCEPTION_NOT_HANDLED = NTSTATUS {
+#pragma pop_macro("DBG_EXCEPTION_NOT_HANDLED")
+        DBG_EXCEPTION_NOT_HANDLED
+    };
+
+#pragma push_macro("STATUS_CLUSTER_NODE_ALREADY_UP")
+#undef STATUS_CLUSTER_NODE_ALREADY_UP
+    inline constexpr auto STATUS_CLUSTER_NODE_ALREADY_UP = NTSTATUS {
+#pragma pop_macro("STATUS_CLUSTER_NODE_ALREADY_UP")
+        STATUS_CLUSTER_NODE_ALREADY_UP
+    };
+
+#pragma push_macro("STATUS_CLUSTER_NODE_ALREADY_DOWN")
+#undef STATUS_CLUSTER_NODE_ALREADY_DOWN
+    inline constexpr auto STATUS_CLUSTER_NODE_ALREADY_DOWN = NTSTATUS {
+#pragma pop_macro("STATUS_CLUSTER_NODE_ALREADY_DOWN")
+        STATUS_CLUSTER_NODE_ALREADY_DOWN
+    };
+
+#pragma push_macro("STATUS_CLUSTER_NETWORK_ALREADY_ONLINE")
+#undef STATUS_CLUSTER_NETWORK_ALREADY_ONLINE
+    inline constexpr auto STATUS_CLUSTER_NETWORK_ALREADY_ONLINE = NTSTATUS {
+#pragma pop_macro("STATUS_CLUSTER_NETWORK_ALREADY_ONLINE")
+        STATUS_CLUSTER_NETWORK_ALREADY_ONLINE
+    };
+
+#pragma push_macro("STATUS_CLUSTER_NETWORK_ALREADY_OFFLINE")
+#undef STATUS_CLUSTER_NETWORK_ALREADY_OFFLINE
+    inline constexpr auto STATUS_CLUSTER_NETWORK_ALREADY_OFFLINE = NTSTATUS {
+#pragma pop_macro("STATUS_CLUSTER_NETWORK_ALREADY_OFFLINE")
+        STATUS_CLUSTER_NETWORK_ALREADY_OFFLINE
+    };
+
+#pragma push_macro("STATUS_CLUSTER_NODE_ALREADY_MEMBER")
+#undef STATUS_CLUSTER_NODE_ALREADY_MEMBER
+    inline constexpr auto STATUS_CLUSTER_NODE_ALREADY_MEMBER = NTSTATUS {
+#pragma pop_macro("STATUS_CLUSTER_NODE_ALREADY_MEMBER")
+        STATUS_CLUSTER_NODE_ALREADY_MEMBER
+    };
+
+#pragma push_macro("STATUS_COULD_NOT_RESIZE_LOG")
+#undef STATUS_COULD_NOT_RESIZE_LOG
+    inline constexpr auto STATUS_COULD_NOT_RESIZE_LOG = NTSTATUS {
+#pragma pop_macro("STATUS_COULD_NOT_RESIZE_LOG")
+        STATUS_COULD_NOT_RESIZE_LOG
+    };
+
+#pragma push_macro("STATUS_NO_TXF_METADATA")
+#undef STATUS_NO_TXF_METADATA
+    inline constexpr auto STATUS_NO_TXF_METADATA = NTSTATUS {
+#pragma pop_macro("STATUS_NO_TXF_METADATA")
+        STATUS_NO_TXF_METADATA
+    };
+
+#pragma push_macro("STATUS_CANT_RECOVER_WITH_HANDLE_OPEN")
+#undef STATUS_CANT_RECOVER_WITH_HANDLE_OPEN
+    inline constexpr auto STATUS_CANT_RECOVER_WITH_HANDLE_OPEN = NTSTATUS {
+#pragma pop_macro("STATUS_CANT_RECOVER_WITH_HANDLE_OPEN")
+        STATUS_CANT_RECOVER_WITH_HANDLE_OPEN
+    };
+
+#pragma push_macro("STATUS_TXF_METADATA_ALREADY_PRESENT")
+#undef STATUS_TXF_METADATA_ALREADY_PRESENT
+    inline constexpr auto STATUS_TXF_METADATA_ALREADY_PRESENT = NTSTATUS {
+#pragma pop_macro("STATUS_TXF_METADATA_ALREADY_PRESENT")
+        STATUS_TXF_METADATA_ALREADY_PRESENT
+    };
+
+#pragma push_macro("STATUS_TRANSACTION_SCOPE_CALLBACKS_NOT_SET")
+#undef STATUS_TRANSACTION_SCOPE_CALLBACKS_NOT_SET
+    inline constexpr auto STATUS_TRANSACTION_SCOPE_CALLBACKS_NOT_SET = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTION_SCOPE_CALLBACKS_NOT_SET")
+        STATUS_TRANSACTION_SCOPE_CALLBACKS_NOT_SET
+    };
+
+#pragma push_macro("STATUS_VIDEO_HUNG_DISPLAY_DRIVER_THREAD_RECOVERED")
+#undef STATUS_VIDEO_HUNG_DISPLAY_DRIVER_THREAD_RECOVERED
+    inline constexpr auto STATUS_VIDEO_HUNG_DISPLAY_DRIVER_THREAD_RECOVERED = NTSTATUS {
+#pragma pop_macro("STATUS_VIDEO_HUNG_DISPLAY_DRIVER_THREAD_RECOVERED")
+        STATUS_VIDEO_HUNG_DISPLAY_DRIVER_THREAD_RECOVERED
+    };
+
+#pragma push_macro("STATUS_FLT_BUFFER_TOO_SMALL")
+#undef STATUS_FLT_BUFFER_TOO_SMALL
+    inline constexpr auto STATUS_FLT_BUFFER_TOO_SMALL = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_BUFFER_TOO_SMALL")
+        STATUS_FLT_BUFFER_TOO_SMALL
+    };
+
+#pragma push_macro("STATUS_FVE_PARTIAL_METADATA")
+#undef STATUS_FVE_PARTIAL_METADATA
+    inline constexpr auto STATUS_FVE_PARTIAL_METADATA = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_PARTIAL_METADATA")
+        STATUS_FVE_PARTIAL_METADATA
+    };
+
+#pragma push_macro("STATUS_FVE_TRANSIENT_STATE")
+#undef STATUS_FVE_TRANSIENT_STATE
+    inline constexpr auto STATUS_FVE_TRANSIENT_STATE = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_TRANSIENT_STATE")
+        STATUS_FVE_TRANSIENT_STATE
+    };
+
+#pragma push_macro("STATUS_UNSUCCESSFUL")
+#undef STATUS_UNSUCCESSFUL
+    inline constexpr auto STATUS_UNSUCCESSFUL = NTSTATUS {
+#pragma pop_macro("STATUS_UNSUCCESSFUL")
+        STATUS_UNSUCCESSFUL
+    };
+
+#pragma push_macro("STATUS_NOT_IMPLEMENTED")
+#undef STATUS_NOT_IMPLEMENTED
+    inline constexpr auto STATUS_NOT_IMPLEMENTED = NTSTATUS {
+#pragma pop_macro("STATUS_NOT_IMPLEMENTED")
+        STATUS_NOT_IMPLEMENTED
+    };
+
+#pragma push_macro("STATUS_INVALID_INFO_CLASS")
+#undef STATUS_INVALID_INFO_CLASS
+    inline constexpr auto STATUS_INVALID_INFO_CLASS = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_INFO_CLASS")
+        STATUS_INVALID_INFO_CLASS
+    };
+
+#pragma push_macro("STATUS_INFO_LENGTH_MISMATCH")
+#undef STATUS_INFO_LENGTH_MISMATCH
+    inline constexpr auto STATUS_INFO_LENGTH_MISMATCH = NTSTATUS {
+#pragma pop_macro("STATUS_INFO_LENGTH_MISMATCH")
+        STATUS_INFO_LENGTH_MISMATCH
+    };
+
+#pragma push_macro("STATUS_ACCESS_VIOLATION")
+#undef STATUS_ACCESS_VIOLATION
+    inline constexpr auto STATUS_ACCESS_VIOLATION = NTSTATUS {
+#pragma pop_macro("STATUS_ACCESS_VIOLATION")
+        STATUS_ACCESS_VIOLATION
+    };
+
+#pragma push_macro("STATUS_IN_PAGE_ERROR")
+#undef STATUS_IN_PAGE_ERROR
+    inline constexpr auto STATUS_IN_PAGE_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_IN_PAGE_ERROR")
+        STATUS_IN_PAGE_ERROR
+    };
+
+#pragma push_macro("STATUS_PAGEFILE_QUOTA")
+#undef STATUS_PAGEFILE_QUOTA
+    inline constexpr auto STATUS_PAGEFILE_QUOTA = NTSTATUS {
+#pragma pop_macro("STATUS_PAGEFILE_QUOTA")
+        STATUS_PAGEFILE_QUOTA
+    };
+
+#pragma push_macro("STATUS_INVALID_HANDLE")
+#undef STATUS_INVALID_HANDLE
+    inline constexpr auto STATUS_INVALID_HANDLE = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_HANDLE")
+        STATUS_INVALID_HANDLE
+    };
+
+#pragma push_macro("STATUS_BAD_INITIAL_STACK")
+#undef STATUS_BAD_INITIAL_STACK
+    inline constexpr auto STATUS_BAD_INITIAL_STACK = NTSTATUS {
+#pragma pop_macro("STATUS_BAD_INITIAL_STACK")
+        STATUS_BAD_INITIAL_STACK
+    };
+
+#pragma push_macro("STATUS_BAD_INITIAL_PC")
+#undef STATUS_BAD_INITIAL_PC
+    inline constexpr auto STATUS_BAD_INITIAL_PC = NTSTATUS {
+#pragma pop_macro("STATUS_BAD_INITIAL_PC")
+        STATUS_BAD_INITIAL_PC
+    };
+
+#pragma push_macro("STATUS_INVALID_CID")
+#undef STATUS_INVALID_CID
+    inline constexpr auto STATUS_INVALID_CID = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_CID")
+        STATUS_INVALID_CID
+    };
+
+#pragma push_macro("STATUS_TIMER_NOT_CANCELED")
+#undef STATUS_TIMER_NOT_CANCELED
+    inline constexpr auto STATUS_TIMER_NOT_CANCELED = NTSTATUS {
+#pragma pop_macro("STATUS_TIMER_NOT_CANCELED")
+        STATUS_TIMER_NOT_CANCELED
+    };
+
+#pragma push_macro("STATUS_INVALID_PARAMETER")
+#undef STATUS_INVALID_PARAMETER
+    inline constexpr auto STATUS_INVALID_PARAMETER = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_PARAMETER")
+        STATUS_INVALID_PARAMETER
+    };
+
+#pragma push_macro("STATUS_NO_SUCH_DEVICE")
+#undef STATUS_NO_SUCH_DEVICE
+    inline constexpr auto STATUS_NO_SUCH_DEVICE = NTSTATUS {
+#pragma pop_macro("STATUS_NO_SUCH_DEVICE")
+        STATUS_NO_SUCH_DEVICE
+    };
+
+#pragma push_macro("STATUS_NO_SUCH_FILE")
+#undef STATUS_NO_SUCH_FILE
+    inline constexpr auto STATUS_NO_SUCH_FILE = NTSTATUS {
+#pragma pop_macro("STATUS_NO_SUCH_FILE")
+        STATUS_NO_SUCH_FILE
+    };
+
+#pragma push_macro("STATUS_INVALID_DEVICE_REQUEST")
+#undef STATUS_INVALID_DEVICE_REQUEST
+    inline constexpr auto STATUS_INVALID_DEVICE_REQUEST = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_DEVICE_REQUEST")
+        STATUS_INVALID_DEVICE_REQUEST
+    };
+
+#pragma push_macro("STATUS_END_OF_FILE")
+#undef STATUS_END_OF_FILE
+    inline constexpr auto STATUS_END_OF_FILE = NTSTATUS {
+#pragma pop_macro("STATUS_END_OF_FILE")
+        STATUS_END_OF_FILE
+    };
+
+#pragma push_macro("STATUS_WRONG_VOLUME")
+#undef STATUS_WRONG_VOLUME
+    inline constexpr auto STATUS_WRONG_VOLUME = NTSTATUS {
+#pragma pop_macro("STATUS_WRONG_VOLUME")
+        STATUS_WRONG_VOLUME
+    };
+
+#pragma push_macro("STATUS_NO_MEDIA_IN_DEVICE")
+#undef STATUS_NO_MEDIA_IN_DEVICE
+    inline constexpr auto STATUS_NO_MEDIA_IN_DEVICE = NTSTATUS {
+#pragma pop_macro("STATUS_NO_MEDIA_IN_DEVICE")
+        STATUS_NO_MEDIA_IN_DEVICE
+    };
+
+#pragma push_macro("STATUS_UNRECOGNIZED_MEDIA")
+#undef STATUS_UNRECOGNIZED_MEDIA
+    inline constexpr auto STATUS_UNRECOGNIZED_MEDIA = NTSTATUS {
+#pragma pop_macro("STATUS_UNRECOGNIZED_MEDIA")
+        STATUS_UNRECOGNIZED_MEDIA
+    };
+
+#pragma push_macro("STATUS_NONEXISTENT_SECTOR")
+#undef STATUS_NONEXISTENT_SECTOR
+    inline constexpr auto STATUS_NONEXISTENT_SECTOR = NTSTATUS {
+#pragma pop_macro("STATUS_NONEXISTENT_SECTOR")
+        STATUS_NONEXISTENT_SECTOR
+    };
+
+#pragma push_macro("STATUS_MORE_PROCESSING_REQUIRED")
+#undef STATUS_MORE_PROCESSING_REQUIRED
+    inline constexpr auto STATUS_MORE_PROCESSING_REQUIRED = NTSTATUS {
+#pragma pop_macro("STATUS_MORE_PROCESSING_REQUIRED")
+        STATUS_MORE_PROCESSING_REQUIRED
+    };
+
+#pragma push_macro("STATUS_NO_MEMORY")
+#undef STATUS_NO_MEMORY
+    inline constexpr auto STATUS_NO_MEMORY = NTSTATUS {
+#pragma pop_macro("STATUS_NO_MEMORY")
+        STATUS_NO_MEMORY
+    };
+
+#pragma push_macro("STATUS_CONFLICTING_ADDRESSES")
+#undef STATUS_CONFLICTING_ADDRESSES
+    inline constexpr auto STATUS_CONFLICTING_ADDRESSES = NTSTATUS {
+#pragma pop_macro("STATUS_CONFLICTING_ADDRESSES")
+        STATUS_CONFLICTING_ADDRESSES
+    };
+
+#pragma push_macro("STATUS_NOT_MAPPED_VIEW")
+#undef STATUS_NOT_MAPPED_VIEW
+    inline constexpr auto STATUS_NOT_MAPPED_VIEW = NTSTATUS {
+#pragma pop_macro("STATUS_NOT_MAPPED_VIEW")
+        STATUS_NOT_MAPPED_VIEW
+    };
+
+#pragma push_macro("STATUS_UNABLE_TO_FREE_VM")
+#undef STATUS_UNABLE_TO_FREE_VM
+    inline constexpr auto STATUS_UNABLE_TO_FREE_VM = NTSTATUS {
+#pragma pop_macro("STATUS_UNABLE_TO_FREE_VM")
+        STATUS_UNABLE_TO_FREE_VM
+    };
+
+#pragma push_macro("STATUS_UNABLE_TO_DELETE_SECTION")
+#undef STATUS_UNABLE_TO_DELETE_SECTION
+    inline constexpr auto STATUS_UNABLE_TO_DELETE_SECTION = NTSTATUS {
+#pragma pop_macro("STATUS_UNABLE_TO_DELETE_SECTION")
+        STATUS_UNABLE_TO_DELETE_SECTION
+    };
+
+#pragma push_macro("STATUS_INVALID_SYSTEM_SERVICE")
+#undef STATUS_INVALID_SYSTEM_SERVICE
+    inline constexpr auto STATUS_INVALID_SYSTEM_SERVICE = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_SYSTEM_SERVICE")
+        STATUS_INVALID_SYSTEM_SERVICE
+    };
+
+#pragma push_macro("STATUS_ILLEGAL_INSTRUCTION")
+#undef STATUS_ILLEGAL_INSTRUCTION
+    inline constexpr auto STATUS_ILLEGAL_INSTRUCTION = NTSTATUS {
+#pragma pop_macro("STATUS_ILLEGAL_INSTRUCTION")
+        STATUS_ILLEGAL_INSTRUCTION
+    };
+
+#pragma push_macro("STATUS_INVALID_LOCK_SEQUENCE")
+#undef STATUS_INVALID_LOCK_SEQUENCE
+    inline constexpr auto STATUS_INVALID_LOCK_SEQUENCE = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_LOCK_SEQUENCE")
+        STATUS_INVALID_LOCK_SEQUENCE
+    };
+
+#pragma push_macro("STATUS_INVALID_VIEW_SIZE")
+#undef STATUS_INVALID_VIEW_SIZE
+    inline constexpr auto STATUS_INVALID_VIEW_SIZE = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_VIEW_SIZE")
+        STATUS_INVALID_VIEW_SIZE
+    };
+
+#pragma push_macro("STATUS_INVALID_FILE_FOR_SECTION")
+#undef STATUS_INVALID_FILE_FOR_SECTION
+    inline constexpr auto STATUS_INVALID_FILE_FOR_SECTION = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_FILE_FOR_SECTION")
+        STATUS_INVALID_FILE_FOR_SECTION
+    };
+
+#pragma push_macro("STATUS_ALREADY_COMMITTED")
+#undef STATUS_ALREADY_COMMITTED
+    inline constexpr auto STATUS_ALREADY_COMMITTED = NTSTATUS {
+#pragma pop_macro("STATUS_ALREADY_COMMITTED")
+        STATUS_ALREADY_COMMITTED
+    };
+
+#pragma push_macro("STATUS_ACCESS_DENIED")
+#undef STATUS_ACCESS_DENIED
+    inline constexpr auto STATUS_ACCESS_DENIED = NTSTATUS {
+#pragma pop_macro("STATUS_ACCESS_DENIED")
+        STATUS_ACCESS_DENIED
+    };
+
+#pragma push_macro("STATUS_BUFFER_TOO_SMALL")
+#undef STATUS_BUFFER_TOO_SMALL
+    inline constexpr auto STATUS_BUFFER_TOO_SMALL = NTSTATUS {
+#pragma pop_macro("STATUS_BUFFER_TOO_SMALL")
+        STATUS_BUFFER_TOO_SMALL
+    };
+
+#pragma push_macro("STATUS_OBJECT_TYPE_MISMATCH")
+#undef STATUS_OBJECT_TYPE_MISMATCH
+    inline constexpr auto STATUS_OBJECT_TYPE_MISMATCH = NTSTATUS {
+#pragma pop_macro("STATUS_OBJECT_TYPE_MISMATCH")
+        STATUS_OBJECT_TYPE_MISMATCH
+    };
+
+#pragma push_macro("STATUS_NONCONTINUABLE_EXCEPTION")
+#undef STATUS_NONCONTINUABLE_EXCEPTION
+    inline constexpr auto STATUS_NONCONTINUABLE_EXCEPTION = NTSTATUS {
+#pragma pop_macro("STATUS_NONCONTINUABLE_EXCEPTION")
+        STATUS_NONCONTINUABLE_EXCEPTION
+    };
+
+#pragma push_macro("STATUS_INVALID_DISPOSITION")
+#undef STATUS_INVALID_DISPOSITION
+    inline constexpr auto STATUS_INVALID_DISPOSITION = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_DISPOSITION")
+        STATUS_INVALID_DISPOSITION
+    };
+
+#pragma push_macro("STATUS_UNWIND")
+#undef STATUS_UNWIND
+    inline constexpr auto STATUS_UNWIND = NTSTATUS {
+#pragma pop_macro("STATUS_UNWIND")
+        STATUS_UNWIND
+    };
+
+#pragma push_macro("STATUS_BAD_STACK")
+#undef STATUS_BAD_STACK
+    inline constexpr auto STATUS_BAD_STACK = NTSTATUS {
+#pragma pop_macro("STATUS_BAD_STACK")
+        STATUS_BAD_STACK
+    };
+
+#pragma push_macro("STATUS_INVALID_UNWIND_TARGET")
+#undef STATUS_INVALID_UNWIND_TARGET
+    inline constexpr auto STATUS_INVALID_UNWIND_TARGET = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_UNWIND_TARGET")
+        STATUS_INVALID_UNWIND_TARGET
+    };
+
+#pragma push_macro("STATUS_NOT_LOCKED")
+#undef STATUS_NOT_LOCKED
+    inline constexpr auto STATUS_NOT_LOCKED = NTSTATUS {
+#pragma pop_macro("STATUS_NOT_LOCKED")
+        STATUS_NOT_LOCKED
+    };
+
+#pragma push_macro("STATUS_PARITY_ERROR")
+#undef STATUS_PARITY_ERROR
+    inline constexpr auto STATUS_PARITY_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_PARITY_ERROR")
+        STATUS_PARITY_ERROR
+    };
+
+#pragma push_macro("STATUS_UNABLE_TO_DECOMMIT_VM")
+#undef STATUS_UNABLE_TO_DECOMMIT_VM
+    inline constexpr auto STATUS_UNABLE_TO_DECOMMIT_VM = NTSTATUS {
+#pragma pop_macro("STATUS_UNABLE_TO_DECOMMIT_VM")
+        STATUS_UNABLE_TO_DECOMMIT_VM
+    };
+
+#pragma push_macro("STATUS_NOT_COMMITTED")
+#undef STATUS_NOT_COMMITTED
+    inline constexpr auto STATUS_NOT_COMMITTED = NTSTATUS {
+#pragma pop_macro("STATUS_NOT_COMMITTED")
+        STATUS_NOT_COMMITTED
+    };
+
+#pragma push_macro("STATUS_INVALID_PORT_ATTRIBUTES")
+#undef STATUS_INVALID_PORT_ATTRIBUTES
+    inline constexpr auto STATUS_INVALID_PORT_ATTRIBUTES = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_PORT_ATTRIBUTES")
+        STATUS_INVALID_PORT_ATTRIBUTES
+    };
+
+#pragma push_macro("STATUS_PORT_MESSAGE_TOO_LONG")
+#undef STATUS_PORT_MESSAGE_TOO_LONG
+    inline constexpr auto STATUS_PORT_MESSAGE_TOO_LONG = NTSTATUS {
+#pragma pop_macro("STATUS_PORT_MESSAGE_TOO_LONG")
+        STATUS_PORT_MESSAGE_TOO_LONG
+    };
+
+#pragma push_macro("STATUS_INVALID_PARAMETER_MIX")
+#undef STATUS_INVALID_PARAMETER_MIX
+    inline constexpr auto STATUS_INVALID_PARAMETER_MIX = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_PARAMETER_MIX")
+        STATUS_INVALID_PARAMETER_MIX
+    };
+
+#pragma push_macro("STATUS_INVALID_QUOTA_LOWER")
+#undef STATUS_INVALID_QUOTA_LOWER
+    inline constexpr auto STATUS_INVALID_QUOTA_LOWER = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_QUOTA_LOWER")
+        STATUS_INVALID_QUOTA_LOWER
+    };
+
+#pragma push_macro("STATUS_DISK_CORRUPT_ERROR")
+#undef STATUS_DISK_CORRUPT_ERROR
+    inline constexpr auto STATUS_DISK_CORRUPT_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_DISK_CORRUPT_ERROR")
+        STATUS_DISK_CORRUPT_ERROR
+    };
+
+#pragma push_macro("STATUS_OBJECT_NAME_INVALID")
+#undef STATUS_OBJECT_NAME_INVALID
+    inline constexpr auto STATUS_OBJECT_NAME_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_OBJECT_NAME_INVALID")
+        STATUS_OBJECT_NAME_INVALID
+    };
+
+#pragma push_macro("STATUS_OBJECT_NAME_NOT_FOUND")
+#undef STATUS_OBJECT_NAME_NOT_FOUND
+    inline constexpr auto STATUS_OBJECT_NAME_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_OBJECT_NAME_NOT_FOUND")
+        STATUS_OBJECT_NAME_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_OBJECT_NAME_COLLISION")
+#undef STATUS_OBJECT_NAME_COLLISION
+    inline constexpr auto STATUS_OBJECT_NAME_COLLISION = NTSTATUS {
+#pragma pop_macro("STATUS_OBJECT_NAME_COLLISION")
+        STATUS_OBJECT_NAME_COLLISION
+    };
+
+#pragma push_macro("STATUS_PORT_DISCONNECTED")
+#undef STATUS_PORT_DISCONNECTED
+    inline constexpr auto STATUS_PORT_DISCONNECTED = NTSTATUS {
+#pragma pop_macro("STATUS_PORT_DISCONNECTED")
+        STATUS_PORT_DISCONNECTED
+    };
+
+#pragma push_macro("STATUS_DEVICE_ALREADY_ATTACHED")
+#undef STATUS_DEVICE_ALREADY_ATTACHED
+    inline constexpr auto STATUS_DEVICE_ALREADY_ATTACHED = NTSTATUS {
+#pragma pop_macro("STATUS_DEVICE_ALREADY_ATTACHED")
+        STATUS_DEVICE_ALREADY_ATTACHED
+    };
+
+#pragma push_macro("STATUS_OBJECT_PATH_INVALID")
+#undef STATUS_OBJECT_PATH_INVALID
+    inline constexpr auto STATUS_OBJECT_PATH_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_OBJECT_PATH_INVALID")
+        STATUS_OBJECT_PATH_INVALID
+    };
+
+#pragma push_macro("STATUS_OBJECT_PATH_NOT_FOUND")
+#undef STATUS_OBJECT_PATH_NOT_FOUND
+    inline constexpr auto STATUS_OBJECT_PATH_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_OBJECT_PATH_NOT_FOUND")
+        STATUS_OBJECT_PATH_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_OBJECT_PATH_SYNTAX_BAD")
+#undef STATUS_OBJECT_PATH_SYNTAX_BAD
+    inline constexpr auto STATUS_OBJECT_PATH_SYNTAX_BAD = NTSTATUS {
+#pragma pop_macro("STATUS_OBJECT_PATH_SYNTAX_BAD")
+        STATUS_OBJECT_PATH_SYNTAX_BAD
+    };
+
+#pragma push_macro("STATUS_DATA_OVERRUN")
+#undef STATUS_DATA_OVERRUN
+    inline constexpr auto STATUS_DATA_OVERRUN = NTSTATUS {
+#pragma pop_macro("STATUS_DATA_OVERRUN")
+        STATUS_DATA_OVERRUN
+    };
+
+#pragma push_macro("STATUS_DATA_LATE_ERROR")
+#undef STATUS_DATA_LATE_ERROR
+    inline constexpr auto STATUS_DATA_LATE_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_DATA_LATE_ERROR")
+        STATUS_DATA_LATE_ERROR
+    };
+
+#pragma push_macro("STATUS_DATA_ERROR")
+#undef STATUS_DATA_ERROR
+    inline constexpr auto STATUS_DATA_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_DATA_ERROR")
+        STATUS_DATA_ERROR
+    };
+
+#pragma push_macro("STATUS_CRC_ERROR")
+#undef STATUS_CRC_ERROR
+    inline constexpr auto STATUS_CRC_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_CRC_ERROR")
+        STATUS_CRC_ERROR
+    };
+
+#pragma push_macro("STATUS_SECTION_TOO_BIG")
+#undef STATUS_SECTION_TOO_BIG
+    inline constexpr auto STATUS_SECTION_TOO_BIG = NTSTATUS {
+#pragma pop_macro("STATUS_SECTION_TOO_BIG")
+        STATUS_SECTION_TOO_BIG
+    };
+
+#pragma push_macro("STATUS_PORT_CONNECTION_REFUSED")
+#undef STATUS_PORT_CONNECTION_REFUSED
+    inline constexpr auto STATUS_PORT_CONNECTION_REFUSED = NTSTATUS {
+#pragma pop_macro("STATUS_PORT_CONNECTION_REFUSED")
+        STATUS_PORT_CONNECTION_REFUSED
+    };
+
+#pragma push_macro("STATUS_INVALID_PORT_HANDLE")
+#undef STATUS_INVALID_PORT_HANDLE
+    inline constexpr auto STATUS_INVALID_PORT_HANDLE = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_PORT_HANDLE")
+        STATUS_INVALID_PORT_HANDLE
+    };
+
+#pragma push_macro("STATUS_SHARING_VIOLATION")
+#undef STATUS_SHARING_VIOLATION
+    inline constexpr auto STATUS_SHARING_VIOLATION = NTSTATUS {
+#pragma pop_macro("STATUS_SHARING_VIOLATION")
+        STATUS_SHARING_VIOLATION
+    };
+
+#pragma push_macro("STATUS_QUOTA_EXCEEDED")
+#undef STATUS_QUOTA_EXCEEDED
+    inline constexpr auto STATUS_QUOTA_EXCEEDED = NTSTATUS {
+#pragma pop_macro("STATUS_QUOTA_EXCEEDED")
+        STATUS_QUOTA_EXCEEDED
+    };
+
+#pragma push_macro("STATUS_INVALID_PAGE_PROTECTION")
+#undef STATUS_INVALID_PAGE_PROTECTION
+    inline constexpr auto STATUS_INVALID_PAGE_PROTECTION = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_PAGE_PROTECTION")
+        STATUS_INVALID_PAGE_PROTECTION
+    };
+
+#pragma push_macro("STATUS_MUTANT_NOT_OWNED")
+#undef STATUS_MUTANT_NOT_OWNED
+    inline constexpr auto STATUS_MUTANT_NOT_OWNED = NTSTATUS {
+#pragma pop_macro("STATUS_MUTANT_NOT_OWNED")
+        STATUS_MUTANT_NOT_OWNED
+    };
+
+#pragma push_macro("STATUS_SEMAPHORE_LIMIT_EXCEEDED")
+#undef STATUS_SEMAPHORE_LIMIT_EXCEEDED
+    inline constexpr auto STATUS_SEMAPHORE_LIMIT_EXCEEDED = NTSTATUS {
+#pragma pop_macro("STATUS_SEMAPHORE_LIMIT_EXCEEDED")
+        STATUS_SEMAPHORE_LIMIT_EXCEEDED
+    };
+
+#pragma push_macro("STATUS_PORT_ALREADY_SET")
+#undef STATUS_PORT_ALREADY_SET
+    inline constexpr auto STATUS_PORT_ALREADY_SET = NTSTATUS {
+#pragma pop_macro("STATUS_PORT_ALREADY_SET")
+        STATUS_PORT_ALREADY_SET
+    };
+
+#pragma push_macro("STATUS_SECTION_NOT_IMAGE")
+#undef STATUS_SECTION_NOT_IMAGE
+    inline constexpr auto STATUS_SECTION_NOT_IMAGE = NTSTATUS {
+#pragma pop_macro("STATUS_SECTION_NOT_IMAGE")
+        STATUS_SECTION_NOT_IMAGE
+    };
+
+#pragma push_macro("STATUS_SUSPEND_COUNT_EXCEEDED")
+#undef STATUS_SUSPEND_COUNT_EXCEEDED
+    inline constexpr auto STATUS_SUSPEND_COUNT_EXCEEDED = NTSTATUS {
+#pragma pop_macro("STATUS_SUSPEND_COUNT_EXCEEDED")
+        STATUS_SUSPEND_COUNT_EXCEEDED
+    };
+
+#pragma push_macro("STATUS_THREAD_IS_TERMINATING")
+#undef STATUS_THREAD_IS_TERMINATING
+    inline constexpr auto STATUS_THREAD_IS_TERMINATING = NTSTATUS {
+#pragma pop_macro("STATUS_THREAD_IS_TERMINATING")
+        STATUS_THREAD_IS_TERMINATING
+    };
+
+#pragma push_macro("STATUS_BAD_WORKING_SET_LIMIT")
+#undef STATUS_BAD_WORKING_SET_LIMIT
+    inline constexpr auto STATUS_BAD_WORKING_SET_LIMIT = NTSTATUS {
+#pragma pop_macro("STATUS_BAD_WORKING_SET_LIMIT")
+        STATUS_BAD_WORKING_SET_LIMIT
+    };
+
+#pragma push_macro("STATUS_INCOMPATIBLE_FILE_MAP")
+#undef STATUS_INCOMPATIBLE_FILE_MAP
+    inline constexpr auto STATUS_INCOMPATIBLE_FILE_MAP = NTSTATUS {
+#pragma pop_macro("STATUS_INCOMPATIBLE_FILE_MAP")
+        STATUS_INCOMPATIBLE_FILE_MAP
+    };
+
+#pragma push_macro("STATUS_SECTION_PROTECTION")
+#undef STATUS_SECTION_PROTECTION
+    inline constexpr auto STATUS_SECTION_PROTECTION = NTSTATUS {
+#pragma pop_macro("STATUS_SECTION_PROTECTION")
+        STATUS_SECTION_PROTECTION
+    };
+
+#pragma push_macro("STATUS_EAS_NOT_SUPPORTED")
+#undef STATUS_EAS_NOT_SUPPORTED
+    inline constexpr auto STATUS_EAS_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_EAS_NOT_SUPPORTED")
+        STATUS_EAS_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_EA_TOO_LARGE")
+#undef STATUS_EA_TOO_LARGE
+    inline constexpr auto STATUS_EA_TOO_LARGE = NTSTATUS {
+#pragma pop_macro("STATUS_EA_TOO_LARGE")
+        STATUS_EA_TOO_LARGE
+    };
+
+#pragma push_macro("STATUS_NONEXISTENT_EA_ENTRY")
+#undef STATUS_NONEXISTENT_EA_ENTRY
+    inline constexpr auto STATUS_NONEXISTENT_EA_ENTRY = NTSTATUS {
+#pragma pop_macro("STATUS_NONEXISTENT_EA_ENTRY")
+        STATUS_NONEXISTENT_EA_ENTRY
+    };
+
+#pragma push_macro("STATUS_NO_EAS_ON_FILE")
+#undef STATUS_NO_EAS_ON_FILE
+    inline constexpr auto STATUS_NO_EAS_ON_FILE = NTSTATUS {
+#pragma pop_macro("STATUS_NO_EAS_ON_FILE")
+        STATUS_NO_EAS_ON_FILE
+    };
+
+#pragma push_macro("STATUS_EA_CORRUPT_ERROR")
+#undef STATUS_EA_CORRUPT_ERROR
+    inline constexpr auto STATUS_EA_CORRUPT_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_EA_CORRUPT_ERROR")
+        STATUS_EA_CORRUPT_ERROR
+    };
+
+#pragma push_macro("STATUS_FILE_LOCK_CONFLICT")
+#undef STATUS_FILE_LOCK_CONFLICT
+    inline constexpr auto STATUS_FILE_LOCK_CONFLICT = NTSTATUS {
+#pragma pop_macro("STATUS_FILE_LOCK_CONFLICT")
+        STATUS_FILE_LOCK_CONFLICT
+    };
+
+#pragma push_macro("STATUS_LOCK_NOT_GRANTED")
+#undef STATUS_LOCK_NOT_GRANTED
+    inline constexpr auto STATUS_LOCK_NOT_GRANTED = NTSTATUS {
+#pragma pop_macro("STATUS_LOCK_NOT_GRANTED")
+        STATUS_LOCK_NOT_GRANTED
+    };
+
+#pragma push_macro("STATUS_DELETE_PENDING")
+#undef STATUS_DELETE_PENDING
+    inline constexpr auto STATUS_DELETE_PENDING = NTSTATUS {
+#pragma pop_macro("STATUS_DELETE_PENDING")
+        STATUS_DELETE_PENDING
+    };
+
+#pragma push_macro("STATUS_CTL_FILE_NOT_SUPPORTED")
+#undef STATUS_CTL_FILE_NOT_SUPPORTED
+    inline constexpr auto STATUS_CTL_FILE_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_CTL_FILE_NOT_SUPPORTED")
+        STATUS_CTL_FILE_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_UNKNOWN_REVISION")
+#undef STATUS_UNKNOWN_REVISION
+    inline constexpr auto STATUS_UNKNOWN_REVISION = NTSTATUS {
+#pragma pop_macro("STATUS_UNKNOWN_REVISION")
+        STATUS_UNKNOWN_REVISION
+    };
+
+#pragma push_macro("STATUS_REVISION_MISMATCH")
+#undef STATUS_REVISION_MISMATCH
+    inline constexpr auto STATUS_REVISION_MISMATCH = NTSTATUS {
+#pragma pop_macro("STATUS_REVISION_MISMATCH")
+        STATUS_REVISION_MISMATCH
+    };
+
+#pragma push_macro("STATUS_INVALID_OWNER")
+#undef STATUS_INVALID_OWNER
+    inline constexpr auto STATUS_INVALID_OWNER = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_OWNER")
+        STATUS_INVALID_OWNER
+    };
+
+#pragma push_macro("STATUS_INVALID_PRIMARY_GROUP")
+#undef STATUS_INVALID_PRIMARY_GROUP
+    inline constexpr auto STATUS_INVALID_PRIMARY_GROUP = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_PRIMARY_GROUP")
+        STATUS_INVALID_PRIMARY_GROUP
+    };
+
+#pragma push_macro("STATUS_NO_IMPERSONATION_TOKEN")
+#undef STATUS_NO_IMPERSONATION_TOKEN
+    inline constexpr auto STATUS_NO_IMPERSONATION_TOKEN = NTSTATUS {
+#pragma pop_macro("STATUS_NO_IMPERSONATION_TOKEN")
+        STATUS_NO_IMPERSONATION_TOKEN
+    };
+
+#pragma push_macro("STATUS_CANT_DISABLE_MANDATORY")
+#undef STATUS_CANT_DISABLE_MANDATORY
+    inline constexpr auto STATUS_CANT_DISABLE_MANDATORY = NTSTATUS {
+#pragma pop_macro("STATUS_CANT_DISABLE_MANDATORY")
+        STATUS_CANT_DISABLE_MANDATORY
+    };
+
+#pragma push_macro("STATUS_NO_LOGON_SERVERS")
+#undef STATUS_NO_LOGON_SERVERS
+    inline constexpr auto STATUS_NO_LOGON_SERVERS = NTSTATUS {
+#pragma pop_macro("STATUS_NO_LOGON_SERVERS")
+        STATUS_NO_LOGON_SERVERS
+    };
+
+#pragma push_macro("STATUS_NO_SUCH_LOGON_SESSION")
+#undef STATUS_NO_SUCH_LOGON_SESSION
+    inline constexpr auto STATUS_NO_SUCH_LOGON_SESSION = NTSTATUS {
+#pragma pop_macro("STATUS_NO_SUCH_LOGON_SESSION")
+        STATUS_NO_SUCH_LOGON_SESSION
+    };
+
+#pragma push_macro("STATUS_NO_SUCH_PRIVILEGE")
+#undef STATUS_NO_SUCH_PRIVILEGE
+    inline constexpr auto STATUS_NO_SUCH_PRIVILEGE = NTSTATUS {
+#pragma pop_macro("STATUS_NO_SUCH_PRIVILEGE")
+        STATUS_NO_SUCH_PRIVILEGE
+    };
+
+#pragma push_macro("STATUS_PRIVILEGE_NOT_HELD")
+#undef STATUS_PRIVILEGE_NOT_HELD
+    inline constexpr auto STATUS_PRIVILEGE_NOT_HELD = NTSTATUS {
+#pragma pop_macro("STATUS_PRIVILEGE_NOT_HELD")
+        STATUS_PRIVILEGE_NOT_HELD
+    };
+
+#pragma push_macro("STATUS_INVALID_ACCOUNT_NAME")
+#undef STATUS_INVALID_ACCOUNT_NAME
+    inline constexpr auto STATUS_INVALID_ACCOUNT_NAME = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_ACCOUNT_NAME")
+        STATUS_INVALID_ACCOUNT_NAME
+    };
+
+#pragma push_macro("STATUS_USER_EXISTS")
+#undef STATUS_USER_EXISTS
+    inline constexpr auto STATUS_USER_EXISTS = NTSTATUS {
+#pragma pop_macro("STATUS_USER_EXISTS")
+        STATUS_USER_EXISTS
+    };
+
+#pragma push_macro("STATUS_NO_SUCH_USER")
+#undef STATUS_NO_SUCH_USER
+    inline constexpr auto STATUS_NO_SUCH_USER = NTSTATUS {
+#pragma pop_macro("STATUS_NO_SUCH_USER")
+        STATUS_NO_SUCH_USER
+    };
+
+#pragma push_macro("STATUS_GROUP_EXISTS")
+#undef STATUS_GROUP_EXISTS
+    inline constexpr auto STATUS_GROUP_EXISTS = NTSTATUS {
+#pragma pop_macro("STATUS_GROUP_EXISTS")
+        STATUS_GROUP_EXISTS
+    };
+
+#pragma push_macro("STATUS_NO_SUCH_GROUP")
+#undef STATUS_NO_SUCH_GROUP
+    inline constexpr auto STATUS_NO_SUCH_GROUP = NTSTATUS {
+#pragma pop_macro("STATUS_NO_SUCH_GROUP")
+        STATUS_NO_SUCH_GROUP
+    };
+
+#pragma push_macro("STATUS_MEMBER_IN_GROUP")
+#undef STATUS_MEMBER_IN_GROUP
+    inline constexpr auto STATUS_MEMBER_IN_GROUP = NTSTATUS {
+#pragma pop_macro("STATUS_MEMBER_IN_GROUP")
+        STATUS_MEMBER_IN_GROUP
+    };
+
+#pragma push_macro("STATUS_MEMBER_NOT_IN_GROUP")
+#undef STATUS_MEMBER_NOT_IN_GROUP
+    inline constexpr auto STATUS_MEMBER_NOT_IN_GROUP = NTSTATUS {
+#pragma pop_macro("STATUS_MEMBER_NOT_IN_GROUP")
+        STATUS_MEMBER_NOT_IN_GROUP
+    };
+
+#pragma push_macro("STATUS_LAST_ADMIN")
+#undef STATUS_LAST_ADMIN
+    inline constexpr auto STATUS_LAST_ADMIN = NTSTATUS {
+#pragma pop_macro("STATUS_LAST_ADMIN")
+        STATUS_LAST_ADMIN
+    };
+
+#pragma push_macro("STATUS_WRONG_PASSWORD")
+#undef STATUS_WRONG_PASSWORD
+    inline constexpr auto STATUS_WRONG_PASSWORD = NTSTATUS {
+#pragma pop_macro("STATUS_WRONG_PASSWORD")
+        STATUS_WRONG_PASSWORD
+    };
+
+#pragma push_macro("STATUS_ILL_FORMED_PASSWORD")
+#undef STATUS_ILL_FORMED_PASSWORD
+    inline constexpr auto STATUS_ILL_FORMED_PASSWORD = NTSTATUS {
+#pragma pop_macro("STATUS_ILL_FORMED_PASSWORD")
+        STATUS_ILL_FORMED_PASSWORD
+    };
+
+#pragma push_macro("STATUS_PASSWORD_RESTRICTION")
+#undef STATUS_PASSWORD_RESTRICTION
+    inline constexpr auto STATUS_PASSWORD_RESTRICTION = NTSTATUS {
+#pragma pop_macro("STATUS_PASSWORD_RESTRICTION")
+        STATUS_PASSWORD_RESTRICTION
+    };
+
+#pragma push_macro("STATUS_LOGON_FAILURE")
+#undef STATUS_LOGON_FAILURE
+    inline constexpr auto STATUS_LOGON_FAILURE = NTSTATUS {
+#pragma pop_macro("STATUS_LOGON_FAILURE")
+        STATUS_LOGON_FAILURE
+    };
+
+#pragma push_macro("STATUS_ACCOUNT_RESTRICTION")
+#undef STATUS_ACCOUNT_RESTRICTION
+    inline constexpr auto STATUS_ACCOUNT_RESTRICTION = NTSTATUS {
+#pragma pop_macro("STATUS_ACCOUNT_RESTRICTION")
+        STATUS_ACCOUNT_RESTRICTION
+    };
+
+#pragma push_macro("STATUS_INVALID_LOGON_HOURS")
+#undef STATUS_INVALID_LOGON_HOURS
+    inline constexpr auto STATUS_INVALID_LOGON_HOURS = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_LOGON_HOURS")
+        STATUS_INVALID_LOGON_HOURS
+    };
+
+#pragma push_macro("STATUS_INVALID_WORKSTATION")
+#undef STATUS_INVALID_WORKSTATION
+    inline constexpr auto STATUS_INVALID_WORKSTATION = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_WORKSTATION")
+        STATUS_INVALID_WORKSTATION
+    };
+
+#pragma push_macro("STATUS_PASSWORD_EXPIRED")
+#undef STATUS_PASSWORD_EXPIRED
+    inline constexpr auto STATUS_PASSWORD_EXPIRED = NTSTATUS {
+#pragma pop_macro("STATUS_PASSWORD_EXPIRED")
+        STATUS_PASSWORD_EXPIRED
+    };
+
+#pragma push_macro("STATUS_ACCOUNT_DISABLED")
+#undef STATUS_ACCOUNT_DISABLED
+    inline constexpr auto STATUS_ACCOUNT_DISABLED = NTSTATUS {
+#pragma pop_macro("STATUS_ACCOUNT_DISABLED")
+        STATUS_ACCOUNT_DISABLED
+    };
+
+#pragma push_macro("STATUS_NONE_MAPPED")
+#undef STATUS_NONE_MAPPED
+    inline constexpr auto STATUS_NONE_MAPPED = NTSTATUS {
+#pragma pop_macro("STATUS_NONE_MAPPED")
+        STATUS_NONE_MAPPED
+    };
+
+#pragma push_macro("STATUS_TOO_MANY_LUIDS_REQUESTED")
+#undef STATUS_TOO_MANY_LUIDS_REQUESTED
+    inline constexpr auto STATUS_TOO_MANY_LUIDS_REQUESTED = NTSTATUS {
+#pragma pop_macro("STATUS_TOO_MANY_LUIDS_REQUESTED")
+        STATUS_TOO_MANY_LUIDS_REQUESTED
+    };
+
+#pragma push_macro("STATUS_LUIDS_EXHAUSTED")
+#undef STATUS_LUIDS_EXHAUSTED
+    inline constexpr auto STATUS_LUIDS_EXHAUSTED = NTSTATUS {
+#pragma pop_macro("STATUS_LUIDS_EXHAUSTED")
+        STATUS_LUIDS_EXHAUSTED
+    };
+
+#pragma push_macro("STATUS_INVALID_SUB_AUTHORITY")
+#undef STATUS_INVALID_SUB_AUTHORITY
+    inline constexpr auto STATUS_INVALID_SUB_AUTHORITY = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_SUB_AUTHORITY")
+        STATUS_INVALID_SUB_AUTHORITY
+    };
+
+#pragma push_macro("STATUS_INVALID_ACL")
+#undef STATUS_INVALID_ACL
+    inline constexpr auto STATUS_INVALID_ACL = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_ACL")
+        STATUS_INVALID_ACL
+    };
+
+#pragma push_macro("STATUS_INVALID_SID")
+#undef STATUS_INVALID_SID
+    inline constexpr auto STATUS_INVALID_SID = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_SID")
+        STATUS_INVALID_SID
+    };
+
+#pragma push_macro("STATUS_INVALID_SECURITY_DESCR")
+#undef STATUS_INVALID_SECURITY_DESCR
+    inline constexpr auto STATUS_INVALID_SECURITY_DESCR = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_SECURITY_DESCR")
+        STATUS_INVALID_SECURITY_DESCR
+    };
+
+#pragma push_macro("STATUS_PROCEDURE_NOT_FOUND")
+#undef STATUS_PROCEDURE_NOT_FOUND
+    inline constexpr auto STATUS_PROCEDURE_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_PROCEDURE_NOT_FOUND")
+        STATUS_PROCEDURE_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_INVALID_IMAGE_FORMAT")
+#undef STATUS_INVALID_IMAGE_FORMAT
+    inline constexpr auto STATUS_INVALID_IMAGE_FORMAT = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_IMAGE_FORMAT")
+        STATUS_INVALID_IMAGE_FORMAT
+    };
+
+#pragma push_macro("STATUS_NO_TOKEN")
+#undef STATUS_NO_TOKEN
+    inline constexpr auto STATUS_NO_TOKEN = NTSTATUS {
+#pragma pop_macro("STATUS_NO_TOKEN")
+        STATUS_NO_TOKEN
+    };
+
+#pragma push_macro("STATUS_BAD_INHERITANCE_ACL")
+#undef STATUS_BAD_INHERITANCE_ACL
+    inline constexpr auto STATUS_BAD_INHERITANCE_ACL = NTSTATUS {
+#pragma pop_macro("STATUS_BAD_INHERITANCE_ACL")
+        STATUS_BAD_INHERITANCE_ACL
+    };
+
+#pragma push_macro("STATUS_RANGE_NOT_LOCKED")
+#undef STATUS_RANGE_NOT_LOCKED
+    inline constexpr auto STATUS_RANGE_NOT_LOCKED = NTSTATUS {
+#pragma pop_macro("STATUS_RANGE_NOT_LOCKED")
+        STATUS_RANGE_NOT_LOCKED
+    };
+
+#pragma push_macro("STATUS_DISK_FULL")
+#undef STATUS_DISK_FULL
+    inline constexpr auto STATUS_DISK_FULL = NTSTATUS {
+#pragma pop_macro("STATUS_DISK_FULL")
+        STATUS_DISK_FULL
+    };
+
+#pragma push_macro("STATUS_SERVER_DISABLED")
+#undef STATUS_SERVER_DISABLED
+    inline constexpr auto STATUS_SERVER_DISABLED = NTSTATUS {
+#pragma pop_macro("STATUS_SERVER_DISABLED")
+        STATUS_SERVER_DISABLED
+    };
+
+#pragma push_macro("STATUS_SERVER_NOT_DISABLED")
+#undef STATUS_SERVER_NOT_DISABLED
+    inline constexpr auto STATUS_SERVER_NOT_DISABLED = NTSTATUS {
+#pragma pop_macro("STATUS_SERVER_NOT_DISABLED")
+        STATUS_SERVER_NOT_DISABLED
+    };
+
+#pragma push_macro("STATUS_TOO_MANY_GUIDS_REQUESTED")
+#undef STATUS_TOO_MANY_GUIDS_REQUESTED
+    inline constexpr auto STATUS_TOO_MANY_GUIDS_REQUESTED = NTSTATUS {
+#pragma pop_macro("STATUS_TOO_MANY_GUIDS_REQUESTED")
+        STATUS_TOO_MANY_GUIDS_REQUESTED
+    };
+
+#pragma push_macro("STATUS_GUIDS_EXHAUSTED")
+#undef STATUS_GUIDS_EXHAUSTED
+    inline constexpr auto STATUS_GUIDS_EXHAUSTED = NTSTATUS {
+#pragma pop_macro("STATUS_GUIDS_EXHAUSTED")
+        STATUS_GUIDS_EXHAUSTED
+    };
+
+#pragma push_macro("STATUS_INVALID_ID_AUTHORITY")
+#undef STATUS_INVALID_ID_AUTHORITY
+    inline constexpr auto STATUS_INVALID_ID_AUTHORITY = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_ID_AUTHORITY")
+        STATUS_INVALID_ID_AUTHORITY
+    };
+
+#pragma push_macro("STATUS_AGENTS_EXHAUSTED")
+#undef STATUS_AGENTS_EXHAUSTED
+    inline constexpr auto STATUS_AGENTS_EXHAUSTED = NTSTATUS {
+#pragma pop_macro("STATUS_AGENTS_EXHAUSTED")
+        STATUS_AGENTS_EXHAUSTED
+    };
+
+#pragma push_macro("STATUS_INVALID_VOLUME_LABEL")
+#undef STATUS_INVALID_VOLUME_LABEL
+    inline constexpr auto STATUS_INVALID_VOLUME_LABEL = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_VOLUME_LABEL")
+        STATUS_INVALID_VOLUME_LABEL
+    };
+
+#pragma push_macro("STATUS_SECTION_NOT_EXTENDED")
+#undef STATUS_SECTION_NOT_EXTENDED
+    inline constexpr auto STATUS_SECTION_NOT_EXTENDED = NTSTATUS {
+#pragma pop_macro("STATUS_SECTION_NOT_EXTENDED")
+        STATUS_SECTION_NOT_EXTENDED
+    };
+
+#pragma push_macro("STATUS_NOT_MAPPED_DATA")
+#undef STATUS_NOT_MAPPED_DATA
+    inline constexpr auto STATUS_NOT_MAPPED_DATA = NTSTATUS {
+#pragma pop_macro("STATUS_NOT_MAPPED_DATA")
+        STATUS_NOT_MAPPED_DATA
+    };
+
+#pragma push_macro("STATUS_RESOURCE_DATA_NOT_FOUND")
+#undef STATUS_RESOURCE_DATA_NOT_FOUND
+    inline constexpr auto STATUS_RESOURCE_DATA_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_RESOURCE_DATA_NOT_FOUND")
+        STATUS_RESOURCE_DATA_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_RESOURCE_TYPE_NOT_FOUND")
+#undef STATUS_RESOURCE_TYPE_NOT_FOUND
+    inline constexpr auto STATUS_RESOURCE_TYPE_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_RESOURCE_TYPE_NOT_FOUND")
+        STATUS_RESOURCE_TYPE_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_RESOURCE_NAME_NOT_FOUND")
+#undef STATUS_RESOURCE_NAME_NOT_FOUND
+    inline constexpr auto STATUS_RESOURCE_NAME_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_RESOURCE_NAME_NOT_FOUND")
+        STATUS_RESOURCE_NAME_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_ARRAY_BOUNDS_EXCEEDED")
+#undef STATUS_ARRAY_BOUNDS_EXCEEDED
+    inline constexpr auto STATUS_ARRAY_BOUNDS_EXCEEDED = NTSTATUS {
+#pragma pop_macro("STATUS_ARRAY_BOUNDS_EXCEEDED")
+        STATUS_ARRAY_BOUNDS_EXCEEDED
+    };
+
+#pragma push_macro("STATUS_FLOAT_DENORMAL_OPERAND")
+#undef STATUS_FLOAT_DENORMAL_OPERAND
+    inline constexpr auto STATUS_FLOAT_DENORMAL_OPERAND = NTSTATUS {
+#pragma pop_macro("STATUS_FLOAT_DENORMAL_OPERAND")
+        STATUS_FLOAT_DENORMAL_OPERAND
+    };
+
+#pragma push_macro("STATUS_FLOAT_DIVIDE_BY_ZERO")
+#undef STATUS_FLOAT_DIVIDE_BY_ZERO
+    inline constexpr auto STATUS_FLOAT_DIVIDE_BY_ZERO = NTSTATUS {
+#pragma pop_macro("STATUS_FLOAT_DIVIDE_BY_ZERO")
+        STATUS_FLOAT_DIVIDE_BY_ZERO
+    };
+
+#pragma push_macro("STATUS_FLOAT_INEXACT_RESULT")
+#undef STATUS_FLOAT_INEXACT_RESULT
+    inline constexpr auto STATUS_FLOAT_INEXACT_RESULT = NTSTATUS {
+#pragma pop_macro("STATUS_FLOAT_INEXACT_RESULT")
+        STATUS_FLOAT_INEXACT_RESULT
+    };
+
+#pragma push_macro("STATUS_FLOAT_INVALID_OPERATION")
+#undef STATUS_FLOAT_INVALID_OPERATION
+    inline constexpr auto STATUS_FLOAT_INVALID_OPERATION = NTSTATUS {
+#pragma pop_macro("STATUS_FLOAT_INVALID_OPERATION")
+        STATUS_FLOAT_INVALID_OPERATION
+    };
+
+#pragma push_macro("STATUS_FLOAT_OVERFLOW")
+#undef STATUS_FLOAT_OVERFLOW
+    inline constexpr auto STATUS_FLOAT_OVERFLOW = NTSTATUS {
+#pragma pop_macro("STATUS_FLOAT_OVERFLOW")
+        STATUS_FLOAT_OVERFLOW
+    };
+
+#pragma push_macro("STATUS_FLOAT_STACK_CHECK")
+#undef STATUS_FLOAT_STACK_CHECK
+    inline constexpr auto STATUS_FLOAT_STACK_CHECK = NTSTATUS {
+#pragma pop_macro("STATUS_FLOAT_STACK_CHECK")
+        STATUS_FLOAT_STACK_CHECK
+    };
+
+#pragma push_macro("STATUS_FLOAT_UNDERFLOW")
+#undef STATUS_FLOAT_UNDERFLOW
+    inline constexpr auto STATUS_FLOAT_UNDERFLOW = NTSTATUS {
+#pragma pop_macro("STATUS_FLOAT_UNDERFLOW")
+        STATUS_FLOAT_UNDERFLOW
+    };
+
+#pragma push_macro("STATUS_INTEGER_DIVIDE_BY_ZERO")
+#undef STATUS_INTEGER_DIVIDE_BY_ZERO
+    inline constexpr auto STATUS_INTEGER_DIVIDE_BY_ZERO = NTSTATUS {
+#pragma pop_macro("STATUS_INTEGER_DIVIDE_BY_ZERO")
+        STATUS_INTEGER_DIVIDE_BY_ZERO
+    };
+
+#pragma push_macro("STATUS_INTEGER_OVERFLOW")
+#undef STATUS_INTEGER_OVERFLOW
+    inline constexpr auto STATUS_INTEGER_OVERFLOW = NTSTATUS {
+#pragma pop_macro("STATUS_INTEGER_OVERFLOW")
+        STATUS_INTEGER_OVERFLOW
+    };
+
+#pragma push_macro("STATUS_PRIVILEGED_INSTRUCTION")
+#undef STATUS_PRIVILEGED_INSTRUCTION
+    inline constexpr auto STATUS_PRIVILEGED_INSTRUCTION = NTSTATUS {
+#pragma pop_macro("STATUS_PRIVILEGED_INSTRUCTION")
+        STATUS_PRIVILEGED_INSTRUCTION
+    };
+
+#pragma push_macro("STATUS_TOO_MANY_PAGING_FILES")
+#undef STATUS_TOO_MANY_PAGING_FILES
+    inline constexpr auto STATUS_TOO_MANY_PAGING_FILES = NTSTATUS {
+#pragma pop_macro("STATUS_TOO_MANY_PAGING_FILES")
+        STATUS_TOO_MANY_PAGING_FILES
+    };
+
+#pragma push_macro("STATUS_FILE_INVALID")
+#undef STATUS_FILE_INVALID
+    inline constexpr auto STATUS_FILE_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_FILE_INVALID")
+        STATUS_FILE_INVALID
+    };
+
+#pragma push_macro("STATUS_INSUFFICIENT_RESOURCES")
+#undef STATUS_INSUFFICIENT_RESOURCES
+    inline constexpr auto STATUS_INSUFFICIENT_RESOURCES = NTSTATUS {
+#pragma pop_macro("STATUS_INSUFFICIENT_RESOURCES")
+        STATUS_INSUFFICIENT_RESOURCES
+    };
+
+#pragma push_macro("STATUS_DFS_EXIT_PATH_FOUND")
+#undef STATUS_DFS_EXIT_PATH_FOUND
+    inline constexpr auto STATUS_DFS_EXIT_PATH_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_DFS_EXIT_PATH_FOUND")
+        STATUS_DFS_EXIT_PATH_FOUND
+    };
+
+#pragma push_macro("STATUS_DEVICE_DATA_ERROR")
+#undef STATUS_DEVICE_DATA_ERROR
+    inline constexpr auto STATUS_DEVICE_DATA_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_DEVICE_DATA_ERROR")
+        STATUS_DEVICE_DATA_ERROR
+    };
+
+#pragma push_macro("STATUS_DEVICE_NOT_CONNECTED")
+#undef STATUS_DEVICE_NOT_CONNECTED
+    inline constexpr auto STATUS_DEVICE_NOT_CONNECTED = NTSTATUS {
+#pragma pop_macro("STATUS_DEVICE_NOT_CONNECTED")
+        STATUS_DEVICE_NOT_CONNECTED
+    };
+
+#pragma push_macro("STATUS_FREE_VM_NOT_AT_BASE")
+#undef STATUS_FREE_VM_NOT_AT_BASE
+    inline constexpr auto STATUS_FREE_VM_NOT_AT_BASE = NTSTATUS {
+#pragma pop_macro("STATUS_FREE_VM_NOT_AT_BASE")
+        STATUS_FREE_VM_NOT_AT_BASE
+    };
+
+#pragma push_macro("STATUS_MEMORY_NOT_ALLOCATED")
+#undef STATUS_MEMORY_NOT_ALLOCATED
+    inline constexpr auto STATUS_MEMORY_NOT_ALLOCATED = NTSTATUS {
+#pragma pop_macro("STATUS_MEMORY_NOT_ALLOCATED")
+        STATUS_MEMORY_NOT_ALLOCATED
+    };
+
+#pragma push_macro("STATUS_WORKING_SET_QUOTA")
+#undef STATUS_WORKING_SET_QUOTA
+    inline constexpr auto STATUS_WORKING_SET_QUOTA = NTSTATUS {
+#pragma pop_macro("STATUS_WORKING_SET_QUOTA")
+        STATUS_WORKING_SET_QUOTA
+    };
+
+#pragma push_macro("STATUS_MEDIA_WRITE_PROTECTED")
+#undef STATUS_MEDIA_WRITE_PROTECTED
+    inline constexpr auto STATUS_MEDIA_WRITE_PROTECTED = NTSTATUS {
+#pragma pop_macro("STATUS_MEDIA_WRITE_PROTECTED")
+        STATUS_MEDIA_WRITE_PROTECTED
+    };
+
+#pragma push_macro("STATUS_DEVICE_NOT_READY")
+#undef STATUS_DEVICE_NOT_READY
+    inline constexpr auto STATUS_DEVICE_NOT_READY = NTSTATUS {
+#pragma pop_macro("STATUS_DEVICE_NOT_READY")
+        STATUS_DEVICE_NOT_READY
+    };
+
+#pragma push_macro("STATUS_INVALID_GROUP_ATTRIBUTES")
+#undef STATUS_INVALID_GROUP_ATTRIBUTES
+    inline constexpr auto STATUS_INVALID_GROUP_ATTRIBUTES = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_GROUP_ATTRIBUTES")
+        STATUS_INVALID_GROUP_ATTRIBUTES
+    };
+
+#pragma push_macro("STATUS_BAD_IMPERSONATION_LEVEL")
+#undef STATUS_BAD_IMPERSONATION_LEVEL
+    inline constexpr auto STATUS_BAD_IMPERSONATION_LEVEL = NTSTATUS {
+#pragma pop_macro("STATUS_BAD_IMPERSONATION_LEVEL")
+        STATUS_BAD_IMPERSONATION_LEVEL
+    };
+
+#pragma push_macro("STATUS_CANT_OPEN_ANONYMOUS")
+#undef STATUS_CANT_OPEN_ANONYMOUS
+    inline constexpr auto STATUS_CANT_OPEN_ANONYMOUS = NTSTATUS {
+#pragma pop_macro("STATUS_CANT_OPEN_ANONYMOUS")
+        STATUS_CANT_OPEN_ANONYMOUS
+    };
+
+#pragma push_macro("STATUS_BAD_VALIDATION_CLASS")
+#undef STATUS_BAD_VALIDATION_CLASS
+    inline constexpr auto STATUS_BAD_VALIDATION_CLASS = NTSTATUS {
+#pragma pop_macro("STATUS_BAD_VALIDATION_CLASS")
+        STATUS_BAD_VALIDATION_CLASS
+    };
+
+#pragma push_macro("STATUS_BAD_TOKEN_TYPE")
+#undef STATUS_BAD_TOKEN_TYPE
+    inline constexpr auto STATUS_BAD_TOKEN_TYPE = NTSTATUS {
+#pragma pop_macro("STATUS_BAD_TOKEN_TYPE")
+        STATUS_BAD_TOKEN_TYPE
+    };
+
+#pragma push_macro("STATUS_BAD_MASTER_BOOT_RECORD")
+#undef STATUS_BAD_MASTER_BOOT_RECORD
+    inline constexpr auto STATUS_BAD_MASTER_BOOT_RECORD = NTSTATUS {
+#pragma pop_macro("STATUS_BAD_MASTER_BOOT_RECORD")
+        STATUS_BAD_MASTER_BOOT_RECORD
+    };
+
+#pragma push_macro("STATUS_INSTRUCTION_MISALIGNMENT")
+#undef STATUS_INSTRUCTION_MISALIGNMENT
+    inline constexpr auto STATUS_INSTRUCTION_MISALIGNMENT = NTSTATUS {
+#pragma pop_macro("STATUS_INSTRUCTION_MISALIGNMENT")
+        STATUS_INSTRUCTION_MISALIGNMENT
+    };
+
+#pragma push_macro("STATUS_INSTANCE_NOT_AVAILABLE")
+#undef STATUS_INSTANCE_NOT_AVAILABLE
+    inline constexpr auto STATUS_INSTANCE_NOT_AVAILABLE = NTSTATUS {
+#pragma pop_macro("STATUS_INSTANCE_NOT_AVAILABLE")
+        STATUS_INSTANCE_NOT_AVAILABLE
+    };
+
+#pragma push_macro("STATUS_PIPE_NOT_AVAILABLE")
+#undef STATUS_PIPE_NOT_AVAILABLE
+    inline constexpr auto STATUS_PIPE_NOT_AVAILABLE = NTSTATUS {
+#pragma pop_macro("STATUS_PIPE_NOT_AVAILABLE")
+        STATUS_PIPE_NOT_AVAILABLE
+    };
+
+#pragma push_macro("STATUS_INVALID_PIPE_STATE")
+#undef STATUS_INVALID_PIPE_STATE
+    inline constexpr auto STATUS_INVALID_PIPE_STATE = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_PIPE_STATE")
+        STATUS_INVALID_PIPE_STATE
+    };
+
+#pragma push_macro("STATUS_PIPE_BUSY")
+#undef STATUS_PIPE_BUSY
+    inline constexpr auto STATUS_PIPE_BUSY = NTSTATUS {
+#pragma pop_macro("STATUS_PIPE_BUSY")
+        STATUS_PIPE_BUSY
+    };
+
+#pragma push_macro("STATUS_ILLEGAL_FUNCTION")
+#undef STATUS_ILLEGAL_FUNCTION
+    inline constexpr auto STATUS_ILLEGAL_FUNCTION = NTSTATUS {
+#pragma pop_macro("STATUS_ILLEGAL_FUNCTION")
+        STATUS_ILLEGAL_FUNCTION
+    };
+
+#pragma push_macro("STATUS_PIPE_DISCONNECTED")
+#undef STATUS_PIPE_DISCONNECTED
+    inline constexpr auto STATUS_PIPE_DISCONNECTED = NTSTATUS {
+#pragma pop_macro("STATUS_PIPE_DISCONNECTED")
+        STATUS_PIPE_DISCONNECTED
+    };
+
+#pragma push_macro("STATUS_PIPE_CLOSING")
+#undef STATUS_PIPE_CLOSING
+    inline constexpr auto STATUS_PIPE_CLOSING = NTSTATUS {
+#pragma pop_macro("STATUS_PIPE_CLOSING")
+        STATUS_PIPE_CLOSING
+    };
+
+#pragma push_macro("STATUS_PIPE_CONNECTED")
+#undef STATUS_PIPE_CONNECTED
+    inline constexpr auto STATUS_PIPE_CONNECTED = NTSTATUS {
+#pragma pop_macro("STATUS_PIPE_CONNECTED")
+        STATUS_PIPE_CONNECTED
+    };
+
+#pragma push_macro("STATUS_PIPE_LISTENING")
+#undef STATUS_PIPE_LISTENING
+    inline constexpr auto STATUS_PIPE_LISTENING = NTSTATUS {
+#pragma pop_macro("STATUS_PIPE_LISTENING")
+        STATUS_PIPE_LISTENING
+    };
+
+#pragma push_macro("STATUS_INVALID_READ_MODE")
+#undef STATUS_INVALID_READ_MODE
+    inline constexpr auto STATUS_INVALID_READ_MODE = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_READ_MODE")
+        STATUS_INVALID_READ_MODE
+    };
+
+#pragma push_macro("STATUS_IO_TIMEOUT")
+#undef STATUS_IO_TIMEOUT
+    inline constexpr auto STATUS_IO_TIMEOUT = NTSTATUS {
+#pragma pop_macro("STATUS_IO_TIMEOUT")
+        STATUS_IO_TIMEOUT
+    };
+
+#pragma push_macro("STATUS_FILE_FORCED_CLOSED")
+#undef STATUS_FILE_FORCED_CLOSED
+    inline constexpr auto STATUS_FILE_FORCED_CLOSED = NTSTATUS {
+#pragma pop_macro("STATUS_FILE_FORCED_CLOSED")
+        STATUS_FILE_FORCED_CLOSED
+    };
+
+#pragma push_macro("STATUS_PROFILING_NOT_STARTED")
+#undef STATUS_PROFILING_NOT_STARTED
+    inline constexpr auto STATUS_PROFILING_NOT_STARTED = NTSTATUS {
+#pragma pop_macro("STATUS_PROFILING_NOT_STARTED")
+        STATUS_PROFILING_NOT_STARTED
+    };
+
+#pragma push_macro("STATUS_PROFILING_NOT_STOPPED")
+#undef STATUS_PROFILING_NOT_STOPPED
+    inline constexpr auto STATUS_PROFILING_NOT_STOPPED = NTSTATUS {
+#pragma pop_macro("STATUS_PROFILING_NOT_STOPPED")
+        STATUS_PROFILING_NOT_STOPPED
+    };
+
+#pragma push_macro("STATUS_COULD_NOT_INTERPRET")
+#undef STATUS_COULD_NOT_INTERPRET
+    inline constexpr auto STATUS_COULD_NOT_INTERPRET = NTSTATUS {
+#pragma pop_macro("STATUS_COULD_NOT_INTERPRET")
+        STATUS_COULD_NOT_INTERPRET
+    };
+
+#pragma push_macro("STATUS_FILE_IS_A_DIRECTORY")
+#undef STATUS_FILE_IS_A_DIRECTORY
+    inline constexpr auto STATUS_FILE_IS_A_DIRECTORY = NTSTATUS {
+#pragma pop_macro("STATUS_FILE_IS_A_DIRECTORY")
+        STATUS_FILE_IS_A_DIRECTORY
+    };
+
+#pragma push_macro("STATUS_NOT_SUPPORTED")
+#undef STATUS_NOT_SUPPORTED
+    inline constexpr auto STATUS_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_NOT_SUPPORTED")
+        STATUS_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_REMOTE_NOT_LISTENING")
+#undef STATUS_REMOTE_NOT_LISTENING
+    inline constexpr auto STATUS_REMOTE_NOT_LISTENING = NTSTATUS {
+#pragma pop_macro("STATUS_REMOTE_NOT_LISTENING")
+        STATUS_REMOTE_NOT_LISTENING
+    };
+
+#pragma push_macro("STATUS_DUPLICATE_NAME")
+#undef STATUS_DUPLICATE_NAME
+    inline constexpr auto STATUS_DUPLICATE_NAME = NTSTATUS {
+#pragma pop_macro("STATUS_DUPLICATE_NAME")
+        STATUS_DUPLICATE_NAME
+    };
+
+#pragma push_macro("STATUS_BAD_NETWORK_PATH")
+#undef STATUS_BAD_NETWORK_PATH
+    inline constexpr auto STATUS_BAD_NETWORK_PATH = NTSTATUS {
+#pragma pop_macro("STATUS_BAD_NETWORK_PATH")
+        STATUS_BAD_NETWORK_PATH
+    };
+
+#pragma push_macro("STATUS_NETWORK_BUSY")
+#undef STATUS_NETWORK_BUSY
+    inline constexpr auto STATUS_NETWORK_BUSY = NTSTATUS {
+#pragma pop_macro("STATUS_NETWORK_BUSY")
+        STATUS_NETWORK_BUSY
+    };
+
+#pragma push_macro("STATUS_DEVICE_DOES_NOT_EXIST")
+#undef STATUS_DEVICE_DOES_NOT_EXIST
+    inline constexpr auto STATUS_DEVICE_DOES_NOT_EXIST = NTSTATUS {
+#pragma pop_macro("STATUS_DEVICE_DOES_NOT_EXIST")
+        STATUS_DEVICE_DOES_NOT_EXIST
+    };
+
+#pragma push_macro("STATUS_TOO_MANY_COMMANDS")
+#undef STATUS_TOO_MANY_COMMANDS
+    inline constexpr auto STATUS_TOO_MANY_COMMANDS = NTSTATUS {
+#pragma pop_macro("STATUS_TOO_MANY_COMMANDS")
+        STATUS_TOO_MANY_COMMANDS
+    };
+
+#pragma push_macro("STATUS_ADAPTER_HARDWARE_ERROR")
+#undef STATUS_ADAPTER_HARDWARE_ERROR
+    inline constexpr auto STATUS_ADAPTER_HARDWARE_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_ADAPTER_HARDWARE_ERROR")
+        STATUS_ADAPTER_HARDWARE_ERROR
+    };
+
+#pragma push_macro("STATUS_INVALID_NETWORK_RESPONSE")
+#undef STATUS_INVALID_NETWORK_RESPONSE
+    inline constexpr auto STATUS_INVALID_NETWORK_RESPONSE = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_NETWORK_RESPONSE")
+        STATUS_INVALID_NETWORK_RESPONSE
+    };
+
+#pragma push_macro("STATUS_UNEXPECTED_NETWORK_ERROR")
+#undef STATUS_UNEXPECTED_NETWORK_ERROR
+    inline constexpr auto STATUS_UNEXPECTED_NETWORK_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_UNEXPECTED_NETWORK_ERROR")
+        STATUS_UNEXPECTED_NETWORK_ERROR
+    };
+
+#pragma push_macro("STATUS_BAD_REMOTE_ADAPTER")
+#undef STATUS_BAD_REMOTE_ADAPTER
+    inline constexpr auto STATUS_BAD_REMOTE_ADAPTER = NTSTATUS {
+#pragma pop_macro("STATUS_BAD_REMOTE_ADAPTER")
+        STATUS_BAD_REMOTE_ADAPTER
+    };
+
+#pragma push_macro("STATUS_PRINT_QUEUE_FULL")
+#undef STATUS_PRINT_QUEUE_FULL
+    inline constexpr auto STATUS_PRINT_QUEUE_FULL = NTSTATUS {
+#pragma pop_macro("STATUS_PRINT_QUEUE_FULL")
+        STATUS_PRINT_QUEUE_FULL
+    };
+
+#pragma push_macro("STATUS_NO_SPOOL_SPACE")
+#undef STATUS_NO_SPOOL_SPACE
+    inline constexpr auto STATUS_NO_SPOOL_SPACE = NTSTATUS {
+#pragma pop_macro("STATUS_NO_SPOOL_SPACE")
+        STATUS_NO_SPOOL_SPACE
+    };
+
+#pragma push_macro("STATUS_PRINT_CANCELLED")
+#undef STATUS_PRINT_CANCELLED
+    inline constexpr auto STATUS_PRINT_CANCELLED = NTSTATUS {
+#pragma pop_macro("STATUS_PRINT_CANCELLED")
+        STATUS_PRINT_CANCELLED
+    };
+
+#pragma push_macro("STATUS_NETWORK_NAME_DELETED")
+#undef STATUS_NETWORK_NAME_DELETED
+    inline constexpr auto STATUS_NETWORK_NAME_DELETED = NTSTATUS {
+#pragma pop_macro("STATUS_NETWORK_NAME_DELETED")
+        STATUS_NETWORK_NAME_DELETED
+    };
+
+#pragma push_macro("STATUS_NETWORK_ACCESS_DENIED")
+#undef STATUS_NETWORK_ACCESS_DENIED
+    inline constexpr auto STATUS_NETWORK_ACCESS_DENIED = NTSTATUS {
+#pragma pop_macro("STATUS_NETWORK_ACCESS_DENIED")
+        STATUS_NETWORK_ACCESS_DENIED
+    };
+
+#pragma push_macro("STATUS_BAD_DEVICE_TYPE")
+#undef STATUS_BAD_DEVICE_TYPE
+    inline constexpr auto STATUS_BAD_DEVICE_TYPE = NTSTATUS {
+#pragma pop_macro("STATUS_BAD_DEVICE_TYPE")
+        STATUS_BAD_DEVICE_TYPE
+    };
+
+#pragma push_macro("STATUS_BAD_NETWORK_NAME")
+#undef STATUS_BAD_NETWORK_NAME
+    inline constexpr auto STATUS_BAD_NETWORK_NAME = NTSTATUS {
+#pragma pop_macro("STATUS_BAD_NETWORK_NAME")
+        STATUS_BAD_NETWORK_NAME
+    };
+
+#pragma push_macro("STATUS_TOO_MANY_NAMES")
+#undef STATUS_TOO_MANY_NAMES
+    inline constexpr auto STATUS_TOO_MANY_NAMES = NTSTATUS {
+#pragma pop_macro("STATUS_TOO_MANY_NAMES")
+        STATUS_TOO_MANY_NAMES
+    };
+
+#pragma push_macro("STATUS_TOO_MANY_SESSIONS")
+#undef STATUS_TOO_MANY_SESSIONS
+    inline constexpr auto STATUS_TOO_MANY_SESSIONS = NTSTATUS {
+#pragma pop_macro("STATUS_TOO_MANY_SESSIONS")
+        STATUS_TOO_MANY_SESSIONS
+    };
+
+#pragma push_macro("STATUS_SHARING_PAUSED")
+#undef STATUS_SHARING_PAUSED
+    inline constexpr auto STATUS_SHARING_PAUSED = NTSTATUS {
+#pragma pop_macro("STATUS_SHARING_PAUSED")
+        STATUS_SHARING_PAUSED
+    };
+
+#pragma push_macro("STATUS_REQUEST_NOT_ACCEPTED")
+#undef STATUS_REQUEST_NOT_ACCEPTED
+    inline constexpr auto STATUS_REQUEST_NOT_ACCEPTED = NTSTATUS {
+#pragma pop_macro("STATUS_REQUEST_NOT_ACCEPTED")
+        STATUS_REQUEST_NOT_ACCEPTED
+    };
+
+#pragma push_macro("STATUS_REDIRECTOR_PAUSED")
+#undef STATUS_REDIRECTOR_PAUSED
+    inline constexpr auto STATUS_REDIRECTOR_PAUSED = NTSTATUS {
+#pragma pop_macro("STATUS_REDIRECTOR_PAUSED")
+        STATUS_REDIRECTOR_PAUSED
+    };
+
+#pragma push_macro("STATUS_NET_WRITE_FAULT")
+#undef STATUS_NET_WRITE_FAULT
+    inline constexpr auto STATUS_NET_WRITE_FAULT = NTSTATUS {
+#pragma pop_macro("STATUS_NET_WRITE_FAULT")
+        STATUS_NET_WRITE_FAULT
+    };
+
+#pragma push_macro("STATUS_PROFILING_AT_LIMIT")
+#undef STATUS_PROFILING_AT_LIMIT
+    inline constexpr auto STATUS_PROFILING_AT_LIMIT = NTSTATUS {
+#pragma pop_macro("STATUS_PROFILING_AT_LIMIT")
+        STATUS_PROFILING_AT_LIMIT
+    };
+
+#pragma push_macro("STATUS_NOT_SAME_DEVICE")
+#undef STATUS_NOT_SAME_DEVICE
+    inline constexpr auto STATUS_NOT_SAME_DEVICE = NTSTATUS {
+#pragma pop_macro("STATUS_NOT_SAME_DEVICE")
+        STATUS_NOT_SAME_DEVICE
+    };
+
+#pragma push_macro("STATUS_FILE_RENAMED")
+#undef STATUS_FILE_RENAMED
+    inline constexpr auto STATUS_FILE_RENAMED = NTSTATUS {
+#pragma pop_macro("STATUS_FILE_RENAMED")
+        STATUS_FILE_RENAMED
+    };
+
+#pragma push_macro("STATUS_VIRTUAL_CIRCUIT_CLOSED")
+#undef STATUS_VIRTUAL_CIRCUIT_CLOSED
+    inline constexpr auto STATUS_VIRTUAL_CIRCUIT_CLOSED = NTSTATUS {
+#pragma pop_macro("STATUS_VIRTUAL_CIRCUIT_CLOSED")
+        STATUS_VIRTUAL_CIRCUIT_CLOSED
+    };
+
+#pragma push_macro("STATUS_NO_SECURITY_ON_OBJECT")
+#undef STATUS_NO_SECURITY_ON_OBJECT
+    inline constexpr auto STATUS_NO_SECURITY_ON_OBJECT = NTSTATUS {
+#pragma pop_macro("STATUS_NO_SECURITY_ON_OBJECT")
+        STATUS_NO_SECURITY_ON_OBJECT
+    };
+
+#pragma push_macro("STATUS_CANT_WAIT")
+#undef STATUS_CANT_WAIT
+    inline constexpr auto STATUS_CANT_WAIT = NTSTATUS {
+#pragma pop_macro("STATUS_CANT_WAIT")
+        STATUS_CANT_WAIT
+    };
+
+#pragma push_macro("STATUS_PIPE_EMPTY")
+#undef STATUS_PIPE_EMPTY
+    inline constexpr auto STATUS_PIPE_EMPTY = NTSTATUS {
+#pragma pop_macro("STATUS_PIPE_EMPTY")
+        STATUS_PIPE_EMPTY
+    };
+
+#pragma push_macro("STATUS_CANT_ACCESS_DOMAIN_INFO")
+#undef STATUS_CANT_ACCESS_DOMAIN_INFO
+    inline constexpr auto STATUS_CANT_ACCESS_DOMAIN_INFO = NTSTATUS {
+#pragma pop_macro("STATUS_CANT_ACCESS_DOMAIN_INFO")
+        STATUS_CANT_ACCESS_DOMAIN_INFO
+    };
+
+#pragma push_macro("STATUS_CANT_TERMINATE_SELF")
+#undef STATUS_CANT_TERMINATE_SELF
+    inline constexpr auto STATUS_CANT_TERMINATE_SELF = NTSTATUS {
+#pragma pop_macro("STATUS_CANT_TERMINATE_SELF")
+        STATUS_CANT_TERMINATE_SELF
+    };
+
+#pragma push_macro("STATUS_INVALID_SERVER_STATE")
+#undef STATUS_INVALID_SERVER_STATE
+    inline constexpr auto STATUS_INVALID_SERVER_STATE = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_SERVER_STATE")
+        STATUS_INVALID_SERVER_STATE
+    };
+
+#pragma push_macro("STATUS_INVALID_DOMAIN_STATE")
+#undef STATUS_INVALID_DOMAIN_STATE
+    inline constexpr auto STATUS_INVALID_DOMAIN_STATE = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_DOMAIN_STATE")
+        STATUS_INVALID_DOMAIN_STATE
+    };
+
+#pragma push_macro("STATUS_INVALID_DOMAIN_ROLE")
+#undef STATUS_INVALID_DOMAIN_ROLE
+    inline constexpr auto STATUS_INVALID_DOMAIN_ROLE = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_DOMAIN_ROLE")
+        STATUS_INVALID_DOMAIN_ROLE
+    };
+
+#pragma push_macro("STATUS_NO_SUCH_DOMAIN")
+#undef STATUS_NO_SUCH_DOMAIN
+    inline constexpr auto STATUS_NO_SUCH_DOMAIN = NTSTATUS {
+#pragma pop_macro("STATUS_NO_SUCH_DOMAIN")
+        STATUS_NO_SUCH_DOMAIN
+    };
+
+#pragma push_macro("STATUS_DOMAIN_EXISTS")
+#undef STATUS_DOMAIN_EXISTS
+    inline constexpr auto STATUS_DOMAIN_EXISTS = NTSTATUS {
+#pragma pop_macro("STATUS_DOMAIN_EXISTS")
+        STATUS_DOMAIN_EXISTS
+    };
+
+#pragma push_macro("STATUS_DOMAIN_LIMIT_EXCEEDED")
+#undef STATUS_DOMAIN_LIMIT_EXCEEDED
+    inline constexpr auto STATUS_DOMAIN_LIMIT_EXCEEDED = NTSTATUS {
+#pragma pop_macro("STATUS_DOMAIN_LIMIT_EXCEEDED")
+        STATUS_DOMAIN_LIMIT_EXCEEDED
+    };
+
+#pragma push_macro("STATUS_OPLOCK_NOT_GRANTED")
+#undef STATUS_OPLOCK_NOT_GRANTED
+    inline constexpr auto STATUS_OPLOCK_NOT_GRANTED = NTSTATUS {
+#pragma pop_macro("STATUS_OPLOCK_NOT_GRANTED")
+        STATUS_OPLOCK_NOT_GRANTED
+    };
+
+#pragma push_macro("STATUS_INVALID_OPLOCK_PROTOCOL")
+#undef STATUS_INVALID_OPLOCK_PROTOCOL
+    inline constexpr auto STATUS_INVALID_OPLOCK_PROTOCOL = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_OPLOCK_PROTOCOL")
+        STATUS_INVALID_OPLOCK_PROTOCOL
+    };
+
+#pragma push_macro("STATUS_INTERNAL_DB_CORRUPTION")
+#undef STATUS_INTERNAL_DB_CORRUPTION
+    inline constexpr auto STATUS_INTERNAL_DB_CORRUPTION = NTSTATUS {
+#pragma pop_macro("STATUS_INTERNAL_DB_CORRUPTION")
+        STATUS_INTERNAL_DB_CORRUPTION
+    };
+
+#pragma push_macro("STATUS_INTERNAL_ERROR")
+#undef STATUS_INTERNAL_ERROR
+    inline constexpr auto STATUS_INTERNAL_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_INTERNAL_ERROR")
+        STATUS_INTERNAL_ERROR
+    };
+
+#pragma push_macro("STATUS_GENERIC_NOT_MAPPED")
+#undef STATUS_GENERIC_NOT_MAPPED
+    inline constexpr auto STATUS_GENERIC_NOT_MAPPED = NTSTATUS {
+#pragma pop_macro("STATUS_GENERIC_NOT_MAPPED")
+        STATUS_GENERIC_NOT_MAPPED
+    };
+
+#pragma push_macro("STATUS_BAD_DESCRIPTOR_FORMAT")
+#undef STATUS_BAD_DESCRIPTOR_FORMAT
+    inline constexpr auto STATUS_BAD_DESCRIPTOR_FORMAT = NTSTATUS {
+#pragma pop_macro("STATUS_BAD_DESCRIPTOR_FORMAT")
+        STATUS_BAD_DESCRIPTOR_FORMAT
+    };
+
+#pragma push_macro("STATUS_UNEXPECTED_IO_ERROR")
+#undef STATUS_UNEXPECTED_IO_ERROR
+    inline constexpr auto STATUS_UNEXPECTED_IO_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_UNEXPECTED_IO_ERROR")
+        STATUS_UNEXPECTED_IO_ERROR
+    };
+
+#pragma push_macro("STATUS_UNEXPECTED_MM_CREATE_ERR")
+#undef STATUS_UNEXPECTED_MM_CREATE_ERR
+    inline constexpr auto STATUS_UNEXPECTED_MM_CREATE_ERR = NTSTATUS {
+#pragma pop_macro("STATUS_UNEXPECTED_MM_CREATE_ERR")
+        STATUS_UNEXPECTED_MM_CREATE_ERR
+    };
+
+#pragma push_macro("STATUS_UNEXPECTED_MM_MAP_ERROR")
+#undef STATUS_UNEXPECTED_MM_MAP_ERROR
+    inline constexpr auto STATUS_UNEXPECTED_MM_MAP_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_UNEXPECTED_MM_MAP_ERROR")
+        STATUS_UNEXPECTED_MM_MAP_ERROR
+    };
+
+#pragma push_macro("STATUS_UNEXPECTED_MM_EXTEND_ERR")
+#undef STATUS_UNEXPECTED_MM_EXTEND_ERR
+    inline constexpr auto STATUS_UNEXPECTED_MM_EXTEND_ERR = NTSTATUS {
+#pragma pop_macro("STATUS_UNEXPECTED_MM_EXTEND_ERR")
+        STATUS_UNEXPECTED_MM_EXTEND_ERR
+    };
+
+#pragma push_macro("STATUS_NOT_LOGON_PROCESS")
+#undef STATUS_NOT_LOGON_PROCESS
+    inline constexpr auto STATUS_NOT_LOGON_PROCESS = NTSTATUS {
+#pragma pop_macro("STATUS_NOT_LOGON_PROCESS")
+        STATUS_NOT_LOGON_PROCESS
+    };
+
+#pragma push_macro("STATUS_LOGON_SESSION_EXISTS")
+#undef STATUS_LOGON_SESSION_EXISTS
+    inline constexpr auto STATUS_LOGON_SESSION_EXISTS = NTSTATUS {
+#pragma pop_macro("STATUS_LOGON_SESSION_EXISTS")
+        STATUS_LOGON_SESSION_EXISTS
+    };
+
+#pragma push_macro("STATUS_INVALID_PARAMETER_1")
+#undef STATUS_INVALID_PARAMETER_1
+    inline constexpr auto STATUS_INVALID_PARAMETER_1 = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_PARAMETER_1")
+        STATUS_INVALID_PARAMETER_1
+    };
+
+#pragma push_macro("STATUS_INVALID_PARAMETER_2")
+#undef STATUS_INVALID_PARAMETER_2
+    inline constexpr auto STATUS_INVALID_PARAMETER_2 = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_PARAMETER_2")
+        STATUS_INVALID_PARAMETER_2
+    };
+
+#pragma push_macro("STATUS_INVALID_PARAMETER_3")
+#undef STATUS_INVALID_PARAMETER_3
+    inline constexpr auto STATUS_INVALID_PARAMETER_3 = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_PARAMETER_3")
+        STATUS_INVALID_PARAMETER_3
+    };
+
+#pragma push_macro("STATUS_INVALID_PARAMETER_4")
+#undef STATUS_INVALID_PARAMETER_4
+    inline constexpr auto STATUS_INVALID_PARAMETER_4 = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_PARAMETER_4")
+        STATUS_INVALID_PARAMETER_4
+    };
+
+#pragma push_macro("STATUS_INVALID_PARAMETER_5")
+#undef STATUS_INVALID_PARAMETER_5
+    inline constexpr auto STATUS_INVALID_PARAMETER_5 = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_PARAMETER_5")
+        STATUS_INVALID_PARAMETER_5
+    };
+
+#pragma push_macro("STATUS_INVALID_PARAMETER_6")
+#undef STATUS_INVALID_PARAMETER_6
+    inline constexpr auto STATUS_INVALID_PARAMETER_6 = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_PARAMETER_6")
+        STATUS_INVALID_PARAMETER_6
+    };
+
+#pragma push_macro("STATUS_INVALID_PARAMETER_7")
+#undef STATUS_INVALID_PARAMETER_7
+    inline constexpr auto STATUS_INVALID_PARAMETER_7 = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_PARAMETER_7")
+        STATUS_INVALID_PARAMETER_7
+    };
+
+#pragma push_macro("STATUS_INVALID_PARAMETER_8")
+#undef STATUS_INVALID_PARAMETER_8
+    inline constexpr auto STATUS_INVALID_PARAMETER_8 = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_PARAMETER_8")
+        STATUS_INVALID_PARAMETER_8
+    };
+
+#pragma push_macro("STATUS_INVALID_PARAMETER_9")
+#undef STATUS_INVALID_PARAMETER_9
+    inline constexpr auto STATUS_INVALID_PARAMETER_9 = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_PARAMETER_9")
+        STATUS_INVALID_PARAMETER_9
+    };
+
+#pragma push_macro("STATUS_INVALID_PARAMETER_10")
+#undef STATUS_INVALID_PARAMETER_10
+    inline constexpr auto STATUS_INVALID_PARAMETER_10 = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_PARAMETER_10")
+        STATUS_INVALID_PARAMETER_10
+    };
+
+#pragma push_macro("STATUS_INVALID_PARAMETER_11")
+#undef STATUS_INVALID_PARAMETER_11
+    inline constexpr auto STATUS_INVALID_PARAMETER_11 = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_PARAMETER_11")
+        STATUS_INVALID_PARAMETER_11
+    };
+
+#pragma push_macro("STATUS_INVALID_PARAMETER_12")
+#undef STATUS_INVALID_PARAMETER_12
+    inline constexpr auto STATUS_INVALID_PARAMETER_12 = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_PARAMETER_12")
+        STATUS_INVALID_PARAMETER_12
+    };
+
+#pragma push_macro("STATUS_REDIRECTOR_NOT_STARTED")
+#undef STATUS_REDIRECTOR_NOT_STARTED
+    inline constexpr auto STATUS_REDIRECTOR_NOT_STARTED = NTSTATUS {
+#pragma pop_macro("STATUS_REDIRECTOR_NOT_STARTED")
+        STATUS_REDIRECTOR_NOT_STARTED
+    };
+
+#pragma push_macro("STATUS_REDIRECTOR_STARTED")
+#undef STATUS_REDIRECTOR_STARTED
+    inline constexpr auto STATUS_REDIRECTOR_STARTED = NTSTATUS {
+#pragma pop_macro("STATUS_REDIRECTOR_STARTED")
+        STATUS_REDIRECTOR_STARTED
+    };
+
+#pragma push_macro("STATUS_STACK_OVERFLOW")
+#undef STATUS_STACK_OVERFLOW
+    inline constexpr auto STATUS_STACK_OVERFLOW = NTSTATUS {
+#pragma pop_macro("STATUS_STACK_OVERFLOW")
+        STATUS_STACK_OVERFLOW
+    };
+
+#pragma push_macro("STATUS_NO_SUCH_PACKAGE")
+#undef STATUS_NO_SUCH_PACKAGE
+    inline constexpr auto STATUS_NO_SUCH_PACKAGE = NTSTATUS {
+#pragma pop_macro("STATUS_NO_SUCH_PACKAGE")
+        STATUS_NO_SUCH_PACKAGE
+    };
+
+#pragma push_macro("STATUS_BAD_FUNCTION_TABLE")
+#undef STATUS_BAD_FUNCTION_TABLE
+    inline constexpr auto STATUS_BAD_FUNCTION_TABLE = NTSTATUS {
+#pragma pop_macro("STATUS_BAD_FUNCTION_TABLE")
+        STATUS_BAD_FUNCTION_TABLE
+    };
+
+#pragma push_macro("STATUS_VARIABLE_NOT_FOUND")
+#undef STATUS_VARIABLE_NOT_FOUND
+    inline constexpr auto STATUS_VARIABLE_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_VARIABLE_NOT_FOUND")
+        STATUS_VARIABLE_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_DIRECTORY_NOT_EMPTY")
+#undef STATUS_DIRECTORY_NOT_EMPTY
+    inline constexpr auto STATUS_DIRECTORY_NOT_EMPTY = NTSTATUS {
+#pragma pop_macro("STATUS_DIRECTORY_NOT_EMPTY")
+        STATUS_DIRECTORY_NOT_EMPTY
+    };
+
+#pragma push_macro("STATUS_FILE_CORRUPT_ERROR")
+#undef STATUS_FILE_CORRUPT_ERROR
+    inline constexpr auto STATUS_FILE_CORRUPT_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_FILE_CORRUPT_ERROR")
+        STATUS_FILE_CORRUPT_ERROR
+    };
+
+#pragma push_macro("STATUS_NOT_A_DIRECTORY")
+#undef STATUS_NOT_A_DIRECTORY
+    inline constexpr auto STATUS_NOT_A_DIRECTORY = NTSTATUS {
+#pragma pop_macro("STATUS_NOT_A_DIRECTORY")
+        STATUS_NOT_A_DIRECTORY
+    };
+
+#pragma push_macro("STATUS_BAD_LOGON_SESSION_STATE")
+#undef STATUS_BAD_LOGON_SESSION_STATE
+    inline constexpr auto STATUS_BAD_LOGON_SESSION_STATE = NTSTATUS {
+#pragma pop_macro("STATUS_BAD_LOGON_SESSION_STATE")
+        STATUS_BAD_LOGON_SESSION_STATE
+    };
+
+#pragma push_macro("STATUS_LOGON_SESSION_COLLISION")
+#undef STATUS_LOGON_SESSION_COLLISION
+    inline constexpr auto STATUS_LOGON_SESSION_COLLISION = NTSTATUS {
+#pragma pop_macro("STATUS_LOGON_SESSION_COLLISION")
+        STATUS_LOGON_SESSION_COLLISION
+    };
+
+#pragma push_macro("STATUS_NAME_TOO_LONG")
+#undef STATUS_NAME_TOO_LONG
+    inline constexpr auto STATUS_NAME_TOO_LONG = NTSTATUS {
+#pragma pop_macro("STATUS_NAME_TOO_LONG")
+        STATUS_NAME_TOO_LONG
+    };
+
+#pragma push_macro("STATUS_FILES_OPEN")
+#undef STATUS_FILES_OPEN
+    inline constexpr auto STATUS_FILES_OPEN = NTSTATUS {
+#pragma pop_macro("STATUS_FILES_OPEN")
+        STATUS_FILES_OPEN
+    };
+
+#pragma push_macro("STATUS_CONNECTION_IN_USE")
+#undef STATUS_CONNECTION_IN_USE
+    inline constexpr auto STATUS_CONNECTION_IN_USE = NTSTATUS {
+#pragma pop_macro("STATUS_CONNECTION_IN_USE")
+        STATUS_CONNECTION_IN_USE
+    };
+
+#pragma push_macro("STATUS_MESSAGE_NOT_FOUND")
+#undef STATUS_MESSAGE_NOT_FOUND
+    inline constexpr auto STATUS_MESSAGE_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_MESSAGE_NOT_FOUND")
+        STATUS_MESSAGE_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_PROCESS_IS_TERMINATING")
+#undef STATUS_PROCESS_IS_TERMINATING
+    inline constexpr auto STATUS_PROCESS_IS_TERMINATING = NTSTATUS {
+#pragma pop_macro("STATUS_PROCESS_IS_TERMINATING")
+        STATUS_PROCESS_IS_TERMINATING
+    };
+
+#pragma push_macro("STATUS_INVALID_LOGON_TYPE")
+#undef STATUS_INVALID_LOGON_TYPE
+    inline constexpr auto STATUS_INVALID_LOGON_TYPE = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_LOGON_TYPE")
+        STATUS_INVALID_LOGON_TYPE
+    };
+
+#pragma push_macro("STATUS_NO_GUID_TRANSLATION")
+#undef STATUS_NO_GUID_TRANSLATION
+    inline constexpr auto STATUS_NO_GUID_TRANSLATION = NTSTATUS {
+#pragma pop_macro("STATUS_NO_GUID_TRANSLATION")
+        STATUS_NO_GUID_TRANSLATION
+    };
+
+#pragma push_macro("STATUS_CANNOT_IMPERSONATE")
+#undef STATUS_CANNOT_IMPERSONATE
+    inline constexpr auto STATUS_CANNOT_IMPERSONATE = NTSTATUS {
+#pragma pop_macro("STATUS_CANNOT_IMPERSONATE")
+        STATUS_CANNOT_IMPERSONATE
+    };
+
+#pragma push_macro("STATUS_IMAGE_ALREADY_LOADED")
+#undef STATUS_IMAGE_ALREADY_LOADED
+    inline constexpr auto STATUS_IMAGE_ALREADY_LOADED = NTSTATUS {
+#pragma pop_macro("STATUS_IMAGE_ALREADY_LOADED")
+        STATUS_IMAGE_ALREADY_LOADED
+    };
+
+#pragma push_macro("STATUS_NO_LDT")
+#undef STATUS_NO_LDT
+    inline constexpr auto STATUS_NO_LDT = NTSTATUS {
+#pragma pop_macro("STATUS_NO_LDT")
+        STATUS_NO_LDT
+    };
+
+#pragma push_macro("STATUS_INVALID_LDT_SIZE")
+#undef STATUS_INVALID_LDT_SIZE
+    inline constexpr auto STATUS_INVALID_LDT_SIZE = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_LDT_SIZE")
+        STATUS_INVALID_LDT_SIZE
+    };
+
+#pragma push_macro("STATUS_INVALID_LDT_OFFSET")
+#undef STATUS_INVALID_LDT_OFFSET
+    inline constexpr auto STATUS_INVALID_LDT_OFFSET = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_LDT_OFFSET")
+        STATUS_INVALID_LDT_OFFSET
+    };
+
+#pragma push_macro("STATUS_INVALID_LDT_DESCRIPTOR")
+#undef STATUS_INVALID_LDT_DESCRIPTOR
+    inline constexpr auto STATUS_INVALID_LDT_DESCRIPTOR = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_LDT_DESCRIPTOR")
+        STATUS_INVALID_LDT_DESCRIPTOR
+    };
+
+#pragma push_macro("STATUS_INVALID_IMAGE_NE_FORMAT")
+#undef STATUS_INVALID_IMAGE_NE_FORMAT
+    inline constexpr auto STATUS_INVALID_IMAGE_NE_FORMAT = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_IMAGE_NE_FORMAT")
+        STATUS_INVALID_IMAGE_NE_FORMAT
+    };
+
+#pragma push_macro("STATUS_RXACT_INVALID_STATE")
+#undef STATUS_RXACT_INVALID_STATE
+    inline constexpr auto STATUS_RXACT_INVALID_STATE = NTSTATUS {
+#pragma pop_macro("STATUS_RXACT_INVALID_STATE")
+        STATUS_RXACT_INVALID_STATE
+    };
+
+#pragma push_macro("STATUS_RXACT_COMMIT_FAILURE")
+#undef STATUS_RXACT_COMMIT_FAILURE
+    inline constexpr auto STATUS_RXACT_COMMIT_FAILURE = NTSTATUS {
+#pragma pop_macro("STATUS_RXACT_COMMIT_FAILURE")
+        STATUS_RXACT_COMMIT_FAILURE
+    };
+
+#pragma push_macro("STATUS_MAPPED_FILE_SIZE_ZERO")
+#undef STATUS_MAPPED_FILE_SIZE_ZERO
+    inline constexpr auto STATUS_MAPPED_FILE_SIZE_ZERO = NTSTATUS {
+#pragma pop_macro("STATUS_MAPPED_FILE_SIZE_ZERO")
+        STATUS_MAPPED_FILE_SIZE_ZERO
+    };
+
+#pragma push_macro("STATUS_TOO_MANY_OPENED_FILES")
+#undef STATUS_TOO_MANY_OPENED_FILES
+    inline constexpr auto STATUS_TOO_MANY_OPENED_FILES = NTSTATUS {
+#pragma pop_macro("STATUS_TOO_MANY_OPENED_FILES")
+        STATUS_TOO_MANY_OPENED_FILES
+    };
+
+#pragma push_macro("STATUS_CANCELLED")
+#undef STATUS_CANCELLED
+    inline constexpr auto STATUS_CANCELLED = NTSTATUS {
+#pragma pop_macro("STATUS_CANCELLED")
+        STATUS_CANCELLED
+    };
+
+#pragma push_macro("STATUS_CANNOT_DELETE")
+#undef STATUS_CANNOT_DELETE
+    inline constexpr auto STATUS_CANNOT_DELETE = NTSTATUS {
+#pragma pop_macro("STATUS_CANNOT_DELETE")
+        STATUS_CANNOT_DELETE
+    };
+
+#pragma push_macro("STATUS_INVALID_COMPUTER_NAME")
+#undef STATUS_INVALID_COMPUTER_NAME
+    inline constexpr auto STATUS_INVALID_COMPUTER_NAME = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_COMPUTER_NAME")
+        STATUS_INVALID_COMPUTER_NAME
+    };
+
+#pragma push_macro("STATUS_FILE_DELETED")
+#undef STATUS_FILE_DELETED
+    inline constexpr auto STATUS_FILE_DELETED = NTSTATUS {
+#pragma pop_macro("STATUS_FILE_DELETED")
+        STATUS_FILE_DELETED
+    };
+
+#pragma push_macro("STATUS_SPECIAL_ACCOUNT")
+#undef STATUS_SPECIAL_ACCOUNT
+    inline constexpr auto STATUS_SPECIAL_ACCOUNT = NTSTATUS {
+#pragma pop_macro("STATUS_SPECIAL_ACCOUNT")
+        STATUS_SPECIAL_ACCOUNT
+    };
+
+#pragma push_macro("STATUS_SPECIAL_GROUP")
+#undef STATUS_SPECIAL_GROUP
+    inline constexpr auto STATUS_SPECIAL_GROUP = NTSTATUS {
+#pragma pop_macro("STATUS_SPECIAL_GROUP")
+        STATUS_SPECIAL_GROUP
+    };
+
+#pragma push_macro("STATUS_SPECIAL_USER")
+#undef STATUS_SPECIAL_USER
+    inline constexpr auto STATUS_SPECIAL_USER = NTSTATUS {
+#pragma pop_macro("STATUS_SPECIAL_USER")
+        STATUS_SPECIAL_USER
+    };
+
+#pragma push_macro("STATUS_MEMBERS_PRIMARY_GROUP")
+#undef STATUS_MEMBERS_PRIMARY_GROUP
+    inline constexpr auto STATUS_MEMBERS_PRIMARY_GROUP = NTSTATUS {
+#pragma pop_macro("STATUS_MEMBERS_PRIMARY_GROUP")
+        STATUS_MEMBERS_PRIMARY_GROUP
+    };
+
+#pragma push_macro("STATUS_FILE_CLOSED")
+#undef STATUS_FILE_CLOSED
+    inline constexpr auto STATUS_FILE_CLOSED = NTSTATUS {
+#pragma pop_macro("STATUS_FILE_CLOSED")
+        STATUS_FILE_CLOSED
+    };
+
+#pragma push_macro("STATUS_TOO_MANY_THREADS")
+#undef STATUS_TOO_MANY_THREADS
+    inline constexpr auto STATUS_TOO_MANY_THREADS = NTSTATUS {
+#pragma pop_macro("STATUS_TOO_MANY_THREADS")
+        STATUS_TOO_MANY_THREADS
+    };
+
+#pragma push_macro("STATUS_THREAD_NOT_IN_PROCESS")
+#undef STATUS_THREAD_NOT_IN_PROCESS
+    inline constexpr auto STATUS_THREAD_NOT_IN_PROCESS = NTSTATUS {
+#pragma pop_macro("STATUS_THREAD_NOT_IN_PROCESS")
+        STATUS_THREAD_NOT_IN_PROCESS
+    };
+
+#pragma push_macro("STATUS_TOKEN_ALREADY_IN_USE")
+#undef STATUS_TOKEN_ALREADY_IN_USE
+    inline constexpr auto STATUS_TOKEN_ALREADY_IN_USE = NTSTATUS {
+#pragma pop_macro("STATUS_TOKEN_ALREADY_IN_USE")
+        STATUS_TOKEN_ALREADY_IN_USE
+    };
+
+#pragma push_macro("STATUS_PAGEFILE_QUOTA_EXCEEDED")
+#undef STATUS_PAGEFILE_QUOTA_EXCEEDED
+    inline constexpr auto STATUS_PAGEFILE_QUOTA_EXCEEDED = NTSTATUS {
+#pragma pop_macro("STATUS_PAGEFILE_QUOTA_EXCEEDED")
+        STATUS_PAGEFILE_QUOTA_EXCEEDED
+    };
+
+#pragma push_macro("STATUS_COMMITMENT_LIMIT")
+#undef STATUS_COMMITMENT_LIMIT
+    inline constexpr auto STATUS_COMMITMENT_LIMIT = NTSTATUS {
+#pragma pop_macro("STATUS_COMMITMENT_LIMIT")
+        STATUS_COMMITMENT_LIMIT
+    };
+
+#pragma push_macro("STATUS_INVALID_IMAGE_LE_FORMAT")
+#undef STATUS_INVALID_IMAGE_LE_FORMAT
+    inline constexpr auto STATUS_INVALID_IMAGE_LE_FORMAT = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_IMAGE_LE_FORMAT")
+        STATUS_INVALID_IMAGE_LE_FORMAT
+    };
+
+#pragma push_macro("STATUS_INVALID_IMAGE_NOT_MZ")
+#undef STATUS_INVALID_IMAGE_NOT_MZ
+    inline constexpr auto STATUS_INVALID_IMAGE_NOT_MZ = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_IMAGE_NOT_MZ")
+        STATUS_INVALID_IMAGE_NOT_MZ
+    };
+
+#pragma push_macro("STATUS_INVALID_IMAGE_PROTECT")
+#undef STATUS_INVALID_IMAGE_PROTECT
+    inline constexpr auto STATUS_INVALID_IMAGE_PROTECT = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_IMAGE_PROTECT")
+        STATUS_INVALID_IMAGE_PROTECT
+    };
+
+#pragma push_macro("STATUS_INVALID_IMAGE_WIN_16")
+#undef STATUS_INVALID_IMAGE_WIN_16
+    inline constexpr auto STATUS_INVALID_IMAGE_WIN_16 = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_IMAGE_WIN_16")
+        STATUS_INVALID_IMAGE_WIN_16
+    };
+
+#pragma push_macro("STATUS_LOGON_SERVER_CONFLICT")
+#undef STATUS_LOGON_SERVER_CONFLICT
+    inline constexpr auto STATUS_LOGON_SERVER_CONFLICT = NTSTATUS {
+#pragma pop_macro("STATUS_LOGON_SERVER_CONFLICT")
+        STATUS_LOGON_SERVER_CONFLICT
+    };
+
+#pragma push_macro("STATUS_TIME_DIFFERENCE_AT_DC")
+#undef STATUS_TIME_DIFFERENCE_AT_DC
+    inline constexpr auto STATUS_TIME_DIFFERENCE_AT_DC = NTSTATUS {
+#pragma pop_macro("STATUS_TIME_DIFFERENCE_AT_DC")
+        STATUS_TIME_DIFFERENCE_AT_DC
+    };
+
+#pragma push_macro("STATUS_SYNCHRONIZATION_REQUIRED")
+#undef STATUS_SYNCHRONIZATION_REQUIRED
+    inline constexpr auto STATUS_SYNCHRONIZATION_REQUIRED = NTSTATUS {
+#pragma pop_macro("STATUS_SYNCHRONIZATION_REQUIRED")
+        STATUS_SYNCHRONIZATION_REQUIRED
+    };
+
+#pragma push_macro("STATUS_DLL_NOT_FOUND")
+#undef STATUS_DLL_NOT_FOUND
+    inline constexpr auto STATUS_DLL_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_DLL_NOT_FOUND")
+        STATUS_DLL_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_OPEN_FAILED")
+#undef STATUS_OPEN_FAILED
+    inline constexpr auto STATUS_OPEN_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_OPEN_FAILED")
+        STATUS_OPEN_FAILED
+    };
+
+#pragma push_macro("STATUS_IO_PRIVILEGE_FAILED")
+#undef STATUS_IO_PRIVILEGE_FAILED
+    inline constexpr auto STATUS_IO_PRIVILEGE_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_IO_PRIVILEGE_FAILED")
+        STATUS_IO_PRIVILEGE_FAILED
+    };
+
+#pragma push_macro("STATUS_ORDINAL_NOT_FOUND")
+#undef STATUS_ORDINAL_NOT_FOUND
+    inline constexpr auto STATUS_ORDINAL_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_ORDINAL_NOT_FOUND")
+        STATUS_ORDINAL_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_ENTRYPOINT_NOT_FOUND")
+#undef STATUS_ENTRYPOINT_NOT_FOUND
+    inline constexpr auto STATUS_ENTRYPOINT_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_ENTRYPOINT_NOT_FOUND")
+        STATUS_ENTRYPOINT_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_CONTROL_C_EXIT")
+#undef STATUS_CONTROL_C_EXIT
+    inline constexpr auto STATUS_CONTROL_C_EXIT = NTSTATUS {
+#pragma pop_macro("STATUS_CONTROL_C_EXIT")
+        STATUS_CONTROL_C_EXIT
+    };
+
+#pragma push_macro("STATUS_LOCAL_DISCONNECT")
+#undef STATUS_LOCAL_DISCONNECT
+    inline constexpr auto STATUS_LOCAL_DISCONNECT = NTSTATUS {
+#pragma pop_macro("STATUS_LOCAL_DISCONNECT")
+        STATUS_LOCAL_DISCONNECT
+    };
+
+#pragma push_macro("STATUS_REMOTE_DISCONNECT")
+#undef STATUS_REMOTE_DISCONNECT
+    inline constexpr auto STATUS_REMOTE_DISCONNECT = NTSTATUS {
+#pragma pop_macro("STATUS_REMOTE_DISCONNECT")
+        STATUS_REMOTE_DISCONNECT
+    };
+
+#pragma push_macro("STATUS_REMOTE_RESOURCES")
+#undef STATUS_REMOTE_RESOURCES
+    inline constexpr auto STATUS_REMOTE_RESOURCES = NTSTATUS {
+#pragma pop_macro("STATUS_REMOTE_RESOURCES")
+        STATUS_REMOTE_RESOURCES
+    };
+
+#pragma push_macro("STATUS_LINK_FAILED")
+#undef STATUS_LINK_FAILED
+    inline constexpr auto STATUS_LINK_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_LINK_FAILED")
+        STATUS_LINK_FAILED
+    };
+
+#pragma push_macro("STATUS_LINK_TIMEOUT")
+#undef STATUS_LINK_TIMEOUT
+    inline constexpr auto STATUS_LINK_TIMEOUT = NTSTATUS {
+#pragma pop_macro("STATUS_LINK_TIMEOUT")
+        STATUS_LINK_TIMEOUT
+    };
+
+#pragma push_macro("STATUS_INVALID_CONNECTION")
+#undef STATUS_INVALID_CONNECTION
+    inline constexpr auto STATUS_INVALID_CONNECTION = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_CONNECTION")
+        STATUS_INVALID_CONNECTION
+    };
+
+#pragma push_macro("STATUS_INVALID_ADDRESS")
+#undef STATUS_INVALID_ADDRESS
+    inline constexpr auto STATUS_INVALID_ADDRESS = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_ADDRESS")
+        STATUS_INVALID_ADDRESS
+    };
+
+#pragma push_macro("STATUS_DLL_INIT_FAILED")
+#undef STATUS_DLL_INIT_FAILED
+    inline constexpr auto STATUS_DLL_INIT_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_DLL_INIT_FAILED")
+        STATUS_DLL_INIT_FAILED
+    };
+
+#pragma push_macro("STATUS_MISSING_SYSTEMFILE")
+#undef STATUS_MISSING_SYSTEMFILE
+    inline constexpr auto STATUS_MISSING_SYSTEMFILE = NTSTATUS {
+#pragma pop_macro("STATUS_MISSING_SYSTEMFILE")
+        STATUS_MISSING_SYSTEMFILE
+    };
+
+#pragma push_macro("STATUS_UNHANDLED_EXCEPTION")
+#undef STATUS_UNHANDLED_EXCEPTION
+    inline constexpr auto STATUS_UNHANDLED_EXCEPTION = NTSTATUS {
+#pragma pop_macro("STATUS_UNHANDLED_EXCEPTION")
+        STATUS_UNHANDLED_EXCEPTION
+    };
+
+#pragma push_macro("STATUS_APP_INIT_FAILURE")
+#undef STATUS_APP_INIT_FAILURE
+    inline constexpr auto STATUS_APP_INIT_FAILURE = NTSTATUS {
+#pragma pop_macro("STATUS_APP_INIT_FAILURE")
+        STATUS_APP_INIT_FAILURE
+    };
+
+#pragma push_macro("STATUS_PAGEFILE_CREATE_FAILED")
+#undef STATUS_PAGEFILE_CREATE_FAILED
+    inline constexpr auto STATUS_PAGEFILE_CREATE_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_PAGEFILE_CREATE_FAILED")
+        STATUS_PAGEFILE_CREATE_FAILED
+    };
+
+#pragma push_macro("STATUS_NO_PAGEFILE")
+#undef STATUS_NO_PAGEFILE
+    inline constexpr auto STATUS_NO_PAGEFILE = NTSTATUS {
+#pragma pop_macro("STATUS_NO_PAGEFILE")
+        STATUS_NO_PAGEFILE
+    };
+
+#pragma push_macro("STATUS_INVALID_LEVEL")
+#undef STATUS_INVALID_LEVEL
+    inline constexpr auto STATUS_INVALID_LEVEL = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_LEVEL")
+        STATUS_INVALID_LEVEL
+    };
+
+#pragma push_macro("STATUS_WRONG_PASSWORD_CORE")
+#undef STATUS_WRONG_PASSWORD_CORE
+    inline constexpr auto STATUS_WRONG_PASSWORD_CORE = NTSTATUS {
+#pragma pop_macro("STATUS_WRONG_PASSWORD_CORE")
+        STATUS_WRONG_PASSWORD_CORE
+    };
+
+#pragma push_macro("STATUS_ILLEGAL_FLOAT_CONTEXT")
+#undef STATUS_ILLEGAL_FLOAT_CONTEXT
+    inline constexpr auto STATUS_ILLEGAL_FLOAT_CONTEXT = NTSTATUS {
+#pragma pop_macro("STATUS_ILLEGAL_FLOAT_CONTEXT")
+        STATUS_ILLEGAL_FLOAT_CONTEXT
+    };
+
+#pragma push_macro("STATUS_PIPE_BROKEN")
+#undef STATUS_PIPE_BROKEN
+    inline constexpr auto STATUS_PIPE_BROKEN = NTSTATUS {
+#pragma pop_macro("STATUS_PIPE_BROKEN")
+        STATUS_PIPE_BROKEN
+    };
+
+#pragma push_macro("STATUS_REGISTRY_CORRUPT")
+#undef STATUS_REGISTRY_CORRUPT
+    inline constexpr auto STATUS_REGISTRY_CORRUPT = NTSTATUS {
+#pragma pop_macro("STATUS_REGISTRY_CORRUPT")
+        STATUS_REGISTRY_CORRUPT
+    };
+
+#pragma push_macro("STATUS_REGISTRY_IO_FAILED")
+#undef STATUS_REGISTRY_IO_FAILED
+    inline constexpr auto STATUS_REGISTRY_IO_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_REGISTRY_IO_FAILED")
+        STATUS_REGISTRY_IO_FAILED
+    };
+
+#pragma push_macro("STATUS_NO_EVENT_PAIR")
+#undef STATUS_NO_EVENT_PAIR
+    inline constexpr auto STATUS_NO_EVENT_PAIR = NTSTATUS {
+#pragma pop_macro("STATUS_NO_EVENT_PAIR")
+        STATUS_NO_EVENT_PAIR
+    };
+
+#pragma push_macro("STATUS_UNRECOGNIZED_VOLUME")
+#undef STATUS_UNRECOGNIZED_VOLUME
+    inline constexpr auto STATUS_UNRECOGNIZED_VOLUME = NTSTATUS {
+#pragma pop_macro("STATUS_UNRECOGNIZED_VOLUME")
+        STATUS_UNRECOGNIZED_VOLUME
+    };
+
+#pragma push_macro("STATUS_SERIAL_NO_DEVICE_INITED")
+#undef STATUS_SERIAL_NO_DEVICE_INITED
+    inline constexpr auto STATUS_SERIAL_NO_DEVICE_INITED = NTSTATUS {
+#pragma pop_macro("STATUS_SERIAL_NO_DEVICE_INITED")
+        STATUS_SERIAL_NO_DEVICE_INITED
+    };
+
+#pragma push_macro("STATUS_NO_SUCH_ALIAS")
+#undef STATUS_NO_SUCH_ALIAS
+    inline constexpr auto STATUS_NO_SUCH_ALIAS = NTSTATUS {
+#pragma pop_macro("STATUS_NO_SUCH_ALIAS")
+        STATUS_NO_SUCH_ALIAS
+    };
+
+#pragma push_macro("STATUS_MEMBER_NOT_IN_ALIAS")
+#undef STATUS_MEMBER_NOT_IN_ALIAS
+    inline constexpr auto STATUS_MEMBER_NOT_IN_ALIAS = NTSTATUS {
+#pragma pop_macro("STATUS_MEMBER_NOT_IN_ALIAS")
+        STATUS_MEMBER_NOT_IN_ALIAS
+    };
+
+#pragma push_macro("STATUS_MEMBER_IN_ALIAS")
+#undef STATUS_MEMBER_IN_ALIAS
+    inline constexpr auto STATUS_MEMBER_IN_ALIAS = NTSTATUS {
+#pragma pop_macro("STATUS_MEMBER_IN_ALIAS")
+        STATUS_MEMBER_IN_ALIAS
+    };
+
+#pragma push_macro("STATUS_ALIAS_EXISTS")
+#undef STATUS_ALIAS_EXISTS
+    inline constexpr auto STATUS_ALIAS_EXISTS = NTSTATUS {
+#pragma pop_macro("STATUS_ALIAS_EXISTS")
+        STATUS_ALIAS_EXISTS
+    };
+
+#pragma push_macro("STATUS_LOGON_NOT_GRANTED")
+#undef STATUS_LOGON_NOT_GRANTED
+    inline constexpr auto STATUS_LOGON_NOT_GRANTED = NTSTATUS {
+#pragma pop_macro("STATUS_LOGON_NOT_GRANTED")
+        STATUS_LOGON_NOT_GRANTED
+    };
+
+#pragma push_macro("STATUS_TOO_MANY_SECRETS")
+#undef STATUS_TOO_MANY_SECRETS
+    inline constexpr auto STATUS_TOO_MANY_SECRETS = NTSTATUS {
+#pragma pop_macro("STATUS_TOO_MANY_SECRETS")
+        STATUS_TOO_MANY_SECRETS
+    };
+
+#pragma push_macro("STATUS_SECRET_TOO_LONG")
+#undef STATUS_SECRET_TOO_LONG
+    inline constexpr auto STATUS_SECRET_TOO_LONG = NTSTATUS {
+#pragma pop_macro("STATUS_SECRET_TOO_LONG")
+        STATUS_SECRET_TOO_LONG
+    };
+
+#pragma push_macro("STATUS_INTERNAL_DB_ERROR")
+#undef STATUS_INTERNAL_DB_ERROR
+    inline constexpr auto STATUS_INTERNAL_DB_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_INTERNAL_DB_ERROR")
+        STATUS_INTERNAL_DB_ERROR
+    };
+
+#pragma push_macro("STATUS_FULLSCREEN_MODE")
+#undef STATUS_FULLSCREEN_MODE
+    inline constexpr auto STATUS_FULLSCREEN_MODE = NTSTATUS {
+#pragma pop_macro("STATUS_FULLSCREEN_MODE")
+        STATUS_FULLSCREEN_MODE
+    };
+
+#pragma push_macro("STATUS_TOO_MANY_CONTEXT_IDS")
+#undef STATUS_TOO_MANY_CONTEXT_IDS
+    inline constexpr auto STATUS_TOO_MANY_CONTEXT_IDS = NTSTATUS {
+#pragma pop_macro("STATUS_TOO_MANY_CONTEXT_IDS")
+        STATUS_TOO_MANY_CONTEXT_IDS
+    };
+
+#pragma push_macro("STATUS_LOGON_TYPE_NOT_GRANTED")
+#undef STATUS_LOGON_TYPE_NOT_GRANTED
+    inline constexpr auto STATUS_LOGON_TYPE_NOT_GRANTED = NTSTATUS {
+#pragma pop_macro("STATUS_LOGON_TYPE_NOT_GRANTED")
+        STATUS_LOGON_TYPE_NOT_GRANTED
+    };
+
+#pragma push_macro("STATUS_NOT_REGISTRY_FILE")
+#undef STATUS_NOT_REGISTRY_FILE
+    inline constexpr auto STATUS_NOT_REGISTRY_FILE = NTSTATUS {
+#pragma pop_macro("STATUS_NOT_REGISTRY_FILE")
+        STATUS_NOT_REGISTRY_FILE
+    };
+
+#pragma push_macro("STATUS_NT_CROSS_ENCRYPTION_REQUIRED")
+#undef STATUS_NT_CROSS_ENCRYPTION_REQUIRED
+    inline constexpr auto STATUS_NT_CROSS_ENCRYPTION_REQUIRED = NTSTATUS {
+#pragma pop_macro("STATUS_NT_CROSS_ENCRYPTION_REQUIRED")
+        STATUS_NT_CROSS_ENCRYPTION_REQUIRED
+    };
+
+#pragma push_macro("STATUS_DOMAIN_CTRLR_CONFIG_ERROR")
+#undef STATUS_DOMAIN_CTRLR_CONFIG_ERROR
+    inline constexpr auto STATUS_DOMAIN_CTRLR_CONFIG_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_DOMAIN_CTRLR_CONFIG_ERROR")
+        STATUS_DOMAIN_CTRLR_CONFIG_ERROR
+    };
+
+#pragma push_macro("STATUS_FT_MISSING_MEMBER")
+#undef STATUS_FT_MISSING_MEMBER
+    inline constexpr auto STATUS_FT_MISSING_MEMBER = NTSTATUS {
+#pragma pop_macro("STATUS_FT_MISSING_MEMBER")
+        STATUS_FT_MISSING_MEMBER
+    };
+
+#pragma push_macro("STATUS_ILL_FORMED_SERVICE_ENTRY")
+#undef STATUS_ILL_FORMED_SERVICE_ENTRY
+    inline constexpr auto STATUS_ILL_FORMED_SERVICE_ENTRY = NTSTATUS {
+#pragma pop_macro("STATUS_ILL_FORMED_SERVICE_ENTRY")
+        STATUS_ILL_FORMED_SERVICE_ENTRY
+    };
+
+#pragma push_macro("STATUS_ILLEGAL_CHARACTER")
+#undef STATUS_ILLEGAL_CHARACTER
+    inline constexpr auto STATUS_ILLEGAL_CHARACTER = NTSTATUS {
+#pragma pop_macro("STATUS_ILLEGAL_CHARACTER")
+        STATUS_ILLEGAL_CHARACTER
+    };
+
+#pragma push_macro("STATUS_UNMAPPABLE_CHARACTER")
+#undef STATUS_UNMAPPABLE_CHARACTER
+    inline constexpr auto STATUS_UNMAPPABLE_CHARACTER = NTSTATUS {
+#pragma pop_macro("STATUS_UNMAPPABLE_CHARACTER")
+        STATUS_UNMAPPABLE_CHARACTER
+    };
+
+#pragma push_macro("STATUS_UNDEFINED_CHARACTER")
+#undef STATUS_UNDEFINED_CHARACTER
+    inline constexpr auto STATUS_UNDEFINED_CHARACTER = NTSTATUS {
+#pragma pop_macro("STATUS_UNDEFINED_CHARACTER")
+        STATUS_UNDEFINED_CHARACTER
+    };
+
+#pragma push_macro("STATUS_FLOPPY_VOLUME")
+#undef STATUS_FLOPPY_VOLUME
+    inline constexpr auto STATUS_FLOPPY_VOLUME = NTSTATUS {
+#pragma pop_macro("STATUS_FLOPPY_VOLUME")
+        STATUS_FLOPPY_VOLUME
+    };
+
+#pragma push_macro("STATUS_FLOPPY_ID_MARK_NOT_FOUND")
+#undef STATUS_FLOPPY_ID_MARK_NOT_FOUND
+    inline constexpr auto STATUS_FLOPPY_ID_MARK_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_FLOPPY_ID_MARK_NOT_FOUND")
+        STATUS_FLOPPY_ID_MARK_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_FLOPPY_WRONG_CYLINDER")
+#undef STATUS_FLOPPY_WRONG_CYLINDER
+    inline constexpr auto STATUS_FLOPPY_WRONG_CYLINDER = NTSTATUS {
+#pragma pop_macro("STATUS_FLOPPY_WRONG_CYLINDER")
+        STATUS_FLOPPY_WRONG_CYLINDER
+    };
+
+#pragma push_macro("STATUS_FLOPPY_UNKNOWN_ERROR")
+#undef STATUS_FLOPPY_UNKNOWN_ERROR
+    inline constexpr auto STATUS_FLOPPY_UNKNOWN_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_FLOPPY_UNKNOWN_ERROR")
+        STATUS_FLOPPY_UNKNOWN_ERROR
+    };
+
+#pragma push_macro("STATUS_FLOPPY_BAD_REGISTERS")
+#undef STATUS_FLOPPY_BAD_REGISTERS
+    inline constexpr auto STATUS_FLOPPY_BAD_REGISTERS = NTSTATUS {
+#pragma pop_macro("STATUS_FLOPPY_BAD_REGISTERS")
+        STATUS_FLOPPY_BAD_REGISTERS
+    };
+
+#pragma push_macro("STATUS_DISK_RECALIBRATE_FAILED")
+#undef STATUS_DISK_RECALIBRATE_FAILED
+    inline constexpr auto STATUS_DISK_RECALIBRATE_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_DISK_RECALIBRATE_FAILED")
+        STATUS_DISK_RECALIBRATE_FAILED
+    };
+
+#pragma push_macro("STATUS_DISK_OPERATION_FAILED")
+#undef STATUS_DISK_OPERATION_FAILED
+    inline constexpr auto STATUS_DISK_OPERATION_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_DISK_OPERATION_FAILED")
+        STATUS_DISK_OPERATION_FAILED
+    };
+
+#pragma push_macro("STATUS_DISK_RESET_FAILED")
+#undef STATUS_DISK_RESET_FAILED
+    inline constexpr auto STATUS_DISK_RESET_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_DISK_RESET_FAILED")
+        STATUS_DISK_RESET_FAILED
+    };
+
+#pragma push_macro("STATUS_SHARED_IRQ_BUSY")
+#undef STATUS_SHARED_IRQ_BUSY
+    inline constexpr auto STATUS_SHARED_IRQ_BUSY = NTSTATUS {
+#pragma pop_macro("STATUS_SHARED_IRQ_BUSY")
+        STATUS_SHARED_IRQ_BUSY
+    };
+
+#pragma push_macro("STATUS_FT_ORPHANING")
+#undef STATUS_FT_ORPHANING
+    inline constexpr auto STATUS_FT_ORPHANING = NTSTATUS {
+#pragma pop_macro("STATUS_FT_ORPHANING")
+        STATUS_FT_ORPHANING
+    };
+
+#pragma push_macro("STATUS_BIOS_FAILED_TO_CONNECT_INTERRUPT")
+#undef STATUS_BIOS_FAILED_TO_CONNECT_INTERRUPT
+    inline constexpr auto STATUS_BIOS_FAILED_TO_CONNECT_INTERRUPT = NTSTATUS {
+#pragma pop_macro("STATUS_BIOS_FAILED_TO_CONNECT_INTERRUPT")
+        STATUS_BIOS_FAILED_TO_CONNECT_INTERRUPT
+    };
+
+#pragma push_macro("STATUS_PARTITION_FAILURE")
+#undef STATUS_PARTITION_FAILURE
+    inline constexpr auto STATUS_PARTITION_FAILURE = NTSTATUS {
+#pragma pop_macro("STATUS_PARTITION_FAILURE")
+        STATUS_PARTITION_FAILURE
+    };
+
+#pragma push_macro("STATUS_INVALID_BLOCK_LENGTH")
+#undef STATUS_INVALID_BLOCK_LENGTH
+    inline constexpr auto STATUS_INVALID_BLOCK_LENGTH = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_BLOCK_LENGTH")
+        STATUS_INVALID_BLOCK_LENGTH
+    };
+
+#pragma push_macro("STATUS_DEVICE_NOT_PARTITIONED")
+#undef STATUS_DEVICE_NOT_PARTITIONED
+    inline constexpr auto STATUS_DEVICE_NOT_PARTITIONED = NTSTATUS {
+#pragma pop_macro("STATUS_DEVICE_NOT_PARTITIONED")
+        STATUS_DEVICE_NOT_PARTITIONED
+    };
+
+#pragma push_macro("STATUS_UNABLE_TO_LOCK_MEDIA")
+#undef STATUS_UNABLE_TO_LOCK_MEDIA
+    inline constexpr auto STATUS_UNABLE_TO_LOCK_MEDIA = NTSTATUS {
+#pragma pop_macro("STATUS_UNABLE_TO_LOCK_MEDIA")
+        STATUS_UNABLE_TO_LOCK_MEDIA
+    };
+
+#pragma push_macro("STATUS_UNABLE_TO_UNLOAD_MEDIA")
+#undef STATUS_UNABLE_TO_UNLOAD_MEDIA
+    inline constexpr auto STATUS_UNABLE_TO_UNLOAD_MEDIA = NTSTATUS {
+#pragma pop_macro("STATUS_UNABLE_TO_UNLOAD_MEDIA")
+        STATUS_UNABLE_TO_UNLOAD_MEDIA
+    };
+
+#pragma push_macro("STATUS_EOM_OVERFLOW")
+#undef STATUS_EOM_OVERFLOW
+    inline constexpr auto STATUS_EOM_OVERFLOW = NTSTATUS {
+#pragma pop_macro("STATUS_EOM_OVERFLOW")
+        STATUS_EOM_OVERFLOW
+    };
+
+#pragma push_macro("STATUS_NO_MEDIA")
+#undef STATUS_NO_MEDIA
+    inline constexpr auto STATUS_NO_MEDIA = NTSTATUS {
+#pragma pop_macro("STATUS_NO_MEDIA")
+        STATUS_NO_MEDIA
+    };
+
+#pragma push_macro("STATUS_NO_SUCH_MEMBER")
+#undef STATUS_NO_SUCH_MEMBER
+    inline constexpr auto STATUS_NO_SUCH_MEMBER = NTSTATUS {
+#pragma pop_macro("STATUS_NO_SUCH_MEMBER")
+        STATUS_NO_SUCH_MEMBER
+    };
+
+#pragma push_macro("STATUS_INVALID_MEMBER")
+#undef STATUS_INVALID_MEMBER
+    inline constexpr auto STATUS_INVALID_MEMBER = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_MEMBER")
+        STATUS_INVALID_MEMBER
+    };
+
+#pragma push_macro("STATUS_KEY_DELETED")
+#undef STATUS_KEY_DELETED
+    inline constexpr auto STATUS_KEY_DELETED = NTSTATUS {
+#pragma pop_macro("STATUS_KEY_DELETED")
+        STATUS_KEY_DELETED
+    };
+
+#pragma push_macro("STATUS_NO_LOG_SPACE")
+#undef STATUS_NO_LOG_SPACE
+    inline constexpr auto STATUS_NO_LOG_SPACE = NTSTATUS {
+#pragma pop_macro("STATUS_NO_LOG_SPACE")
+        STATUS_NO_LOG_SPACE
+    };
+
+#pragma push_macro("STATUS_TOO_MANY_SIDS")
+#undef STATUS_TOO_MANY_SIDS
+    inline constexpr auto STATUS_TOO_MANY_SIDS = NTSTATUS {
+#pragma pop_macro("STATUS_TOO_MANY_SIDS")
+        STATUS_TOO_MANY_SIDS
+    };
+
+#pragma push_macro("STATUS_LM_CROSS_ENCRYPTION_REQUIRED")
+#undef STATUS_LM_CROSS_ENCRYPTION_REQUIRED
+    inline constexpr auto STATUS_LM_CROSS_ENCRYPTION_REQUIRED = NTSTATUS {
+#pragma pop_macro("STATUS_LM_CROSS_ENCRYPTION_REQUIRED")
+        STATUS_LM_CROSS_ENCRYPTION_REQUIRED
+    };
+
+#pragma push_macro("STATUS_KEY_HAS_CHILDREN")
+#undef STATUS_KEY_HAS_CHILDREN
+    inline constexpr auto STATUS_KEY_HAS_CHILDREN = NTSTATUS {
+#pragma pop_macro("STATUS_KEY_HAS_CHILDREN")
+        STATUS_KEY_HAS_CHILDREN
+    };
+
+#pragma push_macro("STATUS_CHILD_MUST_BE_VOLATILE")
+#undef STATUS_CHILD_MUST_BE_VOLATILE
+    inline constexpr auto STATUS_CHILD_MUST_BE_VOLATILE = NTSTATUS {
+#pragma pop_macro("STATUS_CHILD_MUST_BE_VOLATILE")
+        STATUS_CHILD_MUST_BE_VOLATILE
+    };
+
+#pragma push_macro("STATUS_DEVICE_CONFIGURATION_ERROR")
+#undef STATUS_DEVICE_CONFIGURATION_ERROR
+    inline constexpr auto STATUS_DEVICE_CONFIGURATION_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_DEVICE_CONFIGURATION_ERROR")
+        STATUS_DEVICE_CONFIGURATION_ERROR
+    };
+
+#pragma push_macro("STATUS_DRIVER_INTERNAL_ERROR")
+#undef STATUS_DRIVER_INTERNAL_ERROR
+    inline constexpr auto STATUS_DRIVER_INTERNAL_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_DRIVER_INTERNAL_ERROR")
+        STATUS_DRIVER_INTERNAL_ERROR
+    };
+
+#pragma push_macro("STATUS_INVALID_DEVICE_STATE")
+#undef STATUS_INVALID_DEVICE_STATE
+    inline constexpr auto STATUS_INVALID_DEVICE_STATE = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_DEVICE_STATE")
+        STATUS_INVALID_DEVICE_STATE
+    };
+
+#pragma push_macro("STATUS_IO_DEVICE_ERROR")
+#undef STATUS_IO_DEVICE_ERROR
+    inline constexpr auto STATUS_IO_DEVICE_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_IO_DEVICE_ERROR")
+        STATUS_IO_DEVICE_ERROR
+    };
+
+#pragma push_macro("STATUS_DEVICE_PROTOCOL_ERROR")
+#undef STATUS_DEVICE_PROTOCOL_ERROR
+    inline constexpr auto STATUS_DEVICE_PROTOCOL_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_DEVICE_PROTOCOL_ERROR")
+        STATUS_DEVICE_PROTOCOL_ERROR
+    };
+
+#pragma push_macro("STATUS_BACKUP_CONTROLLER")
+#undef STATUS_BACKUP_CONTROLLER
+    inline constexpr auto STATUS_BACKUP_CONTROLLER = NTSTATUS {
+#pragma pop_macro("STATUS_BACKUP_CONTROLLER")
+        STATUS_BACKUP_CONTROLLER
+    };
+
+#pragma push_macro("STATUS_LOG_FILE_FULL")
+#undef STATUS_LOG_FILE_FULL
+    inline constexpr auto STATUS_LOG_FILE_FULL = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_FILE_FULL")
+        STATUS_LOG_FILE_FULL
+    };
+
+#pragma push_macro("STATUS_TOO_LATE")
+#undef STATUS_TOO_LATE
+    inline constexpr auto STATUS_TOO_LATE = NTSTATUS {
+#pragma pop_macro("STATUS_TOO_LATE")
+        STATUS_TOO_LATE
+    };
+
+#pragma push_macro("STATUS_NO_TRUST_LSA_SECRET")
+#undef STATUS_NO_TRUST_LSA_SECRET
+    inline constexpr auto STATUS_NO_TRUST_LSA_SECRET = NTSTATUS {
+#pragma pop_macro("STATUS_NO_TRUST_LSA_SECRET")
+        STATUS_NO_TRUST_LSA_SECRET
+    };
+
+#pragma push_macro("STATUS_NO_TRUST_SAM_ACCOUNT")
+#undef STATUS_NO_TRUST_SAM_ACCOUNT
+    inline constexpr auto STATUS_NO_TRUST_SAM_ACCOUNT = NTSTATUS {
+#pragma pop_macro("STATUS_NO_TRUST_SAM_ACCOUNT")
+        STATUS_NO_TRUST_SAM_ACCOUNT
+    };
+
+#pragma push_macro("STATUS_TRUSTED_DOMAIN_FAILURE")
+#undef STATUS_TRUSTED_DOMAIN_FAILURE
+    inline constexpr auto STATUS_TRUSTED_DOMAIN_FAILURE = NTSTATUS {
+#pragma pop_macro("STATUS_TRUSTED_DOMAIN_FAILURE")
+        STATUS_TRUSTED_DOMAIN_FAILURE
+    };
+
+#pragma push_macro("STATUS_TRUSTED_RELATIONSHIP_FAILURE")
+#undef STATUS_TRUSTED_RELATIONSHIP_FAILURE
+    inline constexpr auto STATUS_TRUSTED_RELATIONSHIP_FAILURE = NTSTATUS {
+#pragma pop_macro("STATUS_TRUSTED_RELATIONSHIP_FAILURE")
+        STATUS_TRUSTED_RELATIONSHIP_FAILURE
+    };
+
+#pragma push_macro("STATUS_EVENTLOG_FILE_CORRUPT")
+#undef STATUS_EVENTLOG_FILE_CORRUPT
+    inline constexpr auto STATUS_EVENTLOG_FILE_CORRUPT = NTSTATUS {
+#pragma pop_macro("STATUS_EVENTLOG_FILE_CORRUPT")
+        STATUS_EVENTLOG_FILE_CORRUPT
+    };
+
+#pragma push_macro("STATUS_EVENTLOG_CANT_START")
+#undef STATUS_EVENTLOG_CANT_START
+    inline constexpr auto STATUS_EVENTLOG_CANT_START = NTSTATUS {
+#pragma pop_macro("STATUS_EVENTLOG_CANT_START")
+        STATUS_EVENTLOG_CANT_START
+    };
+
+#pragma push_macro("STATUS_TRUST_FAILURE")
+#undef STATUS_TRUST_FAILURE
+    inline constexpr auto STATUS_TRUST_FAILURE = NTSTATUS {
+#pragma pop_macro("STATUS_TRUST_FAILURE")
+        STATUS_TRUST_FAILURE
+    };
+
+#pragma push_macro("STATUS_MUTANT_LIMIT_EXCEEDED")
+#undef STATUS_MUTANT_LIMIT_EXCEEDED
+    inline constexpr auto STATUS_MUTANT_LIMIT_EXCEEDED = NTSTATUS {
+#pragma pop_macro("STATUS_MUTANT_LIMIT_EXCEEDED")
+        STATUS_MUTANT_LIMIT_EXCEEDED
+    };
+
+#pragma push_macro("STATUS_NETLOGON_NOT_STARTED")
+#undef STATUS_NETLOGON_NOT_STARTED
+    inline constexpr auto STATUS_NETLOGON_NOT_STARTED = NTSTATUS {
+#pragma pop_macro("STATUS_NETLOGON_NOT_STARTED")
+        STATUS_NETLOGON_NOT_STARTED
+    };
+
+#pragma push_macro("STATUS_ACCOUNT_EXPIRED")
+#undef STATUS_ACCOUNT_EXPIRED
+    inline constexpr auto STATUS_ACCOUNT_EXPIRED = NTSTATUS {
+#pragma pop_macro("STATUS_ACCOUNT_EXPIRED")
+        STATUS_ACCOUNT_EXPIRED
+    };
+
+#pragma push_macro("STATUS_POSSIBLE_DEADLOCK")
+#undef STATUS_POSSIBLE_DEADLOCK
+    inline constexpr auto STATUS_POSSIBLE_DEADLOCK = NTSTATUS {
+#pragma pop_macro("STATUS_POSSIBLE_DEADLOCK")
+        STATUS_POSSIBLE_DEADLOCK
+    };
+
+#pragma push_macro("STATUS_NETWORK_CREDENTIAL_CONFLICT")
+#undef STATUS_NETWORK_CREDENTIAL_CONFLICT
+    inline constexpr auto STATUS_NETWORK_CREDENTIAL_CONFLICT = NTSTATUS {
+#pragma pop_macro("STATUS_NETWORK_CREDENTIAL_CONFLICT")
+        STATUS_NETWORK_CREDENTIAL_CONFLICT
+    };
+
+#pragma push_macro("STATUS_REMOTE_SESSION_LIMIT")
+#undef STATUS_REMOTE_SESSION_LIMIT
+    inline constexpr auto STATUS_REMOTE_SESSION_LIMIT = NTSTATUS {
+#pragma pop_macro("STATUS_REMOTE_SESSION_LIMIT")
+        STATUS_REMOTE_SESSION_LIMIT
+    };
+
+#pragma push_macro("STATUS_EVENTLOG_FILE_CHANGED")
+#undef STATUS_EVENTLOG_FILE_CHANGED
+    inline constexpr auto STATUS_EVENTLOG_FILE_CHANGED = NTSTATUS {
+#pragma pop_macro("STATUS_EVENTLOG_FILE_CHANGED")
+        STATUS_EVENTLOG_FILE_CHANGED
+    };
+
+#pragma push_macro("STATUS_NOLOGON_INTERDOMAIN_TRUST_ACCOUNT")
+#undef STATUS_NOLOGON_INTERDOMAIN_TRUST_ACCOUNT
+    inline constexpr auto STATUS_NOLOGON_INTERDOMAIN_TRUST_ACCOUNT = NTSTATUS {
+#pragma pop_macro("STATUS_NOLOGON_INTERDOMAIN_TRUST_ACCOUNT")
+        STATUS_NOLOGON_INTERDOMAIN_TRUST_ACCOUNT
+    };
+
+#pragma push_macro("STATUS_NOLOGON_WORKSTATION_TRUST_ACCOUNT")
+#undef STATUS_NOLOGON_WORKSTATION_TRUST_ACCOUNT
+    inline constexpr auto STATUS_NOLOGON_WORKSTATION_TRUST_ACCOUNT = NTSTATUS {
+#pragma pop_macro("STATUS_NOLOGON_WORKSTATION_TRUST_ACCOUNT")
+        STATUS_NOLOGON_WORKSTATION_TRUST_ACCOUNT
+    };
+
+#pragma push_macro("STATUS_NOLOGON_SERVER_TRUST_ACCOUNT")
+#undef STATUS_NOLOGON_SERVER_TRUST_ACCOUNT
+    inline constexpr auto STATUS_NOLOGON_SERVER_TRUST_ACCOUNT = NTSTATUS {
+#pragma pop_macro("STATUS_NOLOGON_SERVER_TRUST_ACCOUNT")
+        STATUS_NOLOGON_SERVER_TRUST_ACCOUNT
+    };
+
+#pragma push_macro("STATUS_DOMAIN_TRUST_INCONSISTENT")
+#undef STATUS_DOMAIN_TRUST_INCONSISTENT
+    inline constexpr auto STATUS_DOMAIN_TRUST_INCONSISTENT = NTSTATUS {
+#pragma pop_macro("STATUS_DOMAIN_TRUST_INCONSISTENT")
+        STATUS_DOMAIN_TRUST_INCONSISTENT
+    };
+
+#pragma push_macro("STATUS_FS_DRIVER_REQUIRED")
+#undef STATUS_FS_DRIVER_REQUIRED
+    inline constexpr auto STATUS_FS_DRIVER_REQUIRED = NTSTATUS {
+#pragma pop_macro("STATUS_FS_DRIVER_REQUIRED")
+        STATUS_FS_DRIVER_REQUIRED
+    };
+
+#pragma push_macro("STATUS_IMAGE_ALREADY_LOADED_AS_DLL")
+#undef STATUS_IMAGE_ALREADY_LOADED_AS_DLL
+    inline constexpr auto STATUS_IMAGE_ALREADY_LOADED_AS_DLL = NTSTATUS {
+#pragma pop_macro("STATUS_IMAGE_ALREADY_LOADED_AS_DLL")
+        STATUS_IMAGE_ALREADY_LOADED_AS_DLL
+    };
+
+#pragma push_macro("STATUS_INCOMPATIBLE_WITH_GLOBAL_SHORT_NAME_REGISTRY_SETTING")
+#undef STATUS_INCOMPATIBLE_WITH_GLOBAL_SHORT_NAME_REGISTRY_SETTING
+    inline constexpr auto STATUS_INCOMPATIBLE_WITH_GLOBAL_SHORT_NAME_REGISTRY_SETTING = NTSTATUS {
+#pragma pop_macro("STATUS_INCOMPATIBLE_WITH_GLOBAL_SHORT_NAME_REGISTRY_SETTING")
+        STATUS_INCOMPATIBLE_WITH_GLOBAL_SHORT_NAME_REGISTRY_SETTING
+    };
+
+#pragma push_macro("STATUS_SHORT_NAMES_NOT_ENABLED_ON_VOLUME")
+#undef STATUS_SHORT_NAMES_NOT_ENABLED_ON_VOLUME
+    inline constexpr auto STATUS_SHORT_NAMES_NOT_ENABLED_ON_VOLUME = NTSTATUS {
+#pragma pop_macro("STATUS_SHORT_NAMES_NOT_ENABLED_ON_VOLUME")
+        STATUS_SHORT_NAMES_NOT_ENABLED_ON_VOLUME
+    };
+
+#pragma push_macro("STATUS_SECURITY_STREAM_IS_INCONSISTENT")
+#undef STATUS_SECURITY_STREAM_IS_INCONSISTENT
+    inline constexpr auto STATUS_SECURITY_STREAM_IS_INCONSISTENT = NTSTATUS {
+#pragma pop_macro("STATUS_SECURITY_STREAM_IS_INCONSISTENT")
+        STATUS_SECURITY_STREAM_IS_INCONSISTENT
+    };
+
+#pragma push_macro("STATUS_INVALID_LOCK_RANGE")
+#undef STATUS_INVALID_LOCK_RANGE
+    inline constexpr auto STATUS_INVALID_LOCK_RANGE = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_LOCK_RANGE")
+        STATUS_INVALID_LOCK_RANGE
+    };
+
+#pragma push_macro("STATUS_INVALID_ACE_CONDITION")
+#undef STATUS_INVALID_ACE_CONDITION
+    inline constexpr auto STATUS_INVALID_ACE_CONDITION = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_ACE_CONDITION")
+        STATUS_INVALID_ACE_CONDITION
+    };
+
+#pragma push_macro("STATUS_IMAGE_SUBSYSTEM_NOT_PRESENT")
+#undef STATUS_IMAGE_SUBSYSTEM_NOT_PRESENT
+    inline constexpr auto STATUS_IMAGE_SUBSYSTEM_NOT_PRESENT = NTSTATUS {
+#pragma pop_macro("STATUS_IMAGE_SUBSYSTEM_NOT_PRESENT")
+        STATUS_IMAGE_SUBSYSTEM_NOT_PRESENT
+    };
+
+#pragma push_macro("STATUS_NOTIFICATION_GUID_ALREADY_DEFINED")
+#undef STATUS_NOTIFICATION_GUID_ALREADY_DEFINED
+    inline constexpr auto STATUS_NOTIFICATION_GUID_ALREADY_DEFINED = NTSTATUS {
+#pragma pop_macro("STATUS_NOTIFICATION_GUID_ALREADY_DEFINED")
+        STATUS_NOTIFICATION_GUID_ALREADY_DEFINED
+    };
+
+#pragma push_macro("STATUS_NETWORK_OPEN_RESTRICTION")
+#undef STATUS_NETWORK_OPEN_RESTRICTION
+    inline constexpr auto STATUS_NETWORK_OPEN_RESTRICTION = NTSTATUS {
+#pragma pop_macro("STATUS_NETWORK_OPEN_RESTRICTION")
+        STATUS_NETWORK_OPEN_RESTRICTION
+    };
+
+#pragma push_macro("STATUS_NO_USER_SESSION_KEY")
+#undef STATUS_NO_USER_SESSION_KEY
+    inline constexpr auto STATUS_NO_USER_SESSION_KEY = NTSTATUS {
+#pragma pop_macro("STATUS_NO_USER_SESSION_KEY")
+        STATUS_NO_USER_SESSION_KEY
+    };
+
+#pragma push_macro("STATUS_USER_SESSION_DELETED")
+#undef STATUS_USER_SESSION_DELETED
+    inline constexpr auto STATUS_USER_SESSION_DELETED = NTSTATUS {
+#pragma pop_macro("STATUS_USER_SESSION_DELETED")
+        STATUS_USER_SESSION_DELETED
+    };
+
+#pragma push_macro("STATUS_RESOURCE_LANG_NOT_FOUND")
+#undef STATUS_RESOURCE_LANG_NOT_FOUND
+    inline constexpr auto STATUS_RESOURCE_LANG_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_RESOURCE_LANG_NOT_FOUND")
+        STATUS_RESOURCE_LANG_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_INSUFF_SERVER_RESOURCES")
+#undef STATUS_INSUFF_SERVER_RESOURCES
+    inline constexpr auto STATUS_INSUFF_SERVER_RESOURCES = NTSTATUS {
+#pragma pop_macro("STATUS_INSUFF_SERVER_RESOURCES")
+        STATUS_INSUFF_SERVER_RESOURCES
+    };
+
+#pragma push_macro("STATUS_INVALID_BUFFER_SIZE")
+#undef STATUS_INVALID_BUFFER_SIZE
+    inline constexpr auto STATUS_INVALID_BUFFER_SIZE = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_BUFFER_SIZE")
+        STATUS_INVALID_BUFFER_SIZE
+    };
+
+#pragma push_macro("STATUS_INVALID_ADDRESS_COMPONENT")
+#undef STATUS_INVALID_ADDRESS_COMPONENT
+    inline constexpr auto STATUS_INVALID_ADDRESS_COMPONENT = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_ADDRESS_COMPONENT")
+        STATUS_INVALID_ADDRESS_COMPONENT
+    };
+
+#pragma push_macro("STATUS_INVALID_ADDRESS_WILDCARD")
+#undef STATUS_INVALID_ADDRESS_WILDCARD
+    inline constexpr auto STATUS_INVALID_ADDRESS_WILDCARD = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_ADDRESS_WILDCARD")
+        STATUS_INVALID_ADDRESS_WILDCARD
+    };
+
+#pragma push_macro("STATUS_TOO_MANY_ADDRESSES")
+#undef STATUS_TOO_MANY_ADDRESSES
+    inline constexpr auto STATUS_TOO_MANY_ADDRESSES = NTSTATUS {
+#pragma pop_macro("STATUS_TOO_MANY_ADDRESSES")
+        STATUS_TOO_MANY_ADDRESSES
+    };
+
+#pragma push_macro("STATUS_ADDRESS_ALREADY_EXISTS")
+#undef STATUS_ADDRESS_ALREADY_EXISTS
+    inline constexpr auto STATUS_ADDRESS_ALREADY_EXISTS = NTSTATUS {
+#pragma pop_macro("STATUS_ADDRESS_ALREADY_EXISTS")
+        STATUS_ADDRESS_ALREADY_EXISTS
+    };
+
+#pragma push_macro("STATUS_ADDRESS_CLOSED")
+#undef STATUS_ADDRESS_CLOSED
+    inline constexpr auto STATUS_ADDRESS_CLOSED = NTSTATUS {
+#pragma pop_macro("STATUS_ADDRESS_CLOSED")
+        STATUS_ADDRESS_CLOSED
+    };
+
+#pragma push_macro("STATUS_CONNECTION_DISCONNECTED")
+#undef STATUS_CONNECTION_DISCONNECTED
+    inline constexpr auto STATUS_CONNECTION_DISCONNECTED = NTSTATUS {
+#pragma pop_macro("STATUS_CONNECTION_DISCONNECTED")
+        STATUS_CONNECTION_DISCONNECTED
+    };
+
+#pragma push_macro("STATUS_CONNECTION_RESET")
+#undef STATUS_CONNECTION_RESET
+    inline constexpr auto STATUS_CONNECTION_RESET = NTSTATUS {
+#pragma pop_macro("STATUS_CONNECTION_RESET")
+        STATUS_CONNECTION_RESET
+    };
+
+#pragma push_macro("STATUS_TOO_MANY_NODES")
+#undef STATUS_TOO_MANY_NODES
+    inline constexpr auto STATUS_TOO_MANY_NODES = NTSTATUS {
+#pragma pop_macro("STATUS_TOO_MANY_NODES")
+        STATUS_TOO_MANY_NODES
+    };
+
+#pragma push_macro("STATUS_TRANSACTION_ABORTED")
+#undef STATUS_TRANSACTION_ABORTED
+    inline constexpr auto STATUS_TRANSACTION_ABORTED = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTION_ABORTED")
+        STATUS_TRANSACTION_ABORTED
+    };
+
+#pragma push_macro("STATUS_TRANSACTION_TIMED_OUT")
+#undef STATUS_TRANSACTION_TIMED_OUT
+    inline constexpr auto STATUS_TRANSACTION_TIMED_OUT = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTION_TIMED_OUT")
+        STATUS_TRANSACTION_TIMED_OUT
+    };
+
+#pragma push_macro("STATUS_TRANSACTION_NO_RELEASE")
+#undef STATUS_TRANSACTION_NO_RELEASE
+    inline constexpr auto STATUS_TRANSACTION_NO_RELEASE = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTION_NO_RELEASE")
+        STATUS_TRANSACTION_NO_RELEASE
+    };
+
+#pragma push_macro("STATUS_TRANSACTION_NO_MATCH")
+#undef STATUS_TRANSACTION_NO_MATCH
+    inline constexpr auto STATUS_TRANSACTION_NO_MATCH = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTION_NO_MATCH")
+        STATUS_TRANSACTION_NO_MATCH
+    };
+
+#pragma push_macro("STATUS_TRANSACTION_RESPONDED")
+#undef STATUS_TRANSACTION_RESPONDED
+    inline constexpr auto STATUS_TRANSACTION_RESPONDED = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTION_RESPONDED")
+        STATUS_TRANSACTION_RESPONDED
+    };
+
+#pragma push_macro("STATUS_TRANSACTION_INVALID_ID")
+#undef STATUS_TRANSACTION_INVALID_ID
+    inline constexpr auto STATUS_TRANSACTION_INVALID_ID = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTION_INVALID_ID")
+        STATUS_TRANSACTION_INVALID_ID
+    };
+
+#pragma push_macro("STATUS_TRANSACTION_INVALID_TYPE")
+#undef STATUS_TRANSACTION_INVALID_TYPE
+    inline constexpr auto STATUS_TRANSACTION_INVALID_TYPE = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTION_INVALID_TYPE")
+        STATUS_TRANSACTION_INVALID_TYPE
+    };
+
+#pragma push_macro("STATUS_NOT_SERVER_SESSION")
+#undef STATUS_NOT_SERVER_SESSION
+    inline constexpr auto STATUS_NOT_SERVER_SESSION = NTSTATUS {
+#pragma pop_macro("STATUS_NOT_SERVER_SESSION")
+        STATUS_NOT_SERVER_SESSION
+    };
+
+#pragma push_macro("STATUS_NOT_CLIENT_SESSION")
+#undef STATUS_NOT_CLIENT_SESSION
+    inline constexpr auto STATUS_NOT_CLIENT_SESSION = NTSTATUS {
+#pragma pop_macro("STATUS_NOT_CLIENT_SESSION")
+        STATUS_NOT_CLIENT_SESSION
+    };
+
+#pragma push_macro("STATUS_CANNOT_LOAD_REGISTRY_FILE")
+#undef STATUS_CANNOT_LOAD_REGISTRY_FILE
+    inline constexpr auto STATUS_CANNOT_LOAD_REGISTRY_FILE = NTSTATUS {
+#pragma pop_macro("STATUS_CANNOT_LOAD_REGISTRY_FILE")
+        STATUS_CANNOT_LOAD_REGISTRY_FILE
+    };
+
+#pragma push_macro("STATUS_DEBUG_ATTACH_FAILED")
+#undef STATUS_DEBUG_ATTACH_FAILED
+    inline constexpr auto STATUS_DEBUG_ATTACH_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_DEBUG_ATTACH_FAILED")
+        STATUS_DEBUG_ATTACH_FAILED
+    };
+
+#pragma push_macro("STATUS_SYSTEM_PROCESS_TERMINATED")
+#undef STATUS_SYSTEM_PROCESS_TERMINATED
+    inline constexpr auto STATUS_SYSTEM_PROCESS_TERMINATED = NTSTATUS {
+#pragma pop_macro("STATUS_SYSTEM_PROCESS_TERMINATED")
+        STATUS_SYSTEM_PROCESS_TERMINATED
+    };
+
+#pragma push_macro("STATUS_DATA_NOT_ACCEPTED")
+#undef STATUS_DATA_NOT_ACCEPTED
+    inline constexpr auto STATUS_DATA_NOT_ACCEPTED = NTSTATUS {
+#pragma pop_macro("STATUS_DATA_NOT_ACCEPTED")
+        STATUS_DATA_NOT_ACCEPTED
+    };
+
+#pragma push_macro("STATUS_NO_BROWSER_SERVERS_FOUND")
+#undef STATUS_NO_BROWSER_SERVERS_FOUND
+    inline constexpr auto STATUS_NO_BROWSER_SERVERS_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_NO_BROWSER_SERVERS_FOUND")
+        STATUS_NO_BROWSER_SERVERS_FOUND
+    };
+
+#pragma push_macro("STATUS_VDM_HARD_ERROR")
+#undef STATUS_VDM_HARD_ERROR
+    inline constexpr auto STATUS_VDM_HARD_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_VDM_HARD_ERROR")
+        STATUS_VDM_HARD_ERROR
+    };
+
+#pragma push_macro("STATUS_DRIVER_CANCEL_TIMEOUT")
+#undef STATUS_DRIVER_CANCEL_TIMEOUT
+    inline constexpr auto STATUS_DRIVER_CANCEL_TIMEOUT = NTSTATUS {
+#pragma pop_macro("STATUS_DRIVER_CANCEL_TIMEOUT")
+        STATUS_DRIVER_CANCEL_TIMEOUT
+    };
+
+#pragma push_macro("STATUS_REPLY_MESSAGE_MISMATCH")
+#undef STATUS_REPLY_MESSAGE_MISMATCH
+    inline constexpr auto STATUS_REPLY_MESSAGE_MISMATCH = NTSTATUS {
+#pragma pop_macro("STATUS_REPLY_MESSAGE_MISMATCH")
+        STATUS_REPLY_MESSAGE_MISMATCH
+    };
+
+#pragma push_macro("STATUS_MAPPED_ALIGNMENT")
+#undef STATUS_MAPPED_ALIGNMENT
+    inline constexpr auto STATUS_MAPPED_ALIGNMENT = NTSTATUS {
+#pragma pop_macro("STATUS_MAPPED_ALIGNMENT")
+        STATUS_MAPPED_ALIGNMENT
+    };
+
+#pragma push_macro("STATUS_IMAGE_CHECKSUM_MISMATCH")
+#undef STATUS_IMAGE_CHECKSUM_MISMATCH
+    inline constexpr auto STATUS_IMAGE_CHECKSUM_MISMATCH = NTSTATUS {
+#pragma pop_macro("STATUS_IMAGE_CHECKSUM_MISMATCH")
+        STATUS_IMAGE_CHECKSUM_MISMATCH
+    };
+
+#pragma push_macro("STATUS_LOST_WRITEBEHIND_DATA")
+#undef STATUS_LOST_WRITEBEHIND_DATA
+    inline constexpr auto STATUS_LOST_WRITEBEHIND_DATA = NTSTATUS {
+#pragma pop_macro("STATUS_LOST_WRITEBEHIND_DATA")
+        STATUS_LOST_WRITEBEHIND_DATA
+    };
+
+#pragma push_macro("STATUS_CLIENT_SERVER_PARAMETERS_INVALID")
+#undef STATUS_CLIENT_SERVER_PARAMETERS_INVALID
+    inline constexpr auto STATUS_CLIENT_SERVER_PARAMETERS_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_CLIENT_SERVER_PARAMETERS_INVALID")
+        STATUS_CLIENT_SERVER_PARAMETERS_INVALID
+    };
+
+#pragma push_macro("STATUS_PASSWORD_MUST_CHANGE")
+#undef STATUS_PASSWORD_MUST_CHANGE
+    inline constexpr auto STATUS_PASSWORD_MUST_CHANGE = NTSTATUS {
+#pragma pop_macro("STATUS_PASSWORD_MUST_CHANGE")
+        STATUS_PASSWORD_MUST_CHANGE
+    };
+
+#pragma push_macro("STATUS_NOT_FOUND")
+#undef STATUS_NOT_FOUND
+    inline constexpr auto STATUS_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_NOT_FOUND")
+        STATUS_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_NOT_TINY_STREAM")
+#undef STATUS_NOT_TINY_STREAM
+    inline constexpr auto STATUS_NOT_TINY_STREAM = NTSTATUS {
+#pragma pop_macro("STATUS_NOT_TINY_STREAM")
+        STATUS_NOT_TINY_STREAM
+    };
+
+#pragma push_macro("STATUS_RECOVERY_FAILURE")
+#undef STATUS_RECOVERY_FAILURE
+    inline constexpr auto STATUS_RECOVERY_FAILURE = NTSTATUS {
+#pragma pop_macro("STATUS_RECOVERY_FAILURE")
+        STATUS_RECOVERY_FAILURE
+    };
+
+#pragma push_macro("STATUS_STACK_OVERFLOW_READ")
+#undef STATUS_STACK_OVERFLOW_READ
+    inline constexpr auto STATUS_STACK_OVERFLOW_READ = NTSTATUS {
+#pragma pop_macro("STATUS_STACK_OVERFLOW_READ")
+        STATUS_STACK_OVERFLOW_READ
+    };
+
+#pragma push_macro("STATUS_FAIL_CHECK")
+#undef STATUS_FAIL_CHECK
+    inline constexpr auto STATUS_FAIL_CHECK = NTSTATUS {
+#pragma pop_macro("STATUS_FAIL_CHECK")
+        STATUS_FAIL_CHECK
+    };
+
+#pragma push_macro("STATUS_DUPLICATE_OBJECTID")
+#undef STATUS_DUPLICATE_OBJECTID
+    inline constexpr auto STATUS_DUPLICATE_OBJECTID = NTSTATUS {
+#pragma pop_macro("STATUS_DUPLICATE_OBJECTID")
+        STATUS_DUPLICATE_OBJECTID
+    };
+
+#pragma push_macro("STATUS_OBJECTID_EXISTS")
+#undef STATUS_OBJECTID_EXISTS
+    inline constexpr auto STATUS_OBJECTID_EXISTS = NTSTATUS {
+#pragma pop_macro("STATUS_OBJECTID_EXISTS")
+        STATUS_OBJECTID_EXISTS
+    };
+
+#pragma push_macro("STATUS_CONVERT_TO_LARGE")
+#undef STATUS_CONVERT_TO_LARGE
+    inline constexpr auto STATUS_CONVERT_TO_LARGE = NTSTATUS {
+#pragma pop_macro("STATUS_CONVERT_TO_LARGE")
+        STATUS_CONVERT_TO_LARGE
+    };
+
+#pragma push_macro("STATUS_RETRY")
+#undef STATUS_RETRY
+    inline constexpr auto STATUS_RETRY = NTSTATUS {
+#pragma pop_macro("STATUS_RETRY")
+        STATUS_RETRY
+    };
+
+#pragma push_macro("STATUS_FOUND_OUT_OF_SCOPE")
+#undef STATUS_FOUND_OUT_OF_SCOPE
+    inline constexpr auto STATUS_FOUND_OUT_OF_SCOPE = NTSTATUS {
+#pragma pop_macro("STATUS_FOUND_OUT_OF_SCOPE")
+        STATUS_FOUND_OUT_OF_SCOPE
+    };
+
+#pragma push_macro("STATUS_ALLOCATE_BUCKET")
+#undef STATUS_ALLOCATE_BUCKET
+    inline constexpr auto STATUS_ALLOCATE_BUCKET = NTSTATUS {
+#pragma pop_macro("STATUS_ALLOCATE_BUCKET")
+        STATUS_ALLOCATE_BUCKET
+    };
+
+#pragma push_macro("STATUS_PROPSET_NOT_FOUND")
+#undef STATUS_PROPSET_NOT_FOUND
+    inline constexpr auto STATUS_PROPSET_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_PROPSET_NOT_FOUND")
+        STATUS_PROPSET_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_MARSHALL_OVERFLOW")
+#undef STATUS_MARSHALL_OVERFLOW
+    inline constexpr auto STATUS_MARSHALL_OVERFLOW = NTSTATUS {
+#pragma pop_macro("STATUS_MARSHALL_OVERFLOW")
+        STATUS_MARSHALL_OVERFLOW
+    };
+
+#pragma push_macro("STATUS_INVALID_VARIANT")
+#undef STATUS_INVALID_VARIANT
+    inline constexpr auto STATUS_INVALID_VARIANT = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_VARIANT")
+        STATUS_INVALID_VARIANT
+    };
+
+#pragma push_macro("STATUS_DOMAIN_CONTROLLER_NOT_FOUND")
+#undef STATUS_DOMAIN_CONTROLLER_NOT_FOUND
+    inline constexpr auto STATUS_DOMAIN_CONTROLLER_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_DOMAIN_CONTROLLER_NOT_FOUND")
+        STATUS_DOMAIN_CONTROLLER_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_ACCOUNT_LOCKED_OUT")
+#undef STATUS_ACCOUNT_LOCKED_OUT
+    inline constexpr auto STATUS_ACCOUNT_LOCKED_OUT = NTSTATUS {
+#pragma pop_macro("STATUS_ACCOUNT_LOCKED_OUT")
+        STATUS_ACCOUNT_LOCKED_OUT
+    };
+
+#pragma push_macro("STATUS_HANDLE_NOT_CLOSABLE")
+#undef STATUS_HANDLE_NOT_CLOSABLE
+    inline constexpr auto STATUS_HANDLE_NOT_CLOSABLE = NTSTATUS {
+#pragma pop_macro("STATUS_HANDLE_NOT_CLOSABLE")
+        STATUS_HANDLE_NOT_CLOSABLE
+    };
+
+#pragma push_macro("STATUS_CONNECTION_REFUSED")
+#undef STATUS_CONNECTION_REFUSED
+    inline constexpr auto STATUS_CONNECTION_REFUSED = NTSTATUS {
+#pragma pop_macro("STATUS_CONNECTION_REFUSED")
+        STATUS_CONNECTION_REFUSED
+    };
+
+#pragma push_macro("STATUS_GRACEFUL_DISCONNECT")
+#undef STATUS_GRACEFUL_DISCONNECT
+    inline constexpr auto STATUS_GRACEFUL_DISCONNECT = NTSTATUS {
+#pragma pop_macro("STATUS_GRACEFUL_DISCONNECT")
+        STATUS_GRACEFUL_DISCONNECT
+    };
+
+#pragma push_macro("STATUS_ADDRESS_ALREADY_ASSOCIATED")
+#undef STATUS_ADDRESS_ALREADY_ASSOCIATED
+    inline constexpr auto STATUS_ADDRESS_ALREADY_ASSOCIATED = NTSTATUS {
+#pragma pop_macro("STATUS_ADDRESS_ALREADY_ASSOCIATED")
+        STATUS_ADDRESS_ALREADY_ASSOCIATED
+    };
+
+#pragma push_macro("STATUS_ADDRESS_NOT_ASSOCIATED")
+#undef STATUS_ADDRESS_NOT_ASSOCIATED
+    inline constexpr auto STATUS_ADDRESS_NOT_ASSOCIATED = NTSTATUS {
+#pragma pop_macro("STATUS_ADDRESS_NOT_ASSOCIATED")
+        STATUS_ADDRESS_NOT_ASSOCIATED
+    };
+
+#pragma push_macro("STATUS_CONNECTION_INVALID")
+#undef STATUS_CONNECTION_INVALID
+    inline constexpr auto STATUS_CONNECTION_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_CONNECTION_INVALID")
+        STATUS_CONNECTION_INVALID
+    };
+
+#pragma push_macro("STATUS_CONNECTION_ACTIVE")
+#undef STATUS_CONNECTION_ACTIVE
+    inline constexpr auto STATUS_CONNECTION_ACTIVE = NTSTATUS {
+#pragma pop_macro("STATUS_CONNECTION_ACTIVE")
+        STATUS_CONNECTION_ACTIVE
+    };
+
+#pragma push_macro("STATUS_NETWORK_UNREACHABLE")
+#undef STATUS_NETWORK_UNREACHABLE
+    inline constexpr auto STATUS_NETWORK_UNREACHABLE = NTSTATUS {
+#pragma pop_macro("STATUS_NETWORK_UNREACHABLE")
+        STATUS_NETWORK_UNREACHABLE
+    };
+
+#pragma push_macro("STATUS_HOST_UNREACHABLE")
+#undef STATUS_HOST_UNREACHABLE
+    inline constexpr auto STATUS_HOST_UNREACHABLE = NTSTATUS {
+#pragma pop_macro("STATUS_HOST_UNREACHABLE")
+        STATUS_HOST_UNREACHABLE
+    };
+
+#pragma push_macro("STATUS_PROTOCOL_UNREACHABLE")
+#undef STATUS_PROTOCOL_UNREACHABLE
+    inline constexpr auto STATUS_PROTOCOL_UNREACHABLE = NTSTATUS {
+#pragma pop_macro("STATUS_PROTOCOL_UNREACHABLE")
+        STATUS_PROTOCOL_UNREACHABLE
+    };
+
+#pragma push_macro("STATUS_PORT_UNREACHABLE")
+#undef STATUS_PORT_UNREACHABLE
+    inline constexpr auto STATUS_PORT_UNREACHABLE = NTSTATUS {
+#pragma pop_macro("STATUS_PORT_UNREACHABLE")
+        STATUS_PORT_UNREACHABLE
+    };
+
+#pragma push_macro("STATUS_REQUEST_ABORTED")
+#undef STATUS_REQUEST_ABORTED
+    inline constexpr auto STATUS_REQUEST_ABORTED = NTSTATUS {
+#pragma pop_macro("STATUS_REQUEST_ABORTED")
+        STATUS_REQUEST_ABORTED
+    };
+
+#pragma push_macro("STATUS_CONNECTION_ABORTED")
+#undef STATUS_CONNECTION_ABORTED
+    inline constexpr auto STATUS_CONNECTION_ABORTED = NTSTATUS {
+#pragma pop_macro("STATUS_CONNECTION_ABORTED")
+        STATUS_CONNECTION_ABORTED
+    };
+
+#pragma push_macro("STATUS_BAD_COMPRESSION_BUFFER")
+#undef STATUS_BAD_COMPRESSION_BUFFER
+    inline constexpr auto STATUS_BAD_COMPRESSION_BUFFER = NTSTATUS {
+#pragma pop_macro("STATUS_BAD_COMPRESSION_BUFFER")
+        STATUS_BAD_COMPRESSION_BUFFER
+    };
+
+#pragma push_macro("STATUS_USER_MAPPED_FILE")
+#undef STATUS_USER_MAPPED_FILE
+    inline constexpr auto STATUS_USER_MAPPED_FILE = NTSTATUS {
+#pragma pop_macro("STATUS_USER_MAPPED_FILE")
+        STATUS_USER_MAPPED_FILE
+    };
+
+#pragma push_macro("STATUS_AUDIT_FAILED")
+#undef STATUS_AUDIT_FAILED
+    inline constexpr auto STATUS_AUDIT_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_AUDIT_FAILED")
+        STATUS_AUDIT_FAILED
+    };
+
+#pragma push_macro("STATUS_TIMER_RESOLUTION_NOT_SET")
+#undef STATUS_TIMER_RESOLUTION_NOT_SET
+    inline constexpr auto STATUS_TIMER_RESOLUTION_NOT_SET = NTSTATUS {
+#pragma pop_macro("STATUS_TIMER_RESOLUTION_NOT_SET")
+        STATUS_TIMER_RESOLUTION_NOT_SET
+    };
+
+#pragma push_macro("STATUS_CONNECTION_COUNT_LIMIT")
+#undef STATUS_CONNECTION_COUNT_LIMIT
+    inline constexpr auto STATUS_CONNECTION_COUNT_LIMIT = NTSTATUS {
+#pragma pop_macro("STATUS_CONNECTION_COUNT_LIMIT")
+        STATUS_CONNECTION_COUNT_LIMIT
+    };
+
+#pragma push_macro("STATUS_LOGIN_TIME_RESTRICTION")
+#undef STATUS_LOGIN_TIME_RESTRICTION
+    inline constexpr auto STATUS_LOGIN_TIME_RESTRICTION = NTSTATUS {
+#pragma pop_macro("STATUS_LOGIN_TIME_RESTRICTION")
+        STATUS_LOGIN_TIME_RESTRICTION
+    };
+
+#pragma push_macro("STATUS_LOGIN_WKSTA_RESTRICTION")
+#undef STATUS_LOGIN_WKSTA_RESTRICTION
+    inline constexpr auto STATUS_LOGIN_WKSTA_RESTRICTION = NTSTATUS {
+#pragma pop_macro("STATUS_LOGIN_WKSTA_RESTRICTION")
+        STATUS_LOGIN_WKSTA_RESTRICTION
+    };
+
+#pragma push_macro("STATUS_IMAGE_MP_UP_MISMATCH")
+#undef STATUS_IMAGE_MP_UP_MISMATCH
+    inline constexpr auto STATUS_IMAGE_MP_UP_MISMATCH = NTSTATUS {
+#pragma pop_macro("STATUS_IMAGE_MP_UP_MISMATCH")
+        STATUS_IMAGE_MP_UP_MISMATCH
+    };
+
+#pragma push_macro("STATUS_INSUFFICIENT_LOGON_INFO")
+#undef STATUS_INSUFFICIENT_LOGON_INFO
+    inline constexpr auto STATUS_INSUFFICIENT_LOGON_INFO = NTSTATUS {
+#pragma pop_macro("STATUS_INSUFFICIENT_LOGON_INFO")
+        STATUS_INSUFFICIENT_LOGON_INFO
+    };
+
+#pragma push_macro("STATUS_BAD_DLL_ENTRYPOINT")
+#undef STATUS_BAD_DLL_ENTRYPOINT
+    inline constexpr auto STATUS_BAD_DLL_ENTRYPOINT = NTSTATUS {
+#pragma pop_macro("STATUS_BAD_DLL_ENTRYPOINT")
+        STATUS_BAD_DLL_ENTRYPOINT
+    };
+
+#pragma push_macro("STATUS_BAD_SERVICE_ENTRYPOINT")
+#undef STATUS_BAD_SERVICE_ENTRYPOINT
+    inline constexpr auto STATUS_BAD_SERVICE_ENTRYPOINT = NTSTATUS {
+#pragma pop_macro("STATUS_BAD_SERVICE_ENTRYPOINT")
+        STATUS_BAD_SERVICE_ENTRYPOINT
+    };
+
+#pragma push_macro("STATUS_LPC_REPLY_LOST")
+#undef STATUS_LPC_REPLY_LOST
+    inline constexpr auto STATUS_LPC_REPLY_LOST = NTSTATUS {
+#pragma pop_macro("STATUS_LPC_REPLY_LOST")
+        STATUS_LPC_REPLY_LOST
+    };
+
+#pragma push_macro("STATUS_IP_ADDRESS_CONFLICT1")
+#undef STATUS_IP_ADDRESS_CONFLICT1
+    inline constexpr auto STATUS_IP_ADDRESS_CONFLICT1 = NTSTATUS {
+#pragma pop_macro("STATUS_IP_ADDRESS_CONFLICT1")
+        STATUS_IP_ADDRESS_CONFLICT1
+    };
+
+#pragma push_macro("STATUS_IP_ADDRESS_CONFLICT2")
+#undef STATUS_IP_ADDRESS_CONFLICT2
+    inline constexpr auto STATUS_IP_ADDRESS_CONFLICT2 = NTSTATUS {
+#pragma pop_macro("STATUS_IP_ADDRESS_CONFLICT2")
+        STATUS_IP_ADDRESS_CONFLICT2
+    };
+
+#pragma push_macro("STATUS_REGISTRY_QUOTA_LIMIT")
+#undef STATUS_REGISTRY_QUOTA_LIMIT
+    inline constexpr auto STATUS_REGISTRY_QUOTA_LIMIT = NTSTATUS {
+#pragma pop_macro("STATUS_REGISTRY_QUOTA_LIMIT")
+        STATUS_REGISTRY_QUOTA_LIMIT
+    };
+
+#pragma push_macro("STATUS_PATH_NOT_COVERED")
+#undef STATUS_PATH_NOT_COVERED
+    inline constexpr auto STATUS_PATH_NOT_COVERED = NTSTATUS {
+#pragma pop_macro("STATUS_PATH_NOT_COVERED")
+        STATUS_PATH_NOT_COVERED
+    };
+
+#pragma push_macro("STATUS_NO_CALLBACK_ACTIVE")
+#undef STATUS_NO_CALLBACK_ACTIVE
+    inline constexpr auto STATUS_NO_CALLBACK_ACTIVE = NTSTATUS {
+#pragma pop_macro("STATUS_NO_CALLBACK_ACTIVE")
+        STATUS_NO_CALLBACK_ACTIVE
+    };
+
+#pragma push_macro("STATUS_LICENSE_QUOTA_EXCEEDED")
+#undef STATUS_LICENSE_QUOTA_EXCEEDED
+    inline constexpr auto STATUS_LICENSE_QUOTA_EXCEEDED = NTSTATUS {
+#pragma pop_macro("STATUS_LICENSE_QUOTA_EXCEEDED")
+        STATUS_LICENSE_QUOTA_EXCEEDED
+    };
+
+#pragma push_macro("STATUS_PWD_TOO_SHORT")
+#undef STATUS_PWD_TOO_SHORT
+    inline constexpr auto STATUS_PWD_TOO_SHORT = NTSTATUS {
+#pragma pop_macro("STATUS_PWD_TOO_SHORT")
+        STATUS_PWD_TOO_SHORT
+    };
+
+#pragma push_macro("STATUS_PWD_TOO_RECENT")
+#undef STATUS_PWD_TOO_RECENT
+    inline constexpr auto STATUS_PWD_TOO_RECENT = NTSTATUS {
+#pragma pop_macro("STATUS_PWD_TOO_RECENT")
+        STATUS_PWD_TOO_RECENT
+    };
+
+#pragma push_macro("STATUS_PWD_HISTORY_CONFLICT")
+#undef STATUS_PWD_HISTORY_CONFLICT
+    inline constexpr auto STATUS_PWD_HISTORY_CONFLICT = NTSTATUS {
+#pragma pop_macro("STATUS_PWD_HISTORY_CONFLICT")
+        STATUS_PWD_HISTORY_CONFLICT
+    };
+
+#pragma push_macro("STATUS_PLUGPLAY_NO_DEVICE")
+#undef STATUS_PLUGPLAY_NO_DEVICE
+    inline constexpr auto STATUS_PLUGPLAY_NO_DEVICE = NTSTATUS {
+#pragma pop_macro("STATUS_PLUGPLAY_NO_DEVICE")
+        STATUS_PLUGPLAY_NO_DEVICE
+    };
+
+#pragma push_macro("STATUS_UNSUPPORTED_COMPRESSION")
+#undef STATUS_UNSUPPORTED_COMPRESSION
+    inline constexpr auto STATUS_UNSUPPORTED_COMPRESSION = NTSTATUS {
+#pragma pop_macro("STATUS_UNSUPPORTED_COMPRESSION")
+        STATUS_UNSUPPORTED_COMPRESSION
+    };
+
+#pragma push_macro("STATUS_INVALID_HW_PROFILE")
+#undef STATUS_INVALID_HW_PROFILE
+    inline constexpr auto STATUS_INVALID_HW_PROFILE = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_HW_PROFILE")
+        STATUS_INVALID_HW_PROFILE
+    };
+
+#pragma push_macro("STATUS_INVALID_PLUGPLAY_DEVICE_PATH")
+#undef STATUS_INVALID_PLUGPLAY_DEVICE_PATH
+    inline constexpr auto STATUS_INVALID_PLUGPLAY_DEVICE_PATH = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_PLUGPLAY_DEVICE_PATH")
+        STATUS_INVALID_PLUGPLAY_DEVICE_PATH
+    };
+
+#pragma push_macro("STATUS_DRIVER_ORDINAL_NOT_FOUND")
+#undef STATUS_DRIVER_ORDINAL_NOT_FOUND
+    inline constexpr auto STATUS_DRIVER_ORDINAL_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_DRIVER_ORDINAL_NOT_FOUND")
+        STATUS_DRIVER_ORDINAL_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_DRIVER_ENTRYPOINT_NOT_FOUND")
+#undef STATUS_DRIVER_ENTRYPOINT_NOT_FOUND
+    inline constexpr auto STATUS_DRIVER_ENTRYPOINT_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_DRIVER_ENTRYPOINT_NOT_FOUND")
+        STATUS_DRIVER_ENTRYPOINT_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_RESOURCE_NOT_OWNED")
+#undef STATUS_RESOURCE_NOT_OWNED
+    inline constexpr auto STATUS_RESOURCE_NOT_OWNED = NTSTATUS {
+#pragma pop_macro("STATUS_RESOURCE_NOT_OWNED")
+        STATUS_RESOURCE_NOT_OWNED
+    };
+
+#pragma push_macro("STATUS_TOO_MANY_LINKS")
+#undef STATUS_TOO_MANY_LINKS
+    inline constexpr auto STATUS_TOO_MANY_LINKS = NTSTATUS {
+#pragma pop_macro("STATUS_TOO_MANY_LINKS")
+        STATUS_TOO_MANY_LINKS
+    };
+
+#pragma push_macro("STATUS_QUOTA_LIST_INCONSISTENT")
+#undef STATUS_QUOTA_LIST_INCONSISTENT
+    inline constexpr auto STATUS_QUOTA_LIST_INCONSISTENT = NTSTATUS {
+#pragma pop_macro("STATUS_QUOTA_LIST_INCONSISTENT")
+        STATUS_QUOTA_LIST_INCONSISTENT
+    };
+
+#pragma push_macro("STATUS_FILE_IS_OFFLINE")
+#undef STATUS_FILE_IS_OFFLINE
+    inline constexpr auto STATUS_FILE_IS_OFFLINE = NTSTATUS {
+#pragma pop_macro("STATUS_FILE_IS_OFFLINE")
+        STATUS_FILE_IS_OFFLINE
+    };
+
+#pragma push_macro("STATUS_EVALUATION_EXPIRATION")
+#undef STATUS_EVALUATION_EXPIRATION
+    inline constexpr auto STATUS_EVALUATION_EXPIRATION = NTSTATUS {
+#pragma pop_macro("STATUS_EVALUATION_EXPIRATION")
+        STATUS_EVALUATION_EXPIRATION
+    };
+
+#pragma push_macro("STATUS_ILLEGAL_DLL_RELOCATION")
+#undef STATUS_ILLEGAL_DLL_RELOCATION
+    inline constexpr auto STATUS_ILLEGAL_DLL_RELOCATION = NTSTATUS {
+#pragma pop_macro("STATUS_ILLEGAL_DLL_RELOCATION")
+        STATUS_ILLEGAL_DLL_RELOCATION
+    };
+
+#pragma push_macro("STATUS_LICENSE_VIOLATION")
+#undef STATUS_LICENSE_VIOLATION
+    inline constexpr auto STATUS_LICENSE_VIOLATION = NTSTATUS {
+#pragma pop_macro("STATUS_LICENSE_VIOLATION")
+        STATUS_LICENSE_VIOLATION
+    };
+
+#pragma push_macro("STATUS_DLL_INIT_FAILED_LOGOFF")
+#undef STATUS_DLL_INIT_FAILED_LOGOFF
+    inline constexpr auto STATUS_DLL_INIT_FAILED_LOGOFF = NTSTATUS {
+#pragma pop_macro("STATUS_DLL_INIT_FAILED_LOGOFF")
+        STATUS_DLL_INIT_FAILED_LOGOFF
+    };
+
+#pragma push_macro("STATUS_DRIVER_UNABLE_TO_LOAD")
+#undef STATUS_DRIVER_UNABLE_TO_LOAD
+    inline constexpr auto STATUS_DRIVER_UNABLE_TO_LOAD = NTSTATUS {
+#pragma pop_macro("STATUS_DRIVER_UNABLE_TO_LOAD")
+        STATUS_DRIVER_UNABLE_TO_LOAD
+    };
+
+#pragma push_macro("STATUS_DFS_UNAVAILABLE")
+#undef STATUS_DFS_UNAVAILABLE
+    inline constexpr auto STATUS_DFS_UNAVAILABLE = NTSTATUS {
+#pragma pop_macro("STATUS_DFS_UNAVAILABLE")
+        STATUS_DFS_UNAVAILABLE
+    };
+
+#pragma push_macro("STATUS_VOLUME_DISMOUNTED")
+#undef STATUS_VOLUME_DISMOUNTED
+    inline constexpr auto STATUS_VOLUME_DISMOUNTED = NTSTATUS {
+#pragma pop_macro("STATUS_VOLUME_DISMOUNTED")
+        STATUS_VOLUME_DISMOUNTED
+    };
+
+#pragma push_macro("STATUS_WX86_INTERNAL_ERROR")
+#undef STATUS_WX86_INTERNAL_ERROR
+    inline constexpr auto STATUS_WX86_INTERNAL_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_WX86_INTERNAL_ERROR")
+        STATUS_WX86_INTERNAL_ERROR
+    };
+
+#pragma push_macro("STATUS_WX86_FLOAT_STACK_CHECK")
+#undef STATUS_WX86_FLOAT_STACK_CHECK
+    inline constexpr auto STATUS_WX86_FLOAT_STACK_CHECK = NTSTATUS {
+#pragma pop_macro("STATUS_WX86_FLOAT_STACK_CHECK")
+        STATUS_WX86_FLOAT_STACK_CHECK
+    };
+
+#pragma push_macro("STATUS_VALIDATE_CONTINUE")
+#undef STATUS_VALIDATE_CONTINUE
+    inline constexpr auto STATUS_VALIDATE_CONTINUE = NTSTATUS {
+#pragma pop_macro("STATUS_VALIDATE_CONTINUE")
+        STATUS_VALIDATE_CONTINUE
+    };
+
+#pragma push_macro("STATUS_NO_MATCH")
+#undef STATUS_NO_MATCH
+    inline constexpr auto STATUS_NO_MATCH = NTSTATUS {
+#pragma pop_macro("STATUS_NO_MATCH")
+        STATUS_NO_MATCH
+    };
+
+#pragma push_macro("STATUS_NO_MORE_MATCHES")
+#undef STATUS_NO_MORE_MATCHES
+    inline constexpr auto STATUS_NO_MORE_MATCHES = NTSTATUS {
+#pragma pop_macro("STATUS_NO_MORE_MATCHES")
+        STATUS_NO_MORE_MATCHES
+    };
+
+#pragma push_macro("STATUS_NOT_A_REPARSE_POINT")
+#undef STATUS_NOT_A_REPARSE_POINT
+    inline constexpr auto STATUS_NOT_A_REPARSE_POINT = NTSTATUS {
+#pragma pop_macro("STATUS_NOT_A_REPARSE_POINT")
+        STATUS_NOT_A_REPARSE_POINT
+    };
+
+#pragma push_macro("STATUS_IO_REPARSE_TAG_INVALID")
+#undef STATUS_IO_REPARSE_TAG_INVALID
+    inline constexpr auto STATUS_IO_REPARSE_TAG_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_IO_REPARSE_TAG_INVALID")
+        STATUS_IO_REPARSE_TAG_INVALID
+    };
+
+#pragma push_macro("STATUS_IO_REPARSE_TAG_MISMATCH")
+#undef STATUS_IO_REPARSE_TAG_MISMATCH
+    inline constexpr auto STATUS_IO_REPARSE_TAG_MISMATCH = NTSTATUS {
+#pragma pop_macro("STATUS_IO_REPARSE_TAG_MISMATCH")
+        STATUS_IO_REPARSE_TAG_MISMATCH
+    };
+
+#pragma push_macro("STATUS_IO_REPARSE_DATA_INVALID")
+#undef STATUS_IO_REPARSE_DATA_INVALID
+    inline constexpr auto STATUS_IO_REPARSE_DATA_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_IO_REPARSE_DATA_INVALID")
+        STATUS_IO_REPARSE_DATA_INVALID
+    };
+
+#pragma push_macro("STATUS_IO_REPARSE_TAG_NOT_HANDLED")
+#undef STATUS_IO_REPARSE_TAG_NOT_HANDLED
+    inline constexpr auto STATUS_IO_REPARSE_TAG_NOT_HANDLED = NTSTATUS {
+#pragma pop_macro("STATUS_IO_REPARSE_TAG_NOT_HANDLED")
+        STATUS_IO_REPARSE_TAG_NOT_HANDLED
+    };
+
+#pragma push_macro("STATUS_REPARSE_POINT_NOT_RESOLVED")
+#undef STATUS_REPARSE_POINT_NOT_RESOLVED
+    inline constexpr auto STATUS_REPARSE_POINT_NOT_RESOLVED = NTSTATUS {
+#pragma pop_macro("STATUS_REPARSE_POINT_NOT_RESOLVED")
+        STATUS_REPARSE_POINT_NOT_RESOLVED
+    };
+
+#pragma push_macro("STATUS_DIRECTORY_IS_A_REPARSE_POINT")
+#undef STATUS_DIRECTORY_IS_A_REPARSE_POINT
+    inline constexpr auto STATUS_DIRECTORY_IS_A_REPARSE_POINT = NTSTATUS {
+#pragma pop_macro("STATUS_DIRECTORY_IS_A_REPARSE_POINT")
+        STATUS_DIRECTORY_IS_A_REPARSE_POINT
+    };
+
+#pragma push_macro("STATUS_RANGE_LIST_CONFLICT")
+#undef STATUS_RANGE_LIST_CONFLICT
+    inline constexpr auto STATUS_RANGE_LIST_CONFLICT = NTSTATUS {
+#pragma pop_macro("STATUS_RANGE_LIST_CONFLICT")
+        STATUS_RANGE_LIST_CONFLICT
+    };
+
+#pragma push_macro("STATUS_SOURCE_ELEMENT_EMPTY")
+#undef STATUS_SOURCE_ELEMENT_EMPTY
+    inline constexpr auto STATUS_SOURCE_ELEMENT_EMPTY = NTSTATUS {
+#pragma pop_macro("STATUS_SOURCE_ELEMENT_EMPTY")
+        STATUS_SOURCE_ELEMENT_EMPTY
+    };
+
+#pragma push_macro("STATUS_DESTINATION_ELEMENT_FULL")
+#undef STATUS_DESTINATION_ELEMENT_FULL
+    inline constexpr auto STATUS_DESTINATION_ELEMENT_FULL = NTSTATUS {
+#pragma pop_macro("STATUS_DESTINATION_ELEMENT_FULL")
+        STATUS_DESTINATION_ELEMENT_FULL
+    };
+
+#pragma push_macro("STATUS_ILLEGAL_ELEMENT_ADDRESS")
+#undef STATUS_ILLEGAL_ELEMENT_ADDRESS
+    inline constexpr auto STATUS_ILLEGAL_ELEMENT_ADDRESS = NTSTATUS {
+#pragma pop_macro("STATUS_ILLEGAL_ELEMENT_ADDRESS")
+        STATUS_ILLEGAL_ELEMENT_ADDRESS
+    };
+
+#pragma push_macro("STATUS_MAGAZINE_NOT_PRESENT")
+#undef STATUS_MAGAZINE_NOT_PRESENT
+    inline constexpr auto STATUS_MAGAZINE_NOT_PRESENT = NTSTATUS {
+#pragma pop_macro("STATUS_MAGAZINE_NOT_PRESENT")
+        STATUS_MAGAZINE_NOT_PRESENT
+    };
+
+#pragma push_macro("STATUS_REINITIALIZATION_NEEDED")
+#undef STATUS_REINITIALIZATION_NEEDED
+    inline constexpr auto STATUS_REINITIALIZATION_NEEDED = NTSTATUS {
+#pragma pop_macro("STATUS_REINITIALIZATION_NEEDED")
+        STATUS_REINITIALIZATION_NEEDED
+    };
+
+#pragma push_macro("STATUS_ENCRYPTION_FAILED")
+#undef STATUS_ENCRYPTION_FAILED
+    inline constexpr auto STATUS_ENCRYPTION_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_ENCRYPTION_FAILED")
+        STATUS_ENCRYPTION_FAILED
+    };
+
+#pragma push_macro("STATUS_DECRYPTION_FAILED")
+#undef STATUS_DECRYPTION_FAILED
+    inline constexpr auto STATUS_DECRYPTION_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_DECRYPTION_FAILED")
+        STATUS_DECRYPTION_FAILED
+    };
+
+#pragma push_macro("STATUS_RANGE_NOT_FOUND")
+#undef STATUS_RANGE_NOT_FOUND
+    inline constexpr auto STATUS_RANGE_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_RANGE_NOT_FOUND")
+        STATUS_RANGE_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_NO_RECOVERY_POLICY")
+#undef STATUS_NO_RECOVERY_POLICY
+    inline constexpr auto STATUS_NO_RECOVERY_POLICY = NTSTATUS {
+#pragma pop_macro("STATUS_NO_RECOVERY_POLICY")
+        STATUS_NO_RECOVERY_POLICY
+    };
+
+#pragma push_macro("STATUS_NO_EFS")
+#undef STATUS_NO_EFS
+    inline constexpr auto STATUS_NO_EFS = NTSTATUS {
+#pragma pop_macro("STATUS_NO_EFS")
+        STATUS_NO_EFS
+    };
+
+#pragma push_macro("STATUS_WRONG_EFS")
+#undef STATUS_WRONG_EFS
+    inline constexpr auto STATUS_WRONG_EFS = NTSTATUS {
+#pragma pop_macro("STATUS_WRONG_EFS")
+        STATUS_WRONG_EFS
+    };
+
+#pragma push_macro("STATUS_NO_USER_KEYS")
+#undef STATUS_NO_USER_KEYS
+    inline constexpr auto STATUS_NO_USER_KEYS = NTSTATUS {
+#pragma pop_macro("STATUS_NO_USER_KEYS")
+        STATUS_NO_USER_KEYS
+    };
+
+#pragma push_macro("STATUS_FILE_NOT_ENCRYPTED")
+#undef STATUS_FILE_NOT_ENCRYPTED
+    inline constexpr auto STATUS_FILE_NOT_ENCRYPTED = NTSTATUS {
+#pragma pop_macro("STATUS_FILE_NOT_ENCRYPTED")
+        STATUS_FILE_NOT_ENCRYPTED
+    };
+
+#pragma push_macro("STATUS_NOT_EXPORT_FORMAT")
+#undef STATUS_NOT_EXPORT_FORMAT
+    inline constexpr auto STATUS_NOT_EXPORT_FORMAT = NTSTATUS {
+#pragma pop_macro("STATUS_NOT_EXPORT_FORMAT")
+        STATUS_NOT_EXPORT_FORMAT
+    };
+
+#pragma push_macro("STATUS_FILE_ENCRYPTED")
+#undef STATUS_FILE_ENCRYPTED
+    inline constexpr auto STATUS_FILE_ENCRYPTED = NTSTATUS {
+#pragma pop_macro("STATUS_FILE_ENCRYPTED")
+        STATUS_FILE_ENCRYPTED
+    };
+
+#pragma push_macro("STATUS_WMI_GUID_NOT_FOUND")
+#undef STATUS_WMI_GUID_NOT_FOUND
+    inline constexpr auto STATUS_WMI_GUID_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_WMI_GUID_NOT_FOUND")
+        STATUS_WMI_GUID_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_WMI_INSTANCE_NOT_FOUND")
+#undef STATUS_WMI_INSTANCE_NOT_FOUND
+    inline constexpr auto STATUS_WMI_INSTANCE_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_WMI_INSTANCE_NOT_FOUND")
+        STATUS_WMI_INSTANCE_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_WMI_ITEMID_NOT_FOUND")
+#undef STATUS_WMI_ITEMID_NOT_FOUND
+    inline constexpr auto STATUS_WMI_ITEMID_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_WMI_ITEMID_NOT_FOUND")
+        STATUS_WMI_ITEMID_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_WMI_TRY_AGAIN")
+#undef STATUS_WMI_TRY_AGAIN
+    inline constexpr auto STATUS_WMI_TRY_AGAIN = NTSTATUS {
+#pragma pop_macro("STATUS_WMI_TRY_AGAIN")
+        STATUS_WMI_TRY_AGAIN
+    };
+
+#pragma push_macro("STATUS_SHARED_POLICY")
+#undef STATUS_SHARED_POLICY
+    inline constexpr auto STATUS_SHARED_POLICY = NTSTATUS {
+#pragma pop_macro("STATUS_SHARED_POLICY")
+        STATUS_SHARED_POLICY
+    };
+
+#pragma push_macro("STATUS_POLICY_OBJECT_NOT_FOUND")
+#undef STATUS_POLICY_OBJECT_NOT_FOUND
+    inline constexpr auto STATUS_POLICY_OBJECT_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_POLICY_OBJECT_NOT_FOUND")
+        STATUS_POLICY_OBJECT_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_POLICY_ONLY_IN_DS")
+#undef STATUS_POLICY_ONLY_IN_DS
+    inline constexpr auto STATUS_POLICY_ONLY_IN_DS = NTSTATUS {
+#pragma pop_macro("STATUS_POLICY_ONLY_IN_DS")
+        STATUS_POLICY_ONLY_IN_DS
+    };
+
+#pragma push_macro("STATUS_VOLUME_NOT_UPGRADED")
+#undef STATUS_VOLUME_NOT_UPGRADED
+    inline constexpr auto STATUS_VOLUME_NOT_UPGRADED = NTSTATUS {
+#pragma pop_macro("STATUS_VOLUME_NOT_UPGRADED")
+        STATUS_VOLUME_NOT_UPGRADED
+    };
+
+#pragma push_macro("STATUS_REMOTE_STORAGE_NOT_ACTIVE")
+#undef STATUS_REMOTE_STORAGE_NOT_ACTIVE
+    inline constexpr auto STATUS_REMOTE_STORAGE_NOT_ACTIVE = NTSTATUS {
+#pragma pop_macro("STATUS_REMOTE_STORAGE_NOT_ACTIVE")
+        STATUS_REMOTE_STORAGE_NOT_ACTIVE
+    };
+
+#pragma push_macro("STATUS_REMOTE_STORAGE_MEDIA_ERROR")
+#undef STATUS_REMOTE_STORAGE_MEDIA_ERROR
+    inline constexpr auto STATUS_REMOTE_STORAGE_MEDIA_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_REMOTE_STORAGE_MEDIA_ERROR")
+        STATUS_REMOTE_STORAGE_MEDIA_ERROR
+    };
+
+#pragma push_macro("STATUS_NO_TRACKING_SERVICE")
+#undef STATUS_NO_TRACKING_SERVICE
+    inline constexpr auto STATUS_NO_TRACKING_SERVICE = NTSTATUS {
+#pragma pop_macro("STATUS_NO_TRACKING_SERVICE")
+        STATUS_NO_TRACKING_SERVICE
+    };
+
+#pragma push_macro("STATUS_SERVER_SID_MISMATCH")
+#undef STATUS_SERVER_SID_MISMATCH
+    inline constexpr auto STATUS_SERVER_SID_MISMATCH = NTSTATUS {
+#pragma pop_macro("STATUS_SERVER_SID_MISMATCH")
+        STATUS_SERVER_SID_MISMATCH
+    };
+
+#pragma push_macro("STATUS_DS_NO_ATTRIBUTE_OR_VALUE")
+#undef STATUS_DS_NO_ATTRIBUTE_OR_VALUE
+    inline constexpr auto STATUS_DS_NO_ATTRIBUTE_OR_VALUE = NTSTATUS {
+#pragma pop_macro("STATUS_DS_NO_ATTRIBUTE_OR_VALUE")
+        STATUS_DS_NO_ATTRIBUTE_OR_VALUE
+    };
+
+#pragma push_macro("STATUS_DS_INVALID_ATTRIBUTE_SYNTAX")
+#undef STATUS_DS_INVALID_ATTRIBUTE_SYNTAX
+    inline constexpr auto STATUS_DS_INVALID_ATTRIBUTE_SYNTAX = NTSTATUS {
+#pragma pop_macro("STATUS_DS_INVALID_ATTRIBUTE_SYNTAX")
+        STATUS_DS_INVALID_ATTRIBUTE_SYNTAX
+    };
+
+#pragma push_macro("STATUS_DS_ATTRIBUTE_TYPE_UNDEFINED")
+#undef STATUS_DS_ATTRIBUTE_TYPE_UNDEFINED
+    inline constexpr auto STATUS_DS_ATTRIBUTE_TYPE_UNDEFINED = NTSTATUS {
+#pragma pop_macro("STATUS_DS_ATTRIBUTE_TYPE_UNDEFINED")
+        STATUS_DS_ATTRIBUTE_TYPE_UNDEFINED
+    };
+
+#pragma push_macro("STATUS_DS_ATTRIBUTE_OR_VALUE_EXISTS")
+#undef STATUS_DS_ATTRIBUTE_OR_VALUE_EXISTS
+    inline constexpr auto STATUS_DS_ATTRIBUTE_OR_VALUE_EXISTS = NTSTATUS {
+#pragma pop_macro("STATUS_DS_ATTRIBUTE_OR_VALUE_EXISTS")
+        STATUS_DS_ATTRIBUTE_OR_VALUE_EXISTS
+    };
+
+#pragma push_macro("STATUS_DS_BUSY")
+#undef STATUS_DS_BUSY
+    inline constexpr auto STATUS_DS_BUSY = NTSTATUS {
+#pragma pop_macro("STATUS_DS_BUSY")
+        STATUS_DS_BUSY
+    };
+
+#pragma push_macro("STATUS_DS_UNAVAILABLE")
+#undef STATUS_DS_UNAVAILABLE
+    inline constexpr auto STATUS_DS_UNAVAILABLE = NTSTATUS {
+#pragma pop_macro("STATUS_DS_UNAVAILABLE")
+        STATUS_DS_UNAVAILABLE
+    };
+
+#pragma push_macro("STATUS_DS_NO_RIDS_ALLOCATED")
+#undef STATUS_DS_NO_RIDS_ALLOCATED
+    inline constexpr auto STATUS_DS_NO_RIDS_ALLOCATED = NTSTATUS {
+#pragma pop_macro("STATUS_DS_NO_RIDS_ALLOCATED")
+        STATUS_DS_NO_RIDS_ALLOCATED
+    };
+
+#pragma push_macro("STATUS_DS_NO_MORE_RIDS")
+#undef STATUS_DS_NO_MORE_RIDS
+    inline constexpr auto STATUS_DS_NO_MORE_RIDS = NTSTATUS {
+#pragma pop_macro("STATUS_DS_NO_MORE_RIDS")
+        STATUS_DS_NO_MORE_RIDS
+    };
+
+#pragma push_macro("STATUS_DS_INCORRECT_ROLE_OWNER")
+#undef STATUS_DS_INCORRECT_ROLE_OWNER
+    inline constexpr auto STATUS_DS_INCORRECT_ROLE_OWNER = NTSTATUS {
+#pragma pop_macro("STATUS_DS_INCORRECT_ROLE_OWNER")
+        STATUS_DS_INCORRECT_ROLE_OWNER
+    };
+
+#pragma push_macro("STATUS_DS_RIDMGR_INIT_ERROR")
+#undef STATUS_DS_RIDMGR_INIT_ERROR
+    inline constexpr auto STATUS_DS_RIDMGR_INIT_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_DS_RIDMGR_INIT_ERROR")
+        STATUS_DS_RIDMGR_INIT_ERROR
+    };
+
+#pragma push_macro("STATUS_DS_OBJ_CLASS_VIOLATION")
+#undef STATUS_DS_OBJ_CLASS_VIOLATION
+    inline constexpr auto STATUS_DS_OBJ_CLASS_VIOLATION = NTSTATUS {
+#pragma pop_macro("STATUS_DS_OBJ_CLASS_VIOLATION")
+        STATUS_DS_OBJ_CLASS_VIOLATION
+    };
+
+#pragma push_macro("STATUS_DS_CANT_ON_NON_LEAF")
+#undef STATUS_DS_CANT_ON_NON_LEAF
+    inline constexpr auto STATUS_DS_CANT_ON_NON_LEAF = NTSTATUS {
+#pragma pop_macro("STATUS_DS_CANT_ON_NON_LEAF")
+        STATUS_DS_CANT_ON_NON_LEAF
+    };
+
+#pragma push_macro("STATUS_DS_CANT_ON_RDN")
+#undef STATUS_DS_CANT_ON_RDN
+    inline constexpr auto STATUS_DS_CANT_ON_RDN = NTSTATUS {
+#pragma pop_macro("STATUS_DS_CANT_ON_RDN")
+        STATUS_DS_CANT_ON_RDN
+    };
+
+#pragma push_macro("STATUS_DS_CANT_MOD_OBJ_CLASS")
+#undef STATUS_DS_CANT_MOD_OBJ_CLASS
+    inline constexpr auto STATUS_DS_CANT_MOD_OBJ_CLASS = NTSTATUS {
+#pragma pop_macro("STATUS_DS_CANT_MOD_OBJ_CLASS")
+        STATUS_DS_CANT_MOD_OBJ_CLASS
+    };
+
+#pragma push_macro("STATUS_DS_CROSS_DOM_MOVE_FAILED")
+#undef STATUS_DS_CROSS_DOM_MOVE_FAILED
+    inline constexpr auto STATUS_DS_CROSS_DOM_MOVE_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_DS_CROSS_DOM_MOVE_FAILED")
+        STATUS_DS_CROSS_DOM_MOVE_FAILED
+    };
+
+#pragma push_macro("STATUS_DS_GC_NOT_AVAILABLE")
+#undef STATUS_DS_GC_NOT_AVAILABLE
+    inline constexpr auto STATUS_DS_GC_NOT_AVAILABLE = NTSTATUS {
+#pragma pop_macro("STATUS_DS_GC_NOT_AVAILABLE")
+        STATUS_DS_GC_NOT_AVAILABLE
+    };
+
+#pragma push_macro("STATUS_DIRECTORY_SERVICE_REQUIRED")
+#undef STATUS_DIRECTORY_SERVICE_REQUIRED
+    inline constexpr auto STATUS_DIRECTORY_SERVICE_REQUIRED = NTSTATUS {
+#pragma pop_macro("STATUS_DIRECTORY_SERVICE_REQUIRED")
+        STATUS_DIRECTORY_SERVICE_REQUIRED
+    };
+
+#pragma push_macro("STATUS_REPARSE_ATTRIBUTE_CONFLICT")
+#undef STATUS_REPARSE_ATTRIBUTE_CONFLICT
+    inline constexpr auto STATUS_REPARSE_ATTRIBUTE_CONFLICT = NTSTATUS {
+#pragma pop_macro("STATUS_REPARSE_ATTRIBUTE_CONFLICT")
+        STATUS_REPARSE_ATTRIBUTE_CONFLICT
+    };
+
+#pragma push_macro("STATUS_CANT_ENABLE_DENY_ONLY")
+#undef STATUS_CANT_ENABLE_DENY_ONLY
+    inline constexpr auto STATUS_CANT_ENABLE_DENY_ONLY = NTSTATUS {
+#pragma pop_macro("STATUS_CANT_ENABLE_DENY_ONLY")
+        STATUS_CANT_ENABLE_DENY_ONLY
+    };
+
+#pragma push_macro("STATUS_FLOAT_MULTIPLE_FAULTS")
+#undef STATUS_FLOAT_MULTIPLE_FAULTS
+    inline constexpr auto STATUS_FLOAT_MULTIPLE_FAULTS = NTSTATUS {
+#pragma pop_macro("STATUS_FLOAT_MULTIPLE_FAULTS")
+        STATUS_FLOAT_MULTIPLE_FAULTS
+    };
+
+#pragma push_macro("STATUS_FLOAT_MULTIPLE_TRAPS")
+#undef STATUS_FLOAT_MULTIPLE_TRAPS
+    inline constexpr auto STATUS_FLOAT_MULTIPLE_TRAPS = NTSTATUS {
+#pragma pop_macro("STATUS_FLOAT_MULTIPLE_TRAPS")
+        STATUS_FLOAT_MULTIPLE_TRAPS
+    };
+
+#pragma push_macro("STATUS_DEVICE_REMOVED")
+#undef STATUS_DEVICE_REMOVED
+    inline constexpr auto STATUS_DEVICE_REMOVED = NTSTATUS {
+#pragma pop_macro("STATUS_DEVICE_REMOVED")
+        STATUS_DEVICE_REMOVED
+    };
+
+#pragma push_macro("STATUS_JOURNAL_DELETE_IN_PROGRESS")
+#undef STATUS_JOURNAL_DELETE_IN_PROGRESS
+    inline constexpr auto STATUS_JOURNAL_DELETE_IN_PROGRESS = NTSTATUS {
+#pragma pop_macro("STATUS_JOURNAL_DELETE_IN_PROGRESS")
+        STATUS_JOURNAL_DELETE_IN_PROGRESS
+    };
+
+#pragma push_macro("STATUS_JOURNAL_NOT_ACTIVE")
+#undef STATUS_JOURNAL_NOT_ACTIVE
+    inline constexpr auto STATUS_JOURNAL_NOT_ACTIVE = NTSTATUS {
+#pragma pop_macro("STATUS_JOURNAL_NOT_ACTIVE")
+        STATUS_JOURNAL_NOT_ACTIVE
+    };
+
+#pragma push_macro("STATUS_NOINTERFACE")
+#undef STATUS_NOINTERFACE
+    inline constexpr auto STATUS_NOINTERFACE = NTSTATUS {
+#pragma pop_macro("STATUS_NOINTERFACE")
+        STATUS_NOINTERFACE
+    };
+
+#pragma push_macro("STATUS_DS_ADMIN_LIMIT_EXCEEDED")
+#undef STATUS_DS_ADMIN_LIMIT_EXCEEDED
+    inline constexpr auto STATUS_DS_ADMIN_LIMIT_EXCEEDED = NTSTATUS {
+#pragma pop_macro("STATUS_DS_ADMIN_LIMIT_EXCEEDED")
+        STATUS_DS_ADMIN_LIMIT_EXCEEDED
+    };
+
+#pragma push_macro("STATUS_DRIVER_FAILED_SLEEP")
+#undef STATUS_DRIVER_FAILED_SLEEP
+    inline constexpr auto STATUS_DRIVER_FAILED_SLEEP = NTSTATUS {
+#pragma pop_macro("STATUS_DRIVER_FAILED_SLEEP")
+        STATUS_DRIVER_FAILED_SLEEP
+    };
+
+#pragma push_macro("STATUS_MUTUAL_AUTHENTICATION_FAILED")
+#undef STATUS_MUTUAL_AUTHENTICATION_FAILED
+    inline constexpr auto STATUS_MUTUAL_AUTHENTICATION_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_MUTUAL_AUTHENTICATION_FAILED")
+        STATUS_MUTUAL_AUTHENTICATION_FAILED
+    };
+
+#pragma push_macro("STATUS_CORRUPT_SYSTEM_FILE")
+#undef STATUS_CORRUPT_SYSTEM_FILE
+    inline constexpr auto STATUS_CORRUPT_SYSTEM_FILE = NTSTATUS {
+#pragma pop_macro("STATUS_CORRUPT_SYSTEM_FILE")
+        STATUS_CORRUPT_SYSTEM_FILE
+    };
+
+#pragma push_macro("STATUS_DATATYPE_MISALIGNMENT_ERROR")
+#undef STATUS_DATATYPE_MISALIGNMENT_ERROR
+    inline constexpr auto STATUS_DATATYPE_MISALIGNMENT_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_DATATYPE_MISALIGNMENT_ERROR")
+        STATUS_DATATYPE_MISALIGNMENT_ERROR
+    };
+
+#pragma push_macro("STATUS_WMI_READ_ONLY")
+#undef STATUS_WMI_READ_ONLY
+    inline constexpr auto STATUS_WMI_READ_ONLY = NTSTATUS {
+#pragma pop_macro("STATUS_WMI_READ_ONLY")
+        STATUS_WMI_READ_ONLY
+    };
+
+#pragma push_macro("STATUS_WMI_SET_FAILURE")
+#undef STATUS_WMI_SET_FAILURE
+    inline constexpr auto STATUS_WMI_SET_FAILURE = NTSTATUS {
+#pragma pop_macro("STATUS_WMI_SET_FAILURE")
+        STATUS_WMI_SET_FAILURE
+    };
+
+#pragma push_macro("STATUS_COMMITMENT_MINIMUM")
+#undef STATUS_COMMITMENT_MINIMUM
+    inline constexpr auto STATUS_COMMITMENT_MINIMUM = NTSTATUS {
+#pragma pop_macro("STATUS_COMMITMENT_MINIMUM")
+        STATUS_COMMITMENT_MINIMUM
+    };
+
+#pragma push_macro("STATUS_REG_NAT_CONSUMPTION")
+#undef STATUS_REG_NAT_CONSUMPTION
+    inline constexpr auto STATUS_REG_NAT_CONSUMPTION = NTSTATUS {
+#pragma pop_macro("STATUS_REG_NAT_CONSUMPTION")
+        STATUS_REG_NAT_CONSUMPTION
+    };
+
+#pragma push_macro("STATUS_TRANSPORT_FULL")
+#undef STATUS_TRANSPORT_FULL
+    inline constexpr auto STATUS_TRANSPORT_FULL = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSPORT_FULL")
+        STATUS_TRANSPORT_FULL
+    };
+
+#pragma push_macro("STATUS_DS_SAM_INIT_FAILURE")
+#undef STATUS_DS_SAM_INIT_FAILURE
+    inline constexpr auto STATUS_DS_SAM_INIT_FAILURE = NTSTATUS {
+#pragma pop_macro("STATUS_DS_SAM_INIT_FAILURE")
+        STATUS_DS_SAM_INIT_FAILURE
+    };
+
+#pragma push_macro("STATUS_ONLY_IF_CONNECTED")
+#undef STATUS_ONLY_IF_CONNECTED
+    inline constexpr auto STATUS_ONLY_IF_CONNECTED = NTSTATUS {
+#pragma pop_macro("STATUS_ONLY_IF_CONNECTED")
+        STATUS_ONLY_IF_CONNECTED
+    };
+
+#pragma push_macro("STATUS_DS_SENSITIVE_GROUP_VIOLATION")
+#undef STATUS_DS_SENSITIVE_GROUP_VIOLATION
+    inline constexpr auto STATUS_DS_SENSITIVE_GROUP_VIOLATION = NTSTATUS {
+#pragma pop_macro("STATUS_DS_SENSITIVE_GROUP_VIOLATION")
+        STATUS_DS_SENSITIVE_GROUP_VIOLATION
+    };
+
+#pragma push_macro("STATUS_PNP_RESTART_ENUMERATION")
+#undef STATUS_PNP_RESTART_ENUMERATION
+    inline constexpr auto STATUS_PNP_RESTART_ENUMERATION = NTSTATUS {
+#pragma pop_macro("STATUS_PNP_RESTART_ENUMERATION")
+        STATUS_PNP_RESTART_ENUMERATION
+    };
+
+#pragma push_macro("STATUS_JOURNAL_ENTRY_DELETED")
+#undef STATUS_JOURNAL_ENTRY_DELETED
+    inline constexpr auto STATUS_JOURNAL_ENTRY_DELETED = NTSTATUS {
+#pragma pop_macro("STATUS_JOURNAL_ENTRY_DELETED")
+        STATUS_JOURNAL_ENTRY_DELETED
+    };
+
+#pragma push_macro("STATUS_DS_CANT_MOD_PRIMARYGROUPID")
+#undef STATUS_DS_CANT_MOD_PRIMARYGROUPID
+    inline constexpr auto STATUS_DS_CANT_MOD_PRIMARYGROUPID = NTSTATUS {
+#pragma pop_macro("STATUS_DS_CANT_MOD_PRIMARYGROUPID")
+        STATUS_DS_CANT_MOD_PRIMARYGROUPID
+    };
+
+#pragma push_macro("STATUS_SYSTEM_IMAGE_BAD_SIGNATURE")
+#undef STATUS_SYSTEM_IMAGE_BAD_SIGNATURE
+    inline constexpr auto STATUS_SYSTEM_IMAGE_BAD_SIGNATURE = NTSTATUS {
+#pragma pop_macro("STATUS_SYSTEM_IMAGE_BAD_SIGNATURE")
+        STATUS_SYSTEM_IMAGE_BAD_SIGNATURE
+    };
+
+#pragma push_macro("STATUS_PNP_REBOOT_REQUIRED")
+#undef STATUS_PNP_REBOOT_REQUIRED
+    inline constexpr auto STATUS_PNP_REBOOT_REQUIRED = NTSTATUS {
+#pragma pop_macro("STATUS_PNP_REBOOT_REQUIRED")
+        STATUS_PNP_REBOOT_REQUIRED
+    };
+
+#pragma push_macro("STATUS_POWER_STATE_INVALID")
+#undef STATUS_POWER_STATE_INVALID
+    inline constexpr auto STATUS_POWER_STATE_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_POWER_STATE_INVALID")
+        STATUS_POWER_STATE_INVALID
+    };
+
+#pragma push_macro("STATUS_DS_INVALID_GROUP_TYPE")
+#undef STATUS_DS_INVALID_GROUP_TYPE
+    inline constexpr auto STATUS_DS_INVALID_GROUP_TYPE = NTSTATUS {
+#pragma pop_macro("STATUS_DS_INVALID_GROUP_TYPE")
+        STATUS_DS_INVALID_GROUP_TYPE
+    };
+
+#pragma push_macro("STATUS_DS_NO_NEST_GLOBALGROUP_IN_MIXEDDOMAIN")
+#undef STATUS_DS_NO_NEST_GLOBALGROUP_IN_MIXEDDOMAIN
+    inline constexpr auto STATUS_DS_NO_NEST_GLOBALGROUP_IN_MIXEDDOMAIN = NTSTATUS {
+#pragma pop_macro("STATUS_DS_NO_NEST_GLOBALGROUP_IN_MIXEDDOMAIN")
+        STATUS_DS_NO_NEST_GLOBALGROUP_IN_MIXEDDOMAIN
+    };
+
+#pragma push_macro("STATUS_DS_NO_NEST_LOCALGROUP_IN_MIXEDDOMAIN")
+#undef STATUS_DS_NO_NEST_LOCALGROUP_IN_MIXEDDOMAIN
+    inline constexpr auto STATUS_DS_NO_NEST_LOCALGROUP_IN_MIXEDDOMAIN = NTSTATUS {
+#pragma pop_macro("STATUS_DS_NO_NEST_LOCALGROUP_IN_MIXEDDOMAIN")
+        STATUS_DS_NO_NEST_LOCALGROUP_IN_MIXEDDOMAIN
+    };
+
+#pragma push_macro("STATUS_DS_GLOBAL_CANT_HAVE_LOCAL_MEMBER")
+#undef STATUS_DS_GLOBAL_CANT_HAVE_LOCAL_MEMBER
+    inline constexpr auto STATUS_DS_GLOBAL_CANT_HAVE_LOCAL_MEMBER = NTSTATUS {
+#pragma pop_macro("STATUS_DS_GLOBAL_CANT_HAVE_LOCAL_MEMBER")
+        STATUS_DS_GLOBAL_CANT_HAVE_LOCAL_MEMBER
+    };
+
+#pragma push_macro("STATUS_DS_GLOBAL_CANT_HAVE_UNIVERSAL_MEMBER")
+#undef STATUS_DS_GLOBAL_CANT_HAVE_UNIVERSAL_MEMBER
+    inline constexpr auto STATUS_DS_GLOBAL_CANT_HAVE_UNIVERSAL_MEMBER = NTSTATUS {
+#pragma pop_macro("STATUS_DS_GLOBAL_CANT_HAVE_UNIVERSAL_MEMBER")
+        STATUS_DS_GLOBAL_CANT_HAVE_UNIVERSAL_MEMBER
+    };
+
+#pragma push_macro("STATUS_DS_UNIVERSAL_CANT_HAVE_LOCAL_MEMBER")
+#undef STATUS_DS_UNIVERSAL_CANT_HAVE_LOCAL_MEMBER
+    inline constexpr auto STATUS_DS_UNIVERSAL_CANT_HAVE_LOCAL_MEMBER = NTSTATUS {
+#pragma pop_macro("STATUS_DS_UNIVERSAL_CANT_HAVE_LOCAL_MEMBER")
+        STATUS_DS_UNIVERSAL_CANT_HAVE_LOCAL_MEMBER
+    };
+
+#pragma push_macro("STATUS_DS_GLOBAL_CANT_HAVE_CROSSDOMAIN_MEMBER")
+#undef STATUS_DS_GLOBAL_CANT_HAVE_CROSSDOMAIN_MEMBER
+    inline constexpr auto STATUS_DS_GLOBAL_CANT_HAVE_CROSSDOMAIN_MEMBER = NTSTATUS {
+#pragma pop_macro("STATUS_DS_GLOBAL_CANT_HAVE_CROSSDOMAIN_MEMBER")
+        STATUS_DS_GLOBAL_CANT_HAVE_CROSSDOMAIN_MEMBER
+    };
+
+#pragma push_macro("STATUS_DS_LOCAL_CANT_HAVE_CROSSDOMAIN_LOCAL_MEMBER")
+#undef STATUS_DS_LOCAL_CANT_HAVE_CROSSDOMAIN_LOCAL_MEMBER
+    inline constexpr auto STATUS_DS_LOCAL_CANT_HAVE_CROSSDOMAIN_LOCAL_MEMBER = NTSTATUS {
+#pragma pop_macro("STATUS_DS_LOCAL_CANT_HAVE_CROSSDOMAIN_LOCAL_MEMBER")
+        STATUS_DS_LOCAL_CANT_HAVE_CROSSDOMAIN_LOCAL_MEMBER
+    };
+
+#pragma push_macro("STATUS_DS_HAVE_PRIMARY_MEMBERS")
+#undef STATUS_DS_HAVE_PRIMARY_MEMBERS
+    inline constexpr auto STATUS_DS_HAVE_PRIMARY_MEMBERS = NTSTATUS {
+#pragma pop_macro("STATUS_DS_HAVE_PRIMARY_MEMBERS")
+        STATUS_DS_HAVE_PRIMARY_MEMBERS
+    };
+
+#pragma push_macro("STATUS_WMI_NOT_SUPPORTED")
+#undef STATUS_WMI_NOT_SUPPORTED
+    inline constexpr auto STATUS_WMI_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_WMI_NOT_SUPPORTED")
+        STATUS_WMI_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_INSUFFICIENT_POWER")
+#undef STATUS_INSUFFICIENT_POWER
+    inline constexpr auto STATUS_INSUFFICIENT_POWER = NTSTATUS {
+#pragma pop_macro("STATUS_INSUFFICIENT_POWER")
+        STATUS_INSUFFICIENT_POWER
+    };
+
+#pragma push_macro("STATUS_SAM_NEED_BOOTKEY_PASSWORD")
+#undef STATUS_SAM_NEED_BOOTKEY_PASSWORD
+    inline constexpr auto STATUS_SAM_NEED_BOOTKEY_PASSWORD = NTSTATUS {
+#pragma pop_macro("STATUS_SAM_NEED_BOOTKEY_PASSWORD")
+        STATUS_SAM_NEED_BOOTKEY_PASSWORD
+    };
+
+#pragma push_macro("STATUS_SAM_NEED_BOOTKEY_FLOPPY")
+#undef STATUS_SAM_NEED_BOOTKEY_FLOPPY
+    inline constexpr auto STATUS_SAM_NEED_BOOTKEY_FLOPPY = NTSTATUS {
+#pragma pop_macro("STATUS_SAM_NEED_BOOTKEY_FLOPPY")
+        STATUS_SAM_NEED_BOOTKEY_FLOPPY
+    };
+
+#pragma push_macro("STATUS_DS_CANT_START")
+#undef STATUS_DS_CANT_START
+    inline constexpr auto STATUS_DS_CANT_START = NTSTATUS {
+#pragma pop_macro("STATUS_DS_CANT_START")
+        STATUS_DS_CANT_START
+    };
+
+#pragma push_macro("STATUS_DS_INIT_FAILURE")
+#undef STATUS_DS_INIT_FAILURE
+    inline constexpr auto STATUS_DS_INIT_FAILURE = NTSTATUS {
+#pragma pop_macro("STATUS_DS_INIT_FAILURE")
+        STATUS_DS_INIT_FAILURE
+    };
+
+#pragma push_macro("STATUS_SAM_INIT_FAILURE")
+#undef STATUS_SAM_INIT_FAILURE
+    inline constexpr auto STATUS_SAM_INIT_FAILURE = NTSTATUS {
+#pragma pop_macro("STATUS_SAM_INIT_FAILURE")
+        STATUS_SAM_INIT_FAILURE
+    };
+
+#pragma push_macro("STATUS_DS_GC_REQUIRED")
+#undef STATUS_DS_GC_REQUIRED
+    inline constexpr auto STATUS_DS_GC_REQUIRED = NTSTATUS {
+#pragma pop_macro("STATUS_DS_GC_REQUIRED")
+        STATUS_DS_GC_REQUIRED
+    };
+
+#pragma push_macro("STATUS_DS_LOCAL_MEMBER_OF_LOCAL_ONLY")
+#undef STATUS_DS_LOCAL_MEMBER_OF_LOCAL_ONLY
+    inline constexpr auto STATUS_DS_LOCAL_MEMBER_OF_LOCAL_ONLY = NTSTATUS {
+#pragma pop_macro("STATUS_DS_LOCAL_MEMBER_OF_LOCAL_ONLY")
+        STATUS_DS_LOCAL_MEMBER_OF_LOCAL_ONLY
+    };
+
+#pragma push_macro("STATUS_DS_NO_FPO_IN_UNIVERSAL_GROUPS")
+#undef STATUS_DS_NO_FPO_IN_UNIVERSAL_GROUPS
+    inline constexpr auto STATUS_DS_NO_FPO_IN_UNIVERSAL_GROUPS = NTSTATUS {
+#pragma pop_macro("STATUS_DS_NO_FPO_IN_UNIVERSAL_GROUPS")
+        STATUS_DS_NO_FPO_IN_UNIVERSAL_GROUPS
+    };
+
+#pragma push_macro("STATUS_DS_MACHINE_ACCOUNT_QUOTA_EXCEEDED")
+#undef STATUS_DS_MACHINE_ACCOUNT_QUOTA_EXCEEDED
+    inline constexpr auto STATUS_DS_MACHINE_ACCOUNT_QUOTA_EXCEEDED = NTSTATUS {
+#pragma pop_macro("STATUS_DS_MACHINE_ACCOUNT_QUOTA_EXCEEDED")
+        STATUS_DS_MACHINE_ACCOUNT_QUOTA_EXCEEDED
+    };
+
+#pragma push_macro("STATUS_CURRENT_DOMAIN_NOT_ALLOWED")
+#undef STATUS_CURRENT_DOMAIN_NOT_ALLOWED
+    inline constexpr auto STATUS_CURRENT_DOMAIN_NOT_ALLOWED = NTSTATUS {
+#pragma pop_macro("STATUS_CURRENT_DOMAIN_NOT_ALLOWED")
+        STATUS_CURRENT_DOMAIN_NOT_ALLOWED
+    };
+
+#pragma push_macro("STATUS_CANNOT_MAKE")
+#undef STATUS_CANNOT_MAKE
+    inline constexpr auto STATUS_CANNOT_MAKE = NTSTATUS {
+#pragma pop_macro("STATUS_CANNOT_MAKE")
+        STATUS_CANNOT_MAKE
+    };
+
+#pragma push_macro("STATUS_SYSTEM_SHUTDOWN")
+#undef STATUS_SYSTEM_SHUTDOWN
+    inline constexpr auto STATUS_SYSTEM_SHUTDOWN = NTSTATUS {
+#pragma pop_macro("STATUS_SYSTEM_SHUTDOWN")
+        STATUS_SYSTEM_SHUTDOWN
+    };
+
+#pragma push_macro("STATUS_DS_INIT_FAILURE_CONSOLE")
+#undef STATUS_DS_INIT_FAILURE_CONSOLE
+    inline constexpr auto STATUS_DS_INIT_FAILURE_CONSOLE = NTSTATUS {
+#pragma pop_macro("STATUS_DS_INIT_FAILURE_CONSOLE")
+        STATUS_DS_INIT_FAILURE_CONSOLE
+    };
+
+#pragma push_macro("STATUS_DS_SAM_INIT_FAILURE_CONSOLE")
+#undef STATUS_DS_SAM_INIT_FAILURE_CONSOLE
+    inline constexpr auto STATUS_DS_SAM_INIT_FAILURE_CONSOLE = NTSTATUS {
+#pragma pop_macro("STATUS_DS_SAM_INIT_FAILURE_CONSOLE")
+        STATUS_DS_SAM_INIT_FAILURE_CONSOLE
+    };
+
+#pragma push_macro("STATUS_UNFINISHED_CONTEXT_DELETED")
+#undef STATUS_UNFINISHED_CONTEXT_DELETED
+    inline constexpr auto STATUS_UNFINISHED_CONTEXT_DELETED = NTSTATUS {
+#pragma pop_macro("STATUS_UNFINISHED_CONTEXT_DELETED")
+        STATUS_UNFINISHED_CONTEXT_DELETED
+    };
+
+#pragma push_macro("STATUS_NO_TGT_REPLY")
+#undef STATUS_NO_TGT_REPLY
+    inline constexpr auto STATUS_NO_TGT_REPLY = NTSTATUS {
+#pragma pop_macro("STATUS_NO_TGT_REPLY")
+        STATUS_NO_TGT_REPLY
+    };
+
+#pragma push_macro("STATUS_OBJECTID_NOT_FOUND")
+#undef STATUS_OBJECTID_NOT_FOUND
+    inline constexpr auto STATUS_OBJECTID_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_OBJECTID_NOT_FOUND")
+        STATUS_OBJECTID_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_NO_IP_ADDRESSES")
+#undef STATUS_NO_IP_ADDRESSES
+    inline constexpr auto STATUS_NO_IP_ADDRESSES = NTSTATUS {
+#pragma pop_macro("STATUS_NO_IP_ADDRESSES")
+        STATUS_NO_IP_ADDRESSES
+    };
+
+#pragma push_macro("STATUS_WRONG_CREDENTIAL_HANDLE")
+#undef STATUS_WRONG_CREDENTIAL_HANDLE
+    inline constexpr auto STATUS_WRONG_CREDENTIAL_HANDLE = NTSTATUS {
+#pragma pop_macro("STATUS_WRONG_CREDENTIAL_HANDLE")
+        STATUS_WRONG_CREDENTIAL_HANDLE
+    };
+
+#pragma push_macro("STATUS_CRYPTO_SYSTEM_INVALID")
+#undef STATUS_CRYPTO_SYSTEM_INVALID
+    inline constexpr auto STATUS_CRYPTO_SYSTEM_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_CRYPTO_SYSTEM_INVALID")
+        STATUS_CRYPTO_SYSTEM_INVALID
+    };
+
+#pragma push_macro("STATUS_MAX_REFERRALS_EXCEEDED")
+#undef STATUS_MAX_REFERRALS_EXCEEDED
+    inline constexpr auto STATUS_MAX_REFERRALS_EXCEEDED = NTSTATUS {
+#pragma pop_macro("STATUS_MAX_REFERRALS_EXCEEDED")
+        STATUS_MAX_REFERRALS_EXCEEDED
+    };
+
+#pragma push_macro("STATUS_MUST_BE_KDC")
+#undef STATUS_MUST_BE_KDC
+    inline constexpr auto STATUS_MUST_BE_KDC = NTSTATUS {
+#pragma pop_macro("STATUS_MUST_BE_KDC")
+        STATUS_MUST_BE_KDC
+    };
+
+#pragma push_macro("STATUS_STRONG_CRYPTO_NOT_SUPPORTED")
+#undef STATUS_STRONG_CRYPTO_NOT_SUPPORTED
+    inline constexpr auto STATUS_STRONG_CRYPTO_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_STRONG_CRYPTO_NOT_SUPPORTED")
+        STATUS_STRONG_CRYPTO_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_TOO_MANY_PRINCIPALS")
+#undef STATUS_TOO_MANY_PRINCIPALS
+    inline constexpr auto STATUS_TOO_MANY_PRINCIPALS = NTSTATUS {
+#pragma pop_macro("STATUS_TOO_MANY_PRINCIPALS")
+        STATUS_TOO_MANY_PRINCIPALS
+    };
+
+#pragma push_macro("STATUS_NO_PA_DATA")
+#undef STATUS_NO_PA_DATA
+    inline constexpr auto STATUS_NO_PA_DATA = NTSTATUS {
+#pragma pop_macro("STATUS_NO_PA_DATA")
+        STATUS_NO_PA_DATA
+    };
+
+#pragma push_macro("STATUS_PKINIT_NAME_MISMATCH")
+#undef STATUS_PKINIT_NAME_MISMATCH
+    inline constexpr auto STATUS_PKINIT_NAME_MISMATCH = NTSTATUS {
+#pragma pop_macro("STATUS_PKINIT_NAME_MISMATCH")
+        STATUS_PKINIT_NAME_MISMATCH
+    };
+
+#pragma push_macro("STATUS_SMARTCARD_LOGON_REQUIRED")
+#undef STATUS_SMARTCARD_LOGON_REQUIRED
+    inline constexpr auto STATUS_SMARTCARD_LOGON_REQUIRED = NTSTATUS {
+#pragma pop_macro("STATUS_SMARTCARD_LOGON_REQUIRED")
+        STATUS_SMARTCARD_LOGON_REQUIRED
+    };
+
+#pragma push_macro("STATUS_KDC_INVALID_REQUEST")
+#undef STATUS_KDC_INVALID_REQUEST
+    inline constexpr auto STATUS_KDC_INVALID_REQUEST = NTSTATUS {
+#pragma pop_macro("STATUS_KDC_INVALID_REQUEST")
+        STATUS_KDC_INVALID_REQUEST
+    };
+
+#pragma push_macro("STATUS_KDC_UNABLE_TO_REFER")
+#undef STATUS_KDC_UNABLE_TO_REFER
+    inline constexpr auto STATUS_KDC_UNABLE_TO_REFER = NTSTATUS {
+#pragma pop_macro("STATUS_KDC_UNABLE_TO_REFER")
+        STATUS_KDC_UNABLE_TO_REFER
+    };
+
+#pragma push_macro("STATUS_KDC_UNKNOWN_ETYPE")
+#undef STATUS_KDC_UNKNOWN_ETYPE
+    inline constexpr auto STATUS_KDC_UNKNOWN_ETYPE = NTSTATUS {
+#pragma pop_macro("STATUS_KDC_UNKNOWN_ETYPE")
+        STATUS_KDC_UNKNOWN_ETYPE
+    };
+
+#pragma push_macro("STATUS_SHUTDOWN_IN_PROGRESS")
+#undef STATUS_SHUTDOWN_IN_PROGRESS
+    inline constexpr auto STATUS_SHUTDOWN_IN_PROGRESS = NTSTATUS {
+#pragma pop_macro("STATUS_SHUTDOWN_IN_PROGRESS")
+        STATUS_SHUTDOWN_IN_PROGRESS
+    };
+
+#pragma push_macro("STATUS_SERVER_SHUTDOWN_IN_PROGRESS")
+#undef STATUS_SERVER_SHUTDOWN_IN_PROGRESS
+    inline constexpr auto STATUS_SERVER_SHUTDOWN_IN_PROGRESS = NTSTATUS {
+#pragma pop_macro("STATUS_SERVER_SHUTDOWN_IN_PROGRESS")
+        STATUS_SERVER_SHUTDOWN_IN_PROGRESS
+    };
+
+#pragma push_macro("STATUS_NOT_SUPPORTED_ON_SBS")
+#undef STATUS_NOT_SUPPORTED_ON_SBS
+    inline constexpr auto STATUS_NOT_SUPPORTED_ON_SBS = NTSTATUS {
+#pragma pop_macro("STATUS_NOT_SUPPORTED_ON_SBS")
+        STATUS_NOT_SUPPORTED_ON_SBS
+    };
+
+#pragma push_macro("STATUS_WMI_GUID_DISCONNECTED")
+#undef STATUS_WMI_GUID_DISCONNECTED
+    inline constexpr auto STATUS_WMI_GUID_DISCONNECTED = NTSTATUS {
+#pragma pop_macro("STATUS_WMI_GUID_DISCONNECTED")
+        STATUS_WMI_GUID_DISCONNECTED
+    };
+
+#pragma push_macro("STATUS_WMI_ALREADY_DISABLED")
+#undef STATUS_WMI_ALREADY_DISABLED
+    inline constexpr auto STATUS_WMI_ALREADY_DISABLED = NTSTATUS {
+#pragma pop_macro("STATUS_WMI_ALREADY_DISABLED")
+        STATUS_WMI_ALREADY_DISABLED
+    };
+
+#pragma push_macro("STATUS_WMI_ALREADY_ENABLED")
+#undef STATUS_WMI_ALREADY_ENABLED
+    inline constexpr auto STATUS_WMI_ALREADY_ENABLED = NTSTATUS {
+#pragma pop_macro("STATUS_WMI_ALREADY_ENABLED")
+        STATUS_WMI_ALREADY_ENABLED
+    };
+
+#pragma push_macro("STATUS_MFT_TOO_FRAGMENTED")
+#undef STATUS_MFT_TOO_FRAGMENTED
+    inline constexpr auto STATUS_MFT_TOO_FRAGMENTED = NTSTATUS {
+#pragma pop_macro("STATUS_MFT_TOO_FRAGMENTED")
+        STATUS_MFT_TOO_FRAGMENTED
+    };
+
+#pragma push_macro("STATUS_COPY_PROTECTION_FAILURE")
+#undef STATUS_COPY_PROTECTION_FAILURE
+    inline constexpr auto STATUS_COPY_PROTECTION_FAILURE = NTSTATUS {
+#pragma pop_macro("STATUS_COPY_PROTECTION_FAILURE")
+        STATUS_COPY_PROTECTION_FAILURE
+    };
+
+#pragma push_macro("STATUS_CSS_AUTHENTICATION_FAILURE")
+#undef STATUS_CSS_AUTHENTICATION_FAILURE
+    inline constexpr auto STATUS_CSS_AUTHENTICATION_FAILURE = NTSTATUS {
+#pragma pop_macro("STATUS_CSS_AUTHENTICATION_FAILURE")
+        STATUS_CSS_AUTHENTICATION_FAILURE
+    };
+
+#pragma push_macro("STATUS_CSS_KEY_NOT_PRESENT")
+#undef STATUS_CSS_KEY_NOT_PRESENT
+    inline constexpr auto STATUS_CSS_KEY_NOT_PRESENT = NTSTATUS {
+#pragma pop_macro("STATUS_CSS_KEY_NOT_PRESENT")
+        STATUS_CSS_KEY_NOT_PRESENT
+    };
+
+#pragma push_macro("STATUS_CSS_KEY_NOT_ESTABLISHED")
+#undef STATUS_CSS_KEY_NOT_ESTABLISHED
+    inline constexpr auto STATUS_CSS_KEY_NOT_ESTABLISHED = NTSTATUS {
+#pragma pop_macro("STATUS_CSS_KEY_NOT_ESTABLISHED")
+        STATUS_CSS_KEY_NOT_ESTABLISHED
+    };
+
+#pragma push_macro("STATUS_CSS_SCRAMBLED_SECTOR")
+#undef STATUS_CSS_SCRAMBLED_SECTOR
+    inline constexpr auto STATUS_CSS_SCRAMBLED_SECTOR = NTSTATUS {
+#pragma pop_macro("STATUS_CSS_SCRAMBLED_SECTOR")
+        STATUS_CSS_SCRAMBLED_SECTOR
+    };
+
+#pragma push_macro("STATUS_CSS_REGION_MISMATCH")
+#undef STATUS_CSS_REGION_MISMATCH
+    inline constexpr auto STATUS_CSS_REGION_MISMATCH = NTSTATUS {
+#pragma pop_macro("STATUS_CSS_REGION_MISMATCH")
+        STATUS_CSS_REGION_MISMATCH
+    };
+
+#pragma push_macro("STATUS_CSS_RESETS_EXHAUSTED")
+#undef STATUS_CSS_RESETS_EXHAUSTED
+    inline constexpr auto STATUS_CSS_RESETS_EXHAUSTED = NTSTATUS {
+#pragma pop_macro("STATUS_CSS_RESETS_EXHAUSTED")
+        STATUS_CSS_RESETS_EXHAUSTED
+    };
+
+#pragma push_macro("STATUS_PKINIT_FAILURE")
+#undef STATUS_PKINIT_FAILURE
+    inline constexpr auto STATUS_PKINIT_FAILURE = NTSTATUS {
+#pragma pop_macro("STATUS_PKINIT_FAILURE")
+        STATUS_PKINIT_FAILURE
+    };
+
+#pragma push_macro("STATUS_SMARTCARD_SUBSYSTEM_FAILURE")
+#undef STATUS_SMARTCARD_SUBSYSTEM_FAILURE
+    inline constexpr auto STATUS_SMARTCARD_SUBSYSTEM_FAILURE = NTSTATUS {
+#pragma pop_macro("STATUS_SMARTCARD_SUBSYSTEM_FAILURE")
+        STATUS_SMARTCARD_SUBSYSTEM_FAILURE
+    };
+
+#pragma push_macro("STATUS_NO_KERB_KEY")
+#undef STATUS_NO_KERB_KEY
+    inline constexpr auto STATUS_NO_KERB_KEY = NTSTATUS {
+#pragma pop_macro("STATUS_NO_KERB_KEY")
+        STATUS_NO_KERB_KEY
+    };
+
+#pragma push_macro("STATUS_HOST_DOWN")
+#undef STATUS_HOST_DOWN
+    inline constexpr auto STATUS_HOST_DOWN = NTSTATUS {
+#pragma pop_macro("STATUS_HOST_DOWN")
+        STATUS_HOST_DOWN
+    };
+
+#pragma push_macro("STATUS_UNSUPPORTED_PREAUTH")
+#undef STATUS_UNSUPPORTED_PREAUTH
+    inline constexpr auto STATUS_UNSUPPORTED_PREAUTH = NTSTATUS {
+#pragma pop_macro("STATUS_UNSUPPORTED_PREAUTH")
+        STATUS_UNSUPPORTED_PREAUTH
+    };
+
+#pragma push_macro("STATUS_EFS_ALG_BLOB_TOO_BIG")
+#undef STATUS_EFS_ALG_BLOB_TOO_BIG
+    inline constexpr auto STATUS_EFS_ALG_BLOB_TOO_BIG = NTSTATUS {
+#pragma pop_macro("STATUS_EFS_ALG_BLOB_TOO_BIG")
+        STATUS_EFS_ALG_BLOB_TOO_BIG
+    };
+
+#pragma push_macro("STATUS_PORT_NOT_SET")
+#undef STATUS_PORT_NOT_SET
+    inline constexpr auto STATUS_PORT_NOT_SET = NTSTATUS {
+#pragma pop_macro("STATUS_PORT_NOT_SET")
+        STATUS_PORT_NOT_SET
+    };
+
+#pragma push_macro("STATUS_DEBUGGER_INACTIVE")
+#undef STATUS_DEBUGGER_INACTIVE
+    inline constexpr auto STATUS_DEBUGGER_INACTIVE = NTSTATUS {
+#pragma pop_macro("STATUS_DEBUGGER_INACTIVE")
+        STATUS_DEBUGGER_INACTIVE
+    };
+
+#pragma push_macro("STATUS_DS_VERSION_CHECK_FAILURE")
+#undef STATUS_DS_VERSION_CHECK_FAILURE
+    inline constexpr auto STATUS_DS_VERSION_CHECK_FAILURE = NTSTATUS {
+#pragma pop_macro("STATUS_DS_VERSION_CHECK_FAILURE")
+        STATUS_DS_VERSION_CHECK_FAILURE
+    };
+
+#pragma push_macro("STATUS_AUDITING_DISABLED")
+#undef STATUS_AUDITING_DISABLED
+    inline constexpr auto STATUS_AUDITING_DISABLED = NTSTATUS {
+#pragma pop_macro("STATUS_AUDITING_DISABLED")
+        STATUS_AUDITING_DISABLED
+    };
+
+#pragma push_macro("STATUS_PRENT4_MACHINE_ACCOUNT")
+#undef STATUS_PRENT4_MACHINE_ACCOUNT
+    inline constexpr auto STATUS_PRENT4_MACHINE_ACCOUNT = NTSTATUS {
+#pragma pop_macro("STATUS_PRENT4_MACHINE_ACCOUNT")
+        STATUS_PRENT4_MACHINE_ACCOUNT
+    };
+
+#pragma push_macro("STATUS_DS_AG_CANT_HAVE_UNIVERSAL_MEMBER")
+#undef STATUS_DS_AG_CANT_HAVE_UNIVERSAL_MEMBER
+    inline constexpr auto STATUS_DS_AG_CANT_HAVE_UNIVERSAL_MEMBER = NTSTATUS {
+#pragma pop_macro("STATUS_DS_AG_CANT_HAVE_UNIVERSAL_MEMBER")
+        STATUS_DS_AG_CANT_HAVE_UNIVERSAL_MEMBER
+    };
+
+#pragma push_macro("STATUS_INVALID_IMAGE_WIN_32")
+#undef STATUS_INVALID_IMAGE_WIN_32
+    inline constexpr auto STATUS_INVALID_IMAGE_WIN_32 = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_IMAGE_WIN_32")
+        STATUS_INVALID_IMAGE_WIN_32
+    };
+
+#pragma push_macro("STATUS_INVALID_IMAGE_WIN_64")
+#undef STATUS_INVALID_IMAGE_WIN_64
+    inline constexpr auto STATUS_INVALID_IMAGE_WIN_64 = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_IMAGE_WIN_64")
+        STATUS_INVALID_IMAGE_WIN_64
+    };
+
+#pragma push_macro("STATUS_BAD_BINDINGS")
+#undef STATUS_BAD_BINDINGS
+    inline constexpr auto STATUS_BAD_BINDINGS = NTSTATUS {
+#pragma pop_macro("STATUS_BAD_BINDINGS")
+        STATUS_BAD_BINDINGS
+    };
+
+#pragma push_macro("STATUS_NETWORK_SESSION_EXPIRED")
+#undef STATUS_NETWORK_SESSION_EXPIRED
+    inline constexpr auto STATUS_NETWORK_SESSION_EXPIRED = NTSTATUS {
+#pragma pop_macro("STATUS_NETWORK_SESSION_EXPIRED")
+        STATUS_NETWORK_SESSION_EXPIRED
+    };
+
+#pragma push_macro("STATUS_APPHELP_BLOCK")
+#undef STATUS_APPHELP_BLOCK
+    inline constexpr auto STATUS_APPHELP_BLOCK = NTSTATUS {
+#pragma pop_macro("STATUS_APPHELP_BLOCK")
+        STATUS_APPHELP_BLOCK
+    };
+
+#pragma push_macro("STATUS_ALL_SIDS_FILTERED")
+#undef STATUS_ALL_SIDS_FILTERED
+    inline constexpr auto STATUS_ALL_SIDS_FILTERED = NTSTATUS {
+#pragma pop_macro("STATUS_ALL_SIDS_FILTERED")
+        STATUS_ALL_SIDS_FILTERED
+    };
+
+#pragma push_macro("STATUS_NOT_SAFE_MODE_DRIVER")
+#undef STATUS_NOT_SAFE_MODE_DRIVER
+    inline constexpr auto STATUS_NOT_SAFE_MODE_DRIVER = NTSTATUS {
+#pragma pop_macro("STATUS_NOT_SAFE_MODE_DRIVER")
+        STATUS_NOT_SAFE_MODE_DRIVER
+    };
+
+#pragma push_macro("STATUS_ACCESS_DISABLED_BY_POLICY_DEFAULT")
+#undef STATUS_ACCESS_DISABLED_BY_POLICY_DEFAULT
+    inline constexpr auto STATUS_ACCESS_DISABLED_BY_POLICY_DEFAULT = NTSTATUS {
+#pragma pop_macro("STATUS_ACCESS_DISABLED_BY_POLICY_DEFAULT")
+        STATUS_ACCESS_DISABLED_BY_POLICY_DEFAULT
+    };
+
+#pragma push_macro("STATUS_ACCESS_DISABLED_BY_POLICY_PATH")
+#undef STATUS_ACCESS_DISABLED_BY_POLICY_PATH
+    inline constexpr auto STATUS_ACCESS_DISABLED_BY_POLICY_PATH = NTSTATUS {
+#pragma pop_macro("STATUS_ACCESS_DISABLED_BY_POLICY_PATH")
+        STATUS_ACCESS_DISABLED_BY_POLICY_PATH
+    };
+
+#pragma push_macro("STATUS_ACCESS_DISABLED_BY_POLICY_PUBLISHER")
+#undef STATUS_ACCESS_DISABLED_BY_POLICY_PUBLISHER
+    inline constexpr auto STATUS_ACCESS_DISABLED_BY_POLICY_PUBLISHER = NTSTATUS {
+#pragma pop_macro("STATUS_ACCESS_DISABLED_BY_POLICY_PUBLISHER")
+        STATUS_ACCESS_DISABLED_BY_POLICY_PUBLISHER
+    };
+
+#pragma push_macro("STATUS_ACCESS_DISABLED_BY_POLICY_OTHER")
+#undef STATUS_ACCESS_DISABLED_BY_POLICY_OTHER
+    inline constexpr auto STATUS_ACCESS_DISABLED_BY_POLICY_OTHER = NTSTATUS {
+#pragma pop_macro("STATUS_ACCESS_DISABLED_BY_POLICY_OTHER")
+        STATUS_ACCESS_DISABLED_BY_POLICY_OTHER
+    };
+
+#pragma push_macro("STATUS_FAILED_DRIVER_ENTRY")
+#undef STATUS_FAILED_DRIVER_ENTRY
+    inline constexpr auto STATUS_FAILED_DRIVER_ENTRY = NTSTATUS {
+#pragma pop_macro("STATUS_FAILED_DRIVER_ENTRY")
+        STATUS_FAILED_DRIVER_ENTRY
+    };
+
+#pragma push_macro("STATUS_DEVICE_ENUMERATION_ERROR")
+#undef STATUS_DEVICE_ENUMERATION_ERROR
+    inline constexpr auto STATUS_DEVICE_ENUMERATION_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_DEVICE_ENUMERATION_ERROR")
+        STATUS_DEVICE_ENUMERATION_ERROR
+    };
+
+#pragma push_macro("STATUS_MOUNT_POINT_NOT_RESOLVED")
+#undef STATUS_MOUNT_POINT_NOT_RESOLVED
+    inline constexpr auto STATUS_MOUNT_POINT_NOT_RESOLVED = NTSTATUS {
+#pragma pop_macro("STATUS_MOUNT_POINT_NOT_RESOLVED")
+        STATUS_MOUNT_POINT_NOT_RESOLVED
+    };
+
+#pragma push_macro("STATUS_INVALID_DEVICE_OBJECT_PARAMETER")
+#undef STATUS_INVALID_DEVICE_OBJECT_PARAMETER
+    inline constexpr auto STATUS_INVALID_DEVICE_OBJECT_PARAMETER = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_DEVICE_OBJECT_PARAMETER")
+        STATUS_INVALID_DEVICE_OBJECT_PARAMETER
+    };
+
+#pragma push_macro("STATUS_MCA_OCCURED")
+#undef STATUS_MCA_OCCURED
+    inline constexpr auto STATUS_MCA_OCCURED = NTSTATUS {
+#pragma pop_macro("STATUS_MCA_OCCURED")
+        STATUS_MCA_OCCURED
+    };
+
+#pragma push_macro("STATUS_DRIVER_BLOCKED_CRITICAL")
+#undef STATUS_DRIVER_BLOCKED_CRITICAL
+    inline constexpr auto STATUS_DRIVER_BLOCKED_CRITICAL = NTSTATUS {
+#pragma pop_macro("STATUS_DRIVER_BLOCKED_CRITICAL")
+        STATUS_DRIVER_BLOCKED_CRITICAL
+    };
+
+#pragma push_macro("STATUS_DRIVER_BLOCKED")
+#undef STATUS_DRIVER_BLOCKED
+    inline constexpr auto STATUS_DRIVER_BLOCKED = NTSTATUS {
+#pragma pop_macro("STATUS_DRIVER_BLOCKED")
+        STATUS_DRIVER_BLOCKED
+    };
+
+#pragma push_macro("STATUS_DRIVER_DATABASE_ERROR")
+#undef STATUS_DRIVER_DATABASE_ERROR
+    inline constexpr auto STATUS_DRIVER_DATABASE_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_DRIVER_DATABASE_ERROR")
+        STATUS_DRIVER_DATABASE_ERROR
+    };
+
+#pragma push_macro("STATUS_SYSTEM_HIVE_TOO_LARGE")
+#undef STATUS_SYSTEM_HIVE_TOO_LARGE
+    inline constexpr auto STATUS_SYSTEM_HIVE_TOO_LARGE = NTSTATUS {
+#pragma pop_macro("STATUS_SYSTEM_HIVE_TOO_LARGE")
+        STATUS_SYSTEM_HIVE_TOO_LARGE
+    };
+
+#pragma push_macro("STATUS_INVALID_IMPORT_OF_NON_DLL")
+#undef STATUS_INVALID_IMPORT_OF_NON_DLL
+    inline constexpr auto STATUS_INVALID_IMPORT_OF_NON_DLL = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_IMPORT_OF_NON_DLL")
+        STATUS_INVALID_IMPORT_OF_NON_DLL
+    };
+
+#pragma push_macro("STATUS_NO_SECRETS")
+#undef STATUS_NO_SECRETS
+    inline constexpr auto STATUS_NO_SECRETS = NTSTATUS {
+#pragma pop_macro("STATUS_NO_SECRETS")
+        STATUS_NO_SECRETS
+    };
+
+#pragma push_macro("STATUS_ACCESS_DISABLED_NO_SAFER_UI_BY_POLICY")
+#undef STATUS_ACCESS_DISABLED_NO_SAFER_UI_BY_POLICY
+    inline constexpr auto STATUS_ACCESS_DISABLED_NO_SAFER_UI_BY_POLICY = NTSTATUS {
+#pragma pop_macro("STATUS_ACCESS_DISABLED_NO_SAFER_UI_BY_POLICY")
+        STATUS_ACCESS_DISABLED_NO_SAFER_UI_BY_POLICY
+    };
+
+#pragma push_macro("STATUS_FAILED_STACK_SWITCH")
+#undef STATUS_FAILED_STACK_SWITCH
+    inline constexpr auto STATUS_FAILED_STACK_SWITCH = NTSTATUS {
+#pragma pop_macro("STATUS_FAILED_STACK_SWITCH")
+        STATUS_FAILED_STACK_SWITCH
+    };
+
+#pragma push_macro("STATUS_HEAP_CORRUPTION")
+#undef STATUS_HEAP_CORRUPTION
+    inline constexpr auto STATUS_HEAP_CORRUPTION = NTSTATUS {
+#pragma pop_macro("STATUS_HEAP_CORRUPTION")
+        STATUS_HEAP_CORRUPTION
+    };
+
+#pragma push_macro("STATUS_SMARTCARD_WRONG_PIN")
+#undef STATUS_SMARTCARD_WRONG_PIN
+    inline constexpr auto STATUS_SMARTCARD_WRONG_PIN = NTSTATUS {
+#pragma pop_macro("STATUS_SMARTCARD_WRONG_PIN")
+        STATUS_SMARTCARD_WRONG_PIN
+    };
+
+#pragma push_macro("STATUS_SMARTCARD_CARD_BLOCKED")
+#undef STATUS_SMARTCARD_CARD_BLOCKED
+    inline constexpr auto STATUS_SMARTCARD_CARD_BLOCKED = NTSTATUS {
+#pragma pop_macro("STATUS_SMARTCARD_CARD_BLOCKED")
+        STATUS_SMARTCARD_CARD_BLOCKED
+    };
+
+#pragma push_macro("STATUS_SMARTCARD_CARD_NOT_AUTHENTICATED")
+#undef STATUS_SMARTCARD_CARD_NOT_AUTHENTICATED
+    inline constexpr auto STATUS_SMARTCARD_CARD_NOT_AUTHENTICATED = NTSTATUS {
+#pragma pop_macro("STATUS_SMARTCARD_CARD_NOT_AUTHENTICATED")
+        STATUS_SMARTCARD_CARD_NOT_AUTHENTICATED
+    };
+
+#pragma push_macro("STATUS_SMARTCARD_NO_CARD")
+#undef STATUS_SMARTCARD_NO_CARD
+    inline constexpr auto STATUS_SMARTCARD_NO_CARD = NTSTATUS {
+#pragma pop_macro("STATUS_SMARTCARD_NO_CARD")
+        STATUS_SMARTCARD_NO_CARD
+    };
+
+#pragma push_macro("STATUS_SMARTCARD_NO_KEY_CONTAINER")
+#undef STATUS_SMARTCARD_NO_KEY_CONTAINER
+    inline constexpr auto STATUS_SMARTCARD_NO_KEY_CONTAINER = NTSTATUS {
+#pragma pop_macro("STATUS_SMARTCARD_NO_KEY_CONTAINER")
+        STATUS_SMARTCARD_NO_KEY_CONTAINER
+    };
+
+#pragma push_macro("STATUS_SMARTCARD_NO_CERTIFICATE")
+#undef STATUS_SMARTCARD_NO_CERTIFICATE
+    inline constexpr auto STATUS_SMARTCARD_NO_CERTIFICATE = NTSTATUS {
+#pragma pop_macro("STATUS_SMARTCARD_NO_CERTIFICATE")
+        STATUS_SMARTCARD_NO_CERTIFICATE
+    };
+
+#pragma push_macro("STATUS_SMARTCARD_NO_KEYSET")
+#undef STATUS_SMARTCARD_NO_KEYSET
+    inline constexpr auto STATUS_SMARTCARD_NO_KEYSET = NTSTATUS {
+#pragma pop_macro("STATUS_SMARTCARD_NO_KEYSET")
+        STATUS_SMARTCARD_NO_KEYSET
+    };
+
+#pragma push_macro("STATUS_SMARTCARD_IO_ERROR")
+#undef STATUS_SMARTCARD_IO_ERROR
+    inline constexpr auto STATUS_SMARTCARD_IO_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_SMARTCARD_IO_ERROR")
+        STATUS_SMARTCARD_IO_ERROR
+    };
+
+#pragma push_macro("STATUS_DOWNGRADE_DETECTED")
+#undef STATUS_DOWNGRADE_DETECTED
+    inline constexpr auto STATUS_DOWNGRADE_DETECTED = NTSTATUS {
+#pragma pop_macro("STATUS_DOWNGRADE_DETECTED")
+        STATUS_DOWNGRADE_DETECTED
+    };
+
+#pragma push_macro("STATUS_SMARTCARD_CERT_REVOKED")
+#undef STATUS_SMARTCARD_CERT_REVOKED
+    inline constexpr auto STATUS_SMARTCARD_CERT_REVOKED = NTSTATUS {
+#pragma pop_macro("STATUS_SMARTCARD_CERT_REVOKED")
+        STATUS_SMARTCARD_CERT_REVOKED
+    };
+
+#pragma push_macro("STATUS_ISSUING_CA_UNTRUSTED")
+#undef STATUS_ISSUING_CA_UNTRUSTED
+    inline constexpr auto STATUS_ISSUING_CA_UNTRUSTED = NTSTATUS {
+#pragma pop_macro("STATUS_ISSUING_CA_UNTRUSTED")
+        STATUS_ISSUING_CA_UNTRUSTED
+    };
+
+#pragma push_macro("STATUS_REVOCATION_OFFLINE_C")
+#undef STATUS_REVOCATION_OFFLINE_C
+    inline constexpr auto STATUS_REVOCATION_OFFLINE_C = NTSTATUS {
+#pragma pop_macro("STATUS_REVOCATION_OFFLINE_C")
+        STATUS_REVOCATION_OFFLINE_C
+    };
+
+#pragma push_macro("STATUS_PKINIT_CLIENT_FAILURE")
+#undef STATUS_PKINIT_CLIENT_FAILURE
+    inline constexpr auto STATUS_PKINIT_CLIENT_FAILURE = NTSTATUS {
+#pragma pop_macro("STATUS_PKINIT_CLIENT_FAILURE")
+        STATUS_PKINIT_CLIENT_FAILURE
+    };
+
+#pragma push_macro("STATUS_SMARTCARD_CERT_EXPIRED")
+#undef STATUS_SMARTCARD_CERT_EXPIRED
+    inline constexpr auto STATUS_SMARTCARD_CERT_EXPIRED = NTSTATUS {
+#pragma pop_macro("STATUS_SMARTCARD_CERT_EXPIRED")
+        STATUS_SMARTCARD_CERT_EXPIRED
+    };
+
+#pragma push_macro("STATUS_DRIVER_FAILED_PRIOR_UNLOAD")
+#undef STATUS_DRIVER_FAILED_PRIOR_UNLOAD
+    inline constexpr auto STATUS_DRIVER_FAILED_PRIOR_UNLOAD = NTSTATUS {
+#pragma pop_macro("STATUS_DRIVER_FAILED_PRIOR_UNLOAD")
+        STATUS_DRIVER_FAILED_PRIOR_UNLOAD
+    };
+
+#pragma push_macro("STATUS_SMARTCARD_SILENT_CONTEXT")
+#undef STATUS_SMARTCARD_SILENT_CONTEXT
+    inline constexpr auto STATUS_SMARTCARD_SILENT_CONTEXT = NTSTATUS {
+#pragma pop_macro("STATUS_SMARTCARD_SILENT_CONTEXT")
+        STATUS_SMARTCARD_SILENT_CONTEXT
+    };
+
+#pragma push_macro("STATUS_PER_USER_TRUST_QUOTA_EXCEEDED")
+#undef STATUS_PER_USER_TRUST_QUOTA_EXCEEDED
+    inline constexpr auto STATUS_PER_USER_TRUST_QUOTA_EXCEEDED = NTSTATUS {
+#pragma pop_macro("STATUS_PER_USER_TRUST_QUOTA_EXCEEDED")
+        STATUS_PER_USER_TRUST_QUOTA_EXCEEDED
+    };
+
+#pragma push_macro("STATUS_ALL_USER_TRUST_QUOTA_EXCEEDED")
+#undef STATUS_ALL_USER_TRUST_QUOTA_EXCEEDED
+    inline constexpr auto STATUS_ALL_USER_TRUST_QUOTA_EXCEEDED = NTSTATUS {
+#pragma pop_macro("STATUS_ALL_USER_TRUST_QUOTA_EXCEEDED")
+        STATUS_ALL_USER_TRUST_QUOTA_EXCEEDED
+    };
+
+#pragma push_macro("STATUS_USER_DELETE_TRUST_QUOTA_EXCEEDED")
+#undef STATUS_USER_DELETE_TRUST_QUOTA_EXCEEDED
+    inline constexpr auto STATUS_USER_DELETE_TRUST_QUOTA_EXCEEDED = NTSTATUS {
+#pragma pop_macro("STATUS_USER_DELETE_TRUST_QUOTA_EXCEEDED")
+        STATUS_USER_DELETE_TRUST_QUOTA_EXCEEDED
+    };
+
+#pragma push_macro("STATUS_DS_NAME_NOT_UNIQUE")
+#undef STATUS_DS_NAME_NOT_UNIQUE
+    inline constexpr auto STATUS_DS_NAME_NOT_UNIQUE = NTSTATUS {
+#pragma pop_macro("STATUS_DS_NAME_NOT_UNIQUE")
+        STATUS_DS_NAME_NOT_UNIQUE
+    };
+
+#pragma push_macro("STATUS_DS_DUPLICATE_ID_FOUND")
+#undef STATUS_DS_DUPLICATE_ID_FOUND
+    inline constexpr auto STATUS_DS_DUPLICATE_ID_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_DS_DUPLICATE_ID_FOUND")
+        STATUS_DS_DUPLICATE_ID_FOUND
+    };
+
+#pragma push_macro("STATUS_DS_GROUP_CONVERSION_ERROR")
+#undef STATUS_DS_GROUP_CONVERSION_ERROR
+    inline constexpr auto STATUS_DS_GROUP_CONVERSION_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_DS_GROUP_CONVERSION_ERROR")
+        STATUS_DS_GROUP_CONVERSION_ERROR
+    };
+
+#pragma push_macro("STATUS_VOLSNAP_PREPARE_HIBERNATE")
+#undef STATUS_VOLSNAP_PREPARE_HIBERNATE
+    inline constexpr auto STATUS_VOLSNAP_PREPARE_HIBERNATE = NTSTATUS {
+#pragma pop_macro("STATUS_VOLSNAP_PREPARE_HIBERNATE")
+        STATUS_VOLSNAP_PREPARE_HIBERNATE
+    };
+
+#pragma push_macro("STATUS_USER2USER_REQUIRED")
+#undef STATUS_USER2USER_REQUIRED
+    inline constexpr auto STATUS_USER2USER_REQUIRED = NTSTATUS {
+#pragma pop_macro("STATUS_USER2USER_REQUIRED")
+        STATUS_USER2USER_REQUIRED
+    };
+
+#pragma push_macro("STATUS_STACK_BUFFER_OVERRUN")
+#undef STATUS_STACK_BUFFER_OVERRUN
+    inline constexpr auto STATUS_STACK_BUFFER_OVERRUN = NTSTATUS {
+#pragma pop_macro("STATUS_STACK_BUFFER_OVERRUN")
+        STATUS_STACK_BUFFER_OVERRUN
+    };
+
+#pragma push_macro("STATUS_NO_S4U_PROT_SUPPORT")
+#undef STATUS_NO_S4U_PROT_SUPPORT
+    inline constexpr auto STATUS_NO_S4U_PROT_SUPPORT = NTSTATUS {
+#pragma pop_macro("STATUS_NO_S4U_PROT_SUPPORT")
+        STATUS_NO_S4U_PROT_SUPPORT
+    };
+
+#pragma push_macro("STATUS_CROSSREALM_DELEGATION_FAILURE")
+#undef STATUS_CROSSREALM_DELEGATION_FAILURE
+    inline constexpr auto STATUS_CROSSREALM_DELEGATION_FAILURE = NTSTATUS {
+#pragma pop_macro("STATUS_CROSSREALM_DELEGATION_FAILURE")
+        STATUS_CROSSREALM_DELEGATION_FAILURE
+    };
+
+#pragma push_macro("STATUS_REVOCATION_OFFLINE_KDC")
+#undef STATUS_REVOCATION_OFFLINE_KDC
+    inline constexpr auto STATUS_REVOCATION_OFFLINE_KDC = NTSTATUS {
+#pragma pop_macro("STATUS_REVOCATION_OFFLINE_KDC")
+        STATUS_REVOCATION_OFFLINE_KDC
+    };
+
+#pragma push_macro("STATUS_ISSUING_CA_UNTRUSTED_KDC")
+#undef STATUS_ISSUING_CA_UNTRUSTED_KDC
+    inline constexpr auto STATUS_ISSUING_CA_UNTRUSTED_KDC = NTSTATUS {
+#pragma pop_macro("STATUS_ISSUING_CA_UNTRUSTED_KDC")
+        STATUS_ISSUING_CA_UNTRUSTED_KDC
+    };
+
+#pragma push_macro("STATUS_KDC_CERT_EXPIRED")
+#undef STATUS_KDC_CERT_EXPIRED
+    inline constexpr auto STATUS_KDC_CERT_EXPIRED = NTSTATUS {
+#pragma pop_macro("STATUS_KDC_CERT_EXPIRED")
+        STATUS_KDC_CERT_EXPIRED
+    };
+
+#pragma push_macro("STATUS_KDC_CERT_REVOKED")
+#undef STATUS_KDC_CERT_REVOKED
+    inline constexpr auto STATUS_KDC_CERT_REVOKED = NTSTATUS {
+#pragma pop_macro("STATUS_KDC_CERT_REVOKED")
+        STATUS_KDC_CERT_REVOKED
+    };
+
+#pragma push_macro("STATUS_PARAMETER_QUOTA_EXCEEDED")
+#undef STATUS_PARAMETER_QUOTA_EXCEEDED
+    inline constexpr auto STATUS_PARAMETER_QUOTA_EXCEEDED = NTSTATUS {
+#pragma pop_macro("STATUS_PARAMETER_QUOTA_EXCEEDED")
+        STATUS_PARAMETER_QUOTA_EXCEEDED
+    };
+
+#pragma push_macro("STATUS_HIBERNATION_FAILURE")
+#undef STATUS_HIBERNATION_FAILURE
+    inline constexpr auto STATUS_HIBERNATION_FAILURE = NTSTATUS {
+#pragma pop_macro("STATUS_HIBERNATION_FAILURE")
+        STATUS_HIBERNATION_FAILURE
+    };
+
+#pragma push_macro("STATUS_DELAY_LOAD_FAILED")
+#undef STATUS_DELAY_LOAD_FAILED
+    inline constexpr auto STATUS_DELAY_LOAD_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_DELAY_LOAD_FAILED")
+        STATUS_DELAY_LOAD_FAILED
+    };
+
+#pragma push_macro("STATUS_AUTHENTICATION_FIREWALL_FAILED")
+#undef STATUS_AUTHENTICATION_FIREWALL_FAILED
+    inline constexpr auto STATUS_AUTHENTICATION_FIREWALL_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_AUTHENTICATION_FIREWALL_FAILED")
+        STATUS_AUTHENTICATION_FIREWALL_FAILED
+    };
+
+#pragma push_macro("STATUS_VDM_DISALLOWED")
+#undef STATUS_VDM_DISALLOWED
+    inline constexpr auto STATUS_VDM_DISALLOWED = NTSTATUS {
+#pragma pop_macro("STATUS_VDM_DISALLOWED")
+        STATUS_VDM_DISALLOWED
+    };
+
+#pragma push_macro("STATUS_HUNG_DISPLAY_DRIVER_THREAD")
+#undef STATUS_HUNG_DISPLAY_DRIVER_THREAD
+    inline constexpr auto STATUS_HUNG_DISPLAY_DRIVER_THREAD = NTSTATUS {
+#pragma pop_macro("STATUS_HUNG_DISPLAY_DRIVER_THREAD")
+        STATUS_HUNG_DISPLAY_DRIVER_THREAD
+    };
+
+#pragma push_macro("STATUS_INSUFFICIENT_RESOURCE_FOR_SPECIFIED_SHARED_SECTION_SIZE")
+#undef STATUS_INSUFFICIENT_RESOURCE_FOR_SPECIFIED_SHARED_SECTION_SIZE
+    inline constexpr auto STATUS_INSUFFICIENT_RESOURCE_FOR_SPECIFIED_SHARED_SECTION_SIZE = NTSTATUS {
+#pragma pop_macro("STATUS_INSUFFICIENT_RESOURCE_FOR_SPECIFIED_SHARED_SECTION_SIZE")
+        STATUS_INSUFFICIENT_RESOURCE_FOR_SPECIFIED_SHARED_SECTION_SIZE
+    };
+
+#pragma push_macro("STATUS_INVALID_CRUNTIME_PARAMETER")
+#undef STATUS_INVALID_CRUNTIME_PARAMETER
+    inline constexpr auto STATUS_INVALID_CRUNTIME_PARAMETER = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_CRUNTIME_PARAMETER")
+        STATUS_INVALID_CRUNTIME_PARAMETER
+    };
+
+#pragma push_macro("STATUS_NTLM_BLOCKED")
+#undef STATUS_NTLM_BLOCKED
+    inline constexpr auto STATUS_NTLM_BLOCKED = NTSTATUS {
+#pragma pop_macro("STATUS_NTLM_BLOCKED")
+        STATUS_NTLM_BLOCKED
+    };
+
+#pragma push_macro("STATUS_DS_SRC_SID_EXISTS_IN_FOREST")
+#undef STATUS_DS_SRC_SID_EXISTS_IN_FOREST
+    inline constexpr auto STATUS_DS_SRC_SID_EXISTS_IN_FOREST = NTSTATUS {
+#pragma pop_macro("STATUS_DS_SRC_SID_EXISTS_IN_FOREST")
+        STATUS_DS_SRC_SID_EXISTS_IN_FOREST
+    };
+
+#pragma push_macro("STATUS_DS_DOMAIN_NAME_EXISTS_IN_FOREST")
+#undef STATUS_DS_DOMAIN_NAME_EXISTS_IN_FOREST
+    inline constexpr auto STATUS_DS_DOMAIN_NAME_EXISTS_IN_FOREST = NTSTATUS {
+#pragma pop_macro("STATUS_DS_DOMAIN_NAME_EXISTS_IN_FOREST")
+        STATUS_DS_DOMAIN_NAME_EXISTS_IN_FOREST
+    };
+
+#pragma push_macro("STATUS_DS_FLAT_NAME_EXISTS_IN_FOREST")
+#undef STATUS_DS_FLAT_NAME_EXISTS_IN_FOREST
+    inline constexpr auto STATUS_DS_FLAT_NAME_EXISTS_IN_FOREST = NTSTATUS {
+#pragma pop_macro("STATUS_DS_FLAT_NAME_EXISTS_IN_FOREST")
+        STATUS_DS_FLAT_NAME_EXISTS_IN_FOREST
+    };
+
+#pragma push_macro("STATUS_INVALID_USER_PRINCIPAL_NAME")
+#undef STATUS_INVALID_USER_PRINCIPAL_NAME
+    inline constexpr auto STATUS_INVALID_USER_PRINCIPAL_NAME = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_USER_PRINCIPAL_NAME")
+        STATUS_INVALID_USER_PRINCIPAL_NAME
+    };
+
+#pragma push_macro("STATUS_ASSERTION_FAILURE")
+#undef STATUS_ASSERTION_FAILURE
+    inline constexpr auto STATUS_ASSERTION_FAILURE = NTSTATUS {
+#pragma pop_macro("STATUS_ASSERTION_FAILURE")
+        STATUS_ASSERTION_FAILURE
+    };
+
+#pragma push_macro("STATUS_VERIFIER_STOP")
+#undef STATUS_VERIFIER_STOP
+    inline constexpr auto STATUS_VERIFIER_STOP = NTSTATUS {
+#pragma pop_macro("STATUS_VERIFIER_STOP")
+        STATUS_VERIFIER_STOP
+    };
+
+#pragma push_macro("STATUS_CALLBACK_POP_STACK")
+#undef STATUS_CALLBACK_POP_STACK
+    inline constexpr auto STATUS_CALLBACK_POP_STACK = NTSTATUS {
+#pragma pop_macro("STATUS_CALLBACK_POP_STACK")
+        STATUS_CALLBACK_POP_STACK
+    };
+
+#pragma push_macro("STATUS_INCOMPATIBLE_DRIVER_BLOCKED")
+#undef STATUS_INCOMPATIBLE_DRIVER_BLOCKED
+    inline constexpr auto STATUS_INCOMPATIBLE_DRIVER_BLOCKED = NTSTATUS {
+#pragma pop_macro("STATUS_INCOMPATIBLE_DRIVER_BLOCKED")
+        STATUS_INCOMPATIBLE_DRIVER_BLOCKED
+    };
+
+#pragma push_macro("STATUS_HIVE_UNLOADED")
+#undef STATUS_HIVE_UNLOADED
+    inline constexpr auto STATUS_HIVE_UNLOADED = NTSTATUS {
+#pragma pop_macro("STATUS_HIVE_UNLOADED")
+        STATUS_HIVE_UNLOADED
+    };
+
+#pragma push_macro("STATUS_COMPRESSION_DISABLED")
+#undef STATUS_COMPRESSION_DISABLED
+    inline constexpr auto STATUS_COMPRESSION_DISABLED = NTSTATUS {
+#pragma pop_macro("STATUS_COMPRESSION_DISABLED")
+        STATUS_COMPRESSION_DISABLED
+    };
+
+#pragma push_macro("STATUS_FILE_SYSTEM_LIMITATION")
+#undef STATUS_FILE_SYSTEM_LIMITATION
+    inline constexpr auto STATUS_FILE_SYSTEM_LIMITATION = NTSTATUS {
+#pragma pop_macro("STATUS_FILE_SYSTEM_LIMITATION")
+        STATUS_FILE_SYSTEM_LIMITATION
+    };
+
+#pragma push_macro("STATUS_INVALID_IMAGE_HASH")
+#undef STATUS_INVALID_IMAGE_HASH
+    inline constexpr auto STATUS_INVALID_IMAGE_HASH = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_IMAGE_HASH")
+        STATUS_INVALID_IMAGE_HASH
+    };
+
+#pragma push_macro("STATUS_NOT_CAPABLE")
+#undef STATUS_NOT_CAPABLE
+    inline constexpr auto STATUS_NOT_CAPABLE = NTSTATUS {
+#pragma pop_macro("STATUS_NOT_CAPABLE")
+        STATUS_NOT_CAPABLE
+    };
+
+#pragma push_macro("STATUS_REQUEST_OUT_OF_SEQUENCE")
+#undef STATUS_REQUEST_OUT_OF_SEQUENCE
+    inline constexpr auto STATUS_REQUEST_OUT_OF_SEQUENCE = NTSTATUS {
+#pragma pop_macro("STATUS_REQUEST_OUT_OF_SEQUENCE")
+        STATUS_REQUEST_OUT_OF_SEQUENCE
+    };
+
+#pragma push_macro("STATUS_IMPLEMENTATION_LIMIT")
+#undef STATUS_IMPLEMENTATION_LIMIT
+    inline constexpr auto STATUS_IMPLEMENTATION_LIMIT = NTSTATUS {
+#pragma pop_macro("STATUS_IMPLEMENTATION_LIMIT")
+        STATUS_IMPLEMENTATION_LIMIT
+    };
+
+#pragma push_macro("STATUS_ELEVATION_REQUIRED")
+#undef STATUS_ELEVATION_REQUIRED
+    inline constexpr auto STATUS_ELEVATION_REQUIRED = NTSTATUS {
+#pragma pop_macro("STATUS_ELEVATION_REQUIRED")
+        STATUS_ELEVATION_REQUIRED
+    };
+
+#pragma push_macro("STATUS_NO_SECURITY_CONTEXT")
+#undef STATUS_NO_SECURITY_CONTEXT
+    inline constexpr auto STATUS_NO_SECURITY_CONTEXT = NTSTATUS {
+#pragma pop_macro("STATUS_NO_SECURITY_CONTEXT")
+        STATUS_NO_SECURITY_CONTEXT
+    };
+
+#pragma push_macro("STATUS_PKU2U_CERT_FAILURE")
+#undef STATUS_PKU2U_CERT_FAILURE
+    inline constexpr auto STATUS_PKU2U_CERT_FAILURE = NTSTATUS {
+#pragma pop_macro("STATUS_PKU2U_CERT_FAILURE")
+        STATUS_PKU2U_CERT_FAILURE
+    };
+
+#pragma push_macro("STATUS_BEYOND_VDL")
+#undef STATUS_BEYOND_VDL
+    inline constexpr auto STATUS_BEYOND_VDL = NTSTATUS {
+#pragma pop_macro("STATUS_BEYOND_VDL")
+        STATUS_BEYOND_VDL
+    };
+
+#pragma push_macro("STATUS_ENCOUNTERED_WRITE_IN_PROGRESS")
+#undef STATUS_ENCOUNTERED_WRITE_IN_PROGRESS
+    inline constexpr auto STATUS_ENCOUNTERED_WRITE_IN_PROGRESS = NTSTATUS {
+#pragma pop_macro("STATUS_ENCOUNTERED_WRITE_IN_PROGRESS")
+        STATUS_ENCOUNTERED_WRITE_IN_PROGRESS
+    };
+
+#pragma push_macro("STATUS_PTE_CHANGED")
+#undef STATUS_PTE_CHANGED
+    inline constexpr auto STATUS_PTE_CHANGED = NTSTATUS {
+#pragma pop_macro("STATUS_PTE_CHANGED")
+        STATUS_PTE_CHANGED
+    };
+
+#pragma push_macro("STATUS_PURGE_FAILED")
+#undef STATUS_PURGE_FAILED
+    inline constexpr auto STATUS_PURGE_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_PURGE_FAILED")
+        STATUS_PURGE_FAILED
+    };
+
+#pragma push_macro("STATUS_CRED_REQUIRES_CONFIRMATION")
+#undef STATUS_CRED_REQUIRES_CONFIRMATION
+    inline constexpr auto STATUS_CRED_REQUIRES_CONFIRMATION = NTSTATUS {
+#pragma pop_macro("STATUS_CRED_REQUIRES_CONFIRMATION")
+        STATUS_CRED_REQUIRES_CONFIRMATION
+    };
+
+#pragma push_macro("STATUS_CS_ENCRYPTION_INVALID_SERVER_RESPONSE")
+#undef STATUS_CS_ENCRYPTION_INVALID_SERVER_RESPONSE
+    inline constexpr auto STATUS_CS_ENCRYPTION_INVALID_SERVER_RESPONSE = NTSTATUS {
+#pragma pop_macro("STATUS_CS_ENCRYPTION_INVALID_SERVER_RESPONSE")
+        STATUS_CS_ENCRYPTION_INVALID_SERVER_RESPONSE
+    };
+
+#pragma push_macro("STATUS_CS_ENCRYPTION_UNSUPPORTED_SERVER")
+#undef STATUS_CS_ENCRYPTION_UNSUPPORTED_SERVER
+    inline constexpr auto STATUS_CS_ENCRYPTION_UNSUPPORTED_SERVER = NTSTATUS {
+#pragma pop_macro("STATUS_CS_ENCRYPTION_UNSUPPORTED_SERVER")
+        STATUS_CS_ENCRYPTION_UNSUPPORTED_SERVER
+    };
+
+#pragma push_macro("STATUS_CS_ENCRYPTION_EXISTING_ENCRYPTED_FILE")
+#undef STATUS_CS_ENCRYPTION_EXISTING_ENCRYPTED_FILE
+    inline constexpr auto STATUS_CS_ENCRYPTION_EXISTING_ENCRYPTED_FILE = NTSTATUS {
+#pragma pop_macro("STATUS_CS_ENCRYPTION_EXISTING_ENCRYPTED_FILE")
+        STATUS_CS_ENCRYPTION_EXISTING_ENCRYPTED_FILE
+    };
+
+#pragma push_macro("STATUS_CS_ENCRYPTION_NEW_ENCRYPTED_FILE")
+#undef STATUS_CS_ENCRYPTION_NEW_ENCRYPTED_FILE
+    inline constexpr auto STATUS_CS_ENCRYPTION_NEW_ENCRYPTED_FILE = NTSTATUS {
+#pragma pop_macro("STATUS_CS_ENCRYPTION_NEW_ENCRYPTED_FILE")
+        STATUS_CS_ENCRYPTION_NEW_ENCRYPTED_FILE
+    };
+
+#pragma push_macro("STATUS_CS_ENCRYPTION_FILE_NOT_CSE")
+#undef STATUS_CS_ENCRYPTION_FILE_NOT_CSE
+    inline constexpr auto STATUS_CS_ENCRYPTION_FILE_NOT_CSE = NTSTATUS {
+#pragma pop_macro("STATUS_CS_ENCRYPTION_FILE_NOT_CSE")
+        STATUS_CS_ENCRYPTION_FILE_NOT_CSE
+    };
+
+#pragma push_macro("STATUS_INVALID_LABEL")
+#undef STATUS_INVALID_LABEL
+    inline constexpr auto STATUS_INVALID_LABEL = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_LABEL")
+        STATUS_INVALID_LABEL
+    };
+
+#pragma push_macro("STATUS_DRIVER_PROCESS_TERMINATED")
+#undef STATUS_DRIVER_PROCESS_TERMINATED
+    inline constexpr auto STATUS_DRIVER_PROCESS_TERMINATED = NTSTATUS {
+#pragma pop_macro("STATUS_DRIVER_PROCESS_TERMINATED")
+        STATUS_DRIVER_PROCESS_TERMINATED
+    };
+
+#pragma push_macro("STATUS_AMBIGUOUS_SYSTEM_DEVICE")
+#undef STATUS_AMBIGUOUS_SYSTEM_DEVICE
+    inline constexpr auto STATUS_AMBIGUOUS_SYSTEM_DEVICE = NTSTATUS {
+#pragma pop_macro("STATUS_AMBIGUOUS_SYSTEM_DEVICE")
+        STATUS_AMBIGUOUS_SYSTEM_DEVICE
+    };
+
+#pragma push_macro("STATUS_SYSTEM_DEVICE_NOT_FOUND")
+#undef STATUS_SYSTEM_DEVICE_NOT_FOUND
+    inline constexpr auto STATUS_SYSTEM_DEVICE_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_SYSTEM_DEVICE_NOT_FOUND")
+        STATUS_SYSTEM_DEVICE_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_RESTART_BOOT_APPLICATION")
+#undef STATUS_RESTART_BOOT_APPLICATION
+    inline constexpr auto STATUS_RESTART_BOOT_APPLICATION = NTSTATUS {
+#pragma pop_macro("STATUS_RESTART_BOOT_APPLICATION")
+        STATUS_RESTART_BOOT_APPLICATION
+    };
+
+#pragma push_macro("STATUS_INSUFFICIENT_NVRAM_RESOURCES")
+#undef STATUS_INSUFFICIENT_NVRAM_RESOURCES
+    inline constexpr auto STATUS_INSUFFICIENT_NVRAM_RESOURCES = NTSTATUS {
+#pragma pop_macro("STATUS_INSUFFICIENT_NVRAM_RESOURCES")
+        STATUS_INSUFFICIENT_NVRAM_RESOURCES
+    };
+
+#pragma push_macro("STATUS_NO_RANGES_PROCESSED")
+#undef STATUS_NO_RANGES_PROCESSED
+    inline constexpr auto STATUS_NO_RANGES_PROCESSED = NTSTATUS {
+#pragma pop_macro("STATUS_NO_RANGES_PROCESSED")
+        STATUS_NO_RANGES_PROCESSED
+    };
+
+#pragma push_macro("STATUS_DEVICE_FEATURE_NOT_SUPPORTED")
+#undef STATUS_DEVICE_FEATURE_NOT_SUPPORTED
+    inline constexpr auto STATUS_DEVICE_FEATURE_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_DEVICE_FEATURE_NOT_SUPPORTED")
+        STATUS_DEVICE_FEATURE_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_DEVICE_UNREACHABLE")
+#undef STATUS_DEVICE_UNREACHABLE
+    inline constexpr auto STATUS_DEVICE_UNREACHABLE = NTSTATUS {
+#pragma pop_macro("STATUS_DEVICE_UNREACHABLE")
+        STATUS_DEVICE_UNREACHABLE
+    };
+
+#pragma push_macro("STATUS_INVALID_TOKEN")
+#undef STATUS_INVALID_TOKEN
+    inline constexpr auto STATUS_INVALID_TOKEN = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_TOKEN")
+        STATUS_INVALID_TOKEN
+    };
+
+#pragma push_macro("STATUS_SERVER_UNAVAILABLE")
+#undef STATUS_SERVER_UNAVAILABLE
+    inline constexpr auto STATUS_SERVER_UNAVAILABLE = NTSTATUS {
+#pragma pop_macro("STATUS_SERVER_UNAVAILABLE")
+        STATUS_SERVER_UNAVAILABLE
+    };
+
+#pragma push_macro("STATUS_INVALID_TASK_NAME")
+#undef STATUS_INVALID_TASK_NAME
+    inline constexpr auto STATUS_INVALID_TASK_NAME = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_TASK_NAME")
+        STATUS_INVALID_TASK_NAME
+    };
+
+#pragma push_macro("STATUS_INVALID_TASK_INDEX")
+#undef STATUS_INVALID_TASK_INDEX
+    inline constexpr auto STATUS_INVALID_TASK_INDEX = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_TASK_INDEX")
+        STATUS_INVALID_TASK_INDEX
+    };
+
+#pragma push_macro("STATUS_THREAD_ALREADY_IN_TASK")
+#undef STATUS_THREAD_ALREADY_IN_TASK
+    inline constexpr auto STATUS_THREAD_ALREADY_IN_TASK = NTSTATUS {
+#pragma pop_macro("STATUS_THREAD_ALREADY_IN_TASK")
+        STATUS_THREAD_ALREADY_IN_TASK
+    };
+
+#pragma push_macro("STATUS_CALLBACK_BYPASS")
+#undef STATUS_CALLBACK_BYPASS
+    inline constexpr auto STATUS_CALLBACK_BYPASS = NTSTATUS {
+#pragma pop_macro("STATUS_CALLBACK_BYPASS")
+        STATUS_CALLBACK_BYPASS
+    };
+
+#pragma push_macro("STATUS_FAIL_FAST_EXCEPTION")
+#undef STATUS_FAIL_FAST_EXCEPTION
+    inline constexpr auto STATUS_FAIL_FAST_EXCEPTION = NTSTATUS {
+#pragma pop_macro("STATUS_FAIL_FAST_EXCEPTION")
+        STATUS_FAIL_FAST_EXCEPTION
+    };
+
+#pragma push_macro("STATUS_IMAGE_CERT_REVOKED")
+#undef STATUS_IMAGE_CERT_REVOKED
+    inline constexpr auto STATUS_IMAGE_CERT_REVOKED = NTSTATUS {
+#pragma pop_macro("STATUS_IMAGE_CERT_REVOKED")
+        STATUS_IMAGE_CERT_REVOKED
+    };
+
+#pragma push_macro("STATUS_PORT_CLOSED")
+#undef STATUS_PORT_CLOSED
+    inline constexpr auto STATUS_PORT_CLOSED = NTSTATUS {
+#pragma pop_macro("STATUS_PORT_CLOSED")
+        STATUS_PORT_CLOSED
+    };
+
+#pragma push_macro("STATUS_MESSAGE_LOST")
+#undef STATUS_MESSAGE_LOST
+    inline constexpr auto STATUS_MESSAGE_LOST = NTSTATUS {
+#pragma pop_macro("STATUS_MESSAGE_LOST")
+        STATUS_MESSAGE_LOST
+    };
+
+#pragma push_macro("STATUS_INVALID_MESSAGE")
+#undef STATUS_INVALID_MESSAGE
+    inline constexpr auto STATUS_INVALID_MESSAGE = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_MESSAGE")
+        STATUS_INVALID_MESSAGE
+    };
+
+#pragma push_macro("STATUS_REQUEST_CANCELED")
+#undef STATUS_REQUEST_CANCELED
+    inline constexpr auto STATUS_REQUEST_CANCELED = NTSTATUS {
+#pragma pop_macro("STATUS_REQUEST_CANCELED")
+        STATUS_REQUEST_CANCELED
+    };
+
+#pragma push_macro("STATUS_RECURSIVE_DISPATCH")
+#undef STATUS_RECURSIVE_DISPATCH
+    inline constexpr auto STATUS_RECURSIVE_DISPATCH = NTSTATUS {
+#pragma pop_macro("STATUS_RECURSIVE_DISPATCH")
+        STATUS_RECURSIVE_DISPATCH
+    };
+
+#pragma push_macro("STATUS_LPC_RECEIVE_BUFFER_EXPECTED")
+#undef STATUS_LPC_RECEIVE_BUFFER_EXPECTED
+    inline constexpr auto STATUS_LPC_RECEIVE_BUFFER_EXPECTED = NTSTATUS {
+#pragma pop_macro("STATUS_LPC_RECEIVE_BUFFER_EXPECTED")
+        STATUS_LPC_RECEIVE_BUFFER_EXPECTED
+    };
+
+#pragma push_macro("STATUS_LPC_INVALID_CONNECTION_USAGE")
+#undef STATUS_LPC_INVALID_CONNECTION_USAGE
+    inline constexpr auto STATUS_LPC_INVALID_CONNECTION_USAGE = NTSTATUS {
+#pragma pop_macro("STATUS_LPC_INVALID_CONNECTION_USAGE")
+        STATUS_LPC_INVALID_CONNECTION_USAGE
+    };
+
+#pragma push_macro("STATUS_LPC_REQUESTS_NOT_ALLOWED")
+#undef STATUS_LPC_REQUESTS_NOT_ALLOWED
+    inline constexpr auto STATUS_LPC_REQUESTS_NOT_ALLOWED = NTSTATUS {
+#pragma pop_macro("STATUS_LPC_REQUESTS_NOT_ALLOWED")
+        STATUS_LPC_REQUESTS_NOT_ALLOWED
+    };
+
+#pragma push_macro("STATUS_RESOURCE_IN_USE")
+#undef STATUS_RESOURCE_IN_USE
+    inline constexpr auto STATUS_RESOURCE_IN_USE = NTSTATUS {
+#pragma pop_macro("STATUS_RESOURCE_IN_USE")
+        STATUS_RESOURCE_IN_USE
+    };
+
+#pragma push_macro("STATUS_HARDWARE_MEMORY_ERROR")
+#undef STATUS_HARDWARE_MEMORY_ERROR
+    inline constexpr auto STATUS_HARDWARE_MEMORY_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_HARDWARE_MEMORY_ERROR")
+        STATUS_HARDWARE_MEMORY_ERROR
+    };
+
+#pragma push_macro("STATUS_THREADPOOL_HANDLE_EXCEPTION")
+#undef STATUS_THREADPOOL_HANDLE_EXCEPTION
+    inline constexpr auto STATUS_THREADPOOL_HANDLE_EXCEPTION = NTSTATUS {
+#pragma pop_macro("STATUS_THREADPOOL_HANDLE_EXCEPTION")
+        STATUS_THREADPOOL_HANDLE_EXCEPTION
+    };
+
+#pragma push_macro("STATUS_THREADPOOL_SET_EVENT_ON_COMPLETION_FAILED")
+#undef STATUS_THREADPOOL_SET_EVENT_ON_COMPLETION_FAILED
+    inline constexpr auto STATUS_THREADPOOL_SET_EVENT_ON_COMPLETION_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_THREADPOOL_SET_EVENT_ON_COMPLETION_FAILED")
+        STATUS_THREADPOOL_SET_EVENT_ON_COMPLETION_FAILED
+    };
+
+#pragma push_macro("STATUS_THREADPOOL_RELEASE_SEMAPHORE_ON_COMPLETION_FAILED")
+#undef STATUS_THREADPOOL_RELEASE_SEMAPHORE_ON_COMPLETION_FAILED
+    inline constexpr auto STATUS_THREADPOOL_RELEASE_SEMAPHORE_ON_COMPLETION_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_THREADPOOL_RELEASE_SEMAPHORE_ON_COMPLETION_FAILED")
+        STATUS_THREADPOOL_RELEASE_SEMAPHORE_ON_COMPLETION_FAILED
+    };
+
+#pragma push_macro("STATUS_THREADPOOL_RELEASE_MUTEX_ON_COMPLETION_FAILED")
+#undef STATUS_THREADPOOL_RELEASE_MUTEX_ON_COMPLETION_FAILED
+    inline constexpr auto STATUS_THREADPOOL_RELEASE_MUTEX_ON_COMPLETION_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_THREADPOOL_RELEASE_MUTEX_ON_COMPLETION_FAILED")
+        STATUS_THREADPOOL_RELEASE_MUTEX_ON_COMPLETION_FAILED
+    };
+
+#pragma push_macro("STATUS_THREADPOOL_FREE_LIBRARY_ON_COMPLETION_FAILED")
+#undef STATUS_THREADPOOL_FREE_LIBRARY_ON_COMPLETION_FAILED
+    inline constexpr auto STATUS_THREADPOOL_FREE_LIBRARY_ON_COMPLETION_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_THREADPOOL_FREE_LIBRARY_ON_COMPLETION_FAILED")
+        STATUS_THREADPOOL_FREE_LIBRARY_ON_COMPLETION_FAILED
+    };
+
+#pragma push_macro("STATUS_THREADPOOL_RELEASED_DURING_OPERATION")
+#undef STATUS_THREADPOOL_RELEASED_DURING_OPERATION
+    inline constexpr auto STATUS_THREADPOOL_RELEASED_DURING_OPERATION = NTSTATUS {
+#pragma pop_macro("STATUS_THREADPOOL_RELEASED_DURING_OPERATION")
+        STATUS_THREADPOOL_RELEASED_DURING_OPERATION
+    };
+
+#pragma push_macro("STATUS_CALLBACK_RETURNED_WHILE_IMPERSONATING")
+#undef STATUS_CALLBACK_RETURNED_WHILE_IMPERSONATING
+    inline constexpr auto STATUS_CALLBACK_RETURNED_WHILE_IMPERSONATING = NTSTATUS {
+#pragma pop_macro("STATUS_CALLBACK_RETURNED_WHILE_IMPERSONATING")
+        STATUS_CALLBACK_RETURNED_WHILE_IMPERSONATING
+    };
+
+#pragma push_macro("STATUS_APC_RETURNED_WHILE_IMPERSONATING")
+#undef STATUS_APC_RETURNED_WHILE_IMPERSONATING
+    inline constexpr auto STATUS_APC_RETURNED_WHILE_IMPERSONATING = NTSTATUS {
+#pragma pop_macro("STATUS_APC_RETURNED_WHILE_IMPERSONATING")
+        STATUS_APC_RETURNED_WHILE_IMPERSONATING
+    };
+
+#pragma push_macro("STATUS_PROCESS_IS_PROTECTED")
+#undef STATUS_PROCESS_IS_PROTECTED
+    inline constexpr auto STATUS_PROCESS_IS_PROTECTED = NTSTATUS {
+#pragma pop_macro("STATUS_PROCESS_IS_PROTECTED")
+        STATUS_PROCESS_IS_PROTECTED
+    };
+
+#pragma push_macro("STATUS_MCA_EXCEPTION")
+#undef STATUS_MCA_EXCEPTION
+    inline constexpr auto STATUS_MCA_EXCEPTION = NTSTATUS {
+#pragma pop_macro("STATUS_MCA_EXCEPTION")
+        STATUS_MCA_EXCEPTION
+    };
+
+#pragma push_macro("STATUS_CERTIFICATE_MAPPING_NOT_UNIQUE")
+#undef STATUS_CERTIFICATE_MAPPING_NOT_UNIQUE
+    inline constexpr auto STATUS_CERTIFICATE_MAPPING_NOT_UNIQUE = NTSTATUS {
+#pragma pop_macro("STATUS_CERTIFICATE_MAPPING_NOT_UNIQUE")
+        STATUS_CERTIFICATE_MAPPING_NOT_UNIQUE
+    };
+
+#pragma push_macro("STATUS_SYMLINK_CLASS_DISABLED")
+#undef STATUS_SYMLINK_CLASS_DISABLED
+    inline constexpr auto STATUS_SYMLINK_CLASS_DISABLED = NTSTATUS {
+#pragma pop_macro("STATUS_SYMLINK_CLASS_DISABLED")
+        STATUS_SYMLINK_CLASS_DISABLED
+    };
+
+#pragma push_macro("STATUS_INVALID_IDN_NORMALIZATION")
+#undef STATUS_INVALID_IDN_NORMALIZATION
+    inline constexpr auto STATUS_INVALID_IDN_NORMALIZATION = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_IDN_NORMALIZATION")
+        STATUS_INVALID_IDN_NORMALIZATION
+    };
+
+#pragma push_macro("STATUS_NO_UNICODE_TRANSLATION")
+#undef STATUS_NO_UNICODE_TRANSLATION
+    inline constexpr auto STATUS_NO_UNICODE_TRANSLATION = NTSTATUS {
+#pragma pop_macro("STATUS_NO_UNICODE_TRANSLATION")
+        STATUS_NO_UNICODE_TRANSLATION
+    };
+
+#pragma push_macro("STATUS_ALREADY_REGISTERED")
+#undef STATUS_ALREADY_REGISTERED
+    inline constexpr auto STATUS_ALREADY_REGISTERED = NTSTATUS {
+#pragma pop_macro("STATUS_ALREADY_REGISTERED")
+        STATUS_ALREADY_REGISTERED
+    };
+
+#pragma push_macro("STATUS_CONTEXT_MISMATCH")
+#undef STATUS_CONTEXT_MISMATCH
+    inline constexpr auto STATUS_CONTEXT_MISMATCH = NTSTATUS {
+#pragma pop_macro("STATUS_CONTEXT_MISMATCH")
+        STATUS_CONTEXT_MISMATCH
+    };
+
+#pragma push_macro("STATUS_PORT_ALREADY_HAS_COMPLETION_LIST")
+#undef STATUS_PORT_ALREADY_HAS_COMPLETION_LIST
+    inline constexpr auto STATUS_PORT_ALREADY_HAS_COMPLETION_LIST = NTSTATUS {
+#pragma pop_macro("STATUS_PORT_ALREADY_HAS_COMPLETION_LIST")
+        STATUS_PORT_ALREADY_HAS_COMPLETION_LIST
+    };
+
+#pragma push_macro("STATUS_CALLBACK_RETURNED_THREAD_PRIORITY")
+#undef STATUS_CALLBACK_RETURNED_THREAD_PRIORITY
+    inline constexpr auto STATUS_CALLBACK_RETURNED_THREAD_PRIORITY = NTSTATUS {
+#pragma pop_macro("STATUS_CALLBACK_RETURNED_THREAD_PRIORITY")
+        STATUS_CALLBACK_RETURNED_THREAD_PRIORITY
+    };
+
+#pragma push_macro("STATUS_INVALID_THREAD")
+#undef STATUS_INVALID_THREAD
+    inline constexpr auto STATUS_INVALID_THREAD = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_THREAD")
+        STATUS_INVALID_THREAD
+    };
+
+#pragma push_macro("STATUS_CALLBACK_RETURNED_TRANSACTION")
+#undef STATUS_CALLBACK_RETURNED_TRANSACTION
+    inline constexpr auto STATUS_CALLBACK_RETURNED_TRANSACTION = NTSTATUS {
+#pragma pop_macro("STATUS_CALLBACK_RETURNED_TRANSACTION")
+        STATUS_CALLBACK_RETURNED_TRANSACTION
+    };
+
+#pragma push_macro("STATUS_CALLBACK_RETURNED_LDR_LOCK")
+#undef STATUS_CALLBACK_RETURNED_LDR_LOCK
+    inline constexpr auto STATUS_CALLBACK_RETURNED_LDR_LOCK = NTSTATUS {
+#pragma pop_macro("STATUS_CALLBACK_RETURNED_LDR_LOCK")
+        STATUS_CALLBACK_RETURNED_LDR_LOCK
+    };
+
+#pragma push_macro("STATUS_CALLBACK_RETURNED_LANG")
+#undef STATUS_CALLBACK_RETURNED_LANG
+    inline constexpr auto STATUS_CALLBACK_RETURNED_LANG = NTSTATUS {
+#pragma pop_macro("STATUS_CALLBACK_RETURNED_LANG")
+        STATUS_CALLBACK_RETURNED_LANG
+    };
+
+#pragma push_macro("STATUS_CALLBACK_RETURNED_PRI_BACK")
+#undef STATUS_CALLBACK_RETURNED_PRI_BACK
+    inline constexpr auto STATUS_CALLBACK_RETURNED_PRI_BACK = NTSTATUS {
+#pragma pop_macro("STATUS_CALLBACK_RETURNED_PRI_BACK")
+        STATUS_CALLBACK_RETURNED_PRI_BACK
+    };
+
+#pragma push_macro("STATUS_DISK_REPAIR_DISABLED")
+#undef STATUS_DISK_REPAIR_DISABLED
+    inline constexpr auto STATUS_DISK_REPAIR_DISABLED = NTSTATUS {
+#pragma pop_macro("STATUS_DISK_REPAIR_DISABLED")
+        STATUS_DISK_REPAIR_DISABLED
+    };
+
+#pragma push_macro("STATUS_DS_DOMAIN_RENAME_IN_PROGRESS")
+#undef STATUS_DS_DOMAIN_RENAME_IN_PROGRESS
+    inline constexpr auto STATUS_DS_DOMAIN_RENAME_IN_PROGRESS = NTSTATUS {
+#pragma pop_macro("STATUS_DS_DOMAIN_RENAME_IN_PROGRESS")
+        STATUS_DS_DOMAIN_RENAME_IN_PROGRESS
+    };
+
+#pragma push_macro("STATUS_DISK_QUOTA_EXCEEDED")
+#undef STATUS_DISK_QUOTA_EXCEEDED
+    inline constexpr auto STATUS_DISK_QUOTA_EXCEEDED = NTSTATUS {
+#pragma pop_macro("STATUS_DISK_QUOTA_EXCEEDED")
+        STATUS_DISK_QUOTA_EXCEEDED
+    };
+
+#pragma push_macro("STATUS_CONTENT_BLOCKED")
+#undef STATUS_CONTENT_BLOCKED
+    inline constexpr auto STATUS_CONTENT_BLOCKED = NTSTATUS {
+#pragma pop_macro("STATUS_CONTENT_BLOCKED")
+        STATUS_CONTENT_BLOCKED
+    };
+
+#pragma push_macro("STATUS_BAD_CLUSTERS")
+#undef STATUS_BAD_CLUSTERS
+    inline constexpr auto STATUS_BAD_CLUSTERS = NTSTATUS {
+#pragma pop_macro("STATUS_BAD_CLUSTERS")
+        STATUS_BAD_CLUSTERS
+    };
+
+#pragma push_macro("STATUS_VOLUME_DIRTY")
+#undef STATUS_VOLUME_DIRTY
+    inline constexpr auto STATUS_VOLUME_DIRTY = NTSTATUS {
+#pragma pop_macro("STATUS_VOLUME_DIRTY")
+        STATUS_VOLUME_DIRTY
+    };
+
+#pragma push_macro("STATUS_FILE_CHECKED_OUT")
+#undef STATUS_FILE_CHECKED_OUT
+    inline constexpr auto STATUS_FILE_CHECKED_OUT = NTSTATUS {
+#pragma pop_macro("STATUS_FILE_CHECKED_OUT")
+        STATUS_FILE_CHECKED_OUT
+    };
+
+#pragma push_macro("STATUS_CHECKOUT_REQUIRED")
+#undef STATUS_CHECKOUT_REQUIRED
+    inline constexpr auto STATUS_CHECKOUT_REQUIRED = NTSTATUS {
+#pragma pop_macro("STATUS_CHECKOUT_REQUIRED")
+        STATUS_CHECKOUT_REQUIRED
+    };
+
+#pragma push_macro("STATUS_BAD_FILE_TYPE")
+#undef STATUS_BAD_FILE_TYPE
+    inline constexpr auto STATUS_BAD_FILE_TYPE = NTSTATUS {
+#pragma pop_macro("STATUS_BAD_FILE_TYPE")
+        STATUS_BAD_FILE_TYPE
+    };
+
+#pragma push_macro("STATUS_FILE_TOO_LARGE")
+#undef STATUS_FILE_TOO_LARGE
+    inline constexpr auto STATUS_FILE_TOO_LARGE = NTSTATUS {
+#pragma pop_macro("STATUS_FILE_TOO_LARGE")
+        STATUS_FILE_TOO_LARGE
+    };
+
+#pragma push_macro("STATUS_FORMS_AUTH_REQUIRED")
+#undef STATUS_FORMS_AUTH_REQUIRED
+    inline constexpr auto STATUS_FORMS_AUTH_REQUIRED = NTSTATUS {
+#pragma pop_macro("STATUS_FORMS_AUTH_REQUIRED")
+        STATUS_FORMS_AUTH_REQUIRED
+    };
+
+#pragma push_macro("STATUS_VIRUS_INFECTED")
+#undef STATUS_VIRUS_INFECTED
+    inline constexpr auto STATUS_VIRUS_INFECTED = NTSTATUS {
+#pragma pop_macro("STATUS_VIRUS_INFECTED")
+        STATUS_VIRUS_INFECTED
+    };
+
+#pragma push_macro("STATUS_VIRUS_DELETED")
+#undef STATUS_VIRUS_DELETED
+    inline constexpr auto STATUS_VIRUS_DELETED = NTSTATUS {
+#pragma pop_macro("STATUS_VIRUS_DELETED")
+        STATUS_VIRUS_DELETED
+    };
+
+#pragma push_macro("STATUS_BAD_MCFG_TABLE")
+#undef STATUS_BAD_MCFG_TABLE
+    inline constexpr auto STATUS_BAD_MCFG_TABLE = NTSTATUS {
+#pragma pop_macro("STATUS_BAD_MCFG_TABLE")
+        STATUS_BAD_MCFG_TABLE
+    };
+
+#pragma push_macro("STATUS_BAD_DATA")
+#undef STATUS_BAD_DATA
+    inline constexpr auto STATUS_BAD_DATA = NTSTATUS {
+#pragma pop_macro("STATUS_BAD_DATA")
+        STATUS_BAD_DATA
+    };
+
+#pragma push_macro("STATUS_CANNOT_BREAK_OPLOCK")
+#undef STATUS_CANNOT_BREAK_OPLOCK
+    inline constexpr auto STATUS_CANNOT_BREAK_OPLOCK = NTSTATUS {
+#pragma pop_macro("STATUS_CANNOT_BREAK_OPLOCK")
+        STATUS_CANNOT_BREAK_OPLOCK
+    };
+
+#pragma push_macro("STATUS_WOW_ASSERTION")
+#undef STATUS_WOW_ASSERTION
+    inline constexpr auto STATUS_WOW_ASSERTION = NTSTATUS {
+#pragma pop_macro("STATUS_WOW_ASSERTION")
+        STATUS_WOW_ASSERTION
+    };
+
+#pragma push_macro("STATUS_INVALID_SIGNATURE")
+#undef STATUS_INVALID_SIGNATURE
+    inline constexpr auto STATUS_INVALID_SIGNATURE = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_SIGNATURE")
+        STATUS_INVALID_SIGNATURE
+    };
+
+#pragma push_macro("STATUS_HMAC_NOT_SUPPORTED")
+#undef STATUS_HMAC_NOT_SUPPORTED
+    inline constexpr auto STATUS_HMAC_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_HMAC_NOT_SUPPORTED")
+        STATUS_HMAC_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_AUTH_TAG_MISMATCH")
+#undef STATUS_AUTH_TAG_MISMATCH
+    inline constexpr auto STATUS_AUTH_TAG_MISMATCH = NTSTATUS {
+#pragma pop_macro("STATUS_AUTH_TAG_MISMATCH")
+        STATUS_AUTH_TAG_MISMATCH
+    };
+
+#pragma push_macro("STATUS_IPSEC_QUEUE_OVERFLOW")
+#undef STATUS_IPSEC_QUEUE_OVERFLOW
+    inline constexpr auto STATUS_IPSEC_QUEUE_OVERFLOW = NTSTATUS {
+#pragma pop_macro("STATUS_IPSEC_QUEUE_OVERFLOW")
+        STATUS_IPSEC_QUEUE_OVERFLOW
+    };
+
+#pragma push_macro("STATUS_ND_QUEUE_OVERFLOW")
+#undef STATUS_ND_QUEUE_OVERFLOW
+    inline constexpr auto STATUS_ND_QUEUE_OVERFLOW = NTSTATUS {
+#pragma pop_macro("STATUS_ND_QUEUE_OVERFLOW")
+        STATUS_ND_QUEUE_OVERFLOW
+    };
+
+#pragma push_macro("STATUS_HOPLIMIT_EXCEEDED")
+#undef STATUS_HOPLIMIT_EXCEEDED
+    inline constexpr auto STATUS_HOPLIMIT_EXCEEDED = NTSTATUS {
+#pragma pop_macro("STATUS_HOPLIMIT_EXCEEDED")
+        STATUS_HOPLIMIT_EXCEEDED
+    };
+
+#pragma push_macro("STATUS_PROTOCOL_NOT_SUPPORTED")
+#undef STATUS_PROTOCOL_NOT_SUPPORTED
+    inline constexpr auto STATUS_PROTOCOL_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_PROTOCOL_NOT_SUPPORTED")
+        STATUS_PROTOCOL_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_LOST_WRITEBEHIND_DATA_NETWORK_DISCONNECTED")
+#undef STATUS_LOST_WRITEBEHIND_DATA_NETWORK_DISCONNECTED
+    inline constexpr auto STATUS_LOST_WRITEBEHIND_DATA_NETWORK_DISCONNECTED = NTSTATUS {
+#pragma pop_macro("STATUS_LOST_WRITEBEHIND_DATA_NETWORK_DISCONNECTED")
+        STATUS_LOST_WRITEBEHIND_DATA_NETWORK_DISCONNECTED
+    };
+
+#pragma push_macro("STATUS_LOST_WRITEBEHIND_DATA_NETWORK_SERVER_ERROR")
+#undef STATUS_LOST_WRITEBEHIND_DATA_NETWORK_SERVER_ERROR
+    inline constexpr auto STATUS_LOST_WRITEBEHIND_DATA_NETWORK_SERVER_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_LOST_WRITEBEHIND_DATA_NETWORK_SERVER_ERROR")
+        STATUS_LOST_WRITEBEHIND_DATA_NETWORK_SERVER_ERROR
+    };
+
+#pragma push_macro("STATUS_LOST_WRITEBEHIND_DATA_LOCAL_DISK_ERROR")
+#undef STATUS_LOST_WRITEBEHIND_DATA_LOCAL_DISK_ERROR
+    inline constexpr auto STATUS_LOST_WRITEBEHIND_DATA_LOCAL_DISK_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_LOST_WRITEBEHIND_DATA_LOCAL_DISK_ERROR")
+        STATUS_LOST_WRITEBEHIND_DATA_LOCAL_DISK_ERROR
+    };
+
+#pragma push_macro("STATUS_XML_PARSE_ERROR")
+#undef STATUS_XML_PARSE_ERROR
+    inline constexpr auto STATUS_XML_PARSE_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_XML_PARSE_ERROR")
+        STATUS_XML_PARSE_ERROR
+    };
+
+#pragma push_macro("STATUS_XMLDSIG_ERROR")
+#undef STATUS_XMLDSIG_ERROR
+    inline constexpr auto STATUS_XMLDSIG_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_XMLDSIG_ERROR")
+        STATUS_XMLDSIG_ERROR
+    };
+
+#pragma push_macro("STATUS_WRONG_COMPARTMENT")
+#undef STATUS_WRONG_COMPARTMENT
+    inline constexpr auto STATUS_WRONG_COMPARTMENT = NTSTATUS {
+#pragma pop_macro("STATUS_WRONG_COMPARTMENT")
+        STATUS_WRONG_COMPARTMENT
+    };
+
+#pragma push_macro("STATUS_AUTHIP_FAILURE")
+#undef STATUS_AUTHIP_FAILURE
+    inline constexpr auto STATUS_AUTHIP_FAILURE = NTSTATUS {
+#pragma pop_macro("STATUS_AUTHIP_FAILURE")
+        STATUS_AUTHIP_FAILURE
+    };
+
+#pragma push_macro("STATUS_DS_OID_MAPPED_GROUP_CANT_HAVE_MEMBERS")
+#undef STATUS_DS_OID_MAPPED_GROUP_CANT_HAVE_MEMBERS
+    inline constexpr auto STATUS_DS_OID_MAPPED_GROUP_CANT_HAVE_MEMBERS = NTSTATUS {
+#pragma pop_macro("STATUS_DS_OID_MAPPED_GROUP_CANT_HAVE_MEMBERS")
+        STATUS_DS_OID_MAPPED_GROUP_CANT_HAVE_MEMBERS
+    };
+
+#pragma push_macro("STATUS_DS_OID_NOT_FOUND")
+#undef STATUS_DS_OID_NOT_FOUND
+    inline constexpr auto STATUS_DS_OID_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_DS_OID_NOT_FOUND")
+        STATUS_DS_OID_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_HASH_NOT_SUPPORTED")
+#undef STATUS_HASH_NOT_SUPPORTED
+    inline constexpr auto STATUS_HASH_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_HASH_NOT_SUPPORTED")
+        STATUS_HASH_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_HASH_NOT_PRESENT")
+#undef STATUS_HASH_NOT_PRESENT
+    inline constexpr auto STATUS_HASH_NOT_PRESENT = NTSTATUS {
+#pragma pop_macro("STATUS_HASH_NOT_PRESENT")
+        STATUS_HASH_NOT_PRESENT
+    };
+
+#pragma push_macro("STATUS_OFFLOAD_READ_FLT_NOT_SUPPORTED")
+#undef STATUS_OFFLOAD_READ_FLT_NOT_SUPPORTED
+    inline constexpr auto STATUS_OFFLOAD_READ_FLT_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_OFFLOAD_READ_FLT_NOT_SUPPORTED")
+        STATUS_OFFLOAD_READ_FLT_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_OFFLOAD_WRITE_FLT_NOT_SUPPORTED")
+#undef STATUS_OFFLOAD_WRITE_FLT_NOT_SUPPORTED
+    inline constexpr auto STATUS_OFFLOAD_WRITE_FLT_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_OFFLOAD_WRITE_FLT_NOT_SUPPORTED")
+        STATUS_OFFLOAD_WRITE_FLT_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_OFFLOAD_READ_FILE_NOT_SUPPORTED")
+#undef STATUS_OFFLOAD_READ_FILE_NOT_SUPPORTED
+    inline constexpr auto STATUS_OFFLOAD_READ_FILE_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_OFFLOAD_READ_FILE_NOT_SUPPORTED")
+        STATUS_OFFLOAD_READ_FILE_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_OFFLOAD_WRITE_FILE_NOT_SUPPORTED")
+#undef STATUS_OFFLOAD_WRITE_FILE_NOT_SUPPORTED
+    inline constexpr auto STATUS_OFFLOAD_WRITE_FILE_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_OFFLOAD_WRITE_FILE_NOT_SUPPORTED")
+        STATUS_OFFLOAD_WRITE_FILE_NOT_SUPPORTED
+    };
+
+#pragma push_macro("DBG_NO_STATE_CHANGE")
+#undef DBG_NO_STATE_CHANGE
+    inline constexpr auto DBG_NO_STATE_CHANGE = NTSTATUS {
+#pragma pop_macro("DBG_NO_STATE_CHANGE")
+        DBG_NO_STATE_CHANGE
+    };
+
+#pragma push_macro("DBG_APP_NOT_IDLE")
+#undef DBG_APP_NOT_IDLE
+    inline constexpr auto DBG_APP_NOT_IDLE = NTSTATUS {
+#pragma pop_macro("DBG_APP_NOT_IDLE")
+        DBG_APP_NOT_IDLE
+    };
+
+#pragma push_macro("RPC_NT_INVALID_STRING_BINDING")
+#undef RPC_NT_INVALID_STRING_BINDING
+    inline constexpr auto RPC_NT_INVALID_STRING_BINDING = NTSTATUS {
+#pragma pop_macro("RPC_NT_INVALID_STRING_BINDING")
+        RPC_NT_INVALID_STRING_BINDING
+    };
+
+#pragma push_macro("RPC_NT_WRONG_KIND_OF_BINDING")
+#undef RPC_NT_WRONG_KIND_OF_BINDING
+    inline constexpr auto RPC_NT_WRONG_KIND_OF_BINDING = NTSTATUS {
+#pragma pop_macro("RPC_NT_WRONG_KIND_OF_BINDING")
+        RPC_NT_WRONG_KIND_OF_BINDING
+    };
+
+#pragma push_macro("RPC_NT_INVALID_BINDING")
+#undef RPC_NT_INVALID_BINDING
+    inline constexpr auto RPC_NT_INVALID_BINDING = NTSTATUS {
+#pragma pop_macro("RPC_NT_INVALID_BINDING")
+        RPC_NT_INVALID_BINDING
+    };
+
+#pragma push_macro("RPC_NT_PROTSEQ_NOT_SUPPORTED")
+#undef RPC_NT_PROTSEQ_NOT_SUPPORTED
+    inline constexpr auto RPC_NT_PROTSEQ_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("RPC_NT_PROTSEQ_NOT_SUPPORTED")
+        RPC_NT_PROTSEQ_NOT_SUPPORTED
+    };
+
+#pragma push_macro("RPC_NT_INVALID_RPC_PROTSEQ")
+#undef RPC_NT_INVALID_RPC_PROTSEQ
+    inline constexpr auto RPC_NT_INVALID_RPC_PROTSEQ = NTSTATUS {
+#pragma pop_macro("RPC_NT_INVALID_RPC_PROTSEQ")
+        RPC_NT_INVALID_RPC_PROTSEQ
+    };
+
+#pragma push_macro("RPC_NT_INVALID_STRING_UUID")
+#undef RPC_NT_INVALID_STRING_UUID
+    inline constexpr auto RPC_NT_INVALID_STRING_UUID = NTSTATUS {
+#pragma pop_macro("RPC_NT_INVALID_STRING_UUID")
+        RPC_NT_INVALID_STRING_UUID
+    };
+
+#pragma push_macro("RPC_NT_INVALID_ENDPOINT_FORMAT")
+#undef RPC_NT_INVALID_ENDPOINT_FORMAT
+    inline constexpr auto RPC_NT_INVALID_ENDPOINT_FORMAT = NTSTATUS {
+#pragma pop_macro("RPC_NT_INVALID_ENDPOINT_FORMAT")
+        RPC_NT_INVALID_ENDPOINT_FORMAT
+    };
+
+#pragma push_macro("RPC_NT_INVALID_NET_ADDR")
+#undef RPC_NT_INVALID_NET_ADDR
+    inline constexpr auto RPC_NT_INVALID_NET_ADDR = NTSTATUS {
+#pragma pop_macro("RPC_NT_INVALID_NET_ADDR")
+        RPC_NT_INVALID_NET_ADDR
+    };
+
+#pragma push_macro("RPC_NT_NO_ENDPOINT_FOUND")
+#undef RPC_NT_NO_ENDPOINT_FOUND
+    inline constexpr auto RPC_NT_NO_ENDPOINT_FOUND = NTSTATUS {
+#pragma pop_macro("RPC_NT_NO_ENDPOINT_FOUND")
+        RPC_NT_NO_ENDPOINT_FOUND
+    };
+
+#pragma push_macro("RPC_NT_INVALID_TIMEOUT")
+#undef RPC_NT_INVALID_TIMEOUT
+    inline constexpr auto RPC_NT_INVALID_TIMEOUT = NTSTATUS {
+#pragma pop_macro("RPC_NT_INVALID_TIMEOUT")
+        RPC_NT_INVALID_TIMEOUT
+    };
+
+#pragma push_macro("RPC_NT_OBJECT_NOT_FOUND")
+#undef RPC_NT_OBJECT_NOT_FOUND
+    inline constexpr auto RPC_NT_OBJECT_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("RPC_NT_OBJECT_NOT_FOUND")
+        RPC_NT_OBJECT_NOT_FOUND
+    };
+
+#pragma push_macro("RPC_NT_ALREADY_REGISTERED")
+#undef RPC_NT_ALREADY_REGISTERED
+    inline constexpr auto RPC_NT_ALREADY_REGISTERED = NTSTATUS {
+#pragma pop_macro("RPC_NT_ALREADY_REGISTERED")
+        RPC_NT_ALREADY_REGISTERED
+    };
+
+#pragma push_macro("RPC_NT_TYPE_ALREADY_REGISTERED")
+#undef RPC_NT_TYPE_ALREADY_REGISTERED
+    inline constexpr auto RPC_NT_TYPE_ALREADY_REGISTERED = NTSTATUS {
+#pragma pop_macro("RPC_NT_TYPE_ALREADY_REGISTERED")
+        RPC_NT_TYPE_ALREADY_REGISTERED
+    };
+
+#pragma push_macro("RPC_NT_ALREADY_LISTENING")
+#undef RPC_NT_ALREADY_LISTENING
+    inline constexpr auto RPC_NT_ALREADY_LISTENING = NTSTATUS {
+#pragma pop_macro("RPC_NT_ALREADY_LISTENING")
+        RPC_NT_ALREADY_LISTENING
+    };
+
+#pragma push_macro("RPC_NT_NO_PROTSEQS_REGISTERED")
+#undef RPC_NT_NO_PROTSEQS_REGISTERED
+    inline constexpr auto RPC_NT_NO_PROTSEQS_REGISTERED = NTSTATUS {
+#pragma pop_macro("RPC_NT_NO_PROTSEQS_REGISTERED")
+        RPC_NT_NO_PROTSEQS_REGISTERED
+    };
+
+#pragma push_macro("RPC_NT_NOT_LISTENING")
+#undef RPC_NT_NOT_LISTENING
+    inline constexpr auto RPC_NT_NOT_LISTENING = NTSTATUS {
+#pragma pop_macro("RPC_NT_NOT_LISTENING")
+        RPC_NT_NOT_LISTENING
+    };
+
+#pragma push_macro("RPC_NT_UNKNOWN_MGR_TYPE")
+#undef RPC_NT_UNKNOWN_MGR_TYPE
+    inline constexpr auto RPC_NT_UNKNOWN_MGR_TYPE = NTSTATUS {
+#pragma pop_macro("RPC_NT_UNKNOWN_MGR_TYPE")
+        RPC_NT_UNKNOWN_MGR_TYPE
+    };
+
+#pragma push_macro("RPC_NT_UNKNOWN_IF")
+#undef RPC_NT_UNKNOWN_IF
+    inline constexpr auto RPC_NT_UNKNOWN_IF = NTSTATUS {
+#pragma pop_macro("RPC_NT_UNKNOWN_IF")
+        RPC_NT_UNKNOWN_IF
+    };
+
+#pragma push_macro("RPC_NT_NO_BINDINGS")
+#undef RPC_NT_NO_BINDINGS
+    inline constexpr auto RPC_NT_NO_BINDINGS = NTSTATUS {
+#pragma pop_macro("RPC_NT_NO_BINDINGS")
+        RPC_NT_NO_BINDINGS
+    };
+
+#pragma push_macro("RPC_NT_NO_PROTSEQS")
+#undef RPC_NT_NO_PROTSEQS
+    inline constexpr auto RPC_NT_NO_PROTSEQS = NTSTATUS {
+#pragma pop_macro("RPC_NT_NO_PROTSEQS")
+        RPC_NT_NO_PROTSEQS
+    };
+
+#pragma push_macro("RPC_NT_CANT_CREATE_ENDPOINT")
+#undef RPC_NT_CANT_CREATE_ENDPOINT
+    inline constexpr auto RPC_NT_CANT_CREATE_ENDPOINT = NTSTATUS {
+#pragma pop_macro("RPC_NT_CANT_CREATE_ENDPOINT")
+        RPC_NT_CANT_CREATE_ENDPOINT
+    };
+
+#pragma push_macro("RPC_NT_OUT_OF_RESOURCES")
+#undef RPC_NT_OUT_OF_RESOURCES
+    inline constexpr auto RPC_NT_OUT_OF_RESOURCES = NTSTATUS {
+#pragma pop_macro("RPC_NT_OUT_OF_RESOURCES")
+        RPC_NT_OUT_OF_RESOURCES
+    };
+
+#pragma push_macro("RPC_NT_SERVER_UNAVAILABLE")
+#undef RPC_NT_SERVER_UNAVAILABLE
+    inline constexpr auto RPC_NT_SERVER_UNAVAILABLE = NTSTATUS {
+#pragma pop_macro("RPC_NT_SERVER_UNAVAILABLE")
+        RPC_NT_SERVER_UNAVAILABLE
+    };
+
+#pragma push_macro("RPC_NT_SERVER_TOO_BUSY")
+#undef RPC_NT_SERVER_TOO_BUSY
+    inline constexpr auto RPC_NT_SERVER_TOO_BUSY = NTSTATUS {
+#pragma pop_macro("RPC_NT_SERVER_TOO_BUSY")
+        RPC_NT_SERVER_TOO_BUSY
+    };
+
+#pragma push_macro("RPC_NT_INVALID_NETWORK_OPTIONS")
+#undef RPC_NT_INVALID_NETWORK_OPTIONS
+    inline constexpr auto RPC_NT_INVALID_NETWORK_OPTIONS = NTSTATUS {
+#pragma pop_macro("RPC_NT_INVALID_NETWORK_OPTIONS")
+        RPC_NT_INVALID_NETWORK_OPTIONS
+    };
+
+#pragma push_macro("RPC_NT_NO_CALL_ACTIVE")
+#undef RPC_NT_NO_CALL_ACTIVE
+    inline constexpr auto RPC_NT_NO_CALL_ACTIVE = NTSTATUS {
+#pragma pop_macro("RPC_NT_NO_CALL_ACTIVE")
+        RPC_NT_NO_CALL_ACTIVE
+    };
+
+#pragma push_macro("RPC_NT_CALL_FAILED")
+#undef RPC_NT_CALL_FAILED
+    inline constexpr auto RPC_NT_CALL_FAILED = NTSTATUS {
+#pragma pop_macro("RPC_NT_CALL_FAILED")
+        RPC_NT_CALL_FAILED
+    };
+
+#pragma push_macro("RPC_NT_CALL_FAILED_DNE")
+#undef RPC_NT_CALL_FAILED_DNE
+    inline constexpr auto RPC_NT_CALL_FAILED_DNE = NTSTATUS {
+#pragma pop_macro("RPC_NT_CALL_FAILED_DNE")
+        RPC_NT_CALL_FAILED_DNE
+    };
+
+#pragma push_macro("RPC_NT_PROTOCOL_ERROR")
+#undef RPC_NT_PROTOCOL_ERROR
+    inline constexpr auto RPC_NT_PROTOCOL_ERROR = NTSTATUS {
+#pragma pop_macro("RPC_NT_PROTOCOL_ERROR")
+        RPC_NT_PROTOCOL_ERROR
+    };
+
+#pragma push_macro("RPC_NT_UNSUPPORTED_TRANS_SYN")
+#undef RPC_NT_UNSUPPORTED_TRANS_SYN
+    inline constexpr auto RPC_NT_UNSUPPORTED_TRANS_SYN = NTSTATUS {
+#pragma pop_macro("RPC_NT_UNSUPPORTED_TRANS_SYN")
+        RPC_NT_UNSUPPORTED_TRANS_SYN
+    };
+
+#pragma push_macro("RPC_NT_UNSUPPORTED_TYPE")
+#undef RPC_NT_UNSUPPORTED_TYPE
+    inline constexpr auto RPC_NT_UNSUPPORTED_TYPE = NTSTATUS {
+#pragma pop_macro("RPC_NT_UNSUPPORTED_TYPE")
+        RPC_NT_UNSUPPORTED_TYPE
+    };
+
+#pragma push_macro("RPC_NT_INVALID_TAG")
+#undef RPC_NT_INVALID_TAG
+    inline constexpr auto RPC_NT_INVALID_TAG = NTSTATUS {
+#pragma pop_macro("RPC_NT_INVALID_TAG")
+        RPC_NT_INVALID_TAG
+    };
+
+#pragma push_macro("RPC_NT_INVALID_BOUND")
+#undef RPC_NT_INVALID_BOUND
+    inline constexpr auto RPC_NT_INVALID_BOUND = NTSTATUS {
+#pragma pop_macro("RPC_NT_INVALID_BOUND")
+        RPC_NT_INVALID_BOUND
+    };
+
+#pragma push_macro("RPC_NT_NO_ENTRY_NAME")
+#undef RPC_NT_NO_ENTRY_NAME
+    inline constexpr auto RPC_NT_NO_ENTRY_NAME = NTSTATUS {
+#pragma pop_macro("RPC_NT_NO_ENTRY_NAME")
+        RPC_NT_NO_ENTRY_NAME
+    };
+
+#pragma push_macro("RPC_NT_INVALID_NAME_SYNTAX")
+#undef RPC_NT_INVALID_NAME_SYNTAX
+    inline constexpr auto RPC_NT_INVALID_NAME_SYNTAX = NTSTATUS {
+#pragma pop_macro("RPC_NT_INVALID_NAME_SYNTAX")
+        RPC_NT_INVALID_NAME_SYNTAX
+    };
+
+#pragma push_macro("RPC_NT_UNSUPPORTED_NAME_SYNTAX")
+#undef RPC_NT_UNSUPPORTED_NAME_SYNTAX
+    inline constexpr auto RPC_NT_UNSUPPORTED_NAME_SYNTAX = NTSTATUS {
+#pragma pop_macro("RPC_NT_UNSUPPORTED_NAME_SYNTAX")
+        RPC_NT_UNSUPPORTED_NAME_SYNTAX
+    };
+
+#pragma push_macro("RPC_NT_UUID_NO_ADDRESS")
+#undef RPC_NT_UUID_NO_ADDRESS
+    inline constexpr auto RPC_NT_UUID_NO_ADDRESS = NTSTATUS {
+#pragma pop_macro("RPC_NT_UUID_NO_ADDRESS")
+        RPC_NT_UUID_NO_ADDRESS
+    };
+
+#pragma push_macro("RPC_NT_DUPLICATE_ENDPOINT")
+#undef RPC_NT_DUPLICATE_ENDPOINT
+    inline constexpr auto RPC_NT_DUPLICATE_ENDPOINT = NTSTATUS {
+#pragma pop_macro("RPC_NT_DUPLICATE_ENDPOINT")
+        RPC_NT_DUPLICATE_ENDPOINT
+    };
+
+#pragma push_macro("RPC_NT_UNKNOWN_AUTHN_TYPE")
+#undef RPC_NT_UNKNOWN_AUTHN_TYPE
+    inline constexpr auto RPC_NT_UNKNOWN_AUTHN_TYPE = NTSTATUS {
+#pragma pop_macro("RPC_NT_UNKNOWN_AUTHN_TYPE")
+        RPC_NT_UNKNOWN_AUTHN_TYPE
+    };
+
+#pragma push_macro("RPC_NT_MAX_CALLS_TOO_SMALL")
+#undef RPC_NT_MAX_CALLS_TOO_SMALL
+    inline constexpr auto RPC_NT_MAX_CALLS_TOO_SMALL = NTSTATUS {
+#pragma pop_macro("RPC_NT_MAX_CALLS_TOO_SMALL")
+        RPC_NT_MAX_CALLS_TOO_SMALL
+    };
+
+#pragma push_macro("RPC_NT_STRING_TOO_LONG")
+#undef RPC_NT_STRING_TOO_LONG
+    inline constexpr auto RPC_NT_STRING_TOO_LONG = NTSTATUS {
+#pragma pop_macro("RPC_NT_STRING_TOO_LONG")
+        RPC_NT_STRING_TOO_LONG
+    };
+
+#pragma push_macro("RPC_NT_PROTSEQ_NOT_FOUND")
+#undef RPC_NT_PROTSEQ_NOT_FOUND
+    inline constexpr auto RPC_NT_PROTSEQ_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("RPC_NT_PROTSEQ_NOT_FOUND")
+        RPC_NT_PROTSEQ_NOT_FOUND
+    };
+
+#pragma push_macro("RPC_NT_PROCNUM_OUT_OF_RANGE")
+#undef RPC_NT_PROCNUM_OUT_OF_RANGE
+    inline constexpr auto RPC_NT_PROCNUM_OUT_OF_RANGE = NTSTATUS {
+#pragma pop_macro("RPC_NT_PROCNUM_OUT_OF_RANGE")
+        RPC_NT_PROCNUM_OUT_OF_RANGE
+    };
+
+#pragma push_macro("RPC_NT_BINDING_HAS_NO_AUTH")
+#undef RPC_NT_BINDING_HAS_NO_AUTH
+    inline constexpr auto RPC_NT_BINDING_HAS_NO_AUTH = NTSTATUS {
+#pragma pop_macro("RPC_NT_BINDING_HAS_NO_AUTH")
+        RPC_NT_BINDING_HAS_NO_AUTH
+    };
+
+#pragma push_macro("RPC_NT_UNKNOWN_AUTHN_SERVICE")
+#undef RPC_NT_UNKNOWN_AUTHN_SERVICE
+    inline constexpr auto RPC_NT_UNKNOWN_AUTHN_SERVICE = NTSTATUS {
+#pragma pop_macro("RPC_NT_UNKNOWN_AUTHN_SERVICE")
+        RPC_NT_UNKNOWN_AUTHN_SERVICE
+    };
+
+#pragma push_macro("RPC_NT_UNKNOWN_AUTHN_LEVEL")
+#undef RPC_NT_UNKNOWN_AUTHN_LEVEL
+    inline constexpr auto RPC_NT_UNKNOWN_AUTHN_LEVEL = NTSTATUS {
+#pragma pop_macro("RPC_NT_UNKNOWN_AUTHN_LEVEL")
+        RPC_NT_UNKNOWN_AUTHN_LEVEL
+    };
+
+#pragma push_macro("RPC_NT_INVALID_AUTH_IDENTITY")
+#undef RPC_NT_INVALID_AUTH_IDENTITY
+    inline constexpr auto RPC_NT_INVALID_AUTH_IDENTITY = NTSTATUS {
+#pragma pop_macro("RPC_NT_INVALID_AUTH_IDENTITY")
+        RPC_NT_INVALID_AUTH_IDENTITY
+    };
+
+#pragma push_macro("RPC_NT_UNKNOWN_AUTHZ_SERVICE")
+#undef RPC_NT_UNKNOWN_AUTHZ_SERVICE
+    inline constexpr auto RPC_NT_UNKNOWN_AUTHZ_SERVICE = NTSTATUS {
+#pragma pop_macro("RPC_NT_UNKNOWN_AUTHZ_SERVICE")
+        RPC_NT_UNKNOWN_AUTHZ_SERVICE
+    };
+
+#pragma push_macro("EPT_NT_INVALID_ENTRY")
+#undef EPT_NT_INVALID_ENTRY
+    inline constexpr auto EPT_NT_INVALID_ENTRY = NTSTATUS {
+#pragma pop_macro("EPT_NT_INVALID_ENTRY")
+        EPT_NT_INVALID_ENTRY
+    };
+
+#pragma push_macro("EPT_NT_CANT_PERFORM_OP")
+#undef EPT_NT_CANT_PERFORM_OP
+    inline constexpr auto EPT_NT_CANT_PERFORM_OP = NTSTATUS {
+#pragma pop_macro("EPT_NT_CANT_PERFORM_OP")
+        EPT_NT_CANT_PERFORM_OP
+    };
+
+#pragma push_macro("EPT_NT_NOT_REGISTERED")
+#undef EPT_NT_NOT_REGISTERED
+    inline constexpr auto EPT_NT_NOT_REGISTERED = NTSTATUS {
+#pragma pop_macro("EPT_NT_NOT_REGISTERED")
+        EPT_NT_NOT_REGISTERED
+    };
+
+#pragma push_macro("RPC_NT_NOTHING_TO_EXPORT")
+#undef RPC_NT_NOTHING_TO_EXPORT
+    inline constexpr auto RPC_NT_NOTHING_TO_EXPORT = NTSTATUS {
+#pragma pop_macro("RPC_NT_NOTHING_TO_EXPORT")
+        RPC_NT_NOTHING_TO_EXPORT
+    };
+
+#pragma push_macro("RPC_NT_INCOMPLETE_NAME")
+#undef RPC_NT_INCOMPLETE_NAME
+    inline constexpr auto RPC_NT_INCOMPLETE_NAME = NTSTATUS {
+#pragma pop_macro("RPC_NT_INCOMPLETE_NAME")
+        RPC_NT_INCOMPLETE_NAME
+    };
+
+#pragma push_macro("RPC_NT_INVALID_VERS_OPTION")
+#undef RPC_NT_INVALID_VERS_OPTION
+    inline constexpr auto RPC_NT_INVALID_VERS_OPTION = NTSTATUS {
+#pragma pop_macro("RPC_NT_INVALID_VERS_OPTION")
+        RPC_NT_INVALID_VERS_OPTION
+    };
+
+#pragma push_macro("RPC_NT_NO_MORE_MEMBERS")
+#undef RPC_NT_NO_MORE_MEMBERS
+    inline constexpr auto RPC_NT_NO_MORE_MEMBERS = NTSTATUS {
+#pragma pop_macro("RPC_NT_NO_MORE_MEMBERS")
+        RPC_NT_NO_MORE_MEMBERS
+    };
+
+#pragma push_macro("RPC_NT_NOT_ALL_OBJS_UNEXPORTED")
+#undef RPC_NT_NOT_ALL_OBJS_UNEXPORTED
+    inline constexpr auto RPC_NT_NOT_ALL_OBJS_UNEXPORTED = NTSTATUS {
+#pragma pop_macro("RPC_NT_NOT_ALL_OBJS_UNEXPORTED")
+        RPC_NT_NOT_ALL_OBJS_UNEXPORTED
+    };
+
+#pragma push_macro("RPC_NT_INTERFACE_NOT_FOUND")
+#undef RPC_NT_INTERFACE_NOT_FOUND
+    inline constexpr auto RPC_NT_INTERFACE_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("RPC_NT_INTERFACE_NOT_FOUND")
+        RPC_NT_INTERFACE_NOT_FOUND
+    };
+
+#pragma push_macro("RPC_NT_ENTRY_ALREADY_EXISTS")
+#undef RPC_NT_ENTRY_ALREADY_EXISTS
+    inline constexpr auto RPC_NT_ENTRY_ALREADY_EXISTS = NTSTATUS {
+#pragma pop_macro("RPC_NT_ENTRY_ALREADY_EXISTS")
+        RPC_NT_ENTRY_ALREADY_EXISTS
+    };
+
+#pragma push_macro("RPC_NT_ENTRY_NOT_FOUND")
+#undef RPC_NT_ENTRY_NOT_FOUND
+    inline constexpr auto RPC_NT_ENTRY_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("RPC_NT_ENTRY_NOT_FOUND")
+        RPC_NT_ENTRY_NOT_FOUND
+    };
+
+#pragma push_macro("RPC_NT_NAME_SERVICE_UNAVAILABLE")
+#undef RPC_NT_NAME_SERVICE_UNAVAILABLE
+    inline constexpr auto RPC_NT_NAME_SERVICE_UNAVAILABLE = NTSTATUS {
+#pragma pop_macro("RPC_NT_NAME_SERVICE_UNAVAILABLE")
+        RPC_NT_NAME_SERVICE_UNAVAILABLE
+    };
+
+#pragma push_macro("RPC_NT_INVALID_NAF_ID")
+#undef RPC_NT_INVALID_NAF_ID
+    inline constexpr auto RPC_NT_INVALID_NAF_ID = NTSTATUS {
+#pragma pop_macro("RPC_NT_INVALID_NAF_ID")
+        RPC_NT_INVALID_NAF_ID
+    };
+
+#pragma push_macro("RPC_NT_CANNOT_SUPPORT")
+#undef RPC_NT_CANNOT_SUPPORT
+    inline constexpr auto RPC_NT_CANNOT_SUPPORT = NTSTATUS {
+#pragma pop_macro("RPC_NT_CANNOT_SUPPORT")
+        RPC_NT_CANNOT_SUPPORT
+    };
+
+#pragma push_macro("RPC_NT_NO_CONTEXT_AVAILABLE")
+#undef RPC_NT_NO_CONTEXT_AVAILABLE
+    inline constexpr auto RPC_NT_NO_CONTEXT_AVAILABLE = NTSTATUS {
+#pragma pop_macro("RPC_NT_NO_CONTEXT_AVAILABLE")
+        RPC_NT_NO_CONTEXT_AVAILABLE
+    };
+
+#pragma push_macro("RPC_NT_INTERNAL_ERROR")
+#undef RPC_NT_INTERNAL_ERROR
+    inline constexpr auto RPC_NT_INTERNAL_ERROR = NTSTATUS {
+#pragma pop_macro("RPC_NT_INTERNAL_ERROR")
+        RPC_NT_INTERNAL_ERROR
+    };
+
+#pragma push_macro("RPC_NT_ZERO_DIVIDE")
+#undef RPC_NT_ZERO_DIVIDE
+    inline constexpr auto RPC_NT_ZERO_DIVIDE = NTSTATUS {
+#pragma pop_macro("RPC_NT_ZERO_DIVIDE")
+        RPC_NT_ZERO_DIVIDE
+    };
+
+#pragma push_macro("RPC_NT_ADDRESS_ERROR")
+#undef RPC_NT_ADDRESS_ERROR
+    inline constexpr auto RPC_NT_ADDRESS_ERROR = NTSTATUS {
+#pragma pop_macro("RPC_NT_ADDRESS_ERROR")
+        RPC_NT_ADDRESS_ERROR
+    };
+
+#pragma push_macro("RPC_NT_FP_DIV_ZERO")
+#undef RPC_NT_FP_DIV_ZERO
+    inline constexpr auto RPC_NT_FP_DIV_ZERO = NTSTATUS {
+#pragma pop_macro("RPC_NT_FP_DIV_ZERO")
+        RPC_NT_FP_DIV_ZERO
+    };
+
+#pragma push_macro("RPC_NT_FP_UNDERFLOW")
+#undef RPC_NT_FP_UNDERFLOW
+    inline constexpr auto RPC_NT_FP_UNDERFLOW = NTSTATUS {
+#pragma pop_macro("RPC_NT_FP_UNDERFLOW")
+        RPC_NT_FP_UNDERFLOW
+    };
+
+#pragma push_macro("RPC_NT_FP_OVERFLOW")
+#undef RPC_NT_FP_OVERFLOW
+    inline constexpr auto RPC_NT_FP_OVERFLOW = NTSTATUS {
+#pragma pop_macro("RPC_NT_FP_OVERFLOW")
+        RPC_NT_FP_OVERFLOW
+    };
+
+#pragma push_macro("RPC_NT_CALL_IN_PROGRESS")
+#undef RPC_NT_CALL_IN_PROGRESS
+    inline constexpr auto RPC_NT_CALL_IN_PROGRESS = NTSTATUS {
+#pragma pop_macro("RPC_NT_CALL_IN_PROGRESS")
+        RPC_NT_CALL_IN_PROGRESS
+    };
+
+#pragma push_macro("RPC_NT_NO_MORE_BINDINGS")
+#undef RPC_NT_NO_MORE_BINDINGS
+    inline constexpr auto RPC_NT_NO_MORE_BINDINGS = NTSTATUS {
+#pragma pop_macro("RPC_NT_NO_MORE_BINDINGS")
+        RPC_NT_NO_MORE_BINDINGS
+    };
+
+#pragma push_macro("RPC_NT_GROUP_MEMBER_NOT_FOUND")
+#undef RPC_NT_GROUP_MEMBER_NOT_FOUND
+    inline constexpr auto RPC_NT_GROUP_MEMBER_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("RPC_NT_GROUP_MEMBER_NOT_FOUND")
+        RPC_NT_GROUP_MEMBER_NOT_FOUND
+    };
+
+#pragma push_macro("EPT_NT_CANT_CREATE")
+#undef EPT_NT_CANT_CREATE
+    inline constexpr auto EPT_NT_CANT_CREATE = NTSTATUS {
+#pragma pop_macro("EPT_NT_CANT_CREATE")
+        EPT_NT_CANT_CREATE
+    };
+
+#pragma push_macro("RPC_NT_INVALID_OBJECT")
+#undef RPC_NT_INVALID_OBJECT
+    inline constexpr auto RPC_NT_INVALID_OBJECT = NTSTATUS {
+#pragma pop_macro("RPC_NT_INVALID_OBJECT")
+        RPC_NT_INVALID_OBJECT
+    };
+
+#pragma push_macro("RPC_NT_NO_INTERFACES")
+#undef RPC_NT_NO_INTERFACES
+    inline constexpr auto RPC_NT_NO_INTERFACES = NTSTATUS {
+#pragma pop_macro("RPC_NT_NO_INTERFACES")
+        RPC_NT_NO_INTERFACES
+    };
+
+#pragma push_macro("RPC_NT_CALL_CANCELLED")
+#undef RPC_NT_CALL_CANCELLED
+    inline constexpr auto RPC_NT_CALL_CANCELLED = NTSTATUS {
+#pragma pop_macro("RPC_NT_CALL_CANCELLED")
+        RPC_NT_CALL_CANCELLED
+    };
+
+#pragma push_macro("RPC_NT_BINDING_INCOMPLETE")
+#undef RPC_NT_BINDING_INCOMPLETE
+    inline constexpr auto RPC_NT_BINDING_INCOMPLETE = NTSTATUS {
+#pragma pop_macro("RPC_NT_BINDING_INCOMPLETE")
+        RPC_NT_BINDING_INCOMPLETE
+    };
+
+#pragma push_macro("RPC_NT_COMM_FAILURE")
+#undef RPC_NT_COMM_FAILURE
+    inline constexpr auto RPC_NT_COMM_FAILURE = NTSTATUS {
+#pragma pop_macro("RPC_NT_COMM_FAILURE")
+        RPC_NT_COMM_FAILURE
+    };
+
+#pragma push_macro("RPC_NT_UNSUPPORTED_AUTHN_LEVEL")
+#undef RPC_NT_UNSUPPORTED_AUTHN_LEVEL
+    inline constexpr auto RPC_NT_UNSUPPORTED_AUTHN_LEVEL = NTSTATUS {
+#pragma pop_macro("RPC_NT_UNSUPPORTED_AUTHN_LEVEL")
+        RPC_NT_UNSUPPORTED_AUTHN_LEVEL
+    };
+
+#pragma push_macro("RPC_NT_NO_PRINC_NAME")
+#undef RPC_NT_NO_PRINC_NAME
+    inline constexpr auto RPC_NT_NO_PRINC_NAME = NTSTATUS {
+#pragma pop_macro("RPC_NT_NO_PRINC_NAME")
+        RPC_NT_NO_PRINC_NAME
+    };
+
+#pragma push_macro("RPC_NT_NOT_RPC_ERROR")
+#undef RPC_NT_NOT_RPC_ERROR
+    inline constexpr auto RPC_NT_NOT_RPC_ERROR = NTSTATUS {
+#pragma pop_macro("RPC_NT_NOT_RPC_ERROR")
+        RPC_NT_NOT_RPC_ERROR
+    };
+
+#pragma push_macro("RPC_NT_SEC_PKG_ERROR")
+#undef RPC_NT_SEC_PKG_ERROR
+    inline constexpr auto RPC_NT_SEC_PKG_ERROR = NTSTATUS {
+#pragma pop_macro("RPC_NT_SEC_PKG_ERROR")
+        RPC_NT_SEC_PKG_ERROR
+    };
+
+#pragma push_macro("RPC_NT_NOT_CANCELLED")
+#undef RPC_NT_NOT_CANCELLED
+    inline constexpr auto RPC_NT_NOT_CANCELLED = NTSTATUS {
+#pragma pop_macro("RPC_NT_NOT_CANCELLED")
+        RPC_NT_NOT_CANCELLED
+    };
+
+#pragma push_macro("RPC_NT_INVALID_ASYNC_HANDLE")
+#undef RPC_NT_INVALID_ASYNC_HANDLE
+    inline constexpr auto RPC_NT_INVALID_ASYNC_HANDLE = NTSTATUS {
+#pragma pop_macro("RPC_NT_INVALID_ASYNC_HANDLE")
+        RPC_NT_INVALID_ASYNC_HANDLE
+    };
+
+#pragma push_macro("RPC_NT_INVALID_ASYNC_CALL")
+#undef RPC_NT_INVALID_ASYNC_CALL
+    inline constexpr auto RPC_NT_INVALID_ASYNC_CALL = NTSTATUS {
+#pragma pop_macro("RPC_NT_INVALID_ASYNC_CALL")
+        RPC_NT_INVALID_ASYNC_CALL
+    };
+
+#pragma push_macro("RPC_NT_PROXY_ACCESS_DENIED")
+#undef RPC_NT_PROXY_ACCESS_DENIED
+    inline constexpr auto RPC_NT_PROXY_ACCESS_DENIED = NTSTATUS {
+#pragma pop_macro("RPC_NT_PROXY_ACCESS_DENIED")
+        RPC_NT_PROXY_ACCESS_DENIED
+    };
+
+#pragma push_macro("RPC_NT_NO_MORE_ENTRIES")
+#undef RPC_NT_NO_MORE_ENTRIES
+    inline constexpr auto RPC_NT_NO_MORE_ENTRIES = NTSTATUS {
+#pragma pop_macro("RPC_NT_NO_MORE_ENTRIES")
+        RPC_NT_NO_MORE_ENTRIES
+    };
+
+#pragma push_macro("RPC_NT_SS_CHAR_TRANS_OPEN_FAIL")
+#undef RPC_NT_SS_CHAR_TRANS_OPEN_FAIL
+    inline constexpr auto RPC_NT_SS_CHAR_TRANS_OPEN_FAIL = NTSTATUS {
+#pragma pop_macro("RPC_NT_SS_CHAR_TRANS_OPEN_FAIL")
+        RPC_NT_SS_CHAR_TRANS_OPEN_FAIL
+    };
+
+#pragma push_macro("RPC_NT_SS_CHAR_TRANS_SHORT_FILE")
+#undef RPC_NT_SS_CHAR_TRANS_SHORT_FILE
+    inline constexpr auto RPC_NT_SS_CHAR_TRANS_SHORT_FILE = NTSTATUS {
+#pragma pop_macro("RPC_NT_SS_CHAR_TRANS_SHORT_FILE")
+        RPC_NT_SS_CHAR_TRANS_SHORT_FILE
+    };
+
+#pragma push_macro("RPC_NT_SS_IN_NULL_CONTEXT")
+#undef RPC_NT_SS_IN_NULL_CONTEXT
+    inline constexpr auto RPC_NT_SS_IN_NULL_CONTEXT = NTSTATUS {
+#pragma pop_macro("RPC_NT_SS_IN_NULL_CONTEXT")
+        RPC_NT_SS_IN_NULL_CONTEXT
+    };
+
+#pragma push_macro("RPC_NT_SS_CONTEXT_MISMATCH")
+#undef RPC_NT_SS_CONTEXT_MISMATCH
+    inline constexpr auto RPC_NT_SS_CONTEXT_MISMATCH = NTSTATUS {
+#pragma pop_macro("RPC_NT_SS_CONTEXT_MISMATCH")
+        RPC_NT_SS_CONTEXT_MISMATCH
+    };
+
+#pragma push_macro("RPC_NT_SS_CONTEXT_DAMAGED")
+#undef RPC_NT_SS_CONTEXT_DAMAGED
+    inline constexpr auto RPC_NT_SS_CONTEXT_DAMAGED = NTSTATUS {
+#pragma pop_macro("RPC_NT_SS_CONTEXT_DAMAGED")
+        RPC_NT_SS_CONTEXT_DAMAGED
+    };
+
+#pragma push_macro("RPC_NT_SS_HANDLES_MISMATCH")
+#undef RPC_NT_SS_HANDLES_MISMATCH
+    inline constexpr auto RPC_NT_SS_HANDLES_MISMATCH = NTSTATUS {
+#pragma pop_macro("RPC_NT_SS_HANDLES_MISMATCH")
+        RPC_NT_SS_HANDLES_MISMATCH
+    };
+
+#pragma push_macro("RPC_NT_SS_CANNOT_GET_CALL_HANDLE")
+#undef RPC_NT_SS_CANNOT_GET_CALL_HANDLE
+    inline constexpr auto RPC_NT_SS_CANNOT_GET_CALL_HANDLE = NTSTATUS {
+#pragma pop_macro("RPC_NT_SS_CANNOT_GET_CALL_HANDLE")
+        RPC_NT_SS_CANNOT_GET_CALL_HANDLE
+    };
+
+#pragma push_macro("RPC_NT_NULL_REF_POINTER")
+#undef RPC_NT_NULL_REF_POINTER
+    inline constexpr auto RPC_NT_NULL_REF_POINTER = NTSTATUS {
+#pragma pop_macro("RPC_NT_NULL_REF_POINTER")
+        RPC_NT_NULL_REF_POINTER
+    };
+
+#pragma push_macro("RPC_NT_ENUM_VALUE_OUT_OF_RANGE")
+#undef RPC_NT_ENUM_VALUE_OUT_OF_RANGE
+    inline constexpr auto RPC_NT_ENUM_VALUE_OUT_OF_RANGE = NTSTATUS {
+#pragma pop_macro("RPC_NT_ENUM_VALUE_OUT_OF_RANGE")
+        RPC_NT_ENUM_VALUE_OUT_OF_RANGE
+    };
+
+#pragma push_macro("RPC_NT_BYTE_COUNT_TOO_SMALL")
+#undef RPC_NT_BYTE_COUNT_TOO_SMALL
+    inline constexpr auto RPC_NT_BYTE_COUNT_TOO_SMALL = NTSTATUS {
+#pragma pop_macro("RPC_NT_BYTE_COUNT_TOO_SMALL")
+        RPC_NT_BYTE_COUNT_TOO_SMALL
+    };
+
+#pragma push_macro("RPC_NT_BAD_STUB_DATA")
+#undef RPC_NT_BAD_STUB_DATA
+    inline constexpr auto RPC_NT_BAD_STUB_DATA = NTSTATUS {
+#pragma pop_macro("RPC_NT_BAD_STUB_DATA")
+        RPC_NT_BAD_STUB_DATA
+    };
+
+#pragma push_macro("RPC_NT_INVALID_ES_ACTION")
+#undef RPC_NT_INVALID_ES_ACTION
+    inline constexpr auto RPC_NT_INVALID_ES_ACTION = NTSTATUS {
+#pragma pop_macro("RPC_NT_INVALID_ES_ACTION")
+        RPC_NT_INVALID_ES_ACTION
+    };
+
+#pragma push_macro("RPC_NT_WRONG_ES_VERSION")
+#undef RPC_NT_WRONG_ES_VERSION
+    inline constexpr auto RPC_NT_WRONG_ES_VERSION = NTSTATUS {
+#pragma pop_macro("RPC_NT_WRONG_ES_VERSION")
+        RPC_NT_WRONG_ES_VERSION
+    };
+
+#pragma push_macro("RPC_NT_WRONG_STUB_VERSION")
+#undef RPC_NT_WRONG_STUB_VERSION
+    inline constexpr auto RPC_NT_WRONG_STUB_VERSION = NTSTATUS {
+#pragma pop_macro("RPC_NT_WRONG_STUB_VERSION")
+        RPC_NT_WRONG_STUB_VERSION
+    };
+
+#pragma push_macro("RPC_NT_INVALID_PIPE_OBJECT")
+#undef RPC_NT_INVALID_PIPE_OBJECT
+    inline constexpr auto RPC_NT_INVALID_PIPE_OBJECT = NTSTATUS {
+#pragma pop_macro("RPC_NT_INVALID_PIPE_OBJECT")
+        RPC_NT_INVALID_PIPE_OBJECT
+    };
+
+#pragma push_macro("RPC_NT_INVALID_PIPE_OPERATION")
+#undef RPC_NT_INVALID_PIPE_OPERATION
+    inline constexpr auto RPC_NT_INVALID_PIPE_OPERATION = NTSTATUS {
+#pragma pop_macro("RPC_NT_INVALID_PIPE_OPERATION")
+        RPC_NT_INVALID_PIPE_OPERATION
+    };
+
+#pragma push_macro("RPC_NT_WRONG_PIPE_VERSION")
+#undef RPC_NT_WRONG_PIPE_VERSION
+    inline constexpr auto RPC_NT_WRONG_PIPE_VERSION = NTSTATUS {
+#pragma pop_macro("RPC_NT_WRONG_PIPE_VERSION")
+        RPC_NT_WRONG_PIPE_VERSION
+    };
+
+#pragma push_macro("RPC_NT_PIPE_CLOSED")
+#undef RPC_NT_PIPE_CLOSED
+    inline constexpr auto RPC_NT_PIPE_CLOSED = NTSTATUS {
+#pragma pop_macro("RPC_NT_PIPE_CLOSED")
+        RPC_NT_PIPE_CLOSED
+    };
+
+#pragma push_macro("RPC_NT_PIPE_DISCIPLINE_ERROR")
+#undef RPC_NT_PIPE_DISCIPLINE_ERROR
+    inline constexpr auto RPC_NT_PIPE_DISCIPLINE_ERROR = NTSTATUS {
+#pragma pop_macro("RPC_NT_PIPE_DISCIPLINE_ERROR")
+        RPC_NT_PIPE_DISCIPLINE_ERROR
+    };
+
+#pragma push_macro("RPC_NT_PIPE_EMPTY")
+#undef RPC_NT_PIPE_EMPTY
+    inline constexpr auto RPC_NT_PIPE_EMPTY = NTSTATUS {
+#pragma pop_macro("RPC_NT_PIPE_EMPTY")
+        RPC_NT_PIPE_EMPTY
+    };
+
+#pragma push_macro("STATUS_PNP_BAD_MPS_TABLE")
+#undef STATUS_PNP_BAD_MPS_TABLE
+    inline constexpr auto STATUS_PNP_BAD_MPS_TABLE = NTSTATUS {
+#pragma pop_macro("STATUS_PNP_BAD_MPS_TABLE")
+        STATUS_PNP_BAD_MPS_TABLE
+    };
+
+#pragma push_macro("STATUS_PNP_TRANSLATION_FAILED")
+#undef STATUS_PNP_TRANSLATION_FAILED
+    inline constexpr auto STATUS_PNP_TRANSLATION_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_PNP_TRANSLATION_FAILED")
+        STATUS_PNP_TRANSLATION_FAILED
+    };
+
+#pragma push_macro("STATUS_PNP_IRQ_TRANSLATION_FAILED")
+#undef STATUS_PNP_IRQ_TRANSLATION_FAILED
+    inline constexpr auto STATUS_PNP_IRQ_TRANSLATION_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_PNP_IRQ_TRANSLATION_FAILED")
+        STATUS_PNP_IRQ_TRANSLATION_FAILED
+    };
+
+#pragma push_macro("STATUS_PNP_INVALID_ID")
+#undef STATUS_PNP_INVALID_ID
+    inline constexpr auto STATUS_PNP_INVALID_ID = NTSTATUS {
+#pragma pop_macro("STATUS_PNP_INVALID_ID")
+        STATUS_PNP_INVALID_ID
+    };
+
+#pragma push_macro("STATUS_IO_REISSUE_AS_CACHED")
+#undef STATUS_IO_REISSUE_AS_CACHED
+    inline constexpr auto STATUS_IO_REISSUE_AS_CACHED = NTSTATUS {
+#pragma pop_macro("STATUS_IO_REISSUE_AS_CACHED")
+        STATUS_IO_REISSUE_AS_CACHED
+    };
+
+#pragma push_macro("STATUS_CTX_WINSTATION_NAME_INVALID")
+#undef STATUS_CTX_WINSTATION_NAME_INVALID
+    inline constexpr auto STATUS_CTX_WINSTATION_NAME_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_WINSTATION_NAME_INVALID")
+        STATUS_CTX_WINSTATION_NAME_INVALID
+    };
+
+#pragma push_macro("STATUS_CTX_INVALID_PD")
+#undef STATUS_CTX_INVALID_PD
+    inline constexpr auto STATUS_CTX_INVALID_PD = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_INVALID_PD")
+        STATUS_CTX_INVALID_PD
+    };
+
+#pragma push_macro("STATUS_CTX_PD_NOT_FOUND")
+#undef STATUS_CTX_PD_NOT_FOUND
+    inline constexpr auto STATUS_CTX_PD_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_PD_NOT_FOUND")
+        STATUS_CTX_PD_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_CTX_CLOSE_PENDING")
+#undef STATUS_CTX_CLOSE_PENDING
+    inline constexpr auto STATUS_CTX_CLOSE_PENDING = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_CLOSE_PENDING")
+        STATUS_CTX_CLOSE_PENDING
+    };
+
+#pragma push_macro("STATUS_CTX_NO_OUTBUF")
+#undef STATUS_CTX_NO_OUTBUF
+    inline constexpr auto STATUS_CTX_NO_OUTBUF = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_NO_OUTBUF")
+        STATUS_CTX_NO_OUTBUF
+    };
+
+#pragma push_macro("STATUS_CTX_MODEM_INF_NOT_FOUND")
+#undef STATUS_CTX_MODEM_INF_NOT_FOUND
+    inline constexpr auto STATUS_CTX_MODEM_INF_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_MODEM_INF_NOT_FOUND")
+        STATUS_CTX_MODEM_INF_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_CTX_INVALID_MODEMNAME")
+#undef STATUS_CTX_INVALID_MODEMNAME
+    inline constexpr auto STATUS_CTX_INVALID_MODEMNAME = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_INVALID_MODEMNAME")
+        STATUS_CTX_INVALID_MODEMNAME
+    };
+
+#pragma push_macro("STATUS_CTX_RESPONSE_ERROR")
+#undef STATUS_CTX_RESPONSE_ERROR
+    inline constexpr auto STATUS_CTX_RESPONSE_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_RESPONSE_ERROR")
+        STATUS_CTX_RESPONSE_ERROR
+    };
+
+#pragma push_macro("STATUS_CTX_MODEM_RESPONSE_TIMEOUT")
+#undef STATUS_CTX_MODEM_RESPONSE_TIMEOUT
+    inline constexpr auto STATUS_CTX_MODEM_RESPONSE_TIMEOUT = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_MODEM_RESPONSE_TIMEOUT")
+        STATUS_CTX_MODEM_RESPONSE_TIMEOUT
+    };
+
+#pragma push_macro("STATUS_CTX_MODEM_RESPONSE_NO_CARRIER")
+#undef STATUS_CTX_MODEM_RESPONSE_NO_CARRIER
+    inline constexpr auto STATUS_CTX_MODEM_RESPONSE_NO_CARRIER = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_MODEM_RESPONSE_NO_CARRIER")
+        STATUS_CTX_MODEM_RESPONSE_NO_CARRIER
+    };
+
+#pragma push_macro("STATUS_CTX_MODEM_RESPONSE_NO_DIALTONE")
+#undef STATUS_CTX_MODEM_RESPONSE_NO_DIALTONE
+    inline constexpr auto STATUS_CTX_MODEM_RESPONSE_NO_DIALTONE = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_MODEM_RESPONSE_NO_DIALTONE")
+        STATUS_CTX_MODEM_RESPONSE_NO_DIALTONE
+    };
+
+#pragma push_macro("STATUS_CTX_MODEM_RESPONSE_BUSY")
+#undef STATUS_CTX_MODEM_RESPONSE_BUSY
+    inline constexpr auto STATUS_CTX_MODEM_RESPONSE_BUSY = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_MODEM_RESPONSE_BUSY")
+        STATUS_CTX_MODEM_RESPONSE_BUSY
+    };
+
+#pragma push_macro("STATUS_CTX_MODEM_RESPONSE_VOICE")
+#undef STATUS_CTX_MODEM_RESPONSE_VOICE
+    inline constexpr auto STATUS_CTX_MODEM_RESPONSE_VOICE = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_MODEM_RESPONSE_VOICE")
+        STATUS_CTX_MODEM_RESPONSE_VOICE
+    };
+
+#pragma push_macro("STATUS_CTX_TD_ERROR")
+#undef STATUS_CTX_TD_ERROR
+    inline constexpr auto STATUS_CTX_TD_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_TD_ERROR")
+        STATUS_CTX_TD_ERROR
+    };
+
+#pragma push_macro("STATUS_CTX_LICENSE_CLIENT_INVALID")
+#undef STATUS_CTX_LICENSE_CLIENT_INVALID
+    inline constexpr auto STATUS_CTX_LICENSE_CLIENT_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_LICENSE_CLIENT_INVALID")
+        STATUS_CTX_LICENSE_CLIENT_INVALID
+    };
+
+#pragma push_macro("STATUS_CTX_LICENSE_NOT_AVAILABLE")
+#undef STATUS_CTX_LICENSE_NOT_AVAILABLE
+    inline constexpr auto STATUS_CTX_LICENSE_NOT_AVAILABLE = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_LICENSE_NOT_AVAILABLE")
+        STATUS_CTX_LICENSE_NOT_AVAILABLE
+    };
+
+#pragma push_macro("STATUS_CTX_LICENSE_EXPIRED")
+#undef STATUS_CTX_LICENSE_EXPIRED
+    inline constexpr auto STATUS_CTX_LICENSE_EXPIRED = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_LICENSE_EXPIRED")
+        STATUS_CTX_LICENSE_EXPIRED
+    };
+
+#pragma push_macro("STATUS_CTX_WINSTATION_NOT_FOUND")
+#undef STATUS_CTX_WINSTATION_NOT_FOUND
+    inline constexpr auto STATUS_CTX_WINSTATION_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_WINSTATION_NOT_FOUND")
+        STATUS_CTX_WINSTATION_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_CTX_WINSTATION_NAME_COLLISION")
+#undef STATUS_CTX_WINSTATION_NAME_COLLISION
+    inline constexpr auto STATUS_CTX_WINSTATION_NAME_COLLISION = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_WINSTATION_NAME_COLLISION")
+        STATUS_CTX_WINSTATION_NAME_COLLISION
+    };
+
+#pragma push_macro("STATUS_CTX_WINSTATION_BUSY")
+#undef STATUS_CTX_WINSTATION_BUSY
+    inline constexpr auto STATUS_CTX_WINSTATION_BUSY = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_WINSTATION_BUSY")
+        STATUS_CTX_WINSTATION_BUSY
+    };
+
+#pragma push_macro("STATUS_CTX_BAD_VIDEO_MODE")
+#undef STATUS_CTX_BAD_VIDEO_MODE
+    inline constexpr auto STATUS_CTX_BAD_VIDEO_MODE = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_BAD_VIDEO_MODE")
+        STATUS_CTX_BAD_VIDEO_MODE
+    };
+
+#pragma push_macro("STATUS_CTX_GRAPHICS_INVALID")
+#undef STATUS_CTX_GRAPHICS_INVALID
+    inline constexpr auto STATUS_CTX_GRAPHICS_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_GRAPHICS_INVALID")
+        STATUS_CTX_GRAPHICS_INVALID
+    };
+
+#pragma push_macro("STATUS_CTX_NOT_CONSOLE")
+#undef STATUS_CTX_NOT_CONSOLE
+    inline constexpr auto STATUS_CTX_NOT_CONSOLE = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_NOT_CONSOLE")
+        STATUS_CTX_NOT_CONSOLE
+    };
+
+#pragma push_macro("STATUS_CTX_CLIENT_QUERY_TIMEOUT")
+#undef STATUS_CTX_CLIENT_QUERY_TIMEOUT
+    inline constexpr auto STATUS_CTX_CLIENT_QUERY_TIMEOUT = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_CLIENT_QUERY_TIMEOUT")
+        STATUS_CTX_CLIENT_QUERY_TIMEOUT
+    };
+
+#pragma push_macro("STATUS_CTX_CONSOLE_DISCONNECT")
+#undef STATUS_CTX_CONSOLE_DISCONNECT
+    inline constexpr auto STATUS_CTX_CONSOLE_DISCONNECT = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_CONSOLE_DISCONNECT")
+        STATUS_CTX_CONSOLE_DISCONNECT
+    };
+
+#pragma push_macro("STATUS_CTX_CONSOLE_CONNECT")
+#undef STATUS_CTX_CONSOLE_CONNECT
+    inline constexpr auto STATUS_CTX_CONSOLE_CONNECT = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_CONSOLE_CONNECT")
+        STATUS_CTX_CONSOLE_CONNECT
+    };
+
+#pragma push_macro("STATUS_CTX_SHADOW_DENIED")
+#undef STATUS_CTX_SHADOW_DENIED
+    inline constexpr auto STATUS_CTX_SHADOW_DENIED = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_SHADOW_DENIED")
+        STATUS_CTX_SHADOW_DENIED
+    };
+
+#pragma push_macro("STATUS_CTX_WINSTATION_ACCESS_DENIED")
+#undef STATUS_CTX_WINSTATION_ACCESS_DENIED
+    inline constexpr auto STATUS_CTX_WINSTATION_ACCESS_DENIED = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_WINSTATION_ACCESS_DENIED")
+        STATUS_CTX_WINSTATION_ACCESS_DENIED
+    };
+
+#pragma push_macro("STATUS_CTX_INVALID_WD")
+#undef STATUS_CTX_INVALID_WD
+    inline constexpr auto STATUS_CTX_INVALID_WD = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_INVALID_WD")
+        STATUS_CTX_INVALID_WD
+    };
+
+#pragma push_macro("STATUS_CTX_WD_NOT_FOUND")
+#undef STATUS_CTX_WD_NOT_FOUND
+    inline constexpr auto STATUS_CTX_WD_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_WD_NOT_FOUND")
+        STATUS_CTX_WD_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_CTX_SHADOW_INVALID")
+#undef STATUS_CTX_SHADOW_INVALID
+    inline constexpr auto STATUS_CTX_SHADOW_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_SHADOW_INVALID")
+        STATUS_CTX_SHADOW_INVALID
+    };
+
+#pragma push_macro("STATUS_CTX_SHADOW_DISABLED")
+#undef STATUS_CTX_SHADOW_DISABLED
+    inline constexpr auto STATUS_CTX_SHADOW_DISABLED = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_SHADOW_DISABLED")
+        STATUS_CTX_SHADOW_DISABLED
+    };
+
+#pragma push_macro("STATUS_RDP_PROTOCOL_ERROR")
+#undef STATUS_RDP_PROTOCOL_ERROR
+    inline constexpr auto STATUS_RDP_PROTOCOL_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_RDP_PROTOCOL_ERROR")
+        STATUS_RDP_PROTOCOL_ERROR
+    };
+
+#pragma push_macro("STATUS_CTX_CLIENT_LICENSE_NOT_SET")
+#undef STATUS_CTX_CLIENT_LICENSE_NOT_SET
+    inline constexpr auto STATUS_CTX_CLIENT_LICENSE_NOT_SET = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_CLIENT_LICENSE_NOT_SET")
+        STATUS_CTX_CLIENT_LICENSE_NOT_SET
+    };
+
+#pragma push_macro("STATUS_CTX_CLIENT_LICENSE_IN_USE")
+#undef STATUS_CTX_CLIENT_LICENSE_IN_USE
+    inline constexpr auto STATUS_CTX_CLIENT_LICENSE_IN_USE = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_CLIENT_LICENSE_IN_USE")
+        STATUS_CTX_CLIENT_LICENSE_IN_USE
+    };
+
+#pragma push_macro("STATUS_CTX_SHADOW_ENDED_BY_MODE_CHANGE")
+#undef STATUS_CTX_SHADOW_ENDED_BY_MODE_CHANGE
+    inline constexpr auto STATUS_CTX_SHADOW_ENDED_BY_MODE_CHANGE = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_SHADOW_ENDED_BY_MODE_CHANGE")
+        STATUS_CTX_SHADOW_ENDED_BY_MODE_CHANGE
+    };
+
+#pragma push_macro("STATUS_CTX_SHADOW_NOT_RUNNING")
+#undef STATUS_CTX_SHADOW_NOT_RUNNING
+    inline constexpr auto STATUS_CTX_SHADOW_NOT_RUNNING = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_SHADOW_NOT_RUNNING")
+        STATUS_CTX_SHADOW_NOT_RUNNING
+    };
+
+#pragma push_macro("STATUS_CTX_LOGON_DISABLED")
+#undef STATUS_CTX_LOGON_DISABLED
+    inline constexpr auto STATUS_CTX_LOGON_DISABLED = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_LOGON_DISABLED")
+        STATUS_CTX_LOGON_DISABLED
+    };
+
+#pragma push_macro("STATUS_CTX_SECURITY_LAYER_ERROR")
+#undef STATUS_CTX_SECURITY_LAYER_ERROR
+    inline constexpr auto STATUS_CTX_SECURITY_LAYER_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_CTX_SECURITY_LAYER_ERROR")
+        STATUS_CTX_SECURITY_LAYER_ERROR
+    };
+
+#pragma push_macro("STATUS_TS_INCOMPATIBLE_SESSIONS")
+#undef STATUS_TS_INCOMPATIBLE_SESSIONS
+    inline constexpr auto STATUS_TS_INCOMPATIBLE_SESSIONS = NTSTATUS {
+#pragma pop_macro("STATUS_TS_INCOMPATIBLE_SESSIONS")
+        STATUS_TS_INCOMPATIBLE_SESSIONS
+    };
+
+#pragma push_macro("STATUS_MUI_FILE_NOT_FOUND")
+#undef STATUS_MUI_FILE_NOT_FOUND
+    inline constexpr auto STATUS_MUI_FILE_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_MUI_FILE_NOT_FOUND")
+        STATUS_MUI_FILE_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_MUI_INVALID_FILE")
+#undef STATUS_MUI_INVALID_FILE
+    inline constexpr auto STATUS_MUI_INVALID_FILE = NTSTATUS {
+#pragma pop_macro("STATUS_MUI_INVALID_FILE")
+        STATUS_MUI_INVALID_FILE
+    };
+
+#pragma push_macro("STATUS_MUI_INVALID_RC_CONFIG")
+#undef STATUS_MUI_INVALID_RC_CONFIG
+    inline constexpr auto STATUS_MUI_INVALID_RC_CONFIG = NTSTATUS {
+#pragma pop_macro("STATUS_MUI_INVALID_RC_CONFIG")
+        STATUS_MUI_INVALID_RC_CONFIG
+    };
+
+#pragma push_macro("STATUS_MUI_INVALID_LOCALE_NAME")
+#undef STATUS_MUI_INVALID_LOCALE_NAME
+    inline constexpr auto STATUS_MUI_INVALID_LOCALE_NAME = NTSTATUS {
+#pragma pop_macro("STATUS_MUI_INVALID_LOCALE_NAME")
+        STATUS_MUI_INVALID_LOCALE_NAME
+    };
+
+#pragma push_macro("STATUS_MUI_INVALID_ULTIMATEFALLBACK_NAME")
+#undef STATUS_MUI_INVALID_ULTIMATEFALLBACK_NAME
+    inline constexpr auto STATUS_MUI_INVALID_ULTIMATEFALLBACK_NAME = NTSTATUS {
+#pragma pop_macro("STATUS_MUI_INVALID_ULTIMATEFALLBACK_NAME")
+        STATUS_MUI_INVALID_ULTIMATEFALLBACK_NAME
+    };
+
+#pragma push_macro("STATUS_MUI_FILE_NOT_LOADED")
+#undef STATUS_MUI_FILE_NOT_LOADED
+    inline constexpr auto STATUS_MUI_FILE_NOT_LOADED = NTSTATUS {
+#pragma pop_macro("STATUS_MUI_FILE_NOT_LOADED")
+        STATUS_MUI_FILE_NOT_LOADED
+    };
+
+#pragma push_macro("STATUS_RESOURCE_ENUM_USER_STOP")
+#undef STATUS_RESOURCE_ENUM_USER_STOP
+    inline constexpr auto STATUS_RESOURCE_ENUM_USER_STOP = NTSTATUS {
+#pragma pop_macro("STATUS_RESOURCE_ENUM_USER_STOP")
+        STATUS_RESOURCE_ENUM_USER_STOP
+    };
+
+#pragma push_macro("STATUS_CLUSTER_INVALID_NODE")
+#undef STATUS_CLUSTER_INVALID_NODE
+    inline constexpr auto STATUS_CLUSTER_INVALID_NODE = NTSTATUS {
+#pragma pop_macro("STATUS_CLUSTER_INVALID_NODE")
+        STATUS_CLUSTER_INVALID_NODE
+    };
+
+#pragma push_macro("STATUS_CLUSTER_NODE_EXISTS")
+#undef STATUS_CLUSTER_NODE_EXISTS
+    inline constexpr auto STATUS_CLUSTER_NODE_EXISTS = NTSTATUS {
+#pragma pop_macro("STATUS_CLUSTER_NODE_EXISTS")
+        STATUS_CLUSTER_NODE_EXISTS
+    };
+
+#pragma push_macro("STATUS_CLUSTER_JOIN_IN_PROGRESS")
+#undef STATUS_CLUSTER_JOIN_IN_PROGRESS
+    inline constexpr auto STATUS_CLUSTER_JOIN_IN_PROGRESS = NTSTATUS {
+#pragma pop_macro("STATUS_CLUSTER_JOIN_IN_PROGRESS")
+        STATUS_CLUSTER_JOIN_IN_PROGRESS
+    };
+
+#pragma push_macro("STATUS_CLUSTER_NODE_NOT_FOUND")
+#undef STATUS_CLUSTER_NODE_NOT_FOUND
+    inline constexpr auto STATUS_CLUSTER_NODE_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_CLUSTER_NODE_NOT_FOUND")
+        STATUS_CLUSTER_NODE_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_CLUSTER_LOCAL_NODE_NOT_FOUND")
+#undef STATUS_CLUSTER_LOCAL_NODE_NOT_FOUND
+    inline constexpr auto STATUS_CLUSTER_LOCAL_NODE_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_CLUSTER_LOCAL_NODE_NOT_FOUND")
+        STATUS_CLUSTER_LOCAL_NODE_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_CLUSTER_NETWORK_EXISTS")
+#undef STATUS_CLUSTER_NETWORK_EXISTS
+    inline constexpr auto STATUS_CLUSTER_NETWORK_EXISTS = NTSTATUS {
+#pragma pop_macro("STATUS_CLUSTER_NETWORK_EXISTS")
+        STATUS_CLUSTER_NETWORK_EXISTS
+    };
+
+#pragma push_macro("STATUS_CLUSTER_NETWORK_NOT_FOUND")
+#undef STATUS_CLUSTER_NETWORK_NOT_FOUND
+    inline constexpr auto STATUS_CLUSTER_NETWORK_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_CLUSTER_NETWORK_NOT_FOUND")
+        STATUS_CLUSTER_NETWORK_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_CLUSTER_NETINTERFACE_EXISTS")
+#undef STATUS_CLUSTER_NETINTERFACE_EXISTS
+    inline constexpr auto STATUS_CLUSTER_NETINTERFACE_EXISTS = NTSTATUS {
+#pragma pop_macro("STATUS_CLUSTER_NETINTERFACE_EXISTS")
+        STATUS_CLUSTER_NETINTERFACE_EXISTS
+    };
+
+#pragma push_macro("STATUS_CLUSTER_NETINTERFACE_NOT_FOUND")
+#undef STATUS_CLUSTER_NETINTERFACE_NOT_FOUND
+    inline constexpr auto STATUS_CLUSTER_NETINTERFACE_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_CLUSTER_NETINTERFACE_NOT_FOUND")
+        STATUS_CLUSTER_NETINTERFACE_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_CLUSTER_INVALID_REQUEST")
+#undef STATUS_CLUSTER_INVALID_REQUEST
+    inline constexpr auto STATUS_CLUSTER_INVALID_REQUEST = NTSTATUS {
+#pragma pop_macro("STATUS_CLUSTER_INVALID_REQUEST")
+        STATUS_CLUSTER_INVALID_REQUEST
+    };
+
+#pragma push_macro("STATUS_CLUSTER_INVALID_NETWORK_PROVIDER")
+#undef STATUS_CLUSTER_INVALID_NETWORK_PROVIDER
+    inline constexpr auto STATUS_CLUSTER_INVALID_NETWORK_PROVIDER = NTSTATUS {
+#pragma pop_macro("STATUS_CLUSTER_INVALID_NETWORK_PROVIDER")
+        STATUS_CLUSTER_INVALID_NETWORK_PROVIDER
+    };
+
+#pragma push_macro("STATUS_CLUSTER_NODE_DOWN")
+#undef STATUS_CLUSTER_NODE_DOWN
+    inline constexpr auto STATUS_CLUSTER_NODE_DOWN = NTSTATUS {
+#pragma pop_macro("STATUS_CLUSTER_NODE_DOWN")
+        STATUS_CLUSTER_NODE_DOWN
+    };
+
+#pragma push_macro("STATUS_CLUSTER_NODE_UNREACHABLE")
+#undef STATUS_CLUSTER_NODE_UNREACHABLE
+    inline constexpr auto STATUS_CLUSTER_NODE_UNREACHABLE = NTSTATUS {
+#pragma pop_macro("STATUS_CLUSTER_NODE_UNREACHABLE")
+        STATUS_CLUSTER_NODE_UNREACHABLE
+    };
+
+#pragma push_macro("STATUS_CLUSTER_NODE_NOT_MEMBER")
+#undef STATUS_CLUSTER_NODE_NOT_MEMBER
+    inline constexpr auto STATUS_CLUSTER_NODE_NOT_MEMBER = NTSTATUS {
+#pragma pop_macro("STATUS_CLUSTER_NODE_NOT_MEMBER")
+        STATUS_CLUSTER_NODE_NOT_MEMBER
+    };
+
+#pragma push_macro("STATUS_CLUSTER_JOIN_NOT_IN_PROGRESS")
+#undef STATUS_CLUSTER_JOIN_NOT_IN_PROGRESS
+    inline constexpr auto STATUS_CLUSTER_JOIN_NOT_IN_PROGRESS = NTSTATUS {
+#pragma pop_macro("STATUS_CLUSTER_JOIN_NOT_IN_PROGRESS")
+        STATUS_CLUSTER_JOIN_NOT_IN_PROGRESS
+    };
+
+#pragma push_macro("STATUS_CLUSTER_INVALID_NETWORK")
+#undef STATUS_CLUSTER_INVALID_NETWORK
+    inline constexpr auto STATUS_CLUSTER_INVALID_NETWORK = NTSTATUS {
+#pragma pop_macro("STATUS_CLUSTER_INVALID_NETWORK")
+        STATUS_CLUSTER_INVALID_NETWORK
+    };
+
+#pragma push_macro("STATUS_CLUSTER_NO_NET_ADAPTERS")
+#undef STATUS_CLUSTER_NO_NET_ADAPTERS
+    inline constexpr auto STATUS_CLUSTER_NO_NET_ADAPTERS = NTSTATUS {
+#pragma pop_macro("STATUS_CLUSTER_NO_NET_ADAPTERS")
+        STATUS_CLUSTER_NO_NET_ADAPTERS
+    };
+
+#pragma push_macro("STATUS_CLUSTER_NODE_UP")
+#undef STATUS_CLUSTER_NODE_UP
+    inline constexpr auto STATUS_CLUSTER_NODE_UP = NTSTATUS {
+#pragma pop_macro("STATUS_CLUSTER_NODE_UP")
+        STATUS_CLUSTER_NODE_UP
+    };
+
+#pragma push_macro("STATUS_CLUSTER_NODE_PAUSED")
+#undef STATUS_CLUSTER_NODE_PAUSED
+    inline constexpr auto STATUS_CLUSTER_NODE_PAUSED = NTSTATUS {
+#pragma pop_macro("STATUS_CLUSTER_NODE_PAUSED")
+        STATUS_CLUSTER_NODE_PAUSED
+    };
+
+#pragma push_macro("STATUS_CLUSTER_NODE_NOT_PAUSED")
+#undef STATUS_CLUSTER_NODE_NOT_PAUSED
+    inline constexpr auto STATUS_CLUSTER_NODE_NOT_PAUSED = NTSTATUS {
+#pragma pop_macro("STATUS_CLUSTER_NODE_NOT_PAUSED")
+        STATUS_CLUSTER_NODE_NOT_PAUSED
+    };
+
+#pragma push_macro("STATUS_CLUSTER_NO_SECURITY_CONTEXT")
+#undef STATUS_CLUSTER_NO_SECURITY_CONTEXT
+    inline constexpr auto STATUS_CLUSTER_NO_SECURITY_CONTEXT = NTSTATUS {
+#pragma pop_macro("STATUS_CLUSTER_NO_SECURITY_CONTEXT")
+        STATUS_CLUSTER_NO_SECURITY_CONTEXT
+    };
+
+#pragma push_macro("STATUS_CLUSTER_NETWORK_NOT_INTERNAL")
+#undef STATUS_CLUSTER_NETWORK_NOT_INTERNAL
+    inline constexpr auto STATUS_CLUSTER_NETWORK_NOT_INTERNAL = NTSTATUS {
+#pragma pop_macro("STATUS_CLUSTER_NETWORK_NOT_INTERNAL")
+        STATUS_CLUSTER_NETWORK_NOT_INTERNAL
+    };
+
+#pragma push_macro("STATUS_CLUSTER_POISONED")
+#undef STATUS_CLUSTER_POISONED
+    inline constexpr auto STATUS_CLUSTER_POISONED = NTSTATUS {
+#pragma pop_macro("STATUS_CLUSTER_POISONED")
+        STATUS_CLUSTER_POISONED
+    };
+
+#pragma push_macro("STATUS_ACPI_INVALID_OPCODE")
+#undef STATUS_ACPI_INVALID_OPCODE
+    inline constexpr auto STATUS_ACPI_INVALID_OPCODE = NTSTATUS {
+#pragma pop_macro("STATUS_ACPI_INVALID_OPCODE")
+        STATUS_ACPI_INVALID_OPCODE
+    };
+
+#pragma push_macro("STATUS_ACPI_STACK_OVERFLOW")
+#undef STATUS_ACPI_STACK_OVERFLOW
+    inline constexpr auto STATUS_ACPI_STACK_OVERFLOW = NTSTATUS {
+#pragma pop_macro("STATUS_ACPI_STACK_OVERFLOW")
+        STATUS_ACPI_STACK_OVERFLOW
+    };
+
+#pragma push_macro("STATUS_ACPI_ASSERT_FAILED")
+#undef STATUS_ACPI_ASSERT_FAILED
+    inline constexpr auto STATUS_ACPI_ASSERT_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_ACPI_ASSERT_FAILED")
+        STATUS_ACPI_ASSERT_FAILED
+    };
+
+#pragma push_macro("STATUS_ACPI_INVALID_INDEX")
+#undef STATUS_ACPI_INVALID_INDEX
+    inline constexpr auto STATUS_ACPI_INVALID_INDEX = NTSTATUS {
+#pragma pop_macro("STATUS_ACPI_INVALID_INDEX")
+        STATUS_ACPI_INVALID_INDEX
+    };
+
+#pragma push_macro("STATUS_ACPI_INVALID_ARGUMENT")
+#undef STATUS_ACPI_INVALID_ARGUMENT
+    inline constexpr auto STATUS_ACPI_INVALID_ARGUMENT = NTSTATUS {
+#pragma pop_macro("STATUS_ACPI_INVALID_ARGUMENT")
+        STATUS_ACPI_INVALID_ARGUMENT
+    };
+
+#pragma push_macro("STATUS_ACPI_FATAL")
+#undef STATUS_ACPI_FATAL
+    inline constexpr auto STATUS_ACPI_FATAL = NTSTATUS {
+#pragma pop_macro("STATUS_ACPI_FATAL")
+        STATUS_ACPI_FATAL
+    };
+
+#pragma push_macro("STATUS_ACPI_INVALID_SUPERNAME")
+#undef STATUS_ACPI_INVALID_SUPERNAME
+    inline constexpr auto STATUS_ACPI_INVALID_SUPERNAME = NTSTATUS {
+#pragma pop_macro("STATUS_ACPI_INVALID_SUPERNAME")
+        STATUS_ACPI_INVALID_SUPERNAME
+    };
+
+#pragma push_macro("STATUS_ACPI_INVALID_ARGTYPE")
+#undef STATUS_ACPI_INVALID_ARGTYPE
+    inline constexpr auto STATUS_ACPI_INVALID_ARGTYPE = NTSTATUS {
+#pragma pop_macro("STATUS_ACPI_INVALID_ARGTYPE")
+        STATUS_ACPI_INVALID_ARGTYPE
+    };
+
+#pragma push_macro("STATUS_ACPI_INVALID_OBJTYPE")
+#undef STATUS_ACPI_INVALID_OBJTYPE
+    inline constexpr auto STATUS_ACPI_INVALID_OBJTYPE = NTSTATUS {
+#pragma pop_macro("STATUS_ACPI_INVALID_OBJTYPE")
+        STATUS_ACPI_INVALID_OBJTYPE
+    };
+
+#pragma push_macro("STATUS_ACPI_INVALID_TARGETTYPE")
+#undef STATUS_ACPI_INVALID_TARGETTYPE
+    inline constexpr auto STATUS_ACPI_INVALID_TARGETTYPE = NTSTATUS {
+#pragma pop_macro("STATUS_ACPI_INVALID_TARGETTYPE")
+        STATUS_ACPI_INVALID_TARGETTYPE
+    };
+
+#pragma push_macro("STATUS_ACPI_INCORRECT_ARGUMENT_COUNT")
+#undef STATUS_ACPI_INCORRECT_ARGUMENT_COUNT
+    inline constexpr auto STATUS_ACPI_INCORRECT_ARGUMENT_COUNT = NTSTATUS {
+#pragma pop_macro("STATUS_ACPI_INCORRECT_ARGUMENT_COUNT")
+        STATUS_ACPI_INCORRECT_ARGUMENT_COUNT
+    };
+
+#pragma push_macro("STATUS_ACPI_ADDRESS_NOT_MAPPED")
+#undef STATUS_ACPI_ADDRESS_NOT_MAPPED
+    inline constexpr auto STATUS_ACPI_ADDRESS_NOT_MAPPED = NTSTATUS {
+#pragma pop_macro("STATUS_ACPI_ADDRESS_NOT_MAPPED")
+        STATUS_ACPI_ADDRESS_NOT_MAPPED
+    };
+
+#pragma push_macro("STATUS_ACPI_INVALID_EVENTTYPE")
+#undef STATUS_ACPI_INVALID_EVENTTYPE
+    inline constexpr auto STATUS_ACPI_INVALID_EVENTTYPE = NTSTATUS {
+#pragma pop_macro("STATUS_ACPI_INVALID_EVENTTYPE")
+        STATUS_ACPI_INVALID_EVENTTYPE
+    };
+
+#pragma push_macro("STATUS_ACPI_HANDLER_COLLISION")
+#undef STATUS_ACPI_HANDLER_COLLISION
+    inline constexpr auto STATUS_ACPI_HANDLER_COLLISION = NTSTATUS {
+#pragma pop_macro("STATUS_ACPI_HANDLER_COLLISION")
+        STATUS_ACPI_HANDLER_COLLISION
+    };
+
+#pragma push_macro("STATUS_ACPI_INVALID_DATA")
+#undef STATUS_ACPI_INVALID_DATA
+    inline constexpr auto STATUS_ACPI_INVALID_DATA = NTSTATUS {
+#pragma pop_macro("STATUS_ACPI_INVALID_DATA")
+        STATUS_ACPI_INVALID_DATA
+    };
+
+#pragma push_macro("STATUS_ACPI_INVALID_REGION")
+#undef STATUS_ACPI_INVALID_REGION
+    inline constexpr auto STATUS_ACPI_INVALID_REGION = NTSTATUS {
+#pragma pop_macro("STATUS_ACPI_INVALID_REGION")
+        STATUS_ACPI_INVALID_REGION
+    };
+
+#pragma push_macro("STATUS_ACPI_INVALID_ACCESS_SIZE")
+#undef STATUS_ACPI_INVALID_ACCESS_SIZE
+    inline constexpr auto STATUS_ACPI_INVALID_ACCESS_SIZE = NTSTATUS {
+#pragma pop_macro("STATUS_ACPI_INVALID_ACCESS_SIZE")
+        STATUS_ACPI_INVALID_ACCESS_SIZE
+    };
+
+#pragma push_macro("STATUS_ACPI_ACQUIRE_GLOBAL_LOCK")
+#undef STATUS_ACPI_ACQUIRE_GLOBAL_LOCK
+    inline constexpr auto STATUS_ACPI_ACQUIRE_GLOBAL_LOCK = NTSTATUS {
+#pragma pop_macro("STATUS_ACPI_ACQUIRE_GLOBAL_LOCK")
+        STATUS_ACPI_ACQUIRE_GLOBAL_LOCK
+    };
+
+#pragma push_macro("STATUS_ACPI_ALREADY_INITIALIZED")
+#undef STATUS_ACPI_ALREADY_INITIALIZED
+    inline constexpr auto STATUS_ACPI_ALREADY_INITIALIZED = NTSTATUS {
+#pragma pop_macro("STATUS_ACPI_ALREADY_INITIALIZED")
+        STATUS_ACPI_ALREADY_INITIALIZED
+    };
+
+#pragma push_macro("STATUS_ACPI_NOT_INITIALIZED")
+#undef STATUS_ACPI_NOT_INITIALIZED
+    inline constexpr auto STATUS_ACPI_NOT_INITIALIZED = NTSTATUS {
+#pragma pop_macro("STATUS_ACPI_NOT_INITIALIZED")
+        STATUS_ACPI_NOT_INITIALIZED
+    };
+
+#pragma push_macro("STATUS_ACPI_INVALID_MUTEX_LEVEL")
+#undef STATUS_ACPI_INVALID_MUTEX_LEVEL
+    inline constexpr auto STATUS_ACPI_INVALID_MUTEX_LEVEL = NTSTATUS {
+#pragma pop_macro("STATUS_ACPI_INVALID_MUTEX_LEVEL")
+        STATUS_ACPI_INVALID_MUTEX_LEVEL
+    };
+
+#pragma push_macro("STATUS_ACPI_MUTEX_NOT_OWNED")
+#undef STATUS_ACPI_MUTEX_NOT_OWNED
+    inline constexpr auto STATUS_ACPI_MUTEX_NOT_OWNED = NTSTATUS {
+#pragma pop_macro("STATUS_ACPI_MUTEX_NOT_OWNED")
+        STATUS_ACPI_MUTEX_NOT_OWNED
+    };
+
+#pragma push_macro("STATUS_ACPI_MUTEX_NOT_OWNER")
+#undef STATUS_ACPI_MUTEX_NOT_OWNER
+    inline constexpr auto STATUS_ACPI_MUTEX_NOT_OWNER = NTSTATUS {
+#pragma pop_macro("STATUS_ACPI_MUTEX_NOT_OWNER")
+        STATUS_ACPI_MUTEX_NOT_OWNER
+    };
+
+#pragma push_macro("STATUS_ACPI_RS_ACCESS")
+#undef STATUS_ACPI_RS_ACCESS
+    inline constexpr auto STATUS_ACPI_RS_ACCESS = NTSTATUS {
+#pragma pop_macro("STATUS_ACPI_RS_ACCESS")
+        STATUS_ACPI_RS_ACCESS
+    };
+
+#pragma push_macro("STATUS_ACPI_INVALID_TABLE")
+#undef STATUS_ACPI_INVALID_TABLE
+    inline constexpr auto STATUS_ACPI_INVALID_TABLE = NTSTATUS {
+#pragma pop_macro("STATUS_ACPI_INVALID_TABLE")
+        STATUS_ACPI_INVALID_TABLE
+    };
+
+#pragma push_macro("STATUS_ACPI_REG_HANDLER_FAILED")
+#undef STATUS_ACPI_REG_HANDLER_FAILED
+    inline constexpr auto STATUS_ACPI_REG_HANDLER_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_ACPI_REG_HANDLER_FAILED")
+        STATUS_ACPI_REG_HANDLER_FAILED
+    };
+
+#pragma push_macro("STATUS_ACPI_POWER_REQUEST_FAILED")
+#undef STATUS_ACPI_POWER_REQUEST_FAILED
+    inline constexpr auto STATUS_ACPI_POWER_REQUEST_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_ACPI_POWER_REQUEST_FAILED")
+        STATUS_ACPI_POWER_REQUEST_FAILED
+    };
+
+#pragma push_macro("STATUS_SXS_SECTION_NOT_FOUND")
+#undef STATUS_SXS_SECTION_NOT_FOUND
+    inline constexpr auto STATUS_SXS_SECTION_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_SECTION_NOT_FOUND")
+        STATUS_SXS_SECTION_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_SXS_CANT_GEN_ACTCTX")
+#undef STATUS_SXS_CANT_GEN_ACTCTX
+    inline constexpr auto STATUS_SXS_CANT_GEN_ACTCTX = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_CANT_GEN_ACTCTX")
+        STATUS_SXS_CANT_GEN_ACTCTX
+    };
+
+#pragma push_macro("STATUS_SXS_INVALID_ACTCTXDATA_FORMAT")
+#undef STATUS_SXS_INVALID_ACTCTXDATA_FORMAT
+    inline constexpr auto STATUS_SXS_INVALID_ACTCTXDATA_FORMAT = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_INVALID_ACTCTXDATA_FORMAT")
+        STATUS_SXS_INVALID_ACTCTXDATA_FORMAT
+    };
+
+#pragma push_macro("STATUS_SXS_ASSEMBLY_NOT_FOUND")
+#undef STATUS_SXS_ASSEMBLY_NOT_FOUND
+    inline constexpr auto STATUS_SXS_ASSEMBLY_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_ASSEMBLY_NOT_FOUND")
+        STATUS_SXS_ASSEMBLY_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_SXS_MANIFEST_FORMAT_ERROR")
+#undef STATUS_SXS_MANIFEST_FORMAT_ERROR
+    inline constexpr auto STATUS_SXS_MANIFEST_FORMAT_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_MANIFEST_FORMAT_ERROR")
+        STATUS_SXS_MANIFEST_FORMAT_ERROR
+    };
+
+#pragma push_macro("STATUS_SXS_MANIFEST_PARSE_ERROR")
+#undef STATUS_SXS_MANIFEST_PARSE_ERROR
+    inline constexpr auto STATUS_SXS_MANIFEST_PARSE_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_MANIFEST_PARSE_ERROR")
+        STATUS_SXS_MANIFEST_PARSE_ERROR
+    };
+
+#pragma push_macro("STATUS_SXS_ACTIVATION_CONTEXT_DISABLED")
+#undef STATUS_SXS_ACTIVATION_CONTEXT_DISABLED
+    inline constexpr auto STATUS_SXS_ACTIVATION_CONTEXT_DISABLED = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_ACTIVATION_CONTEXT_DISABLED")
+        STATUS_SXS_ACTIVATION_CONTEXT_DISABLED
+    };
+
+#pragma push_macro("STATUS_SXS_KEY_NOT_FOUND")
+#undef STATUS_SXS_KEY_NOT_FOUND
+    inline constexpr auto STATUS_SXS_KEY_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_KEY_NOT_FOUND")
+        STATUS_SXS_KEY_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_SXS_VERSION_CONFLICT")
+#undef STATUS_SXS_VERSION_CONFLICT
+    inline constexpr auto STATUS_SXS_VERSION_CONFLICT = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_VERSION_CONFLICT")
+        STATUS_SXS_VERSION_CONFLICT
+    };
+
+#pragma push_macro("STATUS_SXS_WRONG_SECTION_TYPE")
+#undef STATUS_SXS_WRONG_SECTION_TYPE
+    inline constexpr auto STATUS_SXS_WRONG_SECTION_TYPE = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_WRONG_SECTION_TYPE")
+        STATUS_SXS_WRONG_SECTION_TYPE
+    };
+
+#pragma push_macro("STATUS_SXS_THREAD_QUERIES_DISABLED")
+#undef STATUS_SXS_THREAD_QUERIES_DISABLED
+    inline constexpr auto STATUS_SXS_THREAD_QUERIES_DISABLED = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_THREAD_QUERIES_DISABLED")
+        STATUS_SXS_THREAD_QUERIES_DISABLED
+    };
+
+#pragma push_macro("STATUS_SXS_ASSEMBLY_MISSING")
+#undef STATUS_SXS_ASSEMBLY_MISSING
+    inline constexpr auto STATUS_SXS_ASSEMBLY_MISSING = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_ASSEMBLY_MISSING")
+        STATUS_SXS_ASSEMBLY_MISSING
+    };
+
+#pragma push_macro("STATUS_SXS_PROCESS_DEFAULT_ALREADY_SET")
+#undef STATUS_SXS_PROCESS_DEFAULT_ALREADY_SET
+    inline constexpr auto STATUS_SXS_PROCESS_DEFAULT_ALREADY_SET = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_PROCESS_DEFAULT_ALREADY_SET")
+        STATUS_SXS_PROCESS_DEFAULT_ALREADY_SET
+    };
+
+#pragma push_macro("STATUS_SXS_EARLY_DEACTIVATION")
+#undef STATUS_SXS_EARLY_DEACTIVATION
+    inline constexpr auto STATUS_SXS_EARLY_DEACTIVATION = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_EARLY_DEACTIVATION")
+        STATUS_SXS_EARLY_DEACTIVATION
+    };
+
+#pragma push_macro("STATUS_SXS_INVALID_DEACTIVATION")
+#undef STATUS_SXS_INVALID_DEACTIVATION
+    inline constexpr auto STATUS_SXS_INVALID_DEACTIVATION = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_INVALID_DEACTIVATION")
+        STATUS_SXS_INVALID_DEACTIVATION
+    };
+
+#pragma push_macro("STATUS_SXS_MULTIPLE_DEACTIVATION")
+#undef STATUS_SXS_MULTIPLE_DEACTIVATION
+    inline constexpr auto STATUS_SXS_MULTIPLE_DEACTIVATION = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_MULTIPLE_DEACTIVATION")
+        STATUS_SXS_MULTIPLE_DEACTIVATION
+    };
+
+#pragma push_macro("STATUS_SXS_SYSTEM_DEFAULT_ACTIVATION_CONTEXT_EMPTY")
+#undef STATUS_SXS_SYSTEM_DEFAULT_ACTIVATION_CONTEXT_EMPTY
+    inline constexpr auto STATUS_SXS_SYSTEM_DEFAULT_ACTIVATION_CONTEXT_EMPTY = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_SYSTEM_DEFAULT_ACTIVATION_CONTEXT_EMPTY")
+        STATUS_SXS_SYSTEM_DEFAULT_ACTIVATION_CONTEXT_EMPTY
+    };
+
+#pragma push_macro("STATUS_SXS_PROCESS_TERMINATION_REQUESTED")
+#undef STATUS_SXS_PROCESS_TERMINATION_REQUESTED
+    inline constexpr auto STATUS_SXS_PROCESS_TERMINATION_REQUESTED = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_PROCESS_TERMINATION_REQUESTED")
+        STATUS_SXS_PROCESS_TERMINATION_REQUESTED
+    };
+
+#pragma push_macro("STATUS_SXS_CORRUPT_ACTIVATION_STACK")
+#undef STATUS_SXS_CORRUPT_ACTIVATION_STACK
+    inline constexpr auto STATUS_SXS_CORRUPT_ACTIVATION_STACK = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_CORRUPT_ACTIVATION_STACK")
+        STATUS_SXS_CORRUPT_ACTIVATION_STACK
+    };
+
+#pragma push_macro("STATUS_SXS_CORRUPTION")
+#undef STATUS_SXS_CORRUPTION
+    inline constexpr auto STATUS_SXS_CORRUPTION = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_CORRUPTION")
+        STATUS_SXS_CORRUPTION
+    };
+
+#pragma push_macro("STATUS_SXS_INVALID_IDENTITY_ATTRIBUTE_VALUE")
+#undef STATUS_SXS_INVALID_IDENTITY_ATTRIBUTE_VALUE
+    inline constexpr auto STATUS_SXS_INVALID_IDENTITY_ATTRIBUTE_VALUE = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_INVALID_IDENTITY_ATTRIBUTE_VALUE")
+        STATUS_SXS_INVALID_IDENTITY_ATTRIBUTE_VALUE
+    };
+
+#pragma push_macro("STATUS_SXS_INVALID_IDENTITY_ATTRIBUTE_NAME")
+#undef STATUS_SXS_INVALID_IDENTITY_ATTRIBUTE_NAME
+    inline constexpr auto STATUS_SXS_INVALID_IDENTITY_ATTRIBUTE_NAME = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_INVALID_IDENTITY_ATTRIBUTE_NAME")
+        STATUS_SXS_INVALID_IDENTITY_ATTRIBUTE_NAME
+    };
+
+#pragma push_macro("STATUS_SXS_IDENTITY_DUPLICATE_ATTRIBUTE")
+#undef STATUS_SXS_IDENTITY_DUPLICATE_ATTRIBUTE
+    inline constexpr auto STATUS_SXS_IDENTITY_DUPLICATE_ATTRIBUTE = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_IDENTITY_DUPLICATE_ATTRIBUTE")
+        STATUS_SXS_IDENTITY_DUPLICATE_ATTRIBUTE
+    };
+
+#pragma push_macro("STATUS_SXS_IDENTITY_PARSE_ERROR")
+#undef STATUS_SXS_IDENTITY_PARSE_ERROR
+    inline constexpr auto STATUS_SXS_IDENTITY_PARSE_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_IDENTITY_PARSE_ERROR")
+        STATUS_SXS_IDENTITY_PARSE_ERROR
+    };
+
+#pragma push_macro("STATUS_SXS_COMPONENT_STORE_CORRUPT")
+#undef STATUS_SXS_COMPONENT_STORE_CORRUPT
+    inline constexpr auto STATUS_SXS_COMPONENT_STORE_CORRUPT = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_COMPONENT_STORE_CORRUPT")
+        STATUS_SXS_COMPONENT_STORE_CORRUPT
+    };
+
+#pragma push_macro("STATUS_SXS_FILE_HASH_MISMATCH")
+#undef STATUS_SXS_FILE_HASH_MISMATCH
+    inline constexpr auto STATUS_SXS_FILE_HASH_MISMATCH = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_FILE_HASH_MISMATCH")
+        STATUS_SXS_FILE_HASH_MISMATCH
+    };
+
+#pragma push_macro("STATUS_SXS_MANIFEST_IDENTITY_SAME_BUT_CONTENTS_DIFFERENT")
+#undef STATUS_SXS_MANIFEST_IDENTITY_SAME_BUT_CONTENTS_DIFFERENT
+    inline constexpr auto STATUS_SXS_MANIFEST_IDENTITY_SAME_BUT_CONTENTS_DIFFERENT = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_MANIFEST_IDENTITY_SAME_BUT_CONTENTS_DIFFERENT")
+        STATUS_SXS_MANIFEST_IDENTITY_SAME_BUT_CONTENTS_DIFFERENT
+    };
+
+#pragma push_macro("STATUS_SXS_IDENTITIES_DIFFERENT")
+#undef STATUS_SXS_IDENTITIES_DIFFERENT
+    inline constexpr auto STATUS_SXS_IDENTITIES_DIFFERENT = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_IDENTITIES_DIFFERENT")
+        STATUS_SXS_IDENTITIES_DIFFERENT
+    };
+
+#pragma push_macro("STATUS_SXS_ASSEMBLY_IS_NOT_A_DEPLOYMENT")
+#undef STATUS_SXS_ASSEMBLY_IS_NOT_A_DEPLOYMENT
+    inline constexpr auto STATUS_SXS_ASSEMBLY_IS_NOT_A_DEPLOYMENT = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_ASSEMBLY_IS_NOT_A_DEPLOYMENT")
+        STATUS_SXS_ASSEMBLY_IS_NOT_A_DEPLOYMENT
+    };
+
+#pragma push_macro("STATUS_SXS_FILE_NOT_PART_OF_ASSEMBLY")
+#undef STATUS_SXS_FILE_NOT_PART_OF_ASSEMBLY
+    inline constexpr auto STATUS_SXS_FILE_NOT_PART_OF_ASSEMBLY = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_FILE_NOT_PART_OF_ASSEMBLY")
+        STATUS_SXS_FILE_NOT_PART_OF_ASSEMBLY
+    };
+
+#pragma push_macro("STATUS_ADVANCED_INSTALLER_FAILED")
+#undef STATUS_ADVANCED_INSTALLER_FAILED
+    inline constexpr auto STATUS_ADVANCED_INSTALLER_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_ADVANCED_INSTALLER_FAILED")
+        STATUS_ADVANCED_INSTALLER_FAILED
+    };
+
+#pragma push_macro("STATUS_XML_ENCODING_MISMATCH")
+#undef STATUS_XML_ENCODING_MISMATCH
+    inline constexpr auto STATUS_XML_ENCODING_MISMATCH = NTSTATUS {
+#pragma pop_macro("STATUS_XML_ENCODING_MISMATCH")
+        STATUS_XML_ENCODING_MISMATCH
+    };
+
+#pragma push_macro("STATUS_SXS_MANIFEST_TOO_BIG")
+#undef STATUS_SXS_MANIFEST_TOO_BIG
+    inline constexpr auto STATUS_SXS_MANIFEST_TOO_BIG = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_MANIFEST_TOO_BIG")
+        STATUS_SXS_MANIFEST_TOO_BIG
+    };
+
+#pragma push_macro("STATUS_SXS_SETTING_NOT_REGISTERED")
+#undef STATUS_SXS_SETTING_NOT_REGISTERED
+    inline constexpr auto STATUS_SXS_SETTING_NOT_REGISTERED = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_SETTING_NOT_REGISTERED")
+        STATUS_SXS_SETTING_NOT_REGISTERED
+    };
+
+#pragma push_macro("STATUS_SXS_TRANSACTION_CLOSURE_INCOMPLETE")
+#undef STATUS_SXS_TRANSACTION_CLOSURE_INCOMPLETE
+    inline constexpr auto STATUS_SXS_TRANSACTION_CLOSURE_INCOMPLETE = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_TRANSACTION_CLOSURE_INCOMPLETE")
+        STATUS_SXS_TRANSACTION_CLOSURE_INCOMPLETE
+    };
+
+#pragma push_macro("STATUS_SMI_PRIMITIVE_INSTALLER_FAILED")
+#undef STATUS_SMI_PRIMITIVE_INSTALLER_FAILED
+    inline constexpr auto STATUS_SMI_PRIMITIVE_INSTALLER_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_SMI_PRIMITIVE_INSTALLER_FAILED")
+        STATUS_SMI_PRIMITIVE_INSTALLER_FAILED
+    };
+
+#pragma push_macro("STATUS_GENERIC_COMMAND_FAILED")
+#undef STATUS_GENERIC_COMMAND_FAILED
+    inline constexpr auto STATUS_GENERIC_COMMAND_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_GENERIC_COMMAND_FAILED")
+        STATUS_GENERIC_COMMAND_FAILED
+    };
+
+#pragma push_macro("STATUS_SXS_FILE_HASH_MISSING")
+#undef STATUS_SXS_FILE_HASH_MISSING
+    inline constexpr auto STATUS_SXS_FILE_HASH_MISSING = NTSTATUS {
+#pragma pop_macro("STATUS_SXS_FILE_HASH_MISSING")
+        STATUS_SXS_FILE_HASH_MISSING
+    };
+
+#pragma push_macro("STATUS_TRANSACTIONAL_CONFLICT")
+#undef STATUS_TRANSACTIONAL_CONFLICT
+    inline constexpr auto STATUS_TRANSACTIONAL_CONFLICT = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTIONAL_CONFLICT")
+        STATUS_TRANSACTIONAL_CONFLICT
+    };
+
+#pragma push_macro("STATUS_INVALID_TRANSACTION")
+#undef STATUS_INVALID_TRANSACTION
+    inline constexpr auto STATUS_INVALID_TRANSACTION = NTSTATUS {
+#pragma pop_macro("STATUS_INVALID_TRANSACTION")
+        STATUS_INVALID_TRANSACTION
+    };
+
+#pragma push_macro("STATUS_TRANSACTION_NOT_ACTIVE")
+#undef STATUS_TRANSACTION_NOT_ACTIVE
+    inline constexpr auto STATUS_TRANSACTION_NOT_ACTIVE = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTION_NOT_ACTIVE")
+        STATUS_TRANSACTION_NOT_ACTIVE
+    };
+
+#pragma push_macro("STATUS_TM_INITIALIZATION_FAILED")
+#undef STATUS_TM_INITIALIZATION_FAILED
+    inline constexpr auto STATUS_TM_INITIALIZATION_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_TM_INITIALIZATION_FAILED")
+        STATUS_TM_INITIALIZATION_FAILED
+    };
+
+#pragma push_macro("STATUS_RM_NOT_ACTIVE")
+#undef STATUS_RM_NOT_ACTIVE
+    inline constexpr auto STATUS_RM_NOT_ACTIVE = NTSTATUS {
+#pragma pop_macro("STATUS_RM_NOT_ACTIVE")
+        STATUS_RM_NOT_ACTIVE
+    };
+
+#pragma push_macro("STATUS_RM_METADATA_CORRUPT")
+#undef STATUS_RM_METADATA_CORRUPT
+    inline constexpr auto STATUS_RM_METADATA_CORRUPT = NTSTATUS {
+#pragma pop_macro("STATUS_RM_METADATA_CORRUPT")
+        STATUS_RM_METADATA_CORRUPT
+    };
+
+#pragma push_macro("STATUS_TRANSACTION_NOT_JOINED")
+#undef STATUS_TRANSACTION_NOT_JOINED
+    inline constexpr auto STATUS_TRANSACTION_NOT_JOINED = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTION_NOT_JOINED")
+        STATUS_TRANSACTION_NOT_JOINED
+    };
+
+#pragma push_macro("STATUS_DIRECTORY_NOT_RM")
+#undef STATUS_DIRECTORY_NOT_RM
+    inline constexpr auto STATUS_DIRECTORY_NOT_RM = NTSTATUS {
+#pragma pop_macro("STATUS_DIRECTORY_NOT_RM")
+        STATUS_DIRECTORY_NOT_RM
+    };
+
+#pragma push_macro("STATUS_TRANSACTIONS_UNSUPPORTED_REMOTE")
+#undef STATUS_TRANSACTIONS_UNSUPPORTED_REMOTE
+    inline constexpr auto STATUS_TRANSACTIONS_UNSUPPORTED_REMOTE = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTIONS_UNSUPPORTED_REMOTE")
+        STATUS_TRANSACTIONS_UNSUPPORTED_REMOTE
+    };
+
+#pragma push_macro("STATUS_LOG_RESIZE_INVALID_SIZE")
+#undef STATUS_LOG_RESIZE_INVALID_SIZE
+    inline constexpr auto STATUS_LOG_RESIZE_INVALID_SIZE = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_RESIZE_INVALID_SIZE")
+        STATUS_LOG_RESIZE_INVALID_SIZE
+    };
+
+#pragma push_macro("STATUS_REMOTE_FILE_VERSION_MISMATCH")
+#undef STATUS_REMOTE_FILE_VERSION_MISMATCH
+    inline constexpr auto STATUS_REMOTE_FILE_VERSION_MISMATCH = NTSTATUS {
+#pragma pop_macro("STATUS_REMOTE_FILE_VERSION_MISMATCH")
+        STATUS_REMOTE_FILE_VERSION_MISMATCH
+    };
+
+#pragma push_macro("STATUS_CRM_PROTOCOL_ALREADY_EXISTS")
+#undef STATUS_CRM_PROTOCOL_ALREADY_EXISTS
+    inline constexpr auto STATUS_CRM_PROTOCOL_ALREADY_EXISTS = NTSTATUS {
+#pragma pop_macro("STATUS_CRM_PROTOCOL_ALREADY_EXISTS")
+        STATUS_CRM_PROTOCOL_ALREADY_EXISTS
+    };
+
+#pragma push_macro("STATUS_TRANSACTION_PROPAGATION_FAILED")
+#undef STATUS_TRANSACTION_PROPAGATION_FAILED
+    inline constexpr auto STATUS_TRANSACTION_PROPAGATION_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTION_PROPAGATION_FAILED")
+        STATUS_TRANSACTION_PROPAGATION_FAILED
+    };
+
+#pragma push_macro("STATUS_CRM_PROTOCOL_NOT_FOUND")
+#undef STATUS_CRM_PROTOCOL_NOT_FOUND
+    inline constexpr auto STATUS_CRM_PROTOCOL_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_CRM_PROTOCOL_NOT_FOUND")
+        STATUS_CRM_PROTOCOL_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_TRANSACTION_SUPERIOR_EXISTS")
+#undef STATUS_TRANSACTION_SUPERIOR_EXISTS
+    inline constexpr auto STATUS_TRANSACTION_SUPERIOR_EXISTS = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTION_SUPERIOR_EXISTS")
+        STATUS_TRANSACTION_SUPERIOR_EXISTS
+    };
+
+#pragma push_macro("STATUS_TRANSACTION_REQUEST_NOT_VALID")
+#undef STATUS_TRANSACTION_REQUEST_NOT_VALID
+    inline constexpr auto STATUS_TRANSACTION_REQUEST_NOT_VALID = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTION_REQUEST_NOT_VALID")
+        STATUS_TRANSACTION_REQUEST_NOT_VALID
+    };
+
+#pragma push_macro("STATUS_TRANSACTION_NOT_REQUESTED")
+#undef STATUS_TRANSACTION_NOT_REQUESTED
+    inline constexpr auto STATUS_TRANSACTION_NOT_REQUESTED = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTION_NOT_REQUESTED")
+        STATUS_TRANSACTION_NOT_REQUESTED
+    };
+
+#pragma push_macro("STATUS_TRANSACTION_ALREADY_ABORTED")
+#undef STATUS_TRANSACTION_ALREADY_ABORTED
+    inline constexpr auto STATUS_TRANSACTION_ALREADY_ABORTED = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTION_ALREADY_ABORTED")
+        STATUS_TRANSACTION_ALREADY_ABORTED
+    };
+
+#pragma push_macro("STATUS_TRANSACTION_ALREADY_COMMITTED")
+#undef STATUS_TRANSACTION_ALREADY_COMMITTED
+    inline constexpr auto STATUS_TRANSACTION_ALREADY_COMMITTED = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTION_ALREADY_COMMITTED")
+        STATUS_TRANSACTION_ALREADY_COMMITTED
+    };
+
+#pragma push_macro("STATUS_TRANSACTION_INVALID_MARSHALL_BUFFER")
+#undef STATUS_TRANSACTION_INVALID_MARSHALL_BUFFER
+    inline constexpr auto STATUS_TRANSACTION_INVALID_MARSHALL_BUFFER = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTION_INVALID_MARSHALL_BUFFER")
+        STATUS_TRANSACTION_INVALID_MARSHALL_BUFFER
+    };
+
+#pragma push_macro("STATUS_CURRENT_TRANSACTION_NOT_VALID")
+#undef STATUS_CURRENT_TRANSACTION_NOT_VALID
+    inline constexpr auto STATUS_CURRENT_TRANSACTION_NOT_VALID = NTSTATUS {
+#pragma pop_macro("STATUS_CURRENT_TRANSACTION_NOT_VALID")
+        STATUS_CURRENT_TRANSACTION_NOT_VALID
+    };
+
+#pragma push_macro("STATUS_LOG_GROWTH_FAILED")
+#undef STATUS_LOG_GROWTH_FAILED
+    inline constexpr auto STATUS_LOG_GROWTH_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_GROWTH_FAILED")
+        STATUS_LOG_GROWTH_FAILED
+    };
+
+#pragma push_macro("STATUS_OBJECT_NO_LONGER_EXISTS")
+#undef STATUS_OBJECT_NO_LONGER_EXISTS
+    inline constexpr auto STATUS_OBJECT_NO_LONGER_EXISTS = NTSTATUS {
+#pragma pop_macro("STATUS_OBJECT_NO_LONGER_EXISTS")
+        STATUS_OBJECT_NO_LONGER_EXISTS
+    };
+
+#pragma push_macro("STATUS_STREAM_MINIVERSION_NOT_FOUND")
+#undef STATUS_STREAM_MINIVERSION_NOT_FOUND
+    inline constexpr auto STATUS_STREAM_MINIVERSION_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_STREAM_MINIVERSION_NOT_FOUND")
+        STATUS_STREAM_MINIVERSION_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_STREAM_MINIVERSION_NOT_VALID")
+#undef STATUS_STREAM_MINIVERSION_NOT_VALID
+    inline constexpr auto STATUS_STREAM_MINIVERSION_NOT_VALID = NTSTATUS {
+#pragma pop_macro("STATUS_STREAM_MINIVERSION_NOT_VALID")
+        STATUS_STREAM_MINIVERSION_NOT_VALID
+    };
+
+#pragma push_macro("STATUS_MINIVERSION_INACCESSIBLE_FROM_SPECIFIED_TRANSACTION")
+#undef STATUS_MINIVERSION_INACCESSIBLE_FROM_SPECIFIED_TRANSACTION
+    inline constexpr auto STATUS_MINIVERSION_INACCESSIBLE_FROM_SPECIFIED_TRANSACTION = NTSTATUS {
+#pragma pop_macro("STATUS_MINIVERSION_INACCESSIBLE_FROM_SPECIFIED_TRANSACTION")
+        STATUS_MINIVERSION_INACCESSIBLE_FROM_SPECIFIED_TRANSACTION
+    };
+
+#pragma push_macro("STATUS_CANT_OPEN_MINIVERSION_WITH_MODIFY_INTENT")
+#undef STATUS_CANT_OPEN_MINIVERSION_WITH_MODIFY_INTENT
+    inline constexpr auto STATUS_CANT_OPEN_MINIVERSION_WITH_MODIFY_INTENT = NTSTATUS {
+#pragma pop_macro("STATUS_CANT_OPEN_MINIVERSION_WITH_MODIFY_INTENT")
+        STATUS_CANT_OPEN_MINIVERSION_WITH_MODIFY_INTENT
+    };
+
+#pragma push_macro("STATUS_CANT_CREATE_MORE_STREAM_MINIVERSIONS")
+#undef STATUS_CANT_CREATE_MORE_STREAM_MINIVERSIONS
+    inline constexpr auto STATUS_CANT_CREATE_MORE_STREAM_MINIVERSIONS = NTSTATUS {
+#pragma pop_macro("STATUS_CANT_CREATE_MORE_STREAM_MINIVERSIONS")
+        STATUS_CANT_CREATE_MORE_STREAM_MINIVERSIONS
+    };
+
+#pragma push_macro("STATUS_HANDLE_NO_LONGER_VALID")
+#undef STATUS_HANDLE_NO_LONGER_VALID
+    inline constexpr auto STATUS_HANDLE_NO_LONGER_VALID = NTSTATUS {
+#pragma pop_macro("STATUS_HANDLE_NO_LONGER_VALID")
+        STATUS_HANDLE_NO_LONGER_VALID
+    };
+
+#pragma push_macro("STATUS_LOG_CORRUPTION_DETECTED")
+#undef STATUS_LOG_CORRUPTION_DETECTED
+    inline constexpr auto STATUS_LOG_CORRUPTION_DETECTED = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_CORRUPTION_DETECTED")
+        STATUS_LOG_CORRUPTION_DETECTED
+    };
+
+#pragma push_macro("STATUS_RM_DISCONNECTED")
+#undef STATUS_RM_DISCONNECTED
+    inline constexpr auto STATUS_RM_DISCONNECTED = NTSTATUS {
+#pragma pop_macro("STATUS_RM_DISCONNECTED")
+        STATUS_RM_DISCONNECTED
+    };
+
+#pragma push_macro("STATUS_ENLISTMENT_NOT_SUPERIOR")
+#undef STATUS_ENLISTMENT_NOT_SUPERIOR
+    inline constexpr auto STATUS_ENLISTMENT_NOT_SUPERIOR = NTSTATUS {
+#pragma pop_macro("STATUS_ENLISTMENT_NOT_SUPERIOR")
+        STATUS_ENLISTMENT_NOT_SUPERIOR
+    };
+
+#pragma push_macro("STATUS_FILE_IDENTITY_NOT_PERSISTENT")
+#undef STATUS_FILE_IDENTITY_NOT_PERSISTENT
+    inline constexpr auto STATUS_FILE_IDENTITY_NOT_PERSISTENT = NTSTATUS {
+#pragma pop_macro("STATUS_FILE_IDENTITY_NOT_PERSISTENT")
+        STATUS_FILE_IDENTITY_NOT_PERSISTENT
+    };
+
+#pragma push_macro("STATUS_CANT_BREAK_TRANSACTIONAL_DEPENDENCY")
+#undef STATUS_CANT_BREAK_TRANSACTIONAL_DEPENDENCY
+    inline constexpr auto STATUS_CANT_BREAK_TRANSACTIONAL_DEPENDENCY = NTSTATUS {
+#pragma pop_macro("STATUS_CANT_BREAK_TRANSACTIONAL_DEPENDENCY")
+        STATUS_CANT_BREAK_TRANSACTIONAL_DEPENDENCY
+    };
+
+#pragma push_macro("STATUS_CANT_CROSS_RM_BOUNDARY")
+#undef STATUS_CANT_CROSS_RM_BOUNDARY
+    inline constexpr auto STATUS_CANT_CROSS_RM_BOUNDARY = NTSTATUS {
+#pragma pop_macro("STATUS_CANT_CROSS_RM_BOUNDARY")
+        STATUS_CANT_CROSS_RM_BOUNDARY
+    };
+
+#pragma push_macro("STATUS_TXF_DIR_NOT_EMPTY")
+#undef STATUS_TXF_DIR_NOT_EMPTY
+    inline constexpr auto STATUS_TXF_DIR_NOT_EMPTY = NTSTATUS {
+#pragma pop_macro("STATUS_TXF_DIR_NOT_EMPTY")
+        STATUS_TXF_DIR_NOT_EMPTY
+    };
+
+#pragma push_macro("STATUS_INDOUBT_TRANSACTIONS_EXIST")
+#undef STATUS_INDOUBT_TRANSACTIONS_EXIST
+    inline constexpr auto STATUS_INDOUBT_TRANSACTIONS_EXIST = NTSTATUS {
+#pragma pop_macro("STATUS_INDOUBT_TRANSACTIONS_EXIST")
+        STATUS_INDOUBT_TRANSACTIONS_EXIST
+    };
+
+#pragma push_macro("STATUS_TM_VOLATILE")
+#undef STATUS_TM_VOLATILE
+    inline constexpr auto STATUS_TM_VOLATILE = NTSTATUS {
+#pragma pop_macro("STATUS_TM_VOLATILE")
+        STATUS_TM_VOLATILE
+    };
+
+#pragma push_macro("STATUS_ROLLBACK_TIMER_EXPIRED")
+#undef STATUS_ROLLBACK_TIMER_EXPIRED
+    inline constexpr auto STATUS_ROLLBACK_TIMER_EXPIRED = NTSTATUS {
+#pragma pop_macro("STATUS_ROLLBACK_TIMER_EXPIRED")
+        STATUS_ROLLBACK_TIMER_EXPIRED
+    };
+
+#pragma push_macro("STATUS_TXF_ATTRIBUTE_CORRUPT")
+#undef STATUS_TXF_ATTRIBUTE_CORRUPT
+    inline constexpr auto STATUS_TXF_ATTRIBUTE_CORRUPT = NTSTATUS {
+#pragma pop_macro("STATUS_TXF_ATTRIBUTE_CORRUPT")
+        STATUS_TXF_ATTRIBUTE_CORRUPT
+    };
+
+#pragma push_macro("STATUS_EFS_NOT_ALLOWED_IN_TRANSACTION")
+#undef STATUS_EFS_NOT_ALLOWED_IN_TRANSACTION
+    inline constexpr auto STATUS_EFS_NOT_ALLOWED_IN_TRANSACTION = NTSTATUS {
+#pragma pop_macro("STATUS_EFS_NOT_ALLOWED_IN_TRANSACTION")
+        STATUS_EFS_NOT_ALLOWED_IN_TRANSACTION
+    };
+
+#pragma push_macro("STATUS_TRANSACTIONAL_OPEN_NOT_ALLOWED")
+#undef STATUS_TRANSACTIONAL_OPEN_NOT_ALLOWED
+    inline constexpr auto STATUS_TRANSACTIONAL_OPEN_NOT_ALLOWED = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTIONAL_OPEN_NOT_ALLOWED")
+        STATUS_TRANSACTIONAL_OPEN_NOT_ALLOWED
+    };
+
+#pragma push_macro("STATUS_TRANSACTED_MAPPING_UNSUPPORTED_REMOTE")
+#undef STATUS_TRANSACTED_MAPPING_UNSUPPORTED_REMOTE
+    inline constexpr auto STATUS_TRANSACTED_MAPPING_UNSUPPORTED_REMOTE = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTED_MAPPING_UNSUPPORTED_REMOTE")
+        STATUS_TRANSACTED_MAPPING_UNSUPPORTED_REMOTE
+    };
+
+#pragma push_macro("STATUS_TRANSACTION_REQUIRED_PROMOTION")
+#undef STATUS_TRANSACTION_REQUIRED_PROMOTION
+    inline constexpr auto STATUS_TRANSACTION_REQUIRED_PROMOTION = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTION_REQUIRED_PROMOTION")
+        STATUS_TRANSACTION_REQUIRED_PROMOTION
+    };
+
+#pragma push_macro("STATUS_CANNOT_EXECUTE_FILE_IN_TRANSACTION")
+#undef STATUS_CANNOT_EXECUTE_FILE_IN_TRANSACTION
+    inline constexpr auto STATUS_CANNOT_EXECUTE_FILE_IN_TRANSACTION = NTSTATUS {
+#pragma pop_macro("STATUS_CANNOT_EXECUTE_FILE_IN_TRANSACTION")
+        STATUS_CANNOT_EXECUTE_FILE_IN_TRANSACTION
+    };
+
+#pragma push_macro("STATUS_TRANSACTIONS_NOT_FROZEN")
+#undef STATUS_TRANSACTIONS_NOT_FROZEN
+    inline constexpr auto STATUS_TRANSACTIONS_NOT_FROZEN = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTIONS_NOT_FROZEN")
+        STATUS_TRANSACTIONS_NOT_FROZEN
+    };
+
+#pragma push_macro("STATUS_TRANSACTION_FREEZE_IN_PROGRESS")
+#undef STATUS_TRANSACTION_FREEZE_IN_PROGRESS
+    inline constexpr auto STATUS_TRANSACTION_FREEZE_IN_PROGRESS = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTION_FREEZE_IN_PROGRESS")
+        STATUS_TRANSACTION_FREEZE_IN_PROGRESS
+    };
+
+#pragma push_macro("STATUS_NOT_SNAPSHOT_VOLUME")
+#undef STATUS_NOT_SNAPSHOT_VOLUME
+    inline constexpr auto STATUS_NOT_SNAPSHOT_VOLUME = NTSTATUS {
+#pragma pop_macro("STATUS_NOT_SNAPSHOT_VOLUME")
+        STATUS_NOT_SNAPSHOT_VOLUME
+    };
+
+#pragma push_macro("STATUS_NO_SAVEPOINT_WITH_OPEN_FILES")
+#undef STATUS_NO_SAVEPOINT_WITH_OPEN_FILES
+    inline constexpr auto STATUS_NO_SAVEPOINT_WITH_OPEN_FILES = NTSTATUS {
+#pragma pop_macro("STATUS_NO_SAVEPOINT_WITH_OPEN_FILES")
+        STATUS_NO_SAVEPOINT_WITH_OPEN_FILES
+    };
+
+#pragma push_macro("STATUS_SPARSE_NOT_ALLOWED_IN_TRANSACTION")
+#undef STATUS_SPARSE_NOT_ALLOWED_IN_TRANSACTION
+    inline constexpr auto STATUS_SPARSE_NOT_ALLOWED_IN_TRANSACTION = NTSTATUS {
+#pragma pop_macro("STATUS_SPARSE_NOT_ALLOWED_IN_TRANSACTION")
+        STATUS_SPARSE_NOT_ALLOWED_IN_TRANSACTION
+    };
+
+#pragma push_macro("STATUS_TM_IDENTITY_MISMATCH")
+#undef STATUS_TM_IDENTITY_MISMATCH
+    inline constexpr auto STATUS_TM_IDENTITY_MISMATCH = NTSTATUS {
+#pragma pop_macro("STATUS_TM_IDENTITY_MISMATCH")
+        STATUS_TM_IDENTITY_MISMATCH
+    };
+
+#pragma push_macro("STATUS_FLOATED_SECTION")
+#undef STATUS_FLOATED_SECTION
+    inline constexpr auto STATUS_FLOATED_SECTION = NTSTATUS {
+#pragma pop_macro("STATUS_FLOATED_SECTION")
+        STATUS_FLOATED_SECTION
+    };
+
+#pragma push_macro("STATUS_CANNOT_ACCEPT_TRANSACTED_WORK")
+#undef STATUS_CANNOT_ACCEPT_TRANSACTED_WORK
+    inline constexpr auto STATUS_CANNOT_ACCEPT_TRANSACTED_WORK = NTSTATUS {
+#pragma pop_macro("STATUS_CANNOT_ACCEPT_TRANSACTED_WORK")
+        STATUS_CANNOT_ACCEPT_TRANSACTED_WORK
+    };
+
+#pragma push_macro("STATUS_CANNOT_ABORT_TRANSACTIONS")
+#undef STATUS_CANNOT_ABORT_TRANSACTIONS
+    inline constexpr auto STATUS_CANNOT_ABORT_TRANSACTIONS = NTSTATUS {
+#pragma pop_macro("STATUS_CANNOT_ABORT_TRANSACTIONS")
+        STATUS_CANNOT_ABORT_TRANSACTIONS
+    };
+
+#pragma push_macro("STATUS_TRANSACTION_NOT_FOUND")
+#undef STATUS_TRANSACTION_NOT_FOUND
+    inline constexpr auto STATUS_TRANSACTION_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTION_NOT_FOUND")
+        STATUS_TRANSACTION_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_RESOURCEMANAGER_NOT_FOUND")
+#undef STATUS_RESOURCEMANAGER_NOT_FOUND
+    inline constexpr auto STATUS_RESOURCEMANAGER_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_RESOURCEMANAGER_NOT_FOUND")
+        STATUS_RESOURCEMANAGER_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_ENLISTMENT_NOT_FOUND")
+#undef STATUS_ENLISTMENT_NOT_FOUND
+    inline constexpr auto STATUS_ENLISTMENT_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_ENLISTMENT_NOT_FOUND")
+        STATUS_ENLISTMENT_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_TRANSACTIONMANAGER_NOT_FOUND")
+#undef STATUS_TRANSACTIONMANAGER_NOT_FOUND
+    inline constexpr auto STATUS_TRANSACTIONMANAGER_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTIONMANAGER_NOT_FOUND")
+        STATUS_TRANSACTIONMANAGER_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_TRANSACTIONMANAGER_NOT_ONLINE")
+#undef STATUS_TRANSACTIONMANAGER_NOT_ONLINE
+    inline constexpr auto STATUS_TRANSACTIONMANAGER_NOT_ONLINE = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTIONMANAGER_NOT_ONLINE")
+        STATUS_TRANSACTIONMANAGER_NOT_ONLINE
+    };
+
+#pragma push_macro("STATUS_TRANSACTIONMANAGER_RECOVERY_NAME_COLLISION")
+#undef STATUS_TRANSACTIONMANAGER_RECOVERY_NAME_COLLISION
+    inline constexpr auto STATUS_TRANSACTIONMANAGER_RECOVERY_NAME_COLLISION = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTIONMANAGER_RECOVERY_NAME_COLLISION")
+        STATUS_TRANSACTIONMANAGER_RECOVERY_NAME_COLLISION
+    };
+
+#pragma push_macro("STATUS_TRANSACTION_NOT_ROOT")
+#undef STATUS_TRANSACTION_NOT_ROOT
+    inline constexpr auto STATUS_TRANSACTION_NOT_ROOT = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTION_NOT_ROOT")
+        STATUS_TRANSACTION_NOT_ROOT
+    };
+
+#pragma push_macro("STATUS_TRANSACTION_OBJECT_EXPIRED")
+#undef STATUS_TRANSACTION_OBJECT_EXPIRED
+    inline constexpr auto STATUS_TRANSACTION_OBJECT_EXPIRED = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTION_OBJECT_EXPIRED")
+        STATUS_TRANSACTION_OBJECT_EXPIRED
+    };
+
+#pragma push_macro("STATUS_COMPRESSION_NOT_ALLOWED_IN_TRANSACTION")
+#undef STATUS_COMPRESSION_NOT_ALLOWED_IN_TRANSACTION
+    inline constexpr auto STATUS_COMPRESSION_NOT_ALLOWED_IN_TRANSACTION = NTSTATUS {
+#pragma pop_macro("STATUS_COMPRESSION_NOT_ALLOWED_IN_TRANSACTION")
+        STATUS_COMPRESSION_NOT_ALLOWED_IN_TRANSACTION
+    };
+
+#pragma push_macro("STATUS_TRANSACTION_RESPONSE_NOT_ENLISTED")
+#undef STATUS_TRANSACTION_RESPONSE_NOT_ENLISTED
+    inline constexpr auto STATUS_TRANSACTION_RESPONSE_NOT_ENLISTED = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTION_RESPONSE_NOT_ENLISTED")
+        STATUS_TRANSACTION_RESPONSE_NOT_ENLISTED
+    };
+
+#pragma push_macro("STATUS_TRANSACTION_RECORD_TOO_LONG")
+#undef STATUS_TRANSACTION_RECORD_TOO_LONG
+    inline constexpr auto STATUS_TRANSACTION_RECORD_TOO_LONG = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTION_RECORD_TOO_LONG")
+        STATUS_TRANSACTION_RECORD_TOO_LONG
+    };
+
+#pragma push_macro("STATUS_NO_LINK_TRACKING_IN_TRANSACTION")
+#undef STATUS_NO_LINK_TRACKING_IN_TRANSACTION
+    inline constexpr auto STATUS_NO_LINK_TRACKING_IN_TRANSACTION = NTSTATUS {
+#pragma pop_macro("STATUS_NO_LINK_TRACKING_IN_TRANSACTION")
+        STATUS_NO_LINK_TRACKING_IN_TRANSACTION
+    };
+
+#pragma push_macro("STATUS_OPERATION_NOT_SUPPORTED_IN_TRANSACTION")
+#undef STATUS_OPERATION_NOT_SUPPORTED_IN_TRANSACTION
+    inline constexpr auto STATUS_OPERATION_NOT_SUPPORTED_IN_TRANSACTION = NTSTATUS {
+#pragma pop_macro("STATUS_OPERATION_NOT_SUPPORTED_IN_TRANSACTION")
+        STATUS_OPERATION_NOT_SUPPORTED_IN_TRANSACTION
+    };
+
+#pragma push_macro("STATUS_TRANSACTION_INTEGRITY_VIOLATED")
+#undef STATUS_TRANSACTION_INTEGRITY_VIOLATED
+    inline constexpr auto STATUS_TRANSACTION_INTEGRITY_VIOLATED = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTION_INTEGRITY_VIOLATED")
+        STATUS_TRANSACTION_INTEGRITY_VIOLATED
+    };
+
+#pragma push_macro("STATUS_EXPIRED_HANDLE")
+#undef STATUS_EXPIRED_HANDLE
+    inline constexpr auto STATUS_EXPIRED_HANDLE = NTSTATUS {
+#pragma pop_macro("STATUS_EXPIRED_HANDLE")
+        STATUS_EXPIRED_HANDLE
+    };
+
+#pragma push_macro("STATUS_TRANSACTION_NOT_ENLISTED")
+#undef STATUS_TRANSACTION_NOT_ENLISTED
+    inline constexpr auto STATUS_TRANSACTION_NOT_ENLISTED = NTSTATUS {
+#pragma pop_macro("STATUS_TRANSACTION_NOT_ENLISTED")
+        STATUS_TRANSACTION_NOT_ENLISTED
+    };
+
+#pragma push_macro("STATUS_LOG_SECTOR_INVALID")
+#undef STATUS_LOG_SECTOR_INVALID
+    inline constexpr auto STATUS_LOG_SECTOR_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_SECTOR_INVALID")
+        STATUS_LOG_SECTOR_INVALID
+    };
+
+#pragma push_macro("STATUS_LOG_SECTOR_PARITY_INVALID")
+#undef STATUS_LOG_SECTOR_PARITY_INVALID
+    inline constexpr auto STATUS_LOG_SECTOR_PARITY_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_SECTOR_PARITY_INVALID")
+        STATUS_LOG_SECTOR_PARITY_INVALID
+    };
+
+#pragma push_macro("STATUS_LOG_SECTOR_REMAPPED")
+#undef STATUS_LOG_SECTOR_REMAPPED
+    inline constexpr auto STATUS_LOG_SECTOR_REMAPPED = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_SECTOR_REMAPPED")
+        STATUS_LOG_SECTOR_REMAPPED
+    };
+
+#pragma push_macro("STATUS_LOG_BLOCK_INCOMPLETE")
+#undef STATUS_LOG_BLOCK_INCOMPLETE
+    inline constexpr auto STATUS_LOG_BLOCK_INCOMPLETE = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_BLOCK_INCOMPLETE")
+        STATUS_LOG_BLOCK_INCOMPLETE
+    };
+
+#pragma push_macro("STATUS_LOG_INVALID_RANGE")
+#undef STATUS_LOG_INVALID_RANGE
+    inline constexpr auto STATUS_LOG_INVALID_RANGE = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_INVALID_RANGE")
+        STATUS_LOG_INVALID_RANGE
+    };
+
+#pragma push_macro("STATUS_LOG_BLOCKS_EXHAUSTED")
+#undef STATUS_LOG_BLOCKS_EXHAUSTED
+    inline constexpr auto STATUS_LOG_BLOCKS_EXHAUSTED = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_BLOCKS_EXHAUSTED")
+        STATUS_LOG_BLOCKS_EXHAUSTED
+    };
+
+#pragma push_macro("STATUS_LOG_READ_CONTEXT_INVALID")
+#undef STATUS_LOG_READ_CONTEXT_INVALID
+    inline constexpr auto STATUS_LOG_READ_CONTEXT_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_READ_CONTEXT_INVALID")
+        STATUS_LOG_READ_CONTEXT_INVALID
+    };
+
+#pragma push_macro("STATUS_LOG_RESTART_INVALID")
+#undef STATUS_LOG_RESTART_INVALID
+    inline constexpr auto STATUS_LOG_RESTART_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_RESTART_INVALID")
+        STATUS_LOG_RESTART_INVALID
+    };
+
+#pragma push_macro("STATUS_LOG_BLOCK_VERSION")
+#undef STATUS_LOG_BLOCK_VERSION
+    inline constexpr auto STATUS_LOG_BLOCK_VERSION = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_BLOCK_VERSION")
+        STATUS_LOG_BLOCK_VERSION
+    };
+
+#pragma push_macro("STATUS_LOG_BLOCK_INVALID")
+#undef STATUS_LOG_BLOCK_INVALID
+    inline constexpr auto STATUS_LOG_BLOCK_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_BLOCK_INVALID")
+        STATUS_LOG_BLOCK_INVALID
+    };
+
+#pragma push_macro("STATUS_LOG_READ_MODE_INVALID")
+#undef STATUS_LOG_READ_MODE_INVALID
+    inline constexpr auto STATUS_LOG_READ_MODE_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_READ_MODE_INVALID")
+        STATUS_LOG_READ_MODE_INVALID
+    };
+
+#pragma push_macro("STATUS_LOG_METADATA_CORRUPT")
+#undef STATUS_LOG_METADATA_CORRUPT
+    inline constexpr auto STATUS_LOG_METADATA_CORRUPT = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_METADATA_CORRUPT")
+        STATUS_LOG_METADATA_CORRUPT
+    };
+
+#pragma push_macro("STATUS_LOG_METADATA_INVALID")
+#undef STATUS_LOG_METADATA_INVALID
+    inline constexpr auto STATUS_LOG_METADATA_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_METADATA_INVALID")
+        STATUS_LOG_METADATA_INVALID
+    };
+
+#pragma push_macro("STATUS_LOG_METADATA_INCONSISTENT")
+#undef STATUS_LOG_METADATA_INCONSISTENT
+    inline constexpr auto STATUS_LOG_METADATA_INCONSISTENT = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_METADATA_INCONSISTENT")
+        STATUS_LOG_METADATA_INCONSISTENT
+    };
+
+#pragma push_macro("STATUS_LOG_RESERVATION_INVALID")
+#undef STATUS_LOG_RESERVATION_INVALID
+    inline constexpr auto STATUS_LOG_RESERVATION_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_RESERVATION_INVALID")
+        STATUS_LOG_RESERVATION_INVALID
+    };
+
+#pragma push_macro("STATUS_LOG_CANT_DELETE")
+#undef STATUS_LOG_CANT_DELETE
+    inline constexpr auto STATUS_LOG_CANT_DELETE = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_CANT_DELETE")
+        STATUS_LOG_CANT_DELETE
+    };
+
+#pragma push_macro("STATUS_LOG_CONTAINER_LIMIT_EXCEEDED")
+#undef STATUS_LOG_CONTAINER_LIMIT_EXCEEDED
+    inline constexpr auto STATUS_LOG_CONTAINER_LIMIT_EXCEEDED = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_CONTAINER_LIMIT_EXCEEDED")
+        STATUS_LOG_CONTAINER_LIMIT_EXCEEDED
+    };
+
+#pragma push_macro("STATUS_LOG_START_OF_LOG")
+#undef STATUS_LOG_START_OF_LOG
+    inline constexpr auto STATUS_LOG_START_OF_LOG = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_START_OF_LOG")
+        STATUS_LOG_START_OF_LOG
+    };
+
+#pragma push_macro("STATUS_LOG_POLICY_ALREADY_INSTALLED")
+#undef STATUS_LOG_POLICY_ALREADY_INSTALLED
+    inline constexpr auto STATUS_LOG_POLICY_ALREADY_INSTALLED = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_POLICY_ALREADY_INSTALLED")
+        STATUS_LOG_POLICY_ALREADY_INSTALLED
+    };
+
+#pragma push_macro("STATUS_LOG_POLICY_NOT_INSTALLED")
+#undef STATUS_LOG_POLICY_NOT_INSTALLED
+    inline constexpr auto STATUS_LOG_POLICY_NOT_INSTALLED = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_POLICY_NOT_INSTALLED")
+        STATUS_LOG_POLICY_NOT_INSTALLED
+    };
+
+#pragma push_macro("STATUS_LOG_POLICY_INVALID")
+#undef STATUS_LOG_POLICY_INVALID
+    inline constexpr auto STATUS_LOG_POLICY_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_POLICY_INVALID")
+        STATUS_LOG_POLICY_INVALID
+    };
+
+#pragma push_macro("STATUS_LOG_POLICY_CONFLICT")
+#undef STATUS_LOG_POLICY_CONFLICT
+    inline constexpr auto STATUS_LOG_POLICY_CONFLICT = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_POLICY_CONFLICT")
+        STATUS_LOG_POLICY_CONFLICT
+    };
+
+#pragma push_macro("STATUS_LOG_PINNED_ARCHIVE_TAIL")
+#undef STATUS_LOG_PINNED_ARCHIVE_TAIL
+    inline constexpr auto STATUS_LOG_PINNED_ARCHIVE_TAIL = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_PINNED_ARCHIVE_TAIL")
+        STATUS_LOG_PINNED_ARCHIVE_TAIL
+    };
+
+#pragma push_macro("STATUS_LOG_RECORD_NONEXISTENT")
+#undef STATUS_LOG_RECORD_NONEXISTENT
+    inline constexpr auto STATUS_LOG_RECORD_NONEXISTENT = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_RECORD_NONEXISTENT")
+        STATUS_LOG_RECORD_NONEXISTENT
+    };
+
+#pragma push_macro("STATUS_LOG_RECORDS_RESERVED_INVALID")
+#undef STATUS_LOG_RECORDS_RESERVED_INVALID
+    inline constexpr auto STATUS_LOG_RECORDS_RESERVED_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_RECORDS_RESERVED_INVALID")
+        STATUS_LOG_RECORDS_RESERVED_INVALID
+    };
+
+#pragma push_macro("STATUS_LOG_SPACE_RESERVED_INVALID")
+#undef STATUS_LOG_SPACE_RESERVED_INVALID
+    inline constexpr auto STATUS_LOG_SPACE_RESERVED_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_SPACE_RESERVED_INVALID")
+        STATUS_LOG_SPACE_RESERVED_INVALID
+    };
+
+#pragma push_macro("STATUS_LOG_TAIL_INVALID")
+#undef STATUS_LOG_TAIL_INVALID
+    inline constexpr auto STATUS_LOG_TAIL_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_TAIL_INVALID")
+        STATUS_LOG_TAIL_INVALID
+    };
+
+#pragma push_macro("STATUS_LOG_FULL")
+#undef STATUS_LOG_FULL
+    inline constexpr auto STATUS_LOG_FULL = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_FULL")
+        STATUS_LOG_FULL
+    };
+
+#pragma push_macro("STATUS_LOG_MULTIPLEXED")
+#undef STATUS_LOG_MULTIPLEXED
+    inline constexpr auto STATUS_LOG_MULTIPLEXED = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_MULTIPLEXED")
+        STATUS_LOG_MULTIPLEXED
+    };
+
+#pragma push_macro("STATUS_LOG_DEDICATED")
+#undef STATUS_LOG_DEDICATED
+    inline constexpr auto STATUS_LOG_DEDICATED = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_DEDICATED")
+        STATUS_LOG_DEDICATED
+    };
+
+#pragma push_macro("STATUS_LOG_ARCHIVE_NOT_IN_PROGRESS")
+#undef STATUS_LOG_ARCHIVE_NOT_IN_PROGRESS
+    inline constexpr auto STATUS_LOG_ARCHIVE_NOT_IN_PROGRESS = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_ARCHIVE_NOT_IN_PROGRESS")
+        STATUS_LOG_ARCHIVE_NOT_IN_PROGRESS
+    };
+
+#pragma push_macro("STATUS_LOG_ARCHIVE_IN_PROGRESS")
+#undef STATUS_LOG_ARCHIVE_IN_PROGRESS
+    inline constexpr auto STATUS_LOG_ARCHIVE_IN_PROGRESS = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_ARCHIVE_IN_PROGRESS")
+        STATUS_LOG_ARCHIVE_IN_PROGRESS
+    };
+
+#pragma push_macro("STATUS_LOG_EPHEMERAL")
+#undef STATUS_LOG_EPHEMERAL
+    inline constexpr auto STATUS_LOG_EPHEMERAL = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_EPHEMERAL")
+        STATUS_LOG_EPHEMERAL
+    };
+
+#pragma push_macro("STATUS_LOG_NOT_ENOUGH_CONTAINERS")
+#undef STATUS_LOG_NOT_ENOUGH_CONTAINERS
+    inline constexpr auto STATUS_LOG_NOT_ENOUGH_CONTAINERS = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_NOT_ENOUGH_CONTAINERS")
+        STATUS_LOG_NOT_ENOUGH_CONTAINERS
+    };
+
+#pragma push_macro("STATUS_LOG_CLIENT_ALREADY_REGISTERED")
+#undef STATUS_LOG_CLIENT_ALREADY_REGISTERED
+    inline constexpr auto STATUS_LOG_CLIENT_ALREADY_REGISTERED = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_CLIENT_ALREADY_REGISTERED")
+        STATUS_LOG_CLIENT_ALREADY_REGISTERED
+    };
+
+#pragma push_macro("STATUS_LOG_CLIENT_NOT_REGISTERED")
+#undef STATUS_LOG_CLIENT_NOT_REGISTERED
+    inline constexpr auto STATUS_LOG_CLIENT_NOT_REGISTERED = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_CLIENT_NOT_REGISTERED")
+        STATUS_LOG_CLIENT_NOT_REGISTERED
+    };
+
+#pragma push_macro("STATUS_LOG_FULL_HANDLER_IN_PROGRESS")
+#undef STATUS_LOG_FULL_HANDLER_IN_PROGRESS
+    inline constexpr auto STATUS_LOG_FULL_HANDLER_IN_PROGRESS = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_FULL_HANDLER_IN_PROGRESS")
+        STATUS_LOG_FULL_HANDLER_IN_PROGRESS
+    };
+
+#pragma push_macro("STATUS_LOG_CONTAINER_READ_FAILED")
+#undef STATUS_LOG_CONTAINER_READ_FAILED
+    inline constexpr auto STATUS_LOG_CONTAINER_READ_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_CONTAINER_READ_FAILED")
+        STATUS_LOG_CONTAINER_READ_FAILED
+    };
+
+#pragma push_macro("STATUS_LOG_CONTAINER_WRITE_FAILED")
+#undef STATUS_LOG_CONTAINER_WRITE_FAILED
+    inline constexpr auto STATUS_LOG_CONTAINER_WRITE_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_CONTAINER_WRITE_FAILED")
+        STATUS_LOG_CONTAINER_WRITE_FAILED
+    };
+
+#pragma push_macro("STATUS_LOG_CONTAINER_OPEN_FAILED")
+#undef STATUS_LOG_CONTAINER_OPEN_FAILED
+    inline constexpr auto STATUS_LOG_CONTAINER_OPEN_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_CONTAINER_OPEN_FAILED")
+        STATUS_LOG_CONTAINER_OPEN_FAILED
+    };
+
+#pragma push_macro("STATUS_LOG_CONTAINER_STATE_INVALID")
+#undef STATUS_LOG_CONTAINER_STATE_INVALID
+    inline constexpr auto STATUS_LOG_CONTAINER_STATE_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_CONTAINER_STATE_INVALID")
+        STATUS_LOG_CONTAINER_STATE_INVALID
+    };
+
+#pragma push_macro("STATUS_LOG_STATE_INVALID")
+#undef STATUS_LOG_STATE_INVALID
+    inline constexpr auto STATUS_LOG_STATE_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_STATE_INVALID")
+        STATUS_LOG_STATE_INVALID
+    };
+
+#pragma push_macro("STATUS_LOG_PINNED")
+#undef STATUS_LOG_PINNED
+    inline constexpr auto STATUS_LOG_PINNED = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_PINNED")
+        STATUS_LOG_PINNED
+    };
+
+#pragma push_macro("STATUS_LOG_METADATA_FLUSH_FAILED")
+#undef STATUS_LOG_METADATA_FLUSH_FAILED
+    inline constexpr auto STATUS_LOG_METADATA_FLUSH_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_METADATA_FLUSH_FAILED")
+        STATUS_LOG_METADATA_FLUSH_FAILED
+    };
+
+#pragma push_macro("STATUS_LOG_INCONSISTENT_SECURITY")
+#undef STATUS_LOG_INCONSISTENT_SECURITY
+    inline constexpr auto STATUS_LOG_INCONSISTENT_SECURITY = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_INCONSISTENT_SECURITY")
+        STATUS_LOG_INCONSISTENT_SECURITY
+    };
+
+#pragma push_macro("STATUS_LOG_APPENDED_FLUSH_FAILED")
+#undef STATUS_LOG_APPENDED_FLUSH_FAILED
+    inline constexpr auto STATUS_LOG_APPENDED_FLUSH_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_APPENDED_FLUSH_FAILED")
+        STATUS_LOG_APPENDED_FLUSH_FAILED
+    };
+
+#pragma push_macro("STATUS_LOG_PINNED_RESERVATION")
+#undef STATUS_LOG_PINNED_RESERVATION
+    inline constexpr auto STATUS_LOG_PINNED_RESERVATION = NTSTATUS {
+#pragma pop_macro("STATUS_LOG_PINNED_RESERVATION")
+        STATUS_LOG_PINNED_RESERVATION
+    };
+
+#pragma push_macro("STATUS_VIDEO_HUNG_DISPLAY_DRIVER_THREAD")
+#undef STATUS_VIDEO_HUNG_DISPLAY_DRIVER_THREAD
+    inline constexpr auto STATUS_VIDEO_HUNG_DISPLAY_DRIVER_THREAD = NTSTATUS {
+#pragma pop_macro("STATUS_VIDEO_HUNG_DISPLAY_DRIVER_THREAD")
+        STATUS_VIDEO_HUNG_DISPLAY_DRIVER_THREAD
+    };
+
+#pragma push_macro("STATUS_FLT_NO_HANDLER_DEFINED")
+#undef STATUS_FLT_NO_HANDLER_DEFINED
+    inline constexpr auto STATUS_FLT_NO_HANDLER_DEFINED = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_NO_HANDLER_DEFINED")
+        STATUS_FLT_NO_HANDLER_DEFINED
+    };
+
+#pragma push_macro("STATUS_FLT_CONTEXT_ALREADY_DEFINED")
+#undef STATUS_FLT_CONTEXT_ALREADY_DEFINED
+    inline constexpr auto STATUS_FLT_CONTEXT_ALREADY_DEFINED = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_CONTEXT_ALREADY_DEFINED")
+        STATUS_FLT_CONTEXT_ALREADY_DEFINED
+    };
+
+#pragma push_macro("STATUS_FLT_INVALID_ASYNCHRONOUS_REQUEST")
+#undef STATUS_FLT_INVALID_ASYNCHRONOUS_REQUEST
+    inline constexpr auto STATUS_FLT_INVALID_ASYNCHRONOUS_REQUEST = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_INVALID_ASYNCHRONOUS_REQUEST")
+        STATUS_FLT_INVALID_ASYNCHRONOUS_REQUEST
+    };
+
+#pragma push_macro("STATUS_FLT_DISALLOW_FAST_IO")
+#undef STATUS_FLT_DISALLOW_FAST_IO
+    inline constexpr auto STATUS_FLT_DISALLOW_FAST_IO = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_DISALLOW_FAST_IO")
+        STATUS_FLT_DISALLOW_FAST_IO
+    };
+
+#pragma push_macro("STATUS_FLT_INVALID_NAME_REQUEST")
+#undef STATUS_FLT_INVALID_NAME_REQUEST
+    inline constexpr auto STATUS_FLT_INVALID_NAME_REQUEST = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_INVALID_NAME_REQUEST")
+        STATUS_FLT_INVALID_NAME_REQUEST
+    };
+
+#pragma push_macro("STATUS_FLT_NOT_SAFE_TO_POST_OPERATION")
+#undef STATUS_FLT_NOT_SAFE_TO_POST_OPERATION
+    inline constexpr auto STATUS_FLT_NOT_SAFE_TO_POST_OPERATION = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_NOT_SAFE_TO_POST_OPERATION")
+        STATUS_FLT_NOT_SAFE_TO_POST_OPERATION
+    };
+
+#pragma push_macro("STATUS_FLT_NOT_INITIALIZED")
+#undef STATUS_FLT_NOT_INITIALIZED
+    inline constexpr auto STATUS_FLT_NOT_INITIALIZED = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_NOT_INITIALIZED")
+        STATUS_FLT_NOT_INITIALIZED
+    };
+
+#pragma push_macro("STATUS_FLT_FILTER_NOT_READY")
+#undef STATUS_FLT_FILTER_NOT_READY
+    inline constexpr auto STATUS_FLT_FILTER_NOT_READY = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_FILTER_NOT_READY")
+        STATUS_FLT_FILTER_NOT_READY
+    };
+
+#pragma push_macro("STATUS_FLT_POST_OPERATION_CLEANUP")
+#undef STATUS_FLT_POST_OPERATION_CLEANUP
+    inline constexpr auto STATUS_FLT_POST_OPERATION_CLEANUP = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_POST_OPERATION_CLEANUP")
+        STATUS_FLT_POST_OPERATION_CLEANUP
+    };
+
+#pragma push_macro("STATUS_FLT_INTERNAL_ERROR")
+#undef STATUS_FLT_INTERNAL_ERROR
+    inline constexpr auto STATUS_FLT_INTERNAL_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_INTERNAL_ERROR")
+        STATUS_FLT_INTERNAL_ERROR
+    };
+
+#pragma push_macro("STATUS_FLT_DELETING_OBJECT")
+#undef STATUS_FLT_DELETING_OBJECT
+    inline constexpr auto STATUS_FLT_DELETING_OBJECT = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_DELETING_OBJECT")
+        STATUS_FLT_DELETING_OBJECT
+    };
+
+#pragma push_macro("STATUS_FLT_MUST_BE_NONPAGED_POOL")
+#undef STATUS_FLT_MUST_BE_NONPAGED_POOL
+    inline constexpr auto STATUS_FLT_MUST_BE_NONPAGED_POOL = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_MUST_BE_NONPAGED_POOL")
+        STATUS_FLT_MUST_BE_NONPAGED_POOL
+    };
+
+#pragma push_macro("STATUS_FLT_DUPLICATE_ENTRY")
+#undef STATUS_FLT_DUPLICATE_ENTRY
+    inline constexpr auto STATUS_FLT_DUPLICATE_ENTRY = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_DUPLICATE_ENTRY")
+        STATUS_FLT_DUPLICATE_ENTRY
+    };
+
+#pragma push_macro("STATUS_FLT_CBDQ_DISABLED")
+#undef STATUS_FLT_CBDQ_DISABLED
+    inline constexpr auto STATUS_FLT_CBDQ_DISABLED = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_CBDQ_DISABLED")
+        STATUS_FLT_CBDQ_DISABLED
+    };
+
+#pragma push_macro("STATUS_FLT_DO_NOT_ATTACH")
+#undef STATUS_FLT_DO_NOT_ATTACH
+    inline constexpr auto STATUS_FLT_DO_NOT_ATTACH = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_DO_NOT_ATTACH")
+        STATUS_FLT_DO_NOT_ATTACH
+    };
+
+#pragma push_macro("STATUS_FLT_DO_NOT_DETACH")
+#undef STATUS_FLT_DO_NOT_DETACH
+    inline constexpr auto STATUS_FLT_DO_NOT_DETACH = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_DO_NOT_DETACH")
+        STATUS_FLT_DO_NOT_DETACH
+    };
+
+#pragma push_macro("STATUS_FLT_INSTANCE_ALTITUDE_COLLISION")
+#undef STATUS_FLT_INSTANCE_ALTITUDE_COLLISION
+    inline constexpr auto STATUS_FLT_INSTANCE_ALTITUDE_COLLISION = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_INSTANCE_ALTITUDE_COLLISION")
+        STATUS_FLT_INSTANCE_ALTITUDE_COLLISION
+    };
+
+#pragma push_macro("STATUS_FLT_INSTANCE_NAME_COLLISION")
+#undef STATUS_FLT_INSTANCE_NAME_COLLISION
+    inline constexpr auto STATUS_FLT_INSTANCE_NAME_COLLISION = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_INSTANCE_NAME_COLLISION")
+        STATUS_FLT_INSTANCE_NAME_COLLISION
+    };
+
+#pragma push_macro("STATUS_FLT_FILTER_NOT_FOUND")
+#undef STATUS_FLT_FILTER_NOT_FOUND
+    inline constexpr auto STATUS_FLT_FILTER_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_FILTER_NOT_FOUND")
+        STATUS_FLT_FILTER_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_FLT_VOLUME_NOT_FOUND")
+#undef STATUS_FLT_VOLUME_NOT_FOUND
+    inline constexpr auto STATUS_FLT_VOLUME_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_VOLUME_NOT_FOUND")
+        STATUS_FLT_VOLUME_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_FLT_INSTANCE_NOT_FOUND")
+#undef STATUS_FLT_INSTANCE_NOT_FOUND
+    inline constexpr auto STATUS_FLT_INSTANCE_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_INSTANCE_NOT_FOUND")
+        STATUS_FLT_INSTANCE_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_FLT_CONTEXT_ALLOCATION_NOT_FOUND")
+#undef STATUS_FLT_CONTEXT_ALLOCATION_NOT_FOUND
+    inline constexpr auto STATUS_FLT_CONTEXT_ALLOCATION_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_CONTEXT_ALLOCATION_NOT_FOUND")
+        STATUS_FLT_CONTEXT_ALLOCATION_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_FLT_INVALID_CONTEXT_REGISTRATION")
+#undef STATUS_FLT_INVALID_CONTEXT_REGISTRATION
+    inline constexpr auto STATUS_FLT_INVALID_CONTEXT_REGISTRATION = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_INVALID_CONTEXT_REGISTRATION")
+        STATUS_FLT_INVALID_CONTEXT_REGISTRATION
+    };
+
+#pragma push_macro("STATUS_FLT_NAME_CACHE_MISS")
+#undef STATUS_FLT_NAME_CACHE_MISS
+    inline constexpr auto STATUS_FLT_NAME_CACHE_MISS = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_NAME_CACHE_MISS")
+        STATUS_FLT_NAME_CACHE_MISS
+    };
+
+#pragma push_macro("STATUS_FLT_NO_DEVICE_OBJECT")
+#undef STATUS_FLT_NO_DEVICE_OBJECT
+    inline constexpr auto STATUS_FLT_NO_DEVICE_OBJECT = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_NO_DEVICE_OBJECT")
+        STATUS_FLT_NO_DEVICE_OBJECT
+    };
+
+#pragma push_macro("STATUS_FLT_VOLUME_ALREADY_MOUNTED")
+#undef STATUS_FLT_VOLUME_ALREADY_MOUNTED
+    inline constexpr auto STATUS_FLT_VOLUME_ALREADY_MOUNTED = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_VOLUME_ALREADY_MOUNTED")
+        STATUS_FLT_VOLUME_ALREADY_MOUNTED
+    };
+
+#pragma push_macro("STATUS_FLT_ALREADY_ENLISTED")
+#undef STATUS_FLT_ALREADY_ENLISTED
+    inline constexpr auto STATUS_FLT_ALREADY_ENLISTED = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_ALREADY_ENLISTED")
+        STATUS_FLT_ALREADY_ENLISTED
+    };
+
+#pragma push_macro("STATUS_FLT_CONTEXT_ALREADY_LINKED")
+#undef STATUS_FLT_CONTEXT_ALREADY_LINKED
+    inline constexpr auto STATUS_FLT_CONTEXT_ALREADY_LINKED = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_CONTEXT_ALREADY_LINKED")
+        STATUS_FLT_CONTEXT_ALREADY_LINKED
+    };
+
+#pragma push_macro("STATUS_FLT_NO_WAITER_FOR_REPLY")
+#undef STATUS_FLT_NO_WAITER_FOR_REPLY
+    inline constexpr auto STATUS_FLT_NO_WAITER_FOR_REPLY = NTSTATUS {
+#pragma pop_macro("STATUS_FLT_NO_WAITER_FOR_REPLY")
+        STATUS_FLT_NO_WAITER_FOR_REPLY
+    };
+
+#pragma push_macro("STATUS_MONITOR_NO_DESCRIPTOR")
+#undef STATUS_MONITOR_NO_DESCRIPTOR
+    inline constexpr auto STATUS_MONITOR_NO_DESCRIPTOR = NTSTATUS {
+#pragma pop_macro("STATUS_MONITOR_NO_DESCRIPTOR")
+        STATUS_MONITOR_NO_DESCRIPTOR
+    };
+
+#pragma push_macro("STATUS_MONITOR_UNKNOWN_DESCRIPTOR_FORMAT")
+#undef STATUS_MONITOR_UNKNOWN_DESCRIPTOR_FORMAT
+    inline constexpr auto STATUS_MONITOR_UNKNOWN_DESCRIPTOR_FORMAT = NTSTATUS {
+#pragma pop_macro("STATUS_MONITOR_UNKNOWN_DESCRIPTOR_FORMAT")
+        STATUS_MONITOR_UNKNOWN_DESCRIPTOR_FORMAT
+    };
+
+#pragma push_macro("STATUS_MONITOR_INVALID_DESCRIPTOR_CHECKSUM")
+#undef STATUS_MONITOR_INVALID_DESCRIPTOR_CHECKSUM
+    inline constexpr auto STATUS_MONITOR_INVALID_DESCRIPTOR_CHECKSUM = NTSTATUS {
+#pragma pop_macro("STATUS_MONITOR_INVALID_DESCRIPTOR_CHECKSUM")
+        STATUS_MONITOR_INVALID_DESCRIPTOR_CHECKSUM
+    };
+
+#pragma push_macro("STATUS_MONITOR_INVALID_STANDARD_TIMING_BLOCK")
+#undef STATUS_MONITOR_INVALID_STANDARD_TIMING_BLOCK
+    inline constexpr auto STATUS_MONITOR_INVALID_STANDARD_TIMING_BLOCK = NTSTATUS {
+#pragma pop_macro("STATUS_MONITOR_INVALID_STANDARD_TIMING_BLOCK")
+        STATUS_MONITOR_INVALID_STANDARD_TIMING_BLOCK
+    };
+
+#pragma push_macro("STATUS_MONITOR_WMI_DATABLOCK_REGISTRATION_FAILED")
+#undef STATUS_MONITOR_WMI_DATABLOCK_REGISTRATION_FAILED
+    inline constexpr auto STATUS_MONITOR_WMI_DATABLOCK_REGISTRATION_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_MONITOR_WMI_DATABLOCK_REGISTRATION_FAILED")
+        STATUS_MONITOR_WMI_DATABLOCK_REGISTRATION_FAILED
+    };
+
+#pragma push_macro("STATUS_MONITOR_INVALID_SERIAL_NUMBER_MONDSC_BLOCK")
+#undef STATUS_MONITOR_INVALID_SERIAL_NUMBER_MONDSC_BLOCK
+    inline constexpr auto STATUS_MONITOR_INVALID_SERIAL_NUMBER_MONDSC_BLOCK = NTSTATUS {
+#pragma pop_macro("STATUS_MONITOR_INVALID_SERIAL_NUMBER_MONDSC_BLOCK")
+        STATUS_MONITOR_INVALID_SERIAL_NUMBER_MONDSC_BLOCK
+    };
+
+#pragma push_macro("STATUS_MONITOR_INVALID_USER_FRIENDLY_MONDSC_BLOCK")
+#undef STATUS_MONITOR_INVALID_USER_FRIENDLY_MONDSC_BLOCK
+    inline constexpr auto STATUS_MONITOR_INVALID_USER_FRIENDLY_MONDSC_BLOCK = NTSTATUS {
+#pragma pop_macro("STATUS_MONITOR_INVALID_USER_FRIENDLY_MONDSC_BLOCK")
+        STATUS_MONITOR_INVALID_USER_FRIENDLY_MONDSC_BLOCK
+    };
+
+#pragma push_macro("STATUS_MONITOR_NO_MORE_DESCRIPTOR_DATA")
+#undef STATUS_MONITOR_NO_MORE_DESCRIPTOR_DATA
+    inline constexpr auto STATUS_MONITOR_NO_MORE_DESCRIPTOR_DATA = NTSTATUS {
+#pragma pop_macro("STATUS_MONITOR_NO_MORE_DESCRIPTOR_DATA")
+        STATUS_MONITOR_NO_MORE_DESCRIPTOR_DATA
+    };
+
+#pragma push_macro("STATUS_MONITOR_INVALID_DETAILED_TIMING_BLOCK")
+#undef STATUS_MONITOR_INVALID_DETAILED_TIMING_BLOCK
+    inline constexpr auto STATUS_MONITOR_INVALID_DETAILED_TIMING_BLOCK = NTSTATUS {
+#pragma pop_macro("STATUS_MONITOR_INVALID_DETAILED_TIMING_BLOCK")
+        STATUS_MONITOR_INVALID_DETAILED_TIMING_BLOCK
+    };
+
+#pragma push_macro("STATUS_MONITOR_INVALID_MANUFACTURE_DATE")
+#undef STATUS_MONITOR_INVALID_MANUFACTURE_DATE
+    inline constexpr auto STATUS_MONITOR_INVALID_MANUFACTURE_DATE = NTSTATUS {
+#pragma pop_macro("STATUS_MONITOR_INVALID_MANUFACTURE_DATE")
+        STATUS_MONITOR_INVALID_MANUFACTURE_DATE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_NOT_EXCLUSIVE_MODE_OWNER")
+#undef STATUS_GRAPHICS_NOT_EXCLUSIVE_MODE_OWNER
+    inline constexpr auto STATUS_GRAPHICS_NOT_EXCLUSIVE_MODE_OWNER = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_NOT_EXCLUSIVE_MODE_OWNER")
+        STATUS_GRAPHICS_NOT_EXCLUSIVE_MODE_OWNER
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INSUFFICIENT_DMA_BUFFER")
+#undef STATUS_GRAPHICS_INSUFFICIENT_DMA_BUFFER
+    inline constexpr auto STATUS_GRAPHICS_INSUFFICIENT_DMA_BUFFER = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INSUFFICIENT_DMA_BUFFER")
+        STATUS_GRAPHICS_INSUFFICIENT_DMA_BUFFER
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_DISPLAY_ADAPTER")
+#undef STATUS_GRAPHICS_INVALID_DISPLAY_ADAPTER
+    inline constexpr auto STATUS_GRAPHICS_INVALID_DISPLAY_ADAPTER = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_DISPLAY_ADAPTER")
+        STATUS_GRAPHICS_INVALID_DISPLAY_ADAPTER
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_ADAPTER_WAS_RESET")
+#undef STATUS_GRAPHICS_ADAPTER_WAS_RESET
+    inline constexpr auto STATUS_GRAPHICS_ADAPTER_WAS_RESET = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_ADAPTER_WAS_RESET")
+        STATUS_GRAPHICS_ADAPTER_WAS_RESET
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_DRIVER_MODEL")
+#undef STATUS_GRAPHICS_INVALID_DRIVER_MODEL
+    inline constexpr auto STATUS_GRAPHICS_INVALID_DRIVER_MODEL = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_DRIVER_MODEL")
+        STATUS_GRAPHICS_INVALID_DRIVER_MODEL
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_PRESENT_MODE_CHANGED")
+#undef STATUS_GRAPHICS_PRESENT_MODE_CHANGED
+    inline constexpr auto STATUS_GRAPHICS_PRESENT_MODE_CHANGED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_PRESENT_MODE_CHANGED")
+        STATUS_GRAPHICS_PRESENT_MODE_CHANGED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_PRESENT_OCCLUDED")
+#undef STATUS_GRAPHICS_PRESENT_OCCLUDED
+    inline constexpr auto STATUS_GRAPHICS_PRESENT_OCCLUDED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_PRESENT_OCCLUDED")
+        STATUS_GRAPHICS_PRESENT_OCCLUDED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_PRESENT_DENIED")
+#undef STATUS_GRAPHICS_PRESENT_DENIED
+    inline constexpr auto STATUS_GRAPHICS_PRESENT_DENIED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_PRESENT_DENIED")
+        STATUS_GRAPHICS_PRESENT_DENIED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_CANNOTCOLORCONVERT")
+#undef STATUS_GRAPHICS_CANNOTCOLORCONVERT
+    inline constexpr auto STATUS_GRAPHICS_CANNOTCOLORCONVERT = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_CANNOTCOLORCONVERT")
+        STATUS_GRAPHICS_CANNOTCOLORCONVERT
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_PRESENT_REDIRECTION_DISABLED")
+#undef STATUS_GRAPHICS_PRESENT_REDIRECTION_DISABLED
+    inline constexpr auto STATUS_GRAPHICS_PRESENT_REDIRECTION_DISABLED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_PRESENT_REDIRECTION_DISABLED")
+        STATUS_GRAPHICS_PRESENT_REDIRECTION_DISABLED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_PRESENT_UNOCCLUDED")
+#undef STATUS_GRAPHICS_PRESENT_UNOCCLUDED
+    inline constexpr auto STATUS_GRAPHICS_PRESENT_UNOCCLUDED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_PRESENT_UNOCCLUDED")
+        STATUS_GRAPHICS_PRESENT_UNOCCLUDED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_NO_VIDEO_MEMORY")
+#undef STATUS_GRAPHICS_NO_VIDEO_MEMORY
+    inline constexpr auto STATUS_GRAPHICS_NO_VIDEO_MEMORY = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_NO_VIDEO_MEMORY")
+        STATUS_GRAPHICS_NO_VIDEO_MEMORY
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_CANT_LOCK_MEMORY")
+#undef STATUS_GRAPHICS_CANT_LOCK_MEMORY
+    inline constexpr auto STATUS_GRAPHICS_CANT_LOCK_MEMORY = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_CANT_LOCK_MEMORY")
+        STATUS_GRAPHICS_CANT_LOCK_MEMORY
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_ALLOCATION_BUSY")
+#undef STATUS_GRAPHICS_ALLOCATION_BUSY
+    inline constexpr auto STATUS_GRAPHICS_ALLOCATION_BUSY = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_ALLOCATION_BUSY")
+        STATUS_GRAPHICS_ALLOCATION_BUSY
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_TOO_MANY_REFERENCES")
+#undef STATUS_GRAPHICS_TOO_MANY_REFERENCES
+    inline constexpr auto STATUS_GRAPHICS_TOO_MANY_REFERENCES = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_TOO_MANY_REFERENCES")
+        STATUS_GRAPHICS_TOO_MANY_REFERENCES
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_TRY_AGAIN_LATER")
+#undef STATUS_GRAPHICS_TRY_AGAIN_LATER
+    inline constexpr auto STATUS_GRAPHICS_TRY_AGAIN_LATER = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_TRY_AGAIN_LATER")
+        STATUS_GRAPHICS_TRY_AGAIN_LATER
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_TRY_AGAIN_NOW")
+#undef STATUS_GRAPHICS_TRY_AGAIN_NOW
+    inline constexpr auto STATUS_GRAPHICS_TRY_AGAIN_NOW = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_TRY_AGAIN_NOW")
+        STATUS_GRAPHICS_TRY_AGAIN_NOW
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_ALLOCATION_INVALID")
+#undef STATUS_GRAPHICS_ALLOCATION_INVALID
+    inline constexpr auto STATUS_GRAPHICS_ALLOCATION_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_ALLOCATION_INVALID")
+        STATUS_GRAPHICS_ALLOCATION_INVALID
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_UNSWIZZLING_APERTURE_UNAVAILABLE")
+#undef STATUS_GRAPHICS_UNSWIZZLING_APERTURE_UNAVAILABLE
+    inline constexpr auto STATUS_GRAPHICS_UNSWIZZLING_APERTURE_UNAVAILABLE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_UNSWIZZLING_APERTURE_UNAVAILABLE")
+        STATUS_GRAPHICS_UNSWIZZLING_APERTURE_UNAVAILABLE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_UNSWIZZLING_APERTURE_UNSUPPORTED")
+#undef STATUS_GRAPHICS_UNSWIZZLING_APERTURE_UNSUPPORTED
+    inline constexpr auto STATUS_GRAPHICS_UNSWIZZLING_APERTURE_UNSUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_UNSWIZZLING_APERTURE_UNSUPPORTED")
+        STATUS_GRAPHICS_UNSWIZZLING_APERTURE_UNSUPPORTED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_CANT_EVICT_PINNED_ALLOCATION")
+#undef STATUS_GRAPHICS_CANT_EVICT_PINNED_ALLOCATION
+    inline constexpr auto STATUS_GRAPHICS_CANT_EVICT_PINNED_ALLOCATION = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_CANT_EVICT_PINNED_ALLOCATION")
+        STATUS_GRAPHICS_CANT_EVICT_PINNED_ALLOCATION
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_ALLOCATION_USAGE")
+#undef STATUS_GRAPHICS_INVALID_ALLOCATION_USAGE
+    inline constexpr auto STATUS_GRAPHICS_INVALID_ALLOCATION_USAGE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_ALLOCATION_USAGE")
+        STATUS_GRAPHICS_INVALID_ALLOCATION_USAGE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_CANT_RENDER_LOCKED_ALLOCATION")
+#undef STATUS_GRAPHICS_CANT_RENDER_LOCKED_ALLOCATION
+    inline constexpr auto STATUS_GRAPHICS_CANT_RENDER_LOCKED_ALLOCATION = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_CANT_RENDER_LOCKED_ALLOCATION")
+        STATUS_GRAPHICS_CANT_RENDER_LOCKED_ALLOCATION
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_ALLOCATION_CLOSED")
+#undef STATUS_GRAPHICS_ALLOCATION_CLOSED
+    inline constexpr auto STATUS_GRAPHICS_ALLOCATION_CLOSED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_ALLOCATION_CLOSED")
+        STATUS_GRAPHICS_ALLOCATION_CLOSED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_ALLOCATION_INSTANCE")
+#undef STATUS_GRAPHICS_INVALID_ALLOCATION_INSTANCE
+    inline constexpr auto STATUS_GRAPHICS_INVALID_ALLOCATION_INSTANCE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_ALLOCATION_INSTANCE")
+        STATUS_GRAPHICS_INVALID_ALLOCATION_INSTANCE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_ALLOCATION_HANDLE")
+#undef STATUS_GRAPHICS_INVALID_ALLOCATION_HANDLE
+    inline constexpr auto STATUS_GRAPHICS_INVALID_ALLOCATION_HANDLE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_ALLOCATION_HANDLE")
+        STATUS_GRAPHICS_INVALID_ALLOCATION_HANDLE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_WRONG_ALLOCATION_DEVICE")
+#undef STATUS_GRAPHICS_WRONG_ALLOCATION_DEVICE
+    inline constexpr auto STATUS_GRAPHICS_WRONG_ALLOCATION_DEVICE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_WRONG_ALLOCATION_DEVICE")
+        STATUS_GRAPHICS_WRONG_ALLOCATION_DEVICE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_ALLOCATION_CONTENT_LOST")
+#undef STATUS_GRAPHICS_ALLOCATION_CONTENT_LOST
+    inline constexpr auto STATUS_GRAPHICS_ALLOCATION_CONTENT_LOST = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_ALLOCATION_CONTENT_LOST")
+        STATUS_GRAPHICS_ALLOCATION_CONTENT_LOST
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_GPU_EXCEPTION_ON_DEVICE")
+#undef STATUS_GRAPHICS_GPU_EXCEPTION_ON_DEVICE
+    inline constexpr auto STATUS_GRAPHICS_GPU_EXCEPTION_ON_DEVICE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_GPU_EXCEPTION_ON_DEVICE")
+        STATUS_GRAPHICS_GPU_EXCEPTION_ON_DEVICE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_VIDPN_TOPOLOGY")
+#undef STATUS_GRAPHICS_INVALID_VIDPN_TOPOLOGY
+    inline constexpr auto STATUS_GRAPHICS_INVALID_VIDPN_TOPOLOGY = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_VIDPN_TOPOLOGY")
+        STATUS_GRAPHICS_INVALID_VIDPN_TOPOLOGY
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_VIDPN_TOPOLOGY_NOT_SUPPORTED")
+#undef STATUS_GRAPHICS_VIDPN_TOPOLOGY_NOT_SUPPORTED
+    inline constexpr auto STATUS_GRAPHICS_VIDPN_TOPOLOGY_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_VIDPN_TOPOLOGY_NOT_SUPPORTED")
+        STATUS_GRAPHICS_VIDPN_TOPOLOGY_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_VIDPN_TOPOLOGY_CURRENTLY_NOT_SUPPORTED")
+#undef STATUS_GRAPHICS_VIDPN_TOPOLOGY_CURRENTLY_NOT_SUPPORTED
+    inline constexpr auto STATUS_GRAPHICS_VIDPN_TOPOLOGY_CURRENTLY_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_VIDPN_TOPOLOGY_CURRENTLY_NOT_SUPPORTED")
+        STATUS_GRAPHICS_VIDPN_TOPOLOGY_CURRENTLY_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_VIDPN")
+#undef STATUS_GRAPHICS_INVALID_VIDPN
+    inline constexpr auto STATUS_GRAPHICS_INVALID_VIDPN = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_VIDPN")
+        STATUS_GRAPHICS_INVALID_VIDPN
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_VIDEO_PRESENT_SOURCE")
+#undef STATUS_GRAPHICS_INVALID_VIDEO_PRESENT_SOURCE
+    inline constexpr auto STATUS_GRAPHICS_INVALID_VIDEO_PRESENT_SOURCE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_VIDEO_PRESENT_SOURCE")
+        STATUS_GRAPHICS_INVALID_VIDEO_PRESENT_SOURCE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_VIDEO_PRESENT_TARGET")
+#undef STATUS_GRAPHICS_INVALID_VIDEO_PRESENT_TARGET
+    inline constexpr auto STATUS_GRAPHICS_INVALID_VIDEO_PRESENT_TARGET = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_VIDEO_PRESENT_TARGET")
+        STATUS_GRAPHICS_INVALID_VIDEO_PRESENT_TARGET
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_VIDPN_MODALITY_NOT_SUPPORTED")
+#undef STATUS_GRAPHICS_VIDPN_MODALITY_NOT_SUPPORTED
+    inline constexpr auto STATUS_GRAPHICS_VIDPN_MODALITY_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_VIDPN_MODALITY_NOT_SUPPORTED")
+        STATUS_GRAPHICS_VIDPN_MODALITY_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_VIDPN_SOURCEMODESET")
+#undef STATUS_GRAPHICS_INVALID_VIDPN_SOURCEMODESET
+    inline constexpr auto STATUS_GRAPHICS_INVALID_VIDPN_SOURCEMODESET = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_VIDPN_SOURCEMODESET")
+        STATUS_GRAPHICS_INVALID_VIDPN_SOURCEMODESET
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_VIDPN_TARGETMODESET")
+#undef STATUS_GRAPHICS_INVALID_VIDPN_TARGETMODESET
+    inline constexpr auto STATUS_GRAPHICS_INVALID_VIDPN_TARGETMODESET = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_VIDPN_TARGETMODESET")
+        STATUS_GRAPHICS_INVALID_VIDPN_TARGETMODESET
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_FREQUENCY")
+#undef STATUS_GRAPHICS_INVALID_FREQUENCY
+    inline constexpr auto STATUS_GRAPHICS_INVALID_FREQUENCY = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_FREQUENCY")
+        STATUS_GRAPHICS_INVALID_FREQUENCY
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_ACTIVE_REGION")
+#undef STATUS_GRAPHICS_INVALID_ACTIVE_REGION
+    inline constexpr auto STATUS_GRAPHICS_INVALID_ACTIVE_REGION = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_ACTIVE_REGION")
+        STATUS_GRAPHICS_INVALID_ACTIVE_REGION
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_TOTAL_REGION")
+#undef STATUS_GRAPHICS_INVALID_TOTAL_REGION
+    inline constexpr auto STATUS_GRAPHICS_INVALID_TOTAL_REGION = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_TOTAL_REGION")
+        STATUS_GRAPHICS_INVALID_TOTAL_REGION
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_VIDEO_PRESENT_SOURCE_MODE")
+#undef STATUS_GRAPHICS_INVALID_VIDEO_PRESENT_SOURCE_MODE
+    inline constexpr auto STATUS_GRAPHICS_INVALID_VIDEO_PRESENT_SOURCE_MODE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_VIDEO_PRESENT_SOURCE_MODE")
+        STATUS_GRAPHICS_INVALID_VIDEO_PRESENT_SOURCE_MODE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_VIDEO_PRESENT_TARGET_MODE")
+#undef STATUS_GRAPHICS_INVALID_VIDEO_PRESENT_TARGET_MODE
+    inline constexpr auto STATUS_GRAPHICS_INVALID_VIDEO_PRESENT_TARGET_MODE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_VIDEO_PRESENT_TARGET_MODE")
+        STATUS_GRAPHICS_INVALID_VIDEO_PRESENT_TARGET_MODE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_PINNED_MODE_MUST_REMAIN_IN_SET")
+#undef STATUS_GRAPHICS_PINNED_MODE_MUST_REMAIN_IN_SET
+    inline constexpr auto STATUS_GRAPHICS_PINNED_MODE_MUST_REMAIN_IN_SET = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_PINNED_MODE_MUST_REMAIN_IN_SET")
+        STATUS_GRAPHICS_PINNED_MODE_MUST_REMAIN_IN_SET
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_PATH_ALREADY_IN_TOPOLOGY")
+#undef STATUS_GRAPHICS_PATH_ALREADY_IN_TOPOLOGY
+    inline constexpr auto STATUS_GRAPHICS_PATH_ALREADY_IN_TOPOLOGY = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_PATH_ALREADY_IN_TOPOLOGY")
+        STATUS_GRAPHICS_PATH_ALREADY_IN_TOPOLOGY
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_MODE_ALREADY_IN_MODESET")
+#undef STATUS_GRAPHICS_MODE_ALREADY_IN_MODESET
+    inline constexpr auto STATUS_GRAPHICS_MODE_ALREADY_IN_MODESET = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_MODE_ALREADY_IN_MODESET")
+        STATUS_GRAPHICS_MODE_ALREADY_IN_MODESET
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_VIDEOPRESENTSOURCESET")
+#undef STATUS_GRAPHICS_INVALID_VIDEOPRESENTSOURCESET
+    inline constexpr auto STATUS_GRAPHICS_INVALID_VIDEOPRESENTSOURCESET = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_VIDEOPRESENTSOURCESET")
+        STATUS_GRAPHICS_INVALID_VIDEOPRESENTSOURCESET
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_VIDEOPRESENTTARGETSET")
+#undef STATUS_GRAPHICS_INVALID_VIDEOPRESENTTARGETSET
+    inline constexpr auto STATUS_GRAPHICS_INVALID_VIDEOPRESENTTARGETSET = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_VIDEOPRESENTTARGETSET")
+        STATUS_GRAPHICS_INVALID_VIDEOPRESENTTARGETSET
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_SOURCE_ALREADY_IN_SET")
+#undef STATUS_GRAPHICS_SOURCE_ALREADY_IN_SET
+    inline constexpr auto STATUS_GRAPHICS_SOURCE_ALREADY_IN_SET = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_SOURCE_ALREADY_IN_SET")
+        STATUS_GRAPHICS_SOURCE_ALREADY_IN_SET
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_TARGET_ALREADY_IN_SET")
+#undef STATUS_GRAPHICS_TARGET_ALREADY_IN_SET
+    inline constexpr auto STATUS_GRAPHICS_TARGET_ALREADY_IN_SET = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_TARGET_ALREADY_IN_SET")
+        STATUS_GRAPHICS_TARGET_ALREADY_IN_SET
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_VIDPN_PRESENT_PATH")
+#undef STATUS_GRAPHICS_INVALID_VIDPN_PRESENT_PATH
+    inline constexpr auto STATUS_GRAPHICS_INVALID_VIDPN_PRESENT_PATH = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_VIDPN_PRESENT_PATH")
+        STATUS_GRAPHICS_INVALID_VIDPN_PRESENT_PATH
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_NO_RECOMMENDED_VIDPN_TOPOLOGY")
+#undef STATUS_GRAPHICS_NO_RECOMMENDED_VIDPN_TOPOLOGY
+    inline constexpr auto STATUS_GRAPHICS_NO_RECOMMENDED_VIDPN_TOPOLOGY = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_NO_RECOMMENDED_VIDPN_TOPOLOGY")
+        STATUS_GRAPHICS_NO_RECOMMENDED_VIDPN_TOPOLOGY
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_MONITOR_FREQUENCYRANGESET")
+#undef STATUS_GRAPHICS_INVALID_MONITOR_FREQUENCYRANGESET
+    inline constexpr auto STATUS_GRAPHICS_INVALID_MONITOR_FREQUENCYRANGESET = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_MONITOR_FREQUENCYRANGESET")
+        STATUS_GRAPHICS_INVALID_MONITOR_FREQUENCYRANGESET
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_MONITOR_FREQUENCYRANGE")
+#undef STATUS_GRAPHICS_INVALID_MONITOR_FREQUENCYRANGE
+    inline constexpr auto STATUS_GRAPHICS_INVALID_MONITOR_FREQUENCYRANGE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_MONITOR_FREQUENCYRANGE")
+        STATUS_GRAPHICS_INVALID_MONITOR_FREQUENCYRANGE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_FREQUENCYRANGE_NOT_IN_SET")
+#undef STATUS_GRAPHICS_FREQUENCYRANGE_NOT_IN_SET
+    inline constexpr auto STATUS_GRAPHICS_FREQUENCYRANGE_NOT_IN_SET = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_FREQUENCYRANGE_NOT_IN_SET")
+        STATUS_GRAPHICS_FREQUENCYRANGE_NOT_IN_SET
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_FREQUENCYRANGE_ALREADY_IN_SET")
+#undef STATUS_GRAPHICS_FREQUENCYRANGE_ALREADY_IN_SET
+    inline constexpr auto STATUS_GRAPHICS_FREQUENCYRANGE_ALREADY_IN_SET = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_FREQUENCYRANGE_ALREADY_IN_SET")
+        STATUS_GRAPHICS_FREQUENCYRANGE_ALREADY_IN_SET
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_STALE_MODESET")
+#undef STATUS_GRAPHICS_STALE_MODESET
+    inline constexpr auto STATUS_GRAPHICS_STALE_MODESET = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_STALE_MODESET")
+        STATUS_GRAPHICS_STALE_MODESET
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_MONITOR_SOURCEMODESET")
+#undef STATUS_GRAPHICS_INVALID_MONITOR_SOURCEMODESET
+    inline constexpr auto STATUS_GRAPHICS_INVALID_MONITOR_SOURCEMODESET = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_MONITOR_SOURCEMODESET")
+        STATUS_GRAPHICS_INVALID_MONITOR_SOURCEMODESET
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_MONITOR_SOURCE_MODE")
+#undef STATUS_GRAPHICS_INVALID_MONITOR_SOURCE_MODE
+    inline constexpr auto STATUS_GRAPHICS_INVALID_MONITOR_SOURCE_MODE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_MONITOR_SOURCE_MODE")
+        STATUS_GRAPHICS_INVALID_MONITOR_SOURCE_MODE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_NO_RECOMMENDED_FUNCTIONAL_VIDPN")
+#undef STATUS_GRAPHICS_NO_RECOMMENDED_FUNCTIONAL_VIDPN
+    inline constexpr auto STATUS_GRAPHICS_NO_RECOMMENDED_FUNCTIONAL_VIDPN = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_NO_RECOMMENDED_FUNCTIONAL_VIDPN")
+        STATUS_GRAPHICS_NO_RECOMMENDED_FUNCTIONAL_VIDPN
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_MODE_ID_MUST_BE_UNIQUE")
+#undef STATUS_GRAPHICS_MODE_ID_MUST_BE_UNIQUE
+    inline constexpr auto STATUS_GRAPHICS_MODE_ID_MUST_BE_UNIQUE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_MODE_ID_MUST_BE_UNIQUE")
+        STATUS_GRAPHICS_MODE_ID_MUST_BE_UNIQUE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_EMPTY_ADAPTER_MONITOR_MODE_SUPPORT_INTERSECTION")
+#undef STATUS_GRAPHICS_EMPTY_ADAPTER_MONITOR_MODE_SUPPORT_INTERSECTION
+    inline constexpr auto STATUS_GRAPHICS_EMPTY_ADAPTER_MONITOR_MODE_SUPPORT_INTERSECTION = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_EMPTY_ADAPTER_MONITOR_MODE_SUPPORT_INTERSECTION")
+        STATUS_GRAPHICS_EMPTY_ADAPTER_MONITOR_MODE_SUPPORT_INTERSECTION
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_VIDEO_PRESENT_TARGETS_LESS_THAN_SOURCES")
+#undef STATUS_GRAPHICS_VIDEO_PRESENT_TARGETS_LESS_THAN_SOURCES
+    inline constexpr auto STATUS_GRAPHICS_VIDEO_PRESENT_TARGETS_LESS_THAN_SOURCES = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_VIDEO_PRESENT_TARGETS_LESS_THAN_SOURCES")
+        STATUS_GRAPHICS_VIDEO_PRESENT_TARGETS_LESS_THAN_SOURCES
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_PATH_NOT_IN_TOPOLOGY")
+#undef STATUS_GRAPHICS_PATH_NOT_IN_TOPOLOGY
+    inline constexpr auto STATUS_GRAPHICS_PATH_NOT_IN_TOPOLOGY = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_PATH_NOT_IN_TOPOLOGY")
+        STATUS_GRAPHICS_PATH_NOT_IN_TOPOLOGY
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_ADAPTER_MUST_HAVE_AT_LEAST_ONE_SOURCE")
+#undef STATUS_GRAPHICS_ADAPTER_MUST_HAVE_AT_LEAST_ONE_SOURCE
+    inline constexpr auto STATUS_GRAPHICS_ADAPTER_MUST_HAVE_AT_LEAST_ONE_SOURCE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_ADAPTER_MUST_HAVE_AT_LEAST_ONE_SOURCE")
+        STATUS_GRAPHICS_ADAPTER_MUST_HAVE_AT_LEAST_ONE_SOURCE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_ADAPTER_MUST_HAVE_AT_LEAST_ONE_TARGET")
+#undef STATUS_GRAPHICS_ADAPTER_MUST_HAVE_AT_LEAST_ONE_TARGET
+    inline constexpr auto STATUS_GRAPHICS_ADAPTER_MUST_HAVE_AT_LEAST_ONE_TARGET = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_ADAPTER_MUST_HAVE_AT_LEAST_ONE_TARGET")
+        STATUS_GRAPHICS_ADAPTER_MUST_HAVE_AT_LEAST_ONE_TARGET
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_MONITORDESCRIPTORSET")
+#undef STATUS_GRAPHICS_INVALID_MONITORDESCRIPTORSET
+    inline constexpr auto STATUS_GRAPHICS_INVALID_MONITORDESCRIPTORSET = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_MONITORDESCRIPTORSET")
+        STATUS_GRAPHICS_INVALID_MONITORDESCRIPTORSET
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_MONITORDESCRIPTOR")
+#undef STATUS_GRAPHICS_INVALID_MONITORDESCRIPTOR
+    inline constexpr auto STATUS_GRAPHICS_INVALID_MONITORDESCRIPTOR = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_MONITORDESCRIPTOR")
+        STATUS_GRAPHICS_INVALID_MONITORDESCRIPTOR
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_MONITORDESCRIPTOR_NOT_IN_SET")
+#undef STATUS_GRAPHICS_MONITORDESCRIPTOR_NOT_IN_SET
+    inline constexpr auto STATUS_GRAPHICS_MONITORDESCRIPTOR_NOT_IN_SET = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_MONITORDESCRIPTOR_NOT_IN_SET")
+        STATUS_GRAPHICS_MONITORDESCRIPTOR_NOT_IN_SET
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_MONITORDESCRIPTOR_ALREADY_IN_SET")
+#undef STATUS_GRAPHICS_MONITORDESCRIPTOR_ALREADY_IN_SET
+    inline constexpr auto STATUS_GRAPHICS_MONITORDESCRIPTOR_ALREADY_IN_SET = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_MONITORDESCRIPTOR_ALREADY_IN_SET")
+        STATUS_GRAPHICS_MONITORDESCRIPTOR_ALREADY_IN_SET
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_MONITORDESCRIPTOR_ID_MUST_BE_UNIQUE")
+#undef STATUS_GRAPHICS_MONITORDESCRIPTOR_ID_MUST_BE_UNIQUE
+    inline constexpr auto STATUS_GRAPHICS_MONITORDESCRIPTOR_ID_MUST_BE_UNIQUE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_MONITORDESCRIPTOR_ID_MUST_BE_UNIQUE")
+        STATUS_GRAPHICS_MONITORDESCRIPTOR_ID_MUST_BE_UNIQUE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_VIDPN_TARGET_SUBSET_TYPE")
+#undef STATUS_GRAPHICS_INVALID_VIDPN_TARGET_SUBSET_TYPE
+    inline constexpr auto STATUS_GRAPHICS_INVALID_VIDPN_TARGET_SUBSET_TYPE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_VIDPN_TARGET_SUBSET_TYPE")
+        STATUS_GRAPHICS_INVALID_VIDPN_TARGET_SUBSET_TYPE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_RESOURCES_NOT_RELATED")
+#undef STATUS_GRAPHICS_RESOURCES_NOT_RELATED
+    inline constexpr auto STATUS_GRAPHICS_RESOURCES_NOT_RELATED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_RESOURCES_NOT_RELATED")
+        STATUS_GRAPHICS_RESOURCES_NOT_RELATED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_SOURCE_ID_MUST_BE_UNIQUE")
+#undef STATUS_GRAPHICS_SOURCE_ID_MUST_BE_UNIQUE
+    inline constexpr auto STATUS_GRAPHICS_SOURCE_ID_MUST_BE_UNIQUE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_SOURCE_ID_MUST_BE_UNIQUE")
+        STATUS_GRAPHICS_SOURCE_ID_MUST_BE_UNIQUE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_TARGET_ID_MUST_BE_UNIQUE")
+#undef STATUS_GRAPHICS_TARGET_ID_MUST_BE_UNIQUE
+    inline constexpr auto STATUS_GRAPHICS_TARGET_ID_MUST_BE_UNIQUE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_TARGET_ID_MUST_BE_UNIQUE")
+        STATUS_GRAPHICS_TARGET_ID_MUST_BE_UNIQUE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_NO_AVAILABLE_VIDPN_TARGET")
+#undef STATUS_GRAPHICS_NO_AVAILABLE_VIDPN_TARGET
+    inline constexpr auto STATUS_GRAPHICS_NO_AVAILABLE_VIDPN_TARGET = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_NO_AVAILABLE_VIDPN_TARGET")
+        STATUS_GRAPHICS_NO_AVAILABLE_VIDPN_TARGET
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_MONITOR_COULD_NOT_BE_ASSOCIATED_WITH_ADAPTER")
+#undef STATUS_GRAPHICS_MONITOR_COULD_NOT_BE_ASSOCIATED_WITH_ADAPTER
+    inline constexpr auto STATUS_GRAPHICS_MONITOR_COULD_NOT_BE_ASSOCIATED_WITH_ADAPTER = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_MONITOR_COULD_NOT_BE_ASSOCIATED_WITH_ADAPTER")
+        STATUS_GRAPHICS_MONITOR_COULD_NOT_BE_ASSOCIATED_WITH_ADAPTER
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_NO_VIDPNMGR")
+#undef STATUS_GRAPHICS_NO_VIDPNMGR
+    inline constexpr auto STATUS_GRAPHICS_NO_VIDPNMGR = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_NO_VIDPNMGR")
+        STATUS_GRAPHICS_NO_VIDPNMGR
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_NO_ACTIVE_VIDPN")
+#undef STATUS_GRAPHICS_NO_ACTIVE_VIDPN
+    inline constexpr auto STATUS_GRAPHICS_NO_ACTIVE_VIDPN = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_NO_ACTIVE_VIDPN")
+        STATUS_GRAPHICS_NO_ACTIVE_VIDPN
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_STALE_VIDPN_TOPOLOGY")
+#undef STATUS_GRAPHICS_STALE_VIDPN_TOPOLOGY
+    inline constexpr auto STATUS_GRAPHICS_STALE_VIDPN_TOPOLOGY = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_STALE_VIDPN_TOPOLOGY")
+        STATUS_GRAPHICS_STALE_VIDPN_TOPOLOGY
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_MONITOR_NOT_CONNECTED")
+#undef STATUS_GRAPHICS_MONITOR_NOT_CONNECTED
+    inline constexpr auto STATUS_GRAPHICS_MONITOR_NOT_CONNECTED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_MONITOR_NOT_CONNECTED")
+        STATUS_GRAPHICS_MONITOR_NOT_CONNECTED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_SOURCE_NOT_IN_TOPOLOGY")
+#undef STATUS_GRAPHICS_SOURCE_NOT_IN_TOPOLOGY
+    inline constexpr auto STATUS_GRAPHICS_SOURCE_NOT_IN_TOPOLOGY = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_SOURCE_NOT_IN_TOPOLOGY")
+        STATUS_GRAPHICS_SOURCE_NOT_IN_TOPOLOGY
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_PRIMARYSURFACE_SIZE")
+#undef STATUS_GRAPHICS_INVALID_PRIMARYSURFACE_SIZE
+    inline constexpr auto STATUS_GRAPHICS_INVALID_PRIMARYSURFACE_SIZE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_PRIMARYSURFACE_SIZE")
+        STATUS_GRAPHICS_INVALID_PRIMARYSURFACE_SIZE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_VISIBLEREGION_SIZE")
+#undef STATUS_GRAPHICS_INVALID_VISIBLEREGION_SIZE
+    inline constexpr auto STATUS_GRAPHICS_INVALID_VISIBLEREGION_SIZE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_VISIBLEREGION_SIZE")
+        STATUS_GRAPHICS_INVALID_VISIBLEREGION_SIZE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_STRIDE")
+#undef STATUS_GRAPHICS_INVALID_STRIDE
+    inline constexpr auto STATUS_GRAPHICS_INVALID_STRIDE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_STRIDE")
+        STATUS_GRAPHICS_INVALID_STRIDE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_PIXELFORMAT")
+#undef STATUS_GRAPHICS_INVALID_PIXELFORMAT
+    inline constexpr auto STATUS_GRAPHICS_INVALID_PIXELFORMAT = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_PIXELFORMAT")
+        STATUS_GRAPHICS_INVALID_PIXELFORMAT
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_COLORBASIS")
+#undef STATUS_GRAPHICS_INVALID_COLORBASIS
+    inline constexpr auto STATUS_GRAPHICS_INVALID_COLORBASIS = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_COLORBASIS")
+        STATUS_GRAPHICS_INVALID_COLORBASIS
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_PIXELVALUEACCESSMODE")
+#undef STATUS_GRAPHICS_INVALID_PIXELVALUEACCESSMODE
+    inline constexpr auto STATUS_GRAPHICS_INVALID_PIXELVALUEACCESSMODE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_PIXELVALUEACCESSMODE")
+        STATUS_GRAPHICS_INVALID_PIXELVALUEACCESSMODE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_TARGET_NOT_IN_TOPOLOGY")
+#undef STATUS_GRAPHICS_TARGET_NOT_IN_TOPOLOGY
+    inline constexpr auto STATUS_GRAPHICS_TARGET_NOT_IN_TOPOLOGY = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_TARGET_NOT_IN_TOPOLOGY")
+        STATUS_GRAPHICS_TARGET_NOT_IN_TOPOLOGY
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_NO_DISPLAY_MODE_MANAGEMENT_SUPPORT")
+#undef STATUS_GRAPHICS_NO_DISPLAY_MODE_MANAGEMENT_SUPPORT
+    inline constexpr auto STATUS_GRAPHICS_NO_DISPLAY_MODE_MANAGEMENT_SUPPORT = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_NO_DISPLAY_MODE_MANAGEMENT_SUPPORT")
+        STATUS_GRAPHICS_NO_DISPLAY_MODE_MANAGEMENT_SUPPORT
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE")
+#undef STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE
+    inline constexpr auto STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE")
+        STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_CANT_ACCESS_ACTIVE_VIDPN")
+#undef STATUS_GRAPHICS_CANT_ACCESS_ACTIVE_VIDPN
+    inline constexpr auto STATUS_GRAPHICS_CANT_ACCESS_ACTIVE_VIDPN = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_CANT_ACCESS_ACTIVE_VIDPN")
+        STATUS_GRAPHICS_CANT_ACCESS_ACTIVE_VIDPN
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_PATH_IMPORTANCE_ORDINAL")
+#undef STATUS_GRAPHICS_INVALID_PATH_IMPORTANCE_ORDINAL
+    inline constexpr auto STATUS_GRAPHICS_INVALID_PATH_IMPORTANCE_ORDINAL = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_PATH_IMPORTANCE_ORDINAL")
+        STATUS_GRAPHICS_INVALID_PATH_IMPORTANCE_ORDINAL
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_PATH_CONTENT_GEOMETRY_TRANSFORMATION")
+#undef STATUS_GRAPHICS_INVALID_PATH_CONTENT_GEOMETRY_TRANSFORMATION
+    inline constexpr auto STATUS_GRAPHICS_INVALID_PATH_CONTENT_GEOMETRY_TRANSFORMATION = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_PATH_CONTENT_GEOMETRY_TRANSFORMATION")
+        STATUS_GRAPHICS_INVALID_PATH_CONTENT_GEOMETRY_TRANSFORMATION
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_PATH_CONTENT_GEOMETRY_TRANSFORMATION_NOT_SUPPORTED")
+#undef STATUS_GRAPHICS_PATH_CONTENT_GEOMETRY_TRANSFORMATION_NOT_SUPPORTED
+    inline constexpr auto STATUS_GRAPHICS_PATH_CONTENT_GEOMETRY_TRANSFORMATION_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_PATH_CONTENT_GEOMETRY_TRANSFORMATION_NOT_SUPPORTED")
+        STATUS_GRAPHICS_PATH_CONTENT_GEOMETRY_TRANSFORMATION_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_GAMMA_RAMP")
+#undef STATUS_GRAPHICS_INVALID_GAMMA_RAMP
+    inline constexpr auto STATUS_GRAPHICS_INVALID_GAMMA_RAMP = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_GAMMA_RAMP")
+        STATUS_GRAPHICS_INVALID_GAMMA_RAMP
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_GAMMA_RAMP_NOT_SUPPORTED")
+#undef STATUS_GRAPHICS_GAMMA_RAMP_NOT_SUPPORTED
+    inline constexpr auto STATUS_GRAPHICS_GAMMA_RAMP_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_GAMMA_RAMP_NOT_SUPPORTED")
+        STATUS_GRAPHICS_GAMMA_RAMP_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_MULTISAMPLING_NOT_SUPPORTED")
+#undef STATUS_GRAPHICS_MULTISAMPLING_NOT_SUPPORTED
+    inline constexpr auto STATUS_GRAPHICS_MULTISAMPLING_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_MULTISAMPLING_NOT_SUPPORTED")
+        STATUS_GRAPHICS_MULTISAMPLING_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_MODE_NOT_IN_MODESET")
+#undef STATUS_GRAPHICS_MODE_NOT_IN_MODESET
+    inline constexpr auto STATUS_GRAPHICS_MODE_NOT_IN_MODESET = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_MODE_NOT_IN_MODESET")
+        STATUS_GRAPHICS_MODE_NOT_IN_MODESET
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_VIDPN_TOPOLOGY_RECOMMENDATION_REASON")
+#undef STATUS_GRAPHICS_INVALID_VIDPN_TOPOLOGY_RECOMMENDATION_REASON
+    inline constexpr auto STATUS_GRAPHICS_INVALID_VIDPN_TOPOLOGY_RECOMMENDATION_REASON = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_VIDPN_TOPOLOGY_RECOMMENDATION_REASON")
+        STATUS_GRAPHICS_INVALID_VIDPN_TOPOLOGY_RECOMMENDATION_REASON
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_PATH_CONTENT_TYPE")
+#undef STATUS_GRAPHICS_INVALID_PATH_CONTENT_TYPE
+    inline constexpr auto STATUS_GRAPHICS_INVALID_PATH_CONTENT_TYPE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_PATH_CONTENT_TYPE")
+        STATUS_GRAPHICS_INVALID_PATH_CONTENT_TYPE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_COPYPROTECTION_TYPE")
+#undef STATUS_GRAPHICS_INVALID_COPYPROTECTION_TYPE
+    inline constexpr auto STATUS_GRAPHICS_INVALID_COPYPROTECTION_TYPE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_COPYPROTECTION_TYPE")
+        STATUS_GRAPHICS_INVALID_COPYPROTECTION_TYPE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_UNASSIGNED_MODESET_ALREADY_EXISTS")
+#undef STATUS_GRAPHICS_UNASSIGNED_MODESET_ALREADY_EXISTS
+    inline constexpr auto STATUS_GRAPHICS_UNASSIGNED_MODESET_ALREADY_EXISTS = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_UNASSIGNED_MODESET_ALREADY_EXISTS")
+        STATUS_GRAPHICS_UNASSIGNED_MODESET_ALREADY_EXISTS
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_SCANLINE_ORDERING")
+#undef STATUS_GRAPHICS_INVALID_SCANLINE_ORDERING
+    inline constexpr auto STATUS_GRAPHICS_INVALID_SCANLINE_ORDERING = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_SCANLINE_ORDERING")
+        STATUS_GRAPHICS_INVALID_SCANLINE_ORDERING
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_TOPOLOGY_CHANGES_NOT_ALLOWED")
+#undef STATUS_GRAPHICS_TOPOLOGY_CHANGES_NOT_ALLOWED
+    inline constexpr auto STATUS_GRAPHICS_TOPOLOGY_CHANGES_NOT_ALLOWED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_TOPOLOGY_CHANGES_NOT_ALLOWED")
+        STATUS_GRAPHICS_TOPOLOGY_CHANGES_NOT_ALLOWED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_NO_AVAILABLE_IMPORTANCE_ORDINALS")
+#undef STATUS_GRAPHICS_NO_AVAILABLE_IMPORTANCE_ORDINALS
+    inline constexpr auto STATUS_GRAPHICS_NO_AVAILABLE_IMPORTANCE_ORDINALS = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_NO_AVAILABLE_IMPORTANCE_ORDINALS")
+        STATUS_GRAPHICS_NO_AVAILABLE_IMPORTANCE_ORDINALS
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INCOMPATIBLE_PRIVATE_FORMAT")
+#undef STATUS_GRAPHICS_INCOMPATIBLE_PRIVATE_FORMAT
+    inline constexpr auto STATUS_GRAPHICS_INCOMPATIBLE_PRIVATE_FORMAT = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INCOMPATIBLE_PRIVATE_FORMAT")
+        STATUS_GRAPHICS_INCOMPATIBLE_PRIVATE_FORMAT
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_MODE_PRUNING_ALGORITHM")
+#undef STATUS_GRAPHICS_INVALID_MODE_PRUNING_ALGORITHM
+    inline constexpr auto STATUS_GRAPHICS_INVALID_MODE_PRUNING_ALGORITHM = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_MODE_PRUNING_ALGORITHM")
+        STATUS_GRAPHICS_INVALID_MODE_PRUNING_ALGORITHM
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_MONITOR_CAPABILITY_ORIGIN")
+#undef STATUS_GRAPHICS_INVALID_MONITOR_CAPABILITY_ORIGIN
+    inline constexpr auto STATUS_GRAPHICS_INVALID_MONITOR_CAPABILITY_ORIGIN = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_MONITOR_CAPABILITY_ORIGIN")
+        STATUS_GRAPHICS_INVALID_MONITOR_CAPABILITY_ORIGIN
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_MONITOR_FREQUENCYRANGE_CONSTRAINT")
+#undef STATUS_GRAPHICS_INVALID_MONITOR_FREQUENCYRANGE_CONSTRAINT
+    inline constexpr auto STATUS_GRAPHICS_INVALID_MONITOR_FREQUENCYRANGE_CONSTRAINT = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_MONITOR_FREQUENCYRANGE_CONSTRAINT")
+        STATUS_GRAPHICS_INVALID_MONITOR_FREQUENCYRANGE_CONSTRAINT
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_MAX_NUM_PATHS_REACHED")
+#undef STATUS_GRAPHICS_MAX_NUM_PATHS_REACHED
+    inline constexpr auto STATUS_GRAPHICS_MAX_NUM_PATHS_REACHED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_MAX_NUM_PATHS_REACHED")
+        STATUS_GRAPHICS_MAX_NUM_PATHS_REACHED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_CANCEL_VIDPN_TOPOLOGY_AUGMENTATION")
+#undef STATUS_GRAPHICS_CANCEL_VIDPN_TOPOLOGY_AUGMENTATION
+    inline constexpr auto STATUS_GRAPHICS_CANCEL_VIDPN_TOPOLOGY_AUGMENTATION = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_CANCEL_VIDPN_TOPOLOGY_AUGMENTATION")
+        STATUS_GRAPHICS_CANCEL_VIDPN_TOPOLOGY_AUGMENTATION
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_CLIENT_TYPE")
+#undef STATUS_GRAPHICS_INVALID_CLIENT_TYPE
+    inline constexpr auto STATUS_GRAPHICS_INVALID_CLIENT_TYPE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_CLIENT_TYPE")
+        STATUS_GRAPHICS_INVALID_CLIENT_TYPE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_CLIENTVIDPN_NOT_SET")
+#undef STATUS_GRAPHICS_CLIENTVIDPN_NOT_SET
+    inline constexpr auto STATUS_GRAPHICS_CLIENTVIDPN_NOT_SET = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_CLIENTVIDPN_NOT_SET")
+        STATUS_GRAPHICS_CLIENTVIDPN_NOT_SET
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_SPECIFIED_CHILD_ALREADY_CONNECTED")
+#undef STATUS_GRAPHICS_SPECIFIED_CHILD_ALREADY_CONNECTED
+    inline constexpr auto STATUS_GRAPHICS_SPECIFIED_CHILD_ALREADY_CONNECTED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_SPECIFIED_CHILD_ALREADY_CONNECTED")
+        STATUS_GRAPHICS_SPECIFIED_CHILD_ALREADY_CONNECTED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_CHILD_DESCRIPTOR_NOT_SUPPORTED")
+#undef STATUS_GRAPHICS_CHILD_DESCRIPTOR_NOT_SUPPORTED
+    inline constexpr auto STATUS_GRAPHICS_CHILD_DESCRIPTOR_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_CHILD_DESCRIPTOR_NOT_SUPPORTED")
+        STATUS_GRAPHICS_CHILD_DESCRIPTOR_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_NOT_A_LINKED_ADAPTER")
+#undef STATUS_GRAPHICS_NOT_A_LINKED_ADAPTER
+    inline constexpr auto STATUS_GRAPHICS_NOT_A_LINKED_ADAPTER = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_NOT_A_LINKED_ADAPTER")
+        STATUS_GRAPHICS_NOT_A_LINKED_ADAPTER
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_LEADLINK_NOT_ENUMERATED")
+#undef STATUS_GRAPHICS_LEADLINK_NOT_ENUMERATED
+    inline constexpr auto STATUS_GRAPHICS_LEADLINK_NOT_ENUMERATED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_LEADLINK_NOT_ENUMERATED")
+        STATUS_GRAPHICS_LEADLINK_NOT_ENUMERATED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_CHAINLINKS_NOT_ENUMERATED")
+#undef STATUS_GRAPHICS_CHAINLINKS_NOT_ENUMERATED
+    inline constexpr auto STATUS_GRAPHICS_CHAINLINKS_NOT_ENUMERATED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_CHAINLINKS_NOT_ENUMERATED")
+        STATUS_GRAPHICS_CHAINLINKS_NOT_ENUMERATED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_ADAPTER_CHAIN_NOT_READY")
+#undef STATUS_GRAPHICS_ADAPTER_CHAIN_NOT_READY
+    inline constexpr auto STATUS_GRAPHICS_ADAPTER_CHAIN_NOT_READY = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_ADAPTER_CHAIN_NOT_READY")
+        STATUS_GRAPHICS_ADAPTER_CHAIN_NOT_READY
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_CHAINLINKS_NOT_STARTED")
+#undef STATUS_GRAPHICS_CHAINLINKS_NOT_STARTED
+    inline constexpr auto STATUS_GRAPHICS_CHAINLINKS_NOT_STARTED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_CHAINLINKS_NOT_STARTED")
+        STATUS_GRAPHICS_CHAINLINKS_NOT_STARTED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_CHAINLINKS_NOT_POWERED_ON")
+#undef STATUS_GRAPHICS_CHAINLINKS_NOT_POWERED_ON
+    inline constexpr auto STATUS_GRAPHICS_CHAINLINKS_NOT_POWERED_ON = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_CHAINLINKS_NOT_POWERED_ON")
+        STATUS_GRAPHICS_CHAINLINKS_NOT_POWERED_ON
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INCONSISTENT_DEVICE_LINK_STATE")
+#undef STATUS_GRAPHICS_INCONSISTENT_DEVICE_LINK_STATE
+    inline constexpr auto STATUS_GRAPHICS_INCONSISTENT_DEVICE_LINK_STATE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INCONSISTENT_DEVICE_LINK_STATE")
+        STATUS_GRAPHICS_INCONSISTENT_DEVICE_LINK_STATE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_NOT_POST_DEVICE_DRIVER")
+#undef STATUS_GRAPHICS_NOT_POST_DEVICE_DRIVER
+    inline constexpr auto STATUS_GRAPHICS_NOT_POST_DEVICE_DRIVER = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_NOT_POST_DEVICE_DRIVER")
+        STATUS_GRAPHICS_NOT_POST_DEVICE_DRIVER
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_ADAPTER_ACCESS_NOT_EXCLUDED")
+#undef STATUS_GRAPHICS_ADAPTER_ACCESS_NOT_EXCLUDED
+    inline constexpr auto STATUS_GRAPHICS_ADAPTER_ACCESS_NOT_EXCLUDED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_ADAPTER_ACCESS_NOT_EXCLUDED")
+        STATUS_GRAPHICS_ADAPTER_ACCESS_NOT_EXCLUDED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_OPM_NOT_SUPPORTED")
+#undef STATUS_GRAPHICS_OPM_NOT_SUPPORTED
+    inline constexpr auto STATUS_GRAPHICS_OPM_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_OPM_NOT_SUPPORTED")
+        STATUS_GRAPHICS_OPM_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_COPP_NOT_SUPPORTED")
+#undef STATUS_GRAPHICS_COPP_NOT_SUPPORTED
+    inline constexpr auto STATUS_GRAPHICS_COPP_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_COPP_NOT_SUPPORTED")
+        STATUS_GRAPHICS_COPP_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_UAB_NOT_SUPPORTED")
+#undef STATUS_GRAPHICS_UAB_NOT_SUPPORTED
+    inline constexpr auto STATUS_GRAPHICS_UAB_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_UAB_NOT_SUPPORTED")
+        STATUS_GRAPHICS_UAB_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_OPM_INVALID_ENCRYPTED_PARAMETERS")
+#undef STATUS_GRAPHICS_OPM_INVALID_ENCRYPTED_PARAMETERS
+    inline constexpr auto STATUS_GRAPHICS_OPM_INVALID_ENCRYPTED_PARAMETERS = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_OPM_INVALID_ENCRYPTED_PARAMETERS")
+        STATUS_GRAPHICS_OPM_INVALID_ENCRYPTED_PARAMETERS
+    };
+
+    // #pragma push_macro("STATUS_GRAPHICS_OPM_PARAMETER_ARRAY_TOO_SMALL")
+    // #undef STATUS_GRAPHICS_OPM_PARAMETER_ARRAY_TOO_SMALL
+    //     inline constexpr auto STATUS_GRAPHICS_OPM_PARAMETER_ARRAY_TOO_SMALL = NTSTATUS {
+    // #pragma pop_macro("STATUS_GRAPHICS_OPM_PARAMETER_ARRAY_TOO_SMALL")
+    //       STATUS_GRAPHICS_OPM_PARAMETER_ARRAY_TOO_SMALL};
+
+#pragma push_macro("STATUS_GRAPHICS_OPM_NO_PROTECTED_OUTPUTS_EXIST")
+#undef STATUS_GRAPHICS_OPM_NO_PROTECTED_OUTPUTS_EXIST
+    inline constexpr auto STATUS_GRAPHICS_OPM_NO_PROTECTED_OUTPUTS_EXIST = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_OPM_NO_PROTECTED_OUTPUTS_EXIST")
+        STATUS_GRAPHICS_OPM_NO_PROTECTED_OUTPUTS_EXIST
+    };
+
+    // #pragma push_macro("STATUS_GRAPHICS_PVP_NO_DISPLAY_DEVICE_CORRESPONDS_TO_NAME")
+    // #undef STATUS_GRAPHICS_PVP_NO_DISPLAY_DEVICE_CORRESPONDS_TO_NAME
+    //     inline constexpr auto STATUS_GRAPHICS_PVP_NO_DISPLAY_DEVICE_CORRESPONDS_TO_NAME = NTSTATUS {
+    // #pragma pop_macro("STATUS_GRAPHICS_PVP_NO_DISPLAY_DEVICE_CORRESPONDS_TO_NAME")
+    //       STATUS_GRAPHICS_PVP_NO_DISPLAY_DEVICE_CORRESPONDS_TO_NAME};
+
+    // #pragma push_macro("STATUS_GRAPHICS_PVP_DISPLAY_DEVICE_NOT_ATTACHED_TO_DESKTOP")
+    // #undef STATUS_GRAPHICS_PVP_DISPLAY_DEVICE_NOT_ATTACHED_TO_DESKTOP
+    //     inline constexpr auto STATUS_GRAPHICS_PVP_DISPLAY_DEVICE_NOT_ATTACHED_TO_DESKTOP = NTSTATUS {
+    // #pragma pop_macro("STATUS_GRAPHICS_PVP_DISPLAY_DEVICE_NOT_ATTACHED_TO_DESKTOP")
+    //       STATUS_GRAPHICS_PVP_DISPLAY_DEVICE_NOT_ATTACHED_TO_DESKTOP};
+
+    // #pragma push_macro("STATUS_GRAPHICS_PVP_MIRRORING_DEVICES_NOT_SUPPORTED")
+    // #undef STATUS_GRAPHICS_PVP_MIRRORING_DEVICES_NOT_SUPPORTED
+    //     inline constexpr auto STATUS_GRAPHICS_PVP_MIRRORING_DEVICES_NOT_SUPPORTED = NTSTATUS {
+    // #pragma pop_macro("STATUS_GRAPHICS_PVP_MIRRORING_DEVICES_NOT_SUPPORTED")
+    //       STATUS_GRAPHICS_PVP_MIRRORING_DEVICES_NOT_SUPPORTED};
+
+    // #pragma push_macro("STATUS_GRAPHICS_OPM_INVALID_POINTER")
+    // #undef STATUS_GRAPHICS_OPM_INVALID_POINTER
+    //     inline constexpr auto STATUS_GRAPHICS_OPM_INVALID_POINTER = NTSTATUS {
+    // #pragma pop_macro("STATUS_GRAPHICS_OPM_INVALID_POINTER")
+    //       STATUS_GRAPHICS_OPM_INVALID_POINTER};
+
+#pragma push_macro("STATUS_GRAPHICS_OPM_INTERNAL_ERROR")
+#undef STATUS_GRAPHICS_OPM_INTERNAL_ERROR
+    inline constexpr auto STATUS_GRAPHICS_OPM_INTERNAL_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_OPM_INTERNAL_ERROR")
+        STATUS_GRAPHICS_OPM_INTERNAL_ERROR
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_OPM_INVALID_HANDLE")
+#undef STATUS_GRAPHICS_OPM_INVALID_HANDLE
+    inline constexpr auto STATUS_GRAPHICS_OPM_INVALID_HANDLE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_OPM_INVALID_HANDLE")
+        STATUS_GRAPHICS_OPM_INVALID_HANDLE
+    };
+
+    // #pragma push_macro("STATUS_GRAPHICS_PVP_NO_MONITORS_CORRESPOND_TO_DISPLAY_DEVICE")
+    // #undef STATUS_GRAPHICS_PVP_NO_MONITORS_CORRESPOND_TO_DISPLAY_DEVICE
+    //     inline constexpr auto STATUS_GRAPHICS_PVP_NO_MONITORS_CORRESPOND_TO_DISPLAY_DEVICE = NTSTATUS {
+    // #pragma pop_macro("STATUS_GRAPHICS_PVP_NO_MONITORS_CORRESPOND_TO_DISPLAY_DEVICE")
+    //       STATUS_GRAPHICS_PVP_NO_MONITORS_CORRESPOND_TO_DISPLAY_DEVICE};
+
+#pragma push_macro("STATUS_GRAPHICS_PVP_INVALID_CERTIFICATE_LENGTH")
+#undef STATUS_GRAPHICS_PVP_INVALID_CERTIFICATE_LENGTH
+    inline constexpr auto STATUS_GRAPHICS_PVP_INVALID_CERTIFICATE_LENGTH = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_PVP_INVALID_CERTIFICATE_LENGTH")
+        STATUS_GRAPHICS_PVP_INVALID_CERTIFICATE_LENGTH
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_OPM_SPANNING_MODE_ENABLED")
+#undef STATUS_GRAPHICS_OPM_SPANNING_MODE_ENABLED
+    inline constexpr auto STATUS_GRAPHICS_OPM_SPANNING_MODE_ENABLED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_OPM_SPANNING_MODE_ENABLED")
+        STATUS_GRAPHICS_OPM_SPANNING_MODE_ENABLED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_OPM_THEATER_MODE_ENABLED")
+#undef STATUS_GRAPHICS_OPM_THEATER_MODE_ENABLED
+    inline constexpr auto STATUS_GRAPHICS_OPM_THEATER_MODE_ENABLED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_OPM_THEATER_MODE_ENABLED")
+        STATUS_GRAPHICS_OPM_THEATER_MODE_ENABLED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_PVP_HFS_FAILED")
+#undef STATUS_GRAPHICS_PVP_HFS_FAILED
+    inline constexpr auto STATUS_GRAPHICS_PVP_HFS_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_PVP_HFS_FAILED")
+        STATUS_GRAPHICS_PVP_HFS_FAILED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_OPM_INVALID_SRM")
+#undef STATUS_GRAPHICS_OPM_INVALID_SRM
+    inline constexpr auto STATUS_GRAPHICS_OPM_INVALID_SRM = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_OPM_INVALID_SRM")
+        STATUS_GRAPHICS_OPM_INVALID_SRM
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_OPM_OUTPUT_DOES_NOT_SUPPORT_HDCP")
+#undef STATUS_GRAPHICS_OPM_OUTPUT_DOES_NOT_SUPPORT_HDCP
+    inline constexpr auto STATUS_GRAPHICS_OPM_OUTPUT_DOES_NOT_SUPPORT_HDCP = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_OPM_OUTPUT_DOES_NOT_SUPPORT_HDCP")
+        STATUS_GRAPHICS_OPM_OUTPUT_DOES_NOT_SUPPORT_HDCP
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_OPM_OUTPUT_DOES_NOT_SUPPORT_ACP")
+#undef STATUS_GRAPHICS_OPM_OUTPUT_DOES_NOT_SUPPORT_ACP
+    inline constexpr auto STATUS_GRAPHICS_OPM_OUTPUT_DOES_NOT_SUPPORT_ACP = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_OPM_OUTPUT_DOES_NOT_SUPPORT_ACP")
+        STATUS_GRAPHICS_OPM_OUTPUT_DOES_NOT_SUPPORT_ACP
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_OPM_OUTPUT_DOES_NOT_SUPPORT_CGMSA")
+#undef STATUS_GRAPHICS_OPM_OUTPUT_DOES_NOT_SUPPORT_CGMSA
+    inline constexpr auto STATUS_GRAPHICS_OPM_OUTPUT_DOES_NOT_SUPPORT_CGMSA = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_OPM_OUTPUT_DOES_NOT_SUPPORT_CGMSA")
+        STATUS_GRAPHICS_OPM_OUTPUT_DOES_NOT_SUPPORT_CGMSA
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_OPM_HDCP_SRM_NEVER_SET")
+#undef STATUS_GRAPHICS_OPM_HDCP_SRM_NEVER_SET
+    inline constexpr auto STATUS_GRAPHICS_OPM_HDCP_SRM_NEVER_SET = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_OPM_HDCP_SRM_NEVER_SET")
+        STATUS_GRAPHICS_OPM_HDCP_SRM_NEVER_SET
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_OPM_RESOLUTION_TOO_HIGH")
+#undef STATUS_GRAPHICS_OPM_RESOLUTION_TOO_HIGH
+    inline constexpr auto STATUS_GRAPHICS_OPM_RESOLUTION_TOO_HIGH = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_OPM_RESOLUTION_TOO_HIGH")
+        STATUS_GRAPHICS_OPM_RESOLUTION_TOO_HIGH
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_OPM_ALL_HDCP_HARDWARE_ALREADY_IN_USE")
+#undef STATUS_GRAPHICS_OPM_ALL_HDCP_HARDWARE_ALREADY_IN_USE
+    inline constexpr auto STATUS_GRAPHICS_OPM_ALL_HDCP_HARDWARE_ALREADY_IN_USE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_OPM_ALL_HDCP_HARDWARE_ALREADY_IN_USE")
+        STATUS_GRAPHICS_OPM_ALL_HDCP_HARDWARE_ALREADY_IN_USE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_OPM_PROTECTED_OUTPUT_NO_LONGER_EXISTS")
+#undef STATUS_GRAPHICS_OPM_PROTECTED_OUTPUT_NO_LONGER_EXISTS
+    inline constexpr auto STATUS_GRAPHICS_OPM_PROTECTED_OUTPUT_NO_LONGER_EXISTS = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_OPM_PROTECTED_OUTPUT_NO_LONGER_EXISTS")
+        STATUS_GRAPHICS_OPM_PROTECTED_OUTPUT_NO_LONGER_EXISTS
+    };
+
+    // #pragma push_macro("STATUS_GRAPHICS_OPM_SESSION_TYPE_CHANGE_IN_PROGRESS")
+    // #undef STATUS_GRAPHICS_OPM_SESSION_TYPE_CHANGE_IN_PROGRESS
+    //     inline constexpr auto STATUS_GRAPHICS_OPM_SESSION_TYPE_CHANGE_IN_PROGRESS = NTSTATUS {
+    // #pragma pop_macro("STATUS_GRAPHICS_OPM_SESSION_TYPE_CHANGE_IN_PROGRESS")
+    //       STATUS_GRAPHICS_OPM_SESSION_TYPE_CHANGE_IN_PROGRESS};
+
+#pragma push_macro("STATUS_GRAPHICS_OPM_PROTECTED_OUTPUT_DOES_NOT_HAVE_COPP_SEMANTICS")
+#undef STATUS_GRAPHICS_OPM_PROTECTED_OUTPUT_DOES_NOT_HAVE_COPP_SEMANTICS
+    inline constexpr auto STATUS_GRAPHICS_OPM_PROTECTED_OUTPUT_DOES_NOT_HAVE_COPP_SEMANTICS = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_OPM_PROTECTED_OUTPUT_DOES_NOT_HAVE_COPP_SEMANTICS")
+        STATUS_GRAPHICS_OPM_PROTECTED_OUTPUT_DOES_NOT_HAVE_COPP_SEMANTICS
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_OPM_INVALID_INFORMATION_REQUEST")
+#undef STATUS_GRAPHICS_OPM_INVALID_INFORMATION_REQUEST
+    inline constexpr auto STATUS_GRAPHICS_OPM_INVALID_INFORMATION_REQUEST = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_OPM_INVALID_INFORMATION_REQUEST")
+        STATUS_GRAPHICS_OPM_INVALID_INFORMATION_REQUEST
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_OPM_DRIVER_INTERNAL_ERROR")
+#undef STATUS_GRAPHICS_OPM_DRIVER_INTERNAL_ERROR
+    inline constexpr auto STATUS_GRAPHICS_OPM_DRIVER_INTERNAL_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_OPM_DRIVER_INTERNAL_ERROR")
+        STATUS_GRAPHICS_OPM_DRIVER_INTERNAL_ERROR
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_OPM_PROTECTED_OUTPUT_DOES_NOT_HAVE_OPM_SEMANTICS")
+#undef STATUS_GRAPHICS_OPM_PROTECTED_OUTPUT_DOES_NOT_HAVE_OPM_SEMANTICS
+    inline constexpr auto STATUS_GRAPHICS_OPM_PROTECTED_OUTPUT_DOES_NOT_HAVE_OPM_SEMANTICS = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_OPM_PROTECTED_OUTPUT_DOES_NOT_HAVE_OPM_SEMANTICS")
+        STATUS_GRAPHICS_OPM_PROTECTED_OUTPUT_DOES_NOT_HAVE_OPM_SEMANTICS
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_OPM_SIGNALING_NOT_SUPPORTED")
+#undef STATUS_GRAPHICS_OPM_SIGNALING_NOT_SUPPORTED
+    inline constexpr auto STATUS_GRAPHICS_OPM_SIGNALING_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_OPM_SIGNALING_NOT_SUPPORTED")
+        STATUS_GRAPHICS_OPM_SIGNALING_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_OPM_INVALID_CONFIGURATION_REQUEST")
+#undef STATUS_GRAPHICS_OPM_INVALID_CONFIGURATION_REQUEST
+    inline constexpr auto STATUS_GRAPHICS_OPM_INVALID_CONFIGURATION_REQUEST = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_OPM_INVALID_CONFIGURATION_REQUEST")
+        STATUS_GRAPHICS_OPM_INVALID_CONFIGURATION_REQUEST
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_I2C_NOT_SUPPORTED")
+#undef STATUS_GRAPHICS_I2C_NOT_SUPPORTED
+    inline constexpr auto STATUS_GRAPHICS_I2C_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_I2C_NOT_SUPPORTED")
+        STATUS_GRAPHICS_I2C_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_I2C_DEVICE_DOES_NOT_EXIST")
+#undef STATUS_GRAPHICS_I2C_DEVICE_DOES_NOT_EXIST
+    inline constexpr auto STATUS_GRAPHICS_I2C_DEVICE_DOES_NOT_EXIST = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_I2C_DEVICE_DOES_NOT_EXIST")
+        STATUS_GRAPHICS_I2C_DEVICE_DOES_NOT_EXIST
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_I2C_ERROR_TRANSMITTING_DATA")
+#undef STATUS_GRAPHICS_I2C_ERROR_TRANSMITTING_DATA
+    inline constexpr auto STATUS_GRAPHICS_I2C_ERROR_TRANSMITTING_DATA = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_I2C_ERROR_TRANSMITTING_DATA")
+        STATUS_GRAPHICS_I2C_ERROR_TRANSMITTING_DATA
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_I2C_ERROR_RECEIVING_DATA")
+#undef STATUS_GRAPHICS_I2C_ERROR_RECEIVING_DATA
+    inline constexpr auto STATUS_GRAPHICS_I2C_ERROR_RECEIVING_DATA = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_I2C_ERROR_RECEIVING_DATA")
+        STATUS_GRAPHICS_I2C_ERROR_RECEIVING_DATA
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_DDCCI_VCP_NOT_SUPPORTED")
+#undef STATUS_GRAPHICS_DDCCI_VCP_NOT_SUPPORTED
+    inline constexpr auto STATUS_GRAPHICS_DDCCI_VCP_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_DDCCI_VCP_NOT_SUPPORTED")
+        STATUS_GRAPHICS_DDCCI_VCP_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_DDCCI_INVALID_DATA")
+#undef STATUS_GRAPHICS_DDCCI_INVALID_DATA
+    inline constexpr auto STATUS_GRAPHICS_DDCCI_INVALID_DATA = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_DDCCI_INVALID_DATA")
+        STATUS_GRAPHICS_DDCCI_INVALID_DATA
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_DDCCI_MONITOR_RETURNED_INVALID_TIMING_STATUS_BYTE")
+#undef STATUS_GRAPHICS_DDCCI_MONITOR_RETURNED_INVALID_TIMING_STATUS_BYTE
+    inline constexpr auto STATUS_GRAPHICS_DDCCI_MONITOR_RETURNED_INVALID_TIMING_STATUS_BYTE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_DDCCI_MONITOR_RETURNED_INVALID_TIMING_STATUS_BYTE")
+        STATUS_GRAPHICS_DDCCI_MONITOR_RETURNED_INVALID_TIMING_STATUS_BYTE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_DDCCI_INVALID_CAPABILITIES_STRING")
+#undef STATUS_GRAPHICS_DDCCI_INVALID_CAPABILITIES_STRING
+    inline constexpr auto STATUS_GRAPHICS_DDCCI_INVALID_CAPABILITIES_STRING = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_DDCCI_INVALID_CAPABILITIES_STRING")
+        STATUS_GRAPHICS_DDCCI_INVALID_CAPABILITIES_STRING
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_MCA_INTERNAL_ERROR")
+#undef STATUS_GRAPHICS_MCA_INTERNAL_ERROR
+    inline constexpr auto STATUS_GRAPHICS_MCA_INTERNAL_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_MCA_INTERNAL_ERROR")
+        STATUS_GRAPHICS_MCA_INTERNAL_ERROR
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_DDCCI_INVALID_MESSAGE_COMMAND")
+#undef STATUS_GRAPHICS_DDCCI_INVALID_MESSAGE_COMMAND
+    inline constexpr auto STATUS_GRAPHICS_DDCCI_INVALID_MESSAGE_COMMAND = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_DDCCI_INVALID_MESSAGE_COMMAND")
+        STATUS_GRAPHICS_DDCCI_INVALID_MESSAGE_COMMAND
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_DDCCI_INVALID_MESSAGE_LENGTH")
+#undef STATUS_GRAPHICS_DDCCI_INVALID_MESSAGE_LENGTH
+    inline constexpr auto STATUS_GRAPHICS_DDCCI_INVALID_MESSAGE_LENGTH = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_DDCCI_INVALID_MESSAGE_LENGTH")
+        STATUS_GRAPHICS_DDCCI_INVALID_MESSAGE_LENGTH
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_DDCCI_INVALID_MESSAGE_CHECKSUM")
+#undef STATUS_GRAPHICS_DDCCI_INVALID_MESSAGE_CHECKSUM
+    inline constexpr auto STATUS_GRAPHICS_DDCCI_INVALID_MESSAGE_CHECKSUM = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_DDCCI_INVALID_MESSAGE_CHECKSUM")
+        STATUS_GRAPHICS_DDCCI_INVALID_MESSAGE_CHECKSUM
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_PHYSICAL_MONITOR_HANDLE")
+#undef STATUS_GRAPHICS_INVALID_PHYSICAL_MONITOR_HANDLE
+    inline constexpr auto STATUS_GRAPHICS_INVALID_PHYSICAL_MONITOR_HANDLE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_PHYSICAL_MONITOR_HANDLE")
+        STATUS_GRAPHICS_INVALID_PHYSICAL_MONITOR_HANDLE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_MONITOR_NO_LONGER_EXISTS")
+#undef STATUS_GRAPHICS_MONITOR_NO_LONGER_EXISTS
+    inline constexpr auto STATUS_GRAPHICS_MONITOR_NO_LONGER_EXISTS = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_MONITOR_NO_LONGER_EXISTS")
+        STATUS_GRAPHICS_MONITOR_NO_LONGER_EXISTS
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_ONLY_CONSOLE_SESSION_SUPPORTED")
+#undef STATUS_GRAPHICS_ONLY_CONSOLE_SESSION_SUPPORTED
+    inline constexpr auto STATUS_GRAPHICS_ONLY_CONSOLE_SESSION_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_ONLY_CONSOLE_SESSION_SUPPORTED")
+        STATUS_GRAPHICS_ONLY_CONSOLE_SESSION_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_NO_DISPLAY_DEVICE_CORRESPONDS_TO_NAME")
+#undef STATUS_GRAPHICS_NO_DISPLAY_DEVICE_CORRESPONDS_TO_NAME
+    inline constexpr auto STATUS_GRAPHICS_NO_DISPLAY_DEVICE_CORRESPONDS_TO_NAME = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_NO_DISPLAY_DEVICE_CORRESPONDS_TO_NAME")
+        STATUS_GRAPHICS_NO_DISPLAY_DEVICE_CORRESPONDS_TO_NAME
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_DISPLAY_DEVICE_NOT_ATTACHED_TO_DESKTOP")
+#undef STATUS_GRAPHICS_DISPLAY_DEVICE_NOT_ATTACHED_TO_DESKTOP
+    inline constexpr auto STATUS_GRAPHICS_DISPLAY_DEVICE_NOT_ATTACHED_TO_DESKTOP = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_DISPLAY_DEVICE_NOT_ATTACHED_TO_DESKTOP")
+        STATUS_GRAPHICS_DISPLAY_DEVICE_NOT_ATTACHED_TO_DESKTOP
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_MIRRORING_DEVICES_NOT_SUPPORTED")
+#undef STATUS_GRAPHICS_MIRRORING_DEVICES_NOT_SUPPORTED
+    inline constexpr auto STATUS_GRAPHICS_MIRRORING_DEVICES_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_MIRRORING_DEVICES_NOT_SUPPORTED")
+        STATUS_GRAPHICS_MIRRORING_DEVICES_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INVALID_POINTER")
+#undef STATUS_GRAPHICS_INVALID_POINTER
+    inline constexpr auto STATUS_GRAPHICS_INVALID_POINTER = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INVALID_POINTER")
+        STATUS_GRAPHICS_INVALID_POINTER
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_NO_MONITORS_CORRESPOND_TO_DISPLAY_DEVICE")
+#undef STATUS_GRAPHICS_NO_MONITORS_CORRESPOND_TO_DISPLAY_DEVICE
+    inline constexpr auto STATUS_GRAPHICS_NO_MONITORS_CORRESPOND_TO_DISPLAY_DEVICE = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_NO_MONITORS_CORRESPOND_TO_DISPLAY_DEVICE")
+        STATUS_GRAPHICS_NO_MONITORS_CORRESPOND_TO_DISPLAY_DEVICE
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_PARAMETER_ARRAY_TOO_SMALL")
+#undef STATUS_GRAPHICS_PARAMETER_ARRAY_TOO_SMALL
+    inline constexpr auto STATUS_GRAPHICS_PARAMETER_ARRAY_TOO_SMALL = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_PARAMETER_ARRAY_TOO_SMALL")
+        STATUS_GRAPHICS_PARAMETER_ARRAY_TOO_SMALL
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_INTERNAL_ERROR")
+#undef STATUS_GRAPHICS_INTERNAL_ERROR
+    inline constexpr auto STATUS_GRAPHICS_INTERNAL_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_INTERNAL_ERROR")
+        STATUS_GRAPHICS_INTERNAL_ERROR
+    };
+
+#pragma push_macro("STATUS_GRAPHICS_SESSION_TYPE_CHANGE_IN_PROGRESS")
+#undef STATUS_GRAPHICS_SESSION_TYPE_CHANGE_IN_PROGRESS
+    inline constexpr auto STATUS_GRAPHICS_SESSION_TYPE_CHANGE_IN_PROGRESS = NTSTATUS {
+#pragma pop_macro("STATUS_GRAPHICS_SESSION_TYPE_CHANGE_IN_PROGRESS")
+        STATUS_GRAPHICS_SESSION_TYPE_CHANGE_IN_PROGRESS
+    };
+
+#pragma push_macro("STATUS_FVE_LOCKED_VOLUME")
+#undef STATUS_FVE_LOCKED_VOLUME
+    inline constexpr auto STATUS_FVE_LOCKED_VOLUME = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_LOCKED_VOLUME")
+        STATUS_FVE_LOCKED_VOLUME
+    };
+
+#pragma push_macro("STATUS_FVE_NOT_ENCRYPTED")
+#undef STATUS_FVE_NOT_ENCRYPTED
+    inline constexpr auto STATUS_FVE_NOT_ENCRYPTED = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_NOT_ENCRYPTED")
+        STATUS_FVE_NOT_ENCRYPTED
+    };
+
+#pragma push_macro("STATUS_FVE_BAD_INFORMATION")
+#undef STATUS_FVE_BAD_INFORMATION
+    inline constexpr auto STATUS_FVE_BAD_INFORMATION = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_BAD_INFORMATION")
+        STATUS_FVE_BAD_INFORMATION
+    };
+
+#pragma push_macro("STATUS_FVE_TOO_SMALL")
+#undef STATUS_FVE_TOO_SMALL
+    inline constexpr auto STATUS_FVE_TOO_SMALL = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_TOO_SMALL")
+        STATUS_FVE_TOO_SMALL
+    };
+
+#pragma push_macro("STATUS_FVE_FAILED_WRONG_FS")
+#undef STATUS_FVE_FAILED_WRONG_FS
+    inline constexpr auto STATUS_FVE_FAILED_WRONG_FS = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_FAILED_WRONG_FS")
+        STATUS_FVE_FAILED_WRONG_FS
+    };
+
+    // #pragma push_macro("STATUS_FVE_FAILED_BAD_FS")
+    // #undef STATUS_FVE_FAILED_BAD_FS
+    //     inline constexpr auto STATUS_FVE_FAILED_BAD_FS = NTSTATUS {
+    // #pragma pop_macro("STATUS_FVE_FAILED_BAD_FS")
+    //       STATUS_FVE_FAILED_BAD_FS};
+
+#pragma push_macro("STATUS_FVE_FS_NOT_EXTENDED")
+#undef STATUS_FVE_FS_NOT_EXTENDED
+    inline constexpr auto STATUS_FVE_FS_NOT_EXTENDED = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_FS_NOT_EXTENDED")
+        STATUS_FVE_FS_NOT_EXTENDED
+    };
+
+#pragma push_macro("STATUS_FVE_FS_MOUNTED")
+#undef STATUS_FVE_FS_MOUNTED
+    inline constexpr auto STATUS_FVE_FS_MOUNTED = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_FS_MOUNTED")
+        STATUS_FVE_FS_MOUNTED
+    };
+
+#pragma push_macro("STATUS_FVE_NO_LICENSE")
+#undef STATUS_FVE_NO_LICENSE
+    inline constexpr auto STATUS_FVE_NO_LICENSE = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_NO_LICENSE")
+        STATUS_FVE_NO_LICENSE
+    };
+
+#pragma push_macro("STATUS_FVE_ACTION_NOT_ALLOWED")
+#undef STATUS_FVE_ACTION_NOT_ALLOWED
+    inline constexpr auto STATUS_FVE_ACTION_NOT_ALLOWED = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_ACTION_NOT_ALLOWED")
+        STATUS_FVE_ACTION_NOT_ALLOWED
+    };
+
+#pragma push_macro("STATUS_FVE_BAD_DATA")
+#undef STATUS_FVE_BAD_DATA
+    inline constexpr auto STATUS_FVE_BAD_DATA = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_BAD_DATA")
+        STATUS_FVE_BAD_DATA
+    };
+
+#pragma push_macro("STATUS_FVE_VOLUME_NOT_BOUND")
+#undef STATUS_FVE_VOLUME_NOT_BOUND
+    inline constexpr auto STATUS_FVE_VOLUME_NOT_BOUND = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_VOLUME_NOT_BOUND")
+        STATUS_FVE_VOLUME_NOT_BOUND
+    };
+
+#pragma push_macro("STATUS_FVE_NOT_DATA_VOLUME")
+#undef STATUS_FVE_NOT_DATA_VOLUME
+    inline constexpr auto STATUS_FVE_NOT_DATA_VOLUME = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_NOT_DATA_VOLUME")
+        STATUS_FVE_NOT_DATA_VOLUME
+    };
+
+#pragma push_macro("STATUS_FVE_CONV_READ_ERROR")
+#undef STATUS_FVE_CONV_READ_ERROR
+    inline constexpr auto STATUS_FVE_CONV_READ_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_CONV_READ_ERROR")
+        STATUS_FVE_CONV_READ_ERROR
+    };
+
+#pragma push_macro("STATUS_FVE_CONV_WRITE_ERROR")
+#undef STATUS_FVE_CONV_WRITE_ERROR
+    inline constexpr auto STATUS_FVE_CONV_WRITE_ERROR = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_CONV_WRITE_ERROR")
+        STATUS_FVE_CONV_WRITE_ERROR
+    };
+
+#pragma push_macro("STATUS_FVE_OVERLAPPED_UPDATE")
+#undef STATUS_FVE_OVERLAPPED_UPDATE
+    inline constexpr auto STATUS_FVE_OVERLAPPED_UPDATE = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_OVERLAPPED_UPDATE")
+        STATUS_FVE_OVERLAPPED_UPDATE
+    };
+
+#pragma push_macro("STATUS_FVE_FAILED_SECTOR_SIZE")
+#undef STATUS_FVE_FAILED_SECTOR_SIZE
+    inline constexpr auto STATUS_FVE_FAILED_SECTOR_SIZE = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_FAILED_SECTOR_SIZE")
+        STATUS_FVE_FAILED_SECTOR_SIZE
+    };
+
+#pragma push_macro("STATUS_FVE_FAILED_AUTHENTICATION")
+#undef STATUS_FVE_FAILED_AUTHENTICATION
+    inline constexpr auto STATUS_FVE_FAILED_AUTHENTICATION = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_FAILED_AUTHENTICATION")
+        STATUS_FVE_FAILED_AUTHENTICATION
+    };
+
+#pragma push_macro("STATUS_FVE_NOT_OS_VOLUME")
+#undef STATUS_FVE_NOT_OS_VOLUME
+    inline constexpr auto STATUS_FVE_NOT_OS_VOLUME = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_NOT_OS_VOLUME")
+        STATUS_FVE_NOT_OS_VOLUME
+    };
+
+#pragma push_macro("STATUS_FVE_KEYFILE_NOT_FOUND")
+#undef STATUS_FVE_KEYFILE_NOT_FOUND
+    inline constexpr auto STATUS_FVE_KEYFILE_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_KEYFILE_NOT_FOUND")
+        STATUS_FVE_KEYFILE_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_FVE_KEYFILE_INVALID")
+#undef STATUS_FVE_KEYFILE_INVALID
+    inline constexpr auto STATUS_FVE_KEYFILE_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_KEYFILE_INVALID")
+        STATUS_FVE_KEYFILE_INVALID
+    };
+
+#pragma push_macro("STATUS_FVE_KEYFILE_NO_VMK")
+#undef STATUS_FVE_KEYFILE_NO_VMK
+    inline constexpr auto STATUS_FVE_KEYFILE_NO_VMK = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_KEYFILE_NO_VMK")
+        STATUS_FVE_KEYFILE_NO_VMK
+    };
+
+#pragma push_macro("STATUS_FVE_TPM_DISABLED")
+#undef STATUS_FVE_TPM_DISABLED
+    inline constexpr auto STATUS_FVE_TPM_DISABLED = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_TPM_DISABLED")
+        STATUS_FVE_TPM_DISABLED
+    };
+
+#pragma push_macro("STATUS_FVE_TPM_SRK_AUTH_NOT_ZERO")
+#undef STATUS_FVE_TPM_SRK_AUTH_NOT_ZERO
+    inline constexpr auto STATUS_FVE_TPM_SRK_AUTH_NOT_ZERO = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_TPM_SRK_AUTH_NOT_ZERO")
+        STATUS_FVE_TPM_SRK_AUTH_NOT_ZERO
+    };
+
+#pragma push_macro("STATUS_FVE_TPM_INVALID_PCR")
+#undef STATUS_FVE_TPM_INVALID_PCR
+    inline constexpr auto STATUS_FVE_TPM_INVALID_PCR = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_TPM_INVALID_PCR")
+        STATUS_FVE_TPM_INVALID_PCR
+    };
+
+#pragma push_macro("STATUS_FVE_TPM_NO_VMK")
+#undef STATUS_FVE_TPM_NO_VMK
+    inline constexpr auto STATUS_FVE_TPM_NO_VMK = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_TPM_NO_VMK")
+        STATUS_FVE_TPM_NO_VMK
+    };
+
+#pragma push_macro("STATUS_FVE_PIN_INVALID")
+#undef STATUS_FVE_PIN_INVALID
+    inline constexpr auto STATUS_FVE_PIN_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_PIN_INVALID")
+        STATUS_FVE_PIN_INVALID
+    };
+
+#pragma push_macro("STATUS_FVE_AUTH_INVALID_APPLICATION")
+#undef STATUS_FVE_AUTH_INVALID_APPLICATION
+    inline constexpr auto STATUS_FVE_AUTH_INVALID_APPLICATION = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_AUTH_INVALID_APPLICATION")
+        STATUS_FVE_AUTH_INVALID_APPLICATION
+    };
+
+#pragma push_macro("STATUS_FVE_AUTH_INVALID_CONFIG")
+#undef STATUS_FVE_AUTH_INVALID_CONFIG
+    inline constexpr auto STATUS_FVE_AUTH_INVALID_CONFIG = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_AUTH_INVALID_CONFIG")
+        STATUS_FVE_AUTH_INVALID_CONFIG
+    };
+
+#pragma push_macro("STATUS_FVE_DEBUGGER_ENABLED")
+#undef STATUS_FVE_DEBUGGER_ENABLED
+    inline constexpr auto STATUS_FVE_DEBUGGER_ENABLED = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_DEBUGGER_ENABLED")
+        STATUS_FVE_DEBUGGER_ENABLED
+    };
+
+#pragma push_macro("STATUS_FVE_DRY_RUN_FAILED")
+#undef STATUS_FVE_DRY_RUN_FAILED
+    inline constexpr auto STATUS_FVE_DRY_RUN_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_DRY_RUN_FAILED")
+        STATUS_FVE_DRY_RUN_FAILED
+    };
+
+#pragma push_macro("STATUS_FVE_BAD_METADATA_POINTER")
+#undef STATUS_FVE_BAD_METADATA_POINTER
+    inline constexpr auto STATUS_FVE_BAD_METADATA_POINTER = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_BAD_METADATA_POINTER")
+        STATUS_FVE_BAD_METADATA_POINTER
+    };
+
+#pragma push_macro("STATUS_FVE_OLD_METADATA_COPY")
+#undef STATUS_FVE_OLD_METADATA_COPY
+    inline constexpr auto STATUS_FVE_OLD_METADATA_COPY = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_OLD_METADATA_COPY")
+        STATUS_FVE_OLD_METADATA_COPY
+    };
+
+#pragma push_macro("STATUS_FVE_REBOOT_REQUIRED")
+#undef STATUS_FVE_REBOOT_REQUIRED
+    inline constexpr auto STATUS_FVE_REBOOT_REQUIRED = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_REBOOT_REQUIRED")
+        STATUS_FVE_REBOOT_REQUIRED
+    };
+
+#pragma push_macro("STATUS_FVE_RAW_ACCESS")
+#undef STATUS_FVE_RAW_ACCESS
+    inline constexpr auto STATUS_FVE_RAW_ACCESS = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_RAW_ACCESS")
+        STATUS_FVE_RAW_ACCESS
+    };
+
+#pragma push_macro("STATUS_FVE_RAW_BLOCKED")
+#undef STATUS_FVE_RAW_BLOCKED
+    inline constexpr auto STATUS_FVE_RAW_BLOCKED = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_RAW_BLOCKED")
+        STATUS_FVE_RAW_BLOCKED
+    };
+
+#pragma push_macro("STATUS_FVE_NO_FEATURE_LICENSE")
+#undef STATUS_FVE_NO_FEATURE_LICENSE
+    inline constexpr auto STATUS_FVE_NO_FEATURE_LICENSE = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_NO_FEATURE_LICENSE")
+        STATUS_FVE_NO_FEATURE_LICENSE
+    };
+
+#pragma push_macro("STATUS_FVE_POLICY_USER_DISABLE_RDV_NOT_ALLOWED")
+#undef STATUS_FVE_POLICY_USER_DISABLE_RDV_NOT_ALLOWED
+    inline constexpr auto STATUS_FVE_POLICY_USER_DISABLE_RDV_NOT_ALLOWED = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_POLICY_USER_DISABLE_RDV_NOT_ALLOWED")
+        STATUS_FVE_POLICY_USER_DISABLE_RDV_NOT_ALLOWED
+    };
+
+#pragma push_macro("STATUS_FVE_CONV_RECOVERY_FAILED")
+#undef STATUS_FVE_CONV_RECOVERY_FAILED
+    inline constexpr auto STATUS_FVE_CONV_RECOVERY_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_CONV_RECOVERY_FAILED")
+        STATUS_FVE_CONV_RECOVERY_FAILED
+    };
+
+#pragma push_macro("STATUS_FVE_VIRTUALIZED_SPACE_TOO_BIG")
+#undef STATUS_FVE_VIRTUALIZED_SPACE_TOO_BIG
+    inline constexpr auto STATUS_FVE_VIRTUALIZED_SPACE_TOO_BIG = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_VIRTUALIZED_SPACE_TOO_BIG")
+        STATUS_FVE_VIRTUALIZED_SPACE_TOO_BIG
+    };
+
+#pragma push_macro("STATUS_FVE_VOLUME_TOO_SMALL")
+#undef STATUS_FVE_VOLUME_TOO_SMALL
+    inline constexpr auto STATUS_FVE_VOLUME_TOO_SMALL = NTSTATUS {
+#pragma pop_macro("STATUS_FVE_VOLUME_TOO_SMALL")
+        STATUS_FVE_VOLUME_TOO_SMALL
+    };
+
+#pragma push_macro("STATUS_FWP_CALLOUT_NOT_FOUND")
+#undef STATUS_FWP_CALLOUT_NOT_FOUND
+    inline constexpr auto STATUS_FWP_CALLOUT_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_CALLOUT_NOT_FOUND")
+        STATUS_FWP_CALLOUT_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_FWP_CONDITION_NOT_FOUND")
+#undef STATUS_FWP_CONDITION_NOT_FOUND
+    inline constexpr auto STATUS_FWP_CONDITION_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_CONDITION_NOT_FOUND")
+        STATUS_FWP_CONDITION_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_FWP_FILTER_NOT_FOUND")
+#undef STATUS_FWP_FILTER_NOT_FOUND
+    inline constexpr auto STATUS_FWP_FILTER_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_FILTER_NOT_FOUND")
+        STATUS_FWP_FILTER_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_FWP_LAYER_NOT_FOUND")
+#undef STATUS_FWP_LAYER_NOT_FOUND
+    inline constexpr auto STATUS_FWP_LAYER_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_LAYER_NOT_FOUND")
+        STATUS_FWP_LAYER_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_FWP_PROVIDER_NOT_FOUND")
+#undef STATUS_FWP_PROVIDER_NOT_FOUND
+    inline constexpr auto STATUS_FWP_PROVIDER_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_PROVIDER_NOT_FOUND")
+        STATUS_FWP_PROVIDER_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_FWP_PROVIDER_CONTEXT_NOT_FOUND")
+#undef STATUS_FWP_PROVIDER_CONTEXT_NOT_FOUND
+    inline constexpr auto STATUS_FWP_PROVIDER_CONTEXT_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_PROVIDER_CONTEXT_NOT_FOUND")
+        STATUS_FWP_PROVIDER_CONTEXT_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_FWP_SUBLAYER_NOT_FOUND")
+#undef STATUS_FWP_SUBLAYER_NOT_FOUND
+    inline constexpr auto STATUS_FWP_SUBLAYER_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_SUBLAYER_NOT_FOUND")
+        STATUS_FWP_SUBLAYER_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_FWP_NOT_FOUND")
+#undef STATUS_FWP_NOT_FOUND
+    inline constexpr auto STATUS_FWP_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_NOT_FOUND")
+        STATUS_FWP_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_FWP_ALREADY_EXISTS")
+#undef STATUS_FWP_ALREADY_EXISTS
+    inline constexpr auto STATUS_FWP_ALREADY_EXISTS = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_ALREADY_EXISTS")
+        STATUS_FWP_ALREADY_EXISTS
+    };
+
+#pragma push_macro("STATUS_FWP_IN_USE")
+#undef STATUS_FWP_IN_USE
+    inline constexpr auto STATUS_FWP_IN_USE = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_IN_USE")
+        STATUS_FWP_IN_USE
+    };
+
+#pragma push_macro("STATUS_FWP_DYNAMIC_SESSION_IN_PROGRESS")
+#undef STATUS_FWP_DYNAMIC_SESSION_IN_PROGRESS
+    inline constexpr auto STATUS_FWP_DYNAMIC_SESSION_IN_PROGRESS = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_DYNAMIC_SESSION_IN_PROGRESS")
+        STATUS_FWP_DYNAMIC_SESSION_IN_PROGRESS
+    };
+
+#pragma push_macro("STATUS_FWP_WRONG_SESSION")
+#undef STATUS_FWP_WRONG_SESSION
+    inline constexpr auto STATUS_FWP_WRONG_SESSION = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_WRONG_SESSION")
+        STATUS_FWP_WRONG_SESSION
+    };
+
+#pragma push_macro("STATUS_FWP_NO_TXN_IN_PROGRESS")
+#undef STATUS_FWP_NO_TXN_IN_PROGRESS
+    inline constexpr auto STATUS_FWP_NO_TXN_IN_PROGRESS = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_NO_TXN_IN_PROGRESS")
+        STATUS_FWP_NO_TXN_IN_PROGRESS
+    };
+
+#pragma push_macro("STATUS_FWP_TXN_IN_PROGRESS")
+#undef STATUS_FWP_TXN_IN_PROGRESS
+    inline constexpr auto STATUS_FWP_TXN_IN_PROGRESS = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_TXN_IN_PROGRESS")
+        STATUS_FWP_TXN_IN_PROGRESS
+    };
+
+#pragma push_macro("STATUS_FWP_TXN_ABORTED")
+#undef STATUS_FWP_TXN_ABORTED
+    inline constexpr auto STATUS_FWP_TXN_ABORTED = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_TXN_ABORTED")
+        STATUS_FWP_TXN_ABORTED
+    };
+
+#pragma push_macro("STATUS_FWP_SESSION_ABORTED")
+#undef STATUS_FWP_SESSION_ABORTED
+    inline constexpr auto STATUS_FWP_SESSION_ABORTED = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_SESSION_ABORTED")
+        STATUS_FWP_SESSION_ABORTED
+    };
+
+#pragma push_macro("STATUS_FWP_INCOMPATIBLE_TXN")
+#undef STATUS_FWP_INCOMPATIBLE_TXN
+    inline constexpr auto STATUS_FWP_INCOMPATIBLE_TXN = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_INCOMPATIBLE_TXN")
+        STATUS_FWP_INCOMPATIBLE_TXN
+    };
+
+#pragma push_macro("STATUS_FWP_TIMEOUT")
+#undef STATUS_FWP_TIMEOUT
+    inline constexpr auto STATUS_FWP_TIMEOUT = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_TIMEOUT")
+        STATUS_FWP_TIMEOUT
+    };
+
+#pragma push_macro("STATUS_FWP_NET_EVENTS_DISABLED")
+#undef STATUS_FWP_NET_EVENTS_DISABLED
+    inline constexpr auto STATUS_FWP_NET_EVENTS_DISABLED = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_NET_EVENTS_DISABLED")
+        STATUS_FWP_NET_EVENTS_DISABLED
+    };
+
+#pragma push_macro("STATUS_FWP_INCOMPATIBLE_LAYER")
+#undef STATUS_FWP_INCOMPATIBLE_LAYER
+    inline constexpr auto STATUS_FWP_INCOMPATIBLE_LAYER = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_INCOMPATIBLE_LAYER")
+        STATUS_FWP_INCOMPATIBLE_LAYER
+    };
+
+#pragma push_macro("STATUS_FWP_KM_CLIENTS_ONLY")
+#undef STATUS_FWP_KM_CLIENTS_ONLY
+    inline constexpr auto STATUS_FWP_KM_CLIENTS_ONLY = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_KM_CLIENTS_ONLY")
+        STATUS_FWP_KM_CLIENTS_ONLY
+    };
+
+#pragma push_macro("STATUS_FWP_LIFETIME_MISMATCH")
+#undef STATUS_FWP_LIFETIME_MISMATCH
+    inline constexpr auto STATUS_FWP_LIFETIME_MISMATCH = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_LIFETIME_MISMATCH")
+        STATUS_FWP_LIFETIME_MISMATCH
+    };
+
+#pragma push_macro("STATUS_FWP_BUILTIN_OBJECT")
+#undef STATUS_FWP_BUILTIN_OBJECT
+    inline constexpr auto STATUS_FWP_BUILTIN_OBJECT = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_BUILTIN_OBJECT")
+        STATUS_FWP_BUILTIN_OBJECT
+    };
+
+    // #pragma push_macro("STATUS_FWP_TOO_MANY_BOOTTIME_FILTERS")
+    // #undef STATUS_FWP_TOO_MANY_BOOTTIME_FILTERS
+    //     inline constexpr auto STATUS_FWP_TOO_MANY_BOOTTIME_FILTERS = NTSTATUS {
+    // #pragma pop_macro("STATUS_FWP_TOO_MANY_BOOTTIME_FILTERS")
+    //       STATUS_FWP_TOO_MANY_BOOTTIME_FILTERS};
+
+#pragma push_macro("STATUS_FWP_TOO_MANY_CALLOUTS")
+#undef STATUS_FWP_TOO_MANY_CALLOUTS
+    inline constexpr auto STATUS_FWP_TOO_MANY_CALLOUTS = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_TOO_MANY_CALLOUTS")
+        STATUS_FWP_TOO_MANY_CALLOUTS
+    };
+
+#pragma push_macro("STATUS_FWP_NOTIFICATION_DROPPED")
+#undef STATUS_FWP_NOTIFICATION_DROPPED
+    inline constexpr auto STATUS_FWP_NOTIFICATION_DROPPED = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_NOTIFICATION_DROPPED")
+        STATUS_FWP_NOTIFICATION_DROPPED
+    };
+
+#pragma push_macro("STATUS_FWP_TRAFFIC_MISMATCH")
+#undef STATUS_FWP_TRAFFIC_MISMATCH
+    inline constexpr auto STATUS_FWP_TRAFFIC_MISMATCH = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_TRAFFIC_MISMATCH")
+        STATUS_FWP_TRAFFIC_MISMATCH
+    };
+
+#pragma push_macro("STATUS_FWP_INCOMPATIBLE_SA_STATE")
+#undef STATUS_FWP_INCOMPATIBLE_SA_STATE
+    inline constexpr auto STATUS_FWP_INCOMPATIBLE_SA_STATE = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_INCOMPATIBLE_SA_STATE")
+        STATUS_FWP_INCOMPATIBLE_SA_STATE
+    };
+
+#pragma push_macro("STATUS_FWP_NULL_POINTER")
+#undef STATUS_FWP_NULL_POINTER
+    inline constexpr auto STATUS_FWP_NULL_POINTER = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_NULL_POINTER")
+        STATUS_FWP_NULL_POINTER
+    };
+
+#pragma push_macro("STATUS_FWP_INVALID_ENUMERATOR")
+#undef STATUS_FWP_INVALID_ENUMERATOR
+    inline constexpr auto STATUS_FWP_INVALID_ENUMERATOR = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_INVALID_ENUMERATOR")
+        STATUS_FWP_INVALID_ENUMERATOR
+    };
+
+#pragma push_macro("STATUS_FWP_INVALID_FLAGS")
+#undef STATUS_FWP_INVALID_FLAGS
+    inline constexpr auto STATUS_FWP_INVALID_FLAGS = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_INVALID_FLAGS")
+        STATUS_FWP_INVALID_FLAGS
+    };
+
+#pragma push_macro("STATUS_FWP_INVALID_NET_MASK")
+#undef STATUS_FWP_INVALID_NET_MASK
+    inline constexpr auto STATUS_FWP_INVALID_NET_MASK = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_INVALID_NET_MASK")
+        STATUS_FWP_INVALID_NET_MASK
+    };
+
+#pragma push_macro("STATUS_FWP_INVALID_RANGE")
+#undef STATUS_FWP_INVALID_RANGE
+    inline constexpr auto STATUS_FWP_INVALID_RANGE = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_INVALID_RANGE")
+        STATUS_FWP_INVALID_RANGE
+    };
+
+#pragma push_macro("STATUS_FWP_INVALID_INTERVAL")
+#undef STATUS_FWP_INVALID_INTERVAL
+    inline constexpr auto STATUS_FWP_INVALID_INTERVAL = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_INVALID_INTERVAL")
+        STATUS_FWP_INVALID_INTERVAL
+    };
+
+#pragma push_macro("STATUS_FWP_ZERO_LENGTH_ARRAY")
+#undef STATUS_FWP_ZERO_LENGTH_ARRAY
+    inline constexpr auto STATUS_FWP_ZERO_LENGTH_ARRAY = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_ZERO_LENGTH_ARRAY")
+        STATUS_FWP_ZERO_LENGTH_ARRAY
+    };
+
+#pragma push_macro("STATUS_FWP_NULL_DISPLAY_NAME")
+#undef STATUS_FWP_NULL_DISPLAY_NAME
+    inline constexpr auto STATUS_FWP_NULL_DISPLAY_NAME = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_NULL_DISPLAY_NAME")
+        STATUS_FWP_NULL_DISPLAY_NAME
+    };
+
+#pragma push_macro("STATUS_FWP_INVALID_ACTION_TYPE")
+#undef STATUS_FWP_INVALID_ACTION_TYPE
+    inline constexpr auto STATUS_FWP_INVALID_ACTION_TYPE = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_INVALID_ACTION_TYPE")
+        STATUS_FWP_INVALID_ACTION_TYPE
+    };
+
+#pragma push_macro("STATUS_FWP_INVALID_WEIGHT")
+#undef STATUS_FWP_INVALID_WEIGHT
+    inline constexpr auto STATUS_FWP_INVALID_WEIGHT = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_INVALID_WEIGHT")
+        STATUS_FWP_INVALID_WEIGHT
+    };
+
+#pragma push_macro("STATUS_FWP_MATCH_TYPE_MISMATCH")
+#undef STATUS_FWP_MATCH_TYPE_MISMATCH
+    inline constexpr auto STATUS_FWP_MATCH_TYPE_MISMATCH = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_MATCH_TYPE_MISMATCH")
+        STATUS_FWP_MATCH_TYPE_MISMATCH
+    };
+
+#pragma push_macro("STATUS_FWP_TYPE_MISMATCH")
+#undef STATUS_FWP_TYPE_MISMATCH
+    inline constexpr auto STATUS_FWP_TYPE_MISMATCH = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_TYPE_MISMATCH")
+        STATUS_FWP_TYPE_MISMATCH
+    };
+
+#pragma push_macro("STATUS_FWP_OUT_OF_BOUNDS")
+#undef STATUS_FWP_OUT_OF_BOUNDS
+    inline constexpr auto STATUS_FWP_OUT_OF_BOUNDS = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_OUT_OF_BOUNDS")
+        STATUS_FWP_OUT_OF_BOUNDS
+    };
+
+#pragma push_macro("STATUS_FWP_RESERVED")
+#undef STATUS_FWP_RESERVED
+    inline constexpr auto STATUS_FWP_RESERVED = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_RESERVED")
+        STATUS_FWP_RESERVED
+    };
+
+#pragma push_macro("STATUS_FWP_DUPLICATE_CONDITION")
+#undef STATUS_FWP_DUPLICATE_CONDITION
+    inline constexpr auto STATUS_FWP_DUPLICATE_CONDITION = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_DUPLICATE_CONDITION")
+        STATUS_FWP_DUPLICATE_CONDITION
+    };
+
+#pragma push_macro("STATUS_FWP_DUPLICATE_KEYMOD")
+#undef STATUS_FWP_DUPLICATE_KEYMOD
+    inline constexpr auto STATUS_FWP_DUPLICATE_KEYMOD = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_DUPLICATE_KEYMOD")
+        STATUS_FWP_DUPLICATE_KEYMOD
+    };
+
+#pragma push_macro("STATUS_FWP_ACTION_INCOMPATIBLE_WITH_LAYER")
+#undef STATUS_FWP_ACTION_INCOMPATIBLE_WITH_LAYER
+    inline constexpr auto STATUS_FWP_ACTION_INCOMPATIBLE_WITH_LAYER = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_ACTION_INCOMPATIBLE_WITH_LAYER")
+        STATUS_FWP_ACTION_INCOMPATIBLE_WITH_LAYER
+    };
+
+#pragma push_macro("STATUS_FWP_ACTION_INCOMPATIBLE_WITH_SUBLAYER")
+#undef STATUS_FWP_ACTION_INCOMPATIBLE_WITH_SUBLAYER
+    inline constexpr auto STATUS_FWP_ACTION_INCOMPATIBLE_WITH_SUBLAYER = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_ACTION_INCOMPATIBLE_WITH_SUBLAYER")
+        STATUS_FWP_ACTION_INCOMPATIBLE_WITH_SUBLAYER
+    };
+
+#pragma push_macro("STATUS_FWP_CONTEXT_INCOMPATIBLE_WITH_LAYER")
+#undef STATUS_FWP_CONTEXT_INCOMPATIBLE_WITH_LAYER
+    inline constexpr auto STATUS_FWP_CONTEXT_INCOMPATIBLE_WITH_LAYER = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_CONTEXT_INCOMPATIBLE_WITH_LAYER")
+        STATUS_FWP_CONTEXT_INCOMPATIBLE_WITH_LAYER
+    };
+
+#pragma push_macro("STATUS_FWP_CONTEXT_INCOMPATIBLE_WITH_CALLOUT")
+#undef STATUS_FWP_CONTEXT_INCOMPATIBLE_WITH_CALLOUT
+    inline constexpr auto STATUS_FWP_CONTEXT_INCOMPATIBLE_WITH_CALLOUT = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_CONTEXT_INCOMPATIBLE_WITH_CALLOUT")
+        STATUS_FWP_CONTEXT_INCOMPATIBLE_WITH_CALLOUT
+    };
+
+#pragma push_macro("STATUS_FWP_INCOMPATIBLE_AUTH_METHOD")
+#undef STATUS_FWP_INCOMPATIBLE_AUTH_METHOD
+    inline constexpr auto STATUS_FWP_INCOMPATIBLE_AUTH_METHOD = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_INCOMPATIBLE_AUTH_METHOD")
+        STATUS_FWP_INCOMPATIBLE_AUTH_METHOD
+    };
+
+#pragma push_macro("STATUS_FWP_INCOMPATIBLE_DH_GROUP")
+#undef STATUS_FWP_INCOMPATIBLE_DH_GROUP
+    inline constexpr auto STATUS_FWP_INCOMPATIBLE_DH_GROUP = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_INCOMPATIBLE_DH_GROUP")
+        STATUS_FWP_INCOMPATIBLE_DH_GROUP
+    };
+
+#pragma push_macro("STATUS_FWP_EM_NOT_SUPPORTED")
+#undef STATUS_FWP_EM_NOT_SUPPORTED
+    inline constexpr auto STATUS_FWP_EM_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_EM_NOT_SUPPORTED")
+        STATUS_FWP_EM_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_FWP_NEVER_MATCH")
+#undef STATUS_FWP_NEVER_MATCH
+    inline constexpr auto STATUS_FWP_NEVER_MATCH = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_NEVER_MATCH")
+        STATUS_FWP_NEVER_MATCH
+    };
+
+#pragma push_macro("STATUS_FWP_PROVIDER_CONTEXT_MISMATCH")
+#undef STATUS_FWP_PROVIDER_CONTEXT_MISMATCH
+    inline constexpr auto STATUS_FWP_PROVIDER_CONTEXT_MISMATCH = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_PROVIDER_CONTEXT_MISMATCH")
+        STATUS_FWP_PROVIDER_CONTEXT_MISMATCH
+    };
+
+#pragma push_macro("STATUS_FWP_INVALID_PARAMETER")
+#undef STATUS_FWP_INVALID_PARAMETER
+    inline constexpr auto STATUS_FWP_INVALID_PARAMETER = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_INVALID_PARAMETER")
+        STATUS_FWP_INVALID_PARAMETER
+    };
+
+#pragma push_macro("STATUS_FWP_TOO_MANY_SUBLAYERS")
+#undef STATUS_FWP_TOO_MANY_SUBLAYERS
+    inline constexpr auto STATUS_FWP_TOO_MANY_SUBLAYERS = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_TOO_MANY_SUBLAYERS")
+        STATUS_FWP_TOO_MANY_SUBLAYERS
+    };
+
+#pragma push_macro("STATUS_FWP_CALLOUT_NOTIFICATION_FAILED")
+#undef STATUS_FWP_CALLOUT_NOTIFICATION_FAILED
+    inline constexpr auto STATUS_FWP_CALLOUT_NOTIFICATION_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_CALLOUT_NOTIFICATION_FAILED")
+        STATUS_FWP_CALLOUT_NOTIFICATION_FAILED
+    };
+
+    // #pragma push_macro("STATUS_FWP_INCOMPATIBLE_AUTH_CONFIG")
+    // #undef STATUS_FWP_INCOMPATIBLE_AUTH_CONFIG
+    //     inline constexpr auto STATUS_FWP_INCOMPATIBLE_AUTH_CONFIG = NTSTATUS {
+    // #pragma pop_macro("STATUS_FWP_INCOMPATIBLE_AUTH_CONFIG")
+    //       STATUS_FWP_INCOMPATIBLE_AUTH_CONFIG};
+
+    // #pragma push_macro("STATUS_FWP_INCOMPATIBLE_CIPHER_CONFIG")
+    // #undef STATUS_FWP_INCOMPATIBLE_CIPHER_CONFIG
+    //     inline constexpr auto STATUS_FWP_INCOMPATIBLE_CIPHER_CONFIG = NTSTATUS {
+    // #pragma pop_macro("STATUS_FWP_INCOMPATIBLE_CIPHER_CONFIG")
+    //       STATUS_FWP_INCOMPATIBLE_CIPHER_CONFIG};
+
+#pragma push_macro("STATUS_FWP_DUPLICATE_AUTH_METHOD")
+#undef STATUS_FWP_DUPLICATE_AUTH_METHOD
+    inline constexpr auto STATUS_FWP_DUPLICATE_AUTH_METHOD = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_DUPLICATE_AUTH_METHOD")
+        STATUS_FWP_DUPLICATE_AUTH_METHOD
+    };
+
+#pragma push_macro("STATUS_FWP_TCPIP_NOT_READY")
+#undef STATUS_FWP_TCPIP_NOT_READY
+    inline constexpr auto STATUS_FWP_TCPIP_NOT_READY = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_TCPIP_NOT_READY")
+        STATUS_FWP_TCPIP_NOT_READY
+    };
+
+#pragma push_macro("STATUS_FWP_INJECT_HANDLE_CLOSING")
+#undef STATUS_FWP_INJECT_HANDLE_CLOSING
+    inline constexpr auto STATUS_FWP_INJECT_HANDLE_CLOSING = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_INJECT_HANDLE_CLOSING")
+        STATUS_FWP_INJECT_HANDLE_CLOSING
+    };
+
+#pragma push_macro("STATUS_FWP_INJECT_HANDLE_STALE")
+#undef STATUS_FWP_INJECT_HANDLE_STALE
+    inline constexpr auto STATUS_FWP_INJECT_HANDLE_STALE = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_INJECT_HANDLE_STALE")
+        STATUS_FWP_INJECT_HANDLE_STALE
+    };
+
+#pragma push_macro("STATUS_FWP_CANNOT_PEND")
+#undef STATUS_FWP_CANNOT_PEND
+    inline constexpr auto STATUS_FWP_CANNOT_PEND = NTSTATUS {
+#pragma pop_macro("STATUS_FWP_CANNOT_PEND")
+        STATUS_FWP_CANNOT_PEND
+    };
+
+#pragma push_macro("STATUS_NDIS_CLOSING")
+#undef STATUS_NDIS_CLOSING
+    inline constexpr auto STATUS_NDIS_CLOSING = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_CLOSING")
+        STATUS_NDIS_CLOSING
+    };
+
+#pragma push_macro("STATUS_NDIS_BAD_VERSION")
+#undef STATUS_NDIS_BAD_VERSION
+    inline constexpr auto STATUS_NDIS_BAD_VERSION = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_BAD_VERSION")
+        STATUS_NDIS_BAD_VERSION
+    };
+
+#pragma push_macro("STATUS_NDIS_BAD_CHARACTERISTICS")
+#undef STATUS_NDIS_BAD_CHARACTERISTICS
+    inline constexpr auto STATUS_NDIS_BAD_CHARACTERISTICS = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_BAD_CHARACTERISTICS")
+        STATUS_NDIS_BAD_CHARACTERISTICS
+    };
+
+#pragma push_macro("STATUS_NDIS_ADAPTER_NOT_FOUND")
+#undef STATUS_NDIS_ADAPTER_NOT_FOUND
+    inline constexpr auto STATUS_NDIS_ADAPTER_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_ADAPTER_NOT_FOUND")
+        STATUS_NDIS_ADAPTER_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_NDIS_OPEN_FAILED")
+#undef STATUS_NDIS_OPEN_FAILED
+    inline constexpr auto STATUS_NDIS_OPEN_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_OPEN_FAILED")
+        STATUS_NDIS_OPEN_FAILED
+    };
+
+#pragma push_macro("STATUS_NDIS_DEVICE_FAILED")
+#undef STATUS_NDIS_DEVICE_FAILED
+    inline constexpr auto STATUS_NDIS_DEVICE_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_DEVICE_FAILED")
+        STATUS_NDIS_DEVICE_FAILED
+    };
+
+#pragma push_macro("STATUS_NDIS_MULTICAST_FULL")
+#undef STATUS_NDIS_MULTICAST_FULL
+    inline constexpr auto STATUS_NDIS_MULTICAST_FULL = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_MULTICAST_FULL")
+        STATUS_NDIS_MULTICAST_FULL
+    };
+
+#pragma push_macro("STATUS_NDIS_MULTICAST_EXISTS")
+#undef STATUS_NDIS_MULTICAST_EXISTS
+    inline constexpr auto STATUS_NDIS_MULTICAST_EXISTS = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_MULTICAST_EXISTS")
+        STATUS_NDIS_MULTICAST_EXISTS
+    };
+
+#pragma push_macro("STATUS_NDIS_MULTICAST_NOT_FOUND")
+#undef STATUS_NDIS_MULTICAST_NOT_FOUND
+    inline constexpr auto STATUS_NDIS_MULTICAST_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_MULTICAST_NOT_FOUND")
+        STATUS_NDIS_MULTICAST_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_NDIS_REQUEST_ABORTED")
+#undef STATUS_NDIS_REQUEST_ABORTED
+    inline constexpr auto STATUS_NDIS_REQUEST_ABORTED = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_REQUEST_ABORTED")
+        STATUS_NDIS_REQUEST_ABORTED
+    };
+
+#pragma push_macro("STATUS_NDIS_RESET_IN_PROGRESS")
+#undef STATUS_NDIS_RESET_IN_PROGRESS
+    inline constexpr auto STATUS_NDIS_RESET_IN_PROGRESS = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_RESET_IN_PROGRESS")
+        STATUS_NDIS_RESET_IN_PROGRESS
+    };
+
+#pragma push_macro("STATUS_NDIS_INVALID_PACKET")
+#undef STATUS_NDIS_INVALID_PACKET
+    inline constexpr auto STATUS_NDIS_INVALID_PACKET = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_INVALID_PACKET")
+        STATUS_NDIS_INVALID_PACKET
+    };
+
+#pragma push_macro("STATUS_NDIS_INVALID_DEVICE_REQUEST")
+#undef STATUS_NDIS_INVALID_DEVICE_REQUEST
+    inline constexpr auto STATUS_NDIS_INVALID_DEVICE_REQUEST = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_INVALID_DEVICE_REQUEST")
+        STATUS_NDIS_INVALID_DEVICE_REQUEST
+    };
+
+#pragma push_macro("STATUS_NDIS_ADAPTER_NOT_READY")
+#undef STATUS_NDIS_ADAPTER_NOT_READY
+    inline constexpr auto STATUS_NDIS_ADAPTER_NOT_READY = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_ADAPTER_NOT_READY")
+        STATUS_NDIS_ADAPTER_NOT_READY
+    };
+
+#pragma push_macro("STATUS_NDIS_INVALID_LENGTH")
+#undef STATUS_NDIS_INVALID_LENGTH
+    inline constexpr auto STATUS_NDIS_INVALID_LENGTH = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_INVALID_LENGTH")
+        STATUS_NDIS_INVALID_LENGTH
+    };
+
+#pragma push_macro("STATUS_NDIS_INVALID_DATA")
+#undef STATUS_NDIS_INVALID_DATA
+    inline constexpr auto STATUS_NDIS_INVALID_DATA = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_INVALID_DATA")
+        STATUS_NDIS_INVALID_DATA
+    };
+
+#pragma push_macro("STATUS_NDIS_BUFFER_TOO_SHORT")
+#undef STATUS_NDIS_BUFFER_TOO_SHORT
+    inline constexpr auto STATUS_NDIS_BUFFER_TOO_SHORT = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_BUFFER_TOO_SHORT")
+        STATUS_NDIS_BUFFER_TOO_SHORT
+    };
+
+#pragma push_macro("STATUS_NDIS_INVALID_OID")
+#undef STATUS_NDIS_INVALID_OID
+    inline constexpr auto STATUS_NDIS_INVALID_OID = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_INVALID_OID")
+        STATUS_NDIS_INVALID_OID
+    };
+
+#pragma push_macro("STATUS_NDIS_ADAPTER_REMOVED")
+#undef STATUS_NDIS_ADAPTER_REMOVED
+    inline constexpr auto STATUS_NDIS_ADAPTER_REMOVED = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_ADAPTER_REMOVED")
+        STATUS_NDIS_ADAPTER_REMOVED
+    };
+
+#pragma push_macro("STATUS_NDIS_UNSUPPORTED_MEDIA")
+#undef STATUS_NDIS_UNSUPPORTED_MEDIA
+    inline constexpr auto STATUS_NDIS_UNSUPPORTED_MEDIA = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_UNSUPPORTED_MEDIA")
+        STATUS_NDIS_UNSUPPORTED_MEDIA
+    };
+
+#pragma push_macro("STATUS_NDIS_GROUP_ADDRESS_IN_USE")
+#undef STATUS_NDIS_GROUP_ADDRESS_IN_USE
+    inline constexpr auto STATUS_NDIS_GROUP_ADDRESS_IN_USE = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_GROUP_ADDRESS_IN_USE")
+        STATUS_NDIS_GROUP_ADDRESS_IN_USE
+    };
+
+#pragma push_macro("STATUS_NDIS_FILE_NOT_FOUND")
+#undef STATUS_NDIS_FILE_NOT_FOUND
+    inline constexpr auto STATUS_NDIS_FILE_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_FILE_NOT_FOUND")
+        STATUS_NDIS_FILE_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_NDIS_ERROR_READING_FILE")
+#undef STATUS_NDIS_ERROR_READING_FILE
+    inline constexpr auto STATUS_NDIS_ERROR_READING_FILE = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_ERROR_READING_FILE")
+        STATUS_NDIS_ERROR_READING_FILE
+    };
+
+#pragma push_macro("STATUS_NDIS_ALREADY_MAPPED")
+#undef STATUS_NDIS_ALREADY_MAPPED
+    inline constexpr auto STATUS_NDIS_ALREADY_MAPPED = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_ALREADY_MAPPED")
+        STATUS_NDIS_ALREADY_MAPPED
+    };
+
+#pragma push_macro("STATUS_NDIS_RESOURCE_CONFLICT")
+#undef STATUS_NDIS_RESOURCE_CONFLICT
+    inline constexpr auto STATUS_NDIS_RESOURCE_CONFLICT = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_RESOURCE_CONFLICT")
+        STATUS_NDIS_RESOURCE_CONFLICT
+    };
+
+#pragma push_macro("STATUS_NDIS_MEDIA_DISCONNECTED")
+#undef STATUS_NDIS_MEDIA_DISCONNECTED
+    inline constexpr auto STATUS_NDIS_MEDIA_DISCONNECTED = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_MEDIA_DISCONNECTED")
+        STATUS_NDIS_MEDIA_DISCONNECTED
+    };
+
+#pragma push_macro("STATUS_NDIS_INVALID_ADDRESS")
+#undef STATUS_NDIS_INVALID_ADDRESS
+    inline constexpr auto STATUS_NDIS_INVALID_ADDRESS = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_INVALID_ADDRESS")
+        STATUS_NDIS_INVALID_ADDRESS
+    };
+
+#pragma push_macro("STATUS_NDIS_PAUSED")
+#undef STATUS_NDIS_PAUSED
+    inline constexpr auto STATUS_NDIS_PAUSED = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_PAUSED")
+        STATUS_NDIS_PAUSED
+    };
+
+#pragma push_macro("STATUS_NDIS_INTERFACE_NOT_FOUND")
+#undef STATUS_NDIS_INTERFACE_NOT_FOUND
+    inline constexpr auto STATUS_NDIS_INTERFACE_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_INTERFACE_NOT_FOUND")
+        STATUS_NDIS_INTERFACE_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_NDIS_UNSUPPORTED_REVISION")
+#undef STATUS_NDIS_UNSUPPORTED_REVISION
+    inline constexpr auto STATUS_NDIS_UNSUPPORTED_REVISION = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_UNSUPPORTED_REVISION")
+        STATUS_NDIS_UNSUPPORTED_REVISION
+    };
+
+#pragma push_macro("STATUS_NDIS_INVALID_PORT")
+#undef STATUS_NDIS_INVALID_PORT
+    inline constexpr auto STATUS_NDIS_INVALID_PORT = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_INVALID_PORT")
+        STATUS_NDIS_INVALID_PORT
+    };
+
+#pragma push_macro("STATUS_NDIS_INVALID_PORT_STATE")
+#undef STATUS_NDIS_INVALID_PORT_STATE
+    inline constexpr auto STATUS_NDIS_INVALID_PORT_STATE = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_INVALID_PORT_STATE")
+        STATUS_NDIS_INVALID_PORT_STATE
+    };
+
+#pragma push_macro("STATUS_NDIS_LOW_POWER_STATE")
+#undef STATUS_NDIS_LOW_POWER_STATE
+    inline constexpr auto STATUS_NDIS_LOW_POWER_STATE = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_LOW_POWER_STATE")
+        STATUS_NDIS_LOW_POWER_STATE
+    };
+
+#pragma push_macro("STATUS_NDIS_NOT_SUPPORTED")
+#undef STATUS_NDIS_NOT_SUPPORTED
+    inline constexpr auto STATUS_NDIS_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_NOT_SUPPORTED")
+        STATUS_NDIS_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_NDIS_OFFLOAD_POLICY")
+#undef STATUS_NDIS_OFFLOAD_POLICY
+    inline constexpr auto STATUS_NDIS_OFFLOAD_POLICY = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_OFFLOAD_POLICY")
+        STATUS_NDIS_OFFLOAD_POLICY
+    };
+
+#pragma push_macro("STATUS_NDIS_OFFLOAD_CONNECTION_REJECTED")
+#undef STATUS_NDIS_OFFLOAD_CONNECTION_REJECTED
+    inline constexpr auto STATUS_NDIS_OFFLOAD_CONNECTION_REJECTED = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_OFFLOAD_CONNECTION_REJECTED")
+        STATUS_NDIS_OFFLOAD_CONNECTION_REJECTED
+    };
+
+#pragma push_macro("STATUS_NDIS_OFFLOAD_PATH_REJECTED")
+#undef STATUS_NDIS_OFFLOAD_PATH_REJECTED
+    inline constexpr auto STATUS_NDIS_OFFLOAD_PATH_REJECTED = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_OFFLOAD_PATH_REJECTED")
+        STATUS_NDIS_OFFLOAD_PATH_REJECTED
+    };
+
+#pragma push_macro("STATUS_NDIS_DOT11_AUTO_CONFIG_ENABLED")
+#undef STATUS_NDIS_DOT11_AUTO_CONFIG_ENABLED
+    inline constexpr auto STATUS_NDIS_DOT11_AUTO_CONFIG_ENABLED = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_DOT11_AUTO_CONFIG_ENABLED")
+        STATUS_NDIS_DOT11_AUTO_CONFIG_ENABLED
+    };
+
+#pragma push_macro("STATUS_NDIS_DOT11_MEDIA_IN_USE")
+#undef STATUS_NDIS_DOT11_MEDIA_IN_USE
+    inline constexpr auto STATUS_NDIS_DOT11_MEDIA_IN_USE = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_DOT11_MEDIA_IN_USE")
+        STATUS_NDIS_DOT11_MEDIA_IN_USE
+    };
+
+#pragma push_macro("STATUS_NDIS_DOT11_POWER_STATE_INVALID")
+#undef STATUS_NDIS_DOT11_POWER_STATE_INVALID
+    inline constexpr auto STATUS_NDIS_DOT11_POWER_STATE_INVALID = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_DOT11_POWER_STATE_INVALID")
+        STATUS_NDIS_DOT11_POWER_STATE_INVALID
+    };
+
+#pragma push_macro("STATUS_NDIS_PM_WOL_PATTERN_LIST_FULL")
+#undef STATUS_NDIS_PM_WOL_PATTERN_LIST_FULL
+    inline constexpr auto STATUS_NDIS_PM_WOL_PATTERN_LIST_FULL = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_PM_WOL_PATTERN_LIST_FULL")
+        STATUS_NDIS_PM_WOL_PATTERN_LIST_FULL
+    };
+
+#pragma push_macro("STATUS_NDIS_PM_PROTOCOL_OFFLOAD_LIST_FULL")
+#undef STATUS_NDIS_PM_PROTOCOL_OFFLOAD_LIST_FULL
+    inline constexpr auto STATUS_NDIS_PM_PROTOCOL_OFFLOAD_LIST_FULL = NTSTATUS {
+#pragma pop_macro("STATUS_NDIS_PM_PROTOCOL_OFFLOAD_LIST_FULL")
+        STATUS_NDIS_PM_PROTOCOL_OFFLOAD_LIST_FULL
+    };
+
+#pragma push_macro("STATUS_IPSEC_BAD_SPI")
+#undef STATUS_IPSEC_BAD_SPI
+    inline constexpr auto STATUS_IPSEC_BAD_SPI = NTSTATUS {
+#pragma pop_macro("STATUS_IPSEC_BAD_SPI")
+        STATUS_IPSEC_BAD_SPI
+    };
+
+#pragma push_macro("STATUS_IPSEC_SA_LIFETIME_EXPIRED")
+#undef STATUS_IPSEC_SA_LIFETIME_EXPIRED
+    inline constexpr auto STATUS_IPSEC_SA_LIFETIME_EXPIRED = NTSTATUS {
+#pragma pop_macro("STATUS_IPSEC_SA_LIFETIME_EXPIRED")
+        STATUS_IPSEC_SA_LIFETIME_EXPIRED
+    };
+
+#pragma push_macro("STATUS_IPSEC_WRONG_SA")
+#undef STATUS_IPSEC_WRONG_SA
+    inline constexpr auto STATUS_IPSEC_WRONG_SA = NTSTATUS {
+#pragma pop_macro("STATUS_IPSEC_WRONG_SA")
+        STATUS_IPSEC_WRONG_SA
+    };
+
+#pragma push_macro("STATUS_IPSEC_REPLAY_CHECK_FAILED")
+#undef STATUS_IPSEC_REPLAY_CHECK_FAILED
+    inline constexpr auto STATUS_IPSEC_REPLAY_CHECK_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_IPSEC_REPLAY_CHECK_FAILED")
+        STATUS_IPSEC_REPLAY_CHECK_FAILED
+    };
+
+#pragma push_macro("STATUS_IPSEC_INVALID_PACKET")
+#undef STATUS_IPSEC_INVALID_PACKET
+    inline constexpr auto STATUS_IPSEC_INVALID_PACKET = NTSTATUS {
+#pragma pop_macro("STATUS_IPSEC_INVALID_PACKET")
+        STATUS_IPSEC_INVALID_PACKET
+    };
+
+#pragma push_macro("STATUS_IPSEC_INTEGRITY_CHECK_FAILED")
+#undef STATUS_IPSEC_INTEGRITY_CHECK_FAILED
+    inline constexpr auto STATUS_IPSEC_INTEGRITY_CHECK_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_IPSEC_INTEGRITY_CHECK_FAILED")
+        STATUS_IPSEC_INTEGRITY_CHECK_FAILED
+    };
+
+#pragma push_macro("STATUS_IPSEC_CLEAR_TEXT_DROP")
+#undef STATUS_IPSEC_CLEAR_TEXT_DROP
+    inline constexpr auto STATUS_IPSEC_CLEAR_TEXT_DROP = NTSTATUS {
+#pragma pop_macro("STATUS_IPSEC_CLEAR_TEXT_DROP")
+        STATUS_IPSEC_CLEAR_TEXT_DROP
+    };
+
+#pragma push_macro("STATUS_IPSEC_AUTH_FIREWALL_DROP")
+#undef STATUS_IPSEC_AUTH_FIREWALL_DROP
+    inline constexpr auto STATUS_IPSEC_AUTH_FIREWALL_DROP = NTSTATUS {
+#pragma pop_macro("STATUS_IPSEC_AUTH_FIREWALL_DROP")
+        STATUS_IPSEC_AUTH_FIREWALL_DROP
+    };
+
+#pragma push_macro("STATUS_IPSEC_THROTTLE_DROP")
+#undef STATUS_IPSEC_THROTTLE_DROP
+    inline constexpr auto STATUS_IPSEC_THROTTLE_DROP = NTSTATUS {
+#pragma pop_macro("STATUS_IPSEC_THROTTLE_DROP")
+        STATUS_IPSEC_THROTTLE_DROP
+    };
+
+#pragma push_macro("STATUS_IPSEC_DOSP_BLOCK")
+#undef STATUS_IPSEC_DOSP_BLOCK
+    inline constexpr auto STATUS_IPSEC_DOSP_BLOCK = NTSTATUS {
+#pragma pop_macro("STATUS_IPSEC_DOSP_BLOCK")
+        STATUS_IPSEC_DOSP_BLOCK
+    };
+
+#pragma push_macro("STATUS_IPSEC_DOSP_RECEIVED_MULTICAST")
+#undef STATUS_IPSEC_DOSP_RECEIVED_MULTICAST
+    inline constexpr auto STATUS_IPSEC_DOSP_RECEIVED_MULTICAST = NTSTATUS {
+#pragma pop_macro("STATUS_IPSEC_DOSP_RECEIVED_MULTICAST")
+        STATUS_IPSEC_DOSP_RECEIVED_MULTICAST
+    };
+
+#pragma push_macro("STATUS_IPSEC_DOSP_INVALID_PACKET")
+#undef STATUS_IPSEC_DOSP_INVALID_PACKET
+    inline constexpr auto STATUS_IPSEC_DOSP_INVALID_PACKET = NTSTATUS {
+#pragma pop_macro("STATUS_IPSEC_DOSP_INVALID_PACKET")
+        STATUS_IPSEC_DOSP_INVALID_PACKET
+    };
+
+#pragma push_macro("STATUS_IPSEC_DOSP_STATE_LOOKUP_FAILED")
+#undef STATUS_IPSEC_DOSP_STATE_LOOKUP_FAILED
+    inline constexpr auto STATUS_IPSEC_DOSP_STATE_LOOKUP_FAILED = NTSTATUS {
+#pragma pop_macro("STATUS_IPSEC_DOSP_STATE_LOOKUP_FAILED")
+        STATUS_IPSEC_DOSP_STATE_LOOKUP_FAILED
+    };
+
+#pragma push_macro("STATUS_IPSEC_DOSP_MAX_ENTRIES")
+#undef STATUS_IPSEC_DOSP_MAX_ENTRIES
+    inline constexpr auto STATUS_IPSEC_DOSP_MAX_ENTRIES = NTSTATUS {
+#pragma pop_macro("STATUS_IPSEC_DOSP_MAX_ENTRIES")
+        STATUS_IPSEC_DOSP_MAX_ENTRIES
+    };
+
+#pragma push_macro("STATUS_IPSEC_DOSP_KEYMOD_NOT_ALLOWED")
+#undef STATUS_IPSEC_DOSP_KEYMOD_NOT_ALLOWED
+    inline constexpr auto STATUS_IPSEC_DOSP_KEYMOD_NOT_ALLOWED = NTSTATUS {
+#pragma pop_macro("STATUS_IPSEC_DOSP_KEYMOD_NOT_ALLOWED")
+        STATUS_IPSEC_DOSP_KEYMOD_NOT_ALLOWED
+    };
+
+#pragma push_macro("STATUS_IPSEC_DOSP_MAX_PER_IP_RATELIMIT_QUEUES")
+#undef STATUS_IPSEC_DOSP_MAX_PER_IP_RATELIMIT_QUEUES
+    inline constexpr auto STATUS_IPSEC_DOSP_MAX_PER_IP_RATELIMIT_QUEUES = NTSTATUS {
+#pragma pop_macro("STATUS_IPSEC_DOSP_MAX_PER_IP_RATELIMIT_QUEUES")
+        STATUS_IPSEC_DOSP_MAX_PER_IP_RATELIMIT_QUEUES
+    };
+
+#pragma push_macro("STATUS_VOLMGR_MIRROR_NOT_SUPPORTED")
+#undef STATUS_VOLMGR_MIRROR_NOT_SUPPORTED
+    inline constexpr auto STATUS_VOLMGR_MIRROR_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_VOLMGR_MIRROR_NOT_SUPPORTED")
+        STATUS_VOLMGR_MIRROR_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_VOLMGR_RAID5_NOT_SUPPORTED")
+#undef STATUS_VOLMGR_RAID5_NOT_SUPPORTED
+    inline constexpr auto STATUS_VOLMGR_RAID5_NOT_SUPPORTED = NTSTATUS {
+#pragma pop_macro("STATUS_VOLMGR_RAID5_NOT_SUPPORTED")
+        STATUS_VOLMGR_RAID5_NOT_SUPPORTED
+    };
+
+#pragma push_macro("STATUS_VIRTDISK_PROVIDER_NOT_FOUND")
+#undef STATUS_VIRTDISK_PROVIDER_NOT_FOUND
+    inline constexpr auto STATUS_VIRTDISK_PROVIDER_NOT_FOUND = NTSTATUS {
+#pragma pop_macro("STATUS_VIRTDISK_PROVIDER_NOT_FOUND")
+        STATUS_VIRTDISK_PROVIDER_NOT_FOUND
+    };
+
+#pragma push_macro("STATUS_VIRTDISK_NOT_VIRTUAL_DISK")
+#undef STATUS_VIRTDISK_NOT_VIRTUAL_DISK
+    inline constexpr auto STATUS_VIRTDISK_NOT_VIRTUAL_DISK = NTSTATUS {
+#pragma pop_macro("STATUS_VIRTDISK_NOT_VIRTUAL_DISK")
+        STATUS_VIRTDISK_NOT_VIRTUAL_DISK
+    };
+
+#pragma push_macro("STATUS_VHD_PARENT_VHD_ACCESS_DENIED")
+#undef STATUS_VHD_PARENT_VHD_ACCESS_DENIED
+    inline constexpr auto STATUS_VHD_PARENT_VHD_ACCESS_DENIED = NTSTATUS {
+#pragma pop_macro("STATUS_VHD_PARENT_VHD_ACCESS_DENIED")
+        STATUS_VHD_PARENT_VHD_ACCESS_DENIED
+    };
+
+#pragma push_macro("STATUS_VHD_CHILD_PARENT_SIZE_MISMATCH")
+#undef STATUS_VHD_CHILD_PARENT_SIZE_MISMATCH
+    inline constexpr auto STATUS_VHD_CHILD_PARENT_SIZE_MISMATCH = NTSTATUS {
+#pragma pop_macro("STATUS_VHD_CHILD_PARENT_SIZE_MISMATCH")
+        STATUS_VHD_CHILD_PARENT_SIZE_MISMATCH
+    };
+
+#pragma push_macro("STATUS_VHD_DIFFERENCING_CHAIN_CYCLE_DETECTED")
+#undef STATUS_VHD_DIFFERENCING_CHAIN_CYCLE_DETECTED
+    inline constexpr auto STATUS_VHD_DIFFERENCING_CHAIN_CYCLE_DETECTED = NTSTATUS {
+#pragma pop_macro("STATUS_VHD_DIFFERENCING_CHAIN_CYCLE_DETECTED")
+        STATUS_VHD_DIFFERENCING_CHAIN_CYCLE_DETECTED
+    };
+
+#pragma push_macro("STATUS_VHD_DIFFERENCING_CHAIN_ERROR_IN_PARENT")
+#undef STATUS_VHD_DIFFERENCING_CHAIN_ERROR_IN_PARENT
+    inline constexpr auto STATUS_VHD_DIFFERENCING_CHAIN_ERROR_IN_PARENT = NTSTATUS {
+#pragma pop_macro("STATUS_VHD_DIFFERENCING_CHAIN_ERROR_IN_PARENT")
+        STATUS_VHD_DIFFERENCING_CHAIN_ERROR_IN_PARENT
+    };
+
+#pragma push_macro("STATUS_SMB_NO_PREAUTH_INTEGRITY_HASH_OVERLAP")
+#undef STATUS_SMB_NO_PREAUTH_INTEGRITY_HASH_OVERLAP
+    inline constexpr auto STATUS_SMB_NO_PREAUTH_INTEGRITY_HASH_OVERLAP = NTSTATUS {
+#pragma pop_macro("STATUS_SMB_NO_PREAUTH_INTEGRITY_HASH_OVERLAP")
+        STATUS_SMB_NO_PREAUTH_INTEGRITY_HASH_OVERLAP
+    };
+
+#pragma push_macro("STATUS_SMB_BAD_CLUSTER_DIALECT")
+#undef STATUS_SMB_BAD_CLUSTER_DIALECT
+    inline constexpr auto STATUS_SMB_BAD_CLUSTER_DIALECT = NTSTATUS {
+#pragma pop_macro("STATUS_SMB_BAD_CLUSTER_DIALECT")
+        STATUS_SMB_BAD_CLUSTER_DIALECT
+    };
+} // namespace wdk
+
+namespace wdk {
+    /////////////////////////////////////
+    /////////////////////////////////////
+    STORMKIT_FORCE_INLINE
+    inline auto NtSuccess(NTSTATUS status) noexcept -> bool {
+        return NT_SUCCESS(status);
+    }
+
+    /////////////////////////////////////
+    /////////////////////////////////////
+    STORMKIT_FORCE_INLINE
+    inline auto NtInformation(NTSTATUS status) noexcept -> bool {
+        return NT_INFORMATION(status);
+    }
+
+    /////////////////////////////////////
+    /////////////////////////////////////
+    STORMKIT_FORCE_INLINE
+    inline auto NtWarning(NTSTATUS status) noexcept -> bool {
+        return NT_WARNING(status);
+    }
+
+    /////////////////////////////////////
+    /////////////////////////////////////
+    STORMKIT_FORCE_INLINE
+    inline auto NtError(NTSTATUS status) noexcept -> bool {
+        return NT_ERROR(status);
+    }
+} // namespace wdk

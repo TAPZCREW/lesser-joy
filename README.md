@@ -1,4 +1,3 @@
-| Compiler| Status                                                                                                                                                                     |
-| ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| MSVC    | [![Windows](https://github.com/TAPZCREW/lesser-joy/actions/workflows/windows-msvc.yml/badge.svg)](https://github.com/TAPZCREW/lesser-joy/actions/workflows/windows-msvc.yml) |
-| LLVM    | [![Windows](https://github.com/TAPZCREW/lesser-joy/actions/workflows/windows-llvm.yml/badge.svg)](https://github.com/TAPZCREW/lesser-joy/actions/workflows/windows-llvm.yml) |
+DO NOT USE
+
+This project had a purely educational purpose; it is not actually usable in any way.

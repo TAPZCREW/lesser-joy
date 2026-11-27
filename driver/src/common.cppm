@@ -1,14 +1,11 @@
-module;
-
-#include "windows.hpp"
-
-#include "transport/usb.hpp"
-
 export module lesserjoy:common;
 
 import std;
 
 import stormkit.core;
+
+import wdk.wdf;
+import wdk.usb;
 
 import :constants;
 
@@ -19,23 +16,20 @@ export namespace lj {
 
     namespace hid {
         enum class output_report_source : u8 {
-            DRIVER_HIGH_PRIORITY = 0,
-            DRIVER_LOW_PRIORITY  = 1,
-            DRIVER_XINPUTHID     = 2,
+            driver_high_priority = 0,
+            driver_low_priority  = 1,
+            driver_xinputhid     = 2,
         };
 
-        using command_report_buffer = array<byte, INPUT_REPORT_SIZE>;
-        using input_report_buffer   = array<byte, INPUT_REPORT_SIZE>;
-        using output_report_buffer  = array<byte, OUTPUT_REPORT_SIZE>;
+        using command_report_buffer = array<byte, input_report_size>;
+        using input_report_buffer   = array<byte, input_report_size>;
 
         using report_descriptor = array_view<const byte>;
 
         struct input_report {
             input_report_buffer buffer = {};
-            usize               size;
+            usize               size   = 0u;
         };
-
-        using output_report = output_report_buffer;
     } // namespace hid
 
     namespace usb {
@@ -44,37 +38,35 @@ export namespace lj {
         struct input_report {
             clock::time_point timestamp;
 
-            usize                    size;
+            usize                    size = 0u;
             hid::input_report_buffer buffer;
         };
 
-        struct continuous_reader {
-            locked<input_report> last_input_report;
-        };
-
         struct context {
-            WDFUSBDEVICE device = nullptr;
+            wdk::WDFUSBDEVICE device = nullptr;
 
             struct endpoint {
-                WDFUSBINTERFACE interface = nullptr;
+                wdk::WDFUSBINTERFACE interface = nullptr;
 
-                WDFUSBPIPE in_pipe  = nullptr;
-                WDFUSBPIPE out_pipe = nullptr;
+                wdk::WDFUSBPIPE in_pipe  = nullptr;
+                wdk::WDFUSBPIPE out_pipe = nullptr;
             };
 
             endpoint hid;
             endpoint command;
 
-            USB_DEVICE_DESCRIPTOR descriptor = {};
+            wdk::USB_DEVICE_DESCRIPTOR descriptor = {};
 
-            WDFMEMORY product_string = nullptr;
+            wdk::WDFMEMORY product_string = nullptr;
 
             u16 min_x = 500;
             u16 max_x = 3500;
             u16 min_y = 500;
             u16 max_y = 3500;
 
-            continuous_reader continuous_reader = {};
+            struct {
+                locked<input_report> last_input_report;
+            } continuous_reader = {};
         };
     } // namespace usb
 

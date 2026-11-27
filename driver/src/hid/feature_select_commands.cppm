@@ -31,24 +31,24 @@ export namespace lj::hid::feature_select {
         };
     } // namespace fill_payload
 
-    template<subcommand_id SUB_ID, command_data DATA = {}, auto FILL_PAYLOAD = monadic::noop()>
-    using command = hid::command<command_id::FEATURE_SELECT, SUB_ID, DATA, FILL_PAYLOAD>;
+    template<subcommand_id Sub_id, command_data Data = {}, auto Fill_payload = monadic::noop()>
+    using command = hid::command<command_id::feature_select, Sub_id, Data, Fill_payload>;
 
-    using get_feature_info_command   = command<subcommand_id::GET_FEATURE_INFO,
+    using get_feature_info_command   = command<subcommand_id::get_feature_info,
                                                { .command_payload_length = 0x04, .report_payload_length = 0x0B },
                                                fill_payload::get_feature_info>;
-    using set_feature_mask_command   = command<subcommand_id::SET_FEATURE_MASK,
+    using set_feature_mask_command   = command<subcommand_id::set_feature_mask,
                                                { .command_payload_length = 0x04, .report_payload_length = 0x04 },
                                                fill_payload::set_feature_mask>;
-    using clear_feature_mask_command = command<subcommand_id::CLEAR_FEATURE_MASK,
+    using clear_feature_mask_command = command<subcommand_id::clear_feature_mask,
                                                { .command_payload_length = 0x04, .report_payload_length = 0x04 }>;
-    using enable_features_command    = command<subcommand_id::ENABLE_FEATURES,
+    using enable_features_command    = command<subcommand_id::enable_features,
                                                { .command_payload_length = 0x04, .report_payload_length = 0x04 },
                                                fill_payload::enable_features>;
-    using disable_features_command   = command<subcommand_id::DISABLE_FEATURES,
+    using disable_features_command   = command<subcommand_id::disable_features,
                                                { .command_payload_length = 0x04, .report_payload_length = 0x04 },
                                                fill_payload::disable_features>;
-    using configure_features_command = command<subcommand_id::CONFIGURE_FEATURES,
+    using configure_features_command = command<subcommand_id::configure_features,
                                                { .command_payload_length = 0x0A, .report_payload_length = 0x28 },
                                                fill_payload::configure_features>;
 } // namespace lj::hid::feature_select

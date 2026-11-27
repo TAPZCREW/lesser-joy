@@ -1,7 +1,6 @@
 module;
 
-#include "windows.hpp"
-
+#include "contract_macro.hpp"
 #include <stormkit/core/try_expected.hpp>
 
 export module lesserjoy;
@@ -9,7 +8,11 @@ export module lesserjoy;
 import std;
 
 import stormkit.core;
+import stormkit.platform.win32;
 import stormkit.log;
+
+import wdk.wdf;
+import wdk.ntstatus;
 
 import :device;
 import :log;
@@ -20,48 +23,53 @@ module: private;
 using namespace stormkit;
 
 namespace lj {
-    EVT_WDF_OBJECT_CONTEXT_CLEANUP event_driver_cleanup;
-
     ////////////////////////////////////////
     ////////////////////////////////////////
-    _Use_decl_annotations_ auto event_driver_cleanup(_In_ WDFOBJECT driver) -> void {
+    auto __stdcall event_driver_cleanup(wdk::WDFOBJECT driver) -> void {
         lj::dlog("Driver successfully cleanup up!");
     }
 } // namespace lj
-
-#pragma code_seg("INIT")
 
 auto logger = heap_ptr<lj::kernel_logger> {};
 
 ////////////////////////////////////////
 ////////////////////////////////////////
-extern "C" __declspec(dllexport) auto APIENTRY DllMain(HMODULE module, DWORD, LPVOID) -> BOOL {
-    if (not logger) logger = log::logger::allocate_logger_instance<lj::kernel_logger>();
-#ifdef STORMKIT_DEBUG_MODE
-    logger->set_severity_mask(logger->severity_mask() | log::severity::DEBUG);
-#endif
+extern "C" __declspec(dllexport) auto __stdcall DllMain(win32::HMODULE module, win32::DWORD, win32::LPVOID) -> win32::BOOL {
+    win32::DisableThreadLibraryCalls(module);
 
-    DisableThreadLibraryCalls(module);
-
-    return TRUE;
+    return win32::TRUE;
 }
 
-extern "C" DRIVER_INITIALIZE DriverEntry;
+#pragma code_seg("INIT")
 
 ////////////////////////////////////////
 ////////////////////////////////////////
-extern "C" _Use_decl_annotations_ auto DriverEntry(_In_ PDRIVER_OBJECT driver_object, _In_ PUNICODE_STRING registry_path)
-  -> NTSTATUS {
+extern "C" auto __stdcall DriverEntry(wdk::PDRIVER_OBJECT driver_object, wdk::PUNICODE_STRING registry_path) -> wdk::NTSTATUS {
+    if (not logger) {
+        logger = log::logger::allocate_logger_instance<lj::kernel_logger>();
+        WDK_EXPECTS_NTSTATUS(logger != nullptr);
+    }
+
+    static constexpr auto severity_mask = log::severity::info
+                                          | log::severity::error
+                                          | log::severity::fatal
+                                          | log::severity::warning
+#ifdef LESSERJOY_DEBUG_MODE
+                                          | log::severity::debug
+#endif
+      ;
+    logger->set_severity_mask(severity_mask);
+
     lj::ilog("Initializing lesserjoy driver...");
 
-    auto attributes = WDF_OBJECT_ATTRIBUTES {};
-    WDF_OBJECT_ATTRIBUTES_INIT(&attributes);
+    auto attributes = wdk::WDF_OBJECT_ATTRIBUTES {};
+    wdk::WDF_OBJECT_ATTRIBUTES_INIT(&attributes);
     attributes.EvtCleanupCallback = lj::event_driver_cleanup;
 
-    auto config = WDF_DRIVER_CONFIG {};
-    WDF_DRIVER_CONFIG_INIT(&config, lj::device_context::create);
+    auto config = wdk::WDF_DRIVER_CONFIG {};
+    wdk::WDF_DRIVER_CONFIG_INIT(&config, lj::device_context::create);
 
-    CustomLoggedTryOr(lj::win_call(WdfDriverCreate, driver_object, registry_path, &attributes, &config, WDF_NO_HANDLE),
+    CustomLoggedTryOr(lj::win_call(wdk::WdfDriverCreate, driver_object, registry_path, &attributes, &config, wdk::WDF_NO_HANDLE),
                       monadic::unwrap(),
                       lj::elog,
                       "Failed to initialize lessjoy driver! {}");

@@ -30,30 +30,30 @@ export namespace lj::hid::init {
         };
     } // namespace fill_payload
 
-    template<subcommand_id SUB_ID, command_data DATA = {}, auto FILL_PAYLOAD = monadic::noop()>
-    using command = hid::command<command_id::INIT, SUB_ID, DATA, FILL_PAYLOAD>;
+    template<subcommand_id Sub_id, command_data Data = {}, auto Fill_payload = monadic::noop()>
+    using command = hid::command<command_id::init, Sub_id, Data, Fill_payload>;
 
-    using bt_wake_command               = command<subcommand_id::BT_WAKE,
+    using bt_wake_command               = command<subcommand_id::bt_wake,
                                                   command_data { .command_payload_length = 0x04 },
                                                   fill_payload::bt_wake>;
-    using bt_cancel_command             = command<subcommand_id::BT_CANCEL>;
-    using enable_usb_hid_report_command = command<subcommand_id::ENABLE_USB_HID_REPORT,
+    using bt_cancel_command             = command<subcommand_id::bt_cancel>;
+    using enable_usb_hid_report_command = command<subcommand_id::enable_usb_hid_report,
                                                   command_data { .command_payload_length = 0x04, .report_payload_length = 0x04 },
                                                   fill_payload::enable_usb_hid_report>;
-    using unknown_0x04_command          = command<subcommand_id::UNKNOWN_0x04>;
-    using unknown_0x05_command          = command<subcommand_id::UNKNOWN_0x05>;
-    using unknown_0x06_command          = command<subcommand_id::UNKNOWN_0x06>;
-    using send_pairing_info_command  = command<subcommand_id::SEND_PAIRING_INFO, command_data { .command_payload_length = 0x16 }>;
-    using clear_pairing_info_command = command<subcommand_id::CLEAR_PAIRING_INFO>;
-    using store_pairing_command      = command<subcommand_id::STORE_PAIRING_INFO>;
-    using select_input_report_command = command<subcommand_id::SELECT_INPUT_REPORT,
+    using unknown_0x04_command          = command<subcommand_id::unknown_0x04>;
+    using unknown_0x05_command          = command<subcommand_id::unknown_0x05>;
+    using unknown_0x06_command          = command<subcommand_id::unknown_0x06>;
+    using send_pairing_info_command  = command<subcommand_id::send_pairing_info, command_data { .command_payload_length = 0x16 }>;
+    using clear_pairing_info_command = command<subcommand_id::clear_pairing_info>;
+    using store_pairing_command      = command<subcommand_id::store_pairing_info>;
+    using select_input_report_command = command<subcommand_id::select_input_report,
                                                 command_data { .command_payload_length = 0x04 },
                                                 fill_payload::select_input_report>;
-    using unknown_0x0C_command        = command<subcommand_id::UNKNOWN_0x0C,
+    using unknown_0x0C_command        = command<subcommand_id::unknown_0x0c,
                                                 command_data { .command_payload_length = 0x04 },
                                                 fill_payload::unknown_0x0C>;
-    using initialize_usb_command      = command<subcommand_id::INITIALIZE_USB,
+    using initialize_usb_command      = command<subcommand_id::initialize_usb,
                                                 command_data { .command_payload_length = 0x08, .report_payload_length = 0x04 },
                                                 fill_payload::initialize_usb>;
-    using unknown_0x0F_command        = command<subcommand_id::UNKNOWN_0x0F, command_data { .report_payload_length = 0x04 }>;
+    using unknown_0x0F_command        = command<subcommand_id::unknown_0x0f, command_data { .report_payload_length = 0x04 }>;
 } // namespace lj::hid::init

@@ -36,6 +36,8 @@
 *.out
 *.app
 
+*.html
+
 ### CMake ###
 CMakeLists.txt.user
 CMakeCache.txt

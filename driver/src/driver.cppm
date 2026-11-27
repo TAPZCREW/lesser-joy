@@ -1,12 +1,17 @@
 module;
 
-#include "windows.hpp"
+#include "wdk/wdfobject_macros.hpp"
+
+#include <stormkit/core/platform_macro.hpp>
 
 export module lesserjoy:driver;
 
 import std;
 
 import stormkit.core;
+import stormkit.platform.win32;
+
+import wdk.wdf;
 
 import :constants;
 
@@ -16,7 +21,7 @@ export namespace lj {
     using slot = u8;
 
     struct driver_context {
-        locked<array<slot, DRIVER_MAX_SLOTS>> slots = {};
+        locked<array<slot, drive_max_slots>> slots = {};
     };
 
     STORMKIT_PUSH_WARNINGS

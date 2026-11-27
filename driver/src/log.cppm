@@ -1,13 +1,16 @@
 module;
 
-#include "windows.hpp"
+#include <stormkit/core/platform_macro.hpp>
 
 export module lesserjoy:log;
 
 import std;
 
 import stormkit.core;
+import stormkit.platform.win32;
 import stormkit.log;
+
+// import wdk;
 
 using namespace stormkit;
 using namespace stormkit::literals;
@@ -98,14 +101,14 @@ namespace lj {
     ////////////////////////////////////////
     inline auto kernel_logger::do_write(log::severity severity, string_view string) noexcept -> void {
         const auto str = std::format("[{}] {}\n", severity, string);
-        OutputDebugStringA(stdr::data(str));
+        win32::OutputDebugStringA(stdr::data(str));
     }
 
     ////////////////////////////////////////
     ////////////////////////////////////////
     inline auto kernel_logger::do_write(log::severity severity, const log::module& module, string_view string) noexcept -> void {
         const auto str = std::format("[{}] {}: {}\n", severity, module.name, string);
-        OutputDebugStringA(stdr::data(str));
+        win32::OutputDebugStringA(stdr::data(str));
     }
 
     ////////////////////////////////////////

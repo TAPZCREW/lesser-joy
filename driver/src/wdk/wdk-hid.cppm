@@ -1,0 +1,287 @@
+module;
+
+#include <stormkit/core/platform_macro.hpp>
+
+#define WIN32_LEAN_AND_MEAN
+
+#include <SDKDDKVer.h>
+
+#include <Windows.h>
+
+#include <wdf.h>
+
+#include <hidport.h>
+
+export module wdk.hid;
+
+import std;
+
+export namespace wdk {
+    using ::HID_DESCRIPTOR;
+    using ::HID_DEVICE_ATTRIBUTES;
+
+#pragma push_macro("IOCTL_HID_ACTIVATE_DEVICE")
+#undef IOCTL_HID_ACTIVATE_DEVICE
+    inline constexpr auto IOCTL_HID_ACTIVATE_DEVICE =
+#pragma pop_macro("IOCTL_HID_ACTIVATE_DEVICE")
+      IOCTL_HID_ACTIVATE_DEVICE;
+
+#pragma push_macro("IOCTL_HID_DEACTIVATE_DEVICE")
+#undef IOCTL_HID_DEACTIVATE_DEVICE
+    inline constexpr auto IOCTL_HID_DEACTIVATE_DEVICE =
+#pragma pop_macro("IOCTL_HID_DEACTIVATE_DEVICE")
+      IOCTL_HID_DEACTIVATE_DEVICE;
+
+#pragma push_macro("IOCTL_HID_GET_DEVICE_ATTRIBUTES")
+#undef IOCTL_HID_GET_DEVICE_ATTRIBUTES
+    inline constexpr auto IOCTL_HID_GET_DEVICE_ATTRIBUTES =
+#pragma pop_macro("IOCTL_HID_GET_DEVICE_ATTRIBUTES")
+      IOCTL_HID_GET_DEVICE_ATTRIBUTES;
+
+#pragma push_macro("IOCTL_HID_GET_DEVICE_DESCRIPTOR")
+#undef IOCTL_HID_GET_DEVICE_DESCRIPTOR
+    inline constexpr auto IOCTL_HID_GET_DEVICE_DESCRIPTOR =
+#pragma pop_macro("IOCTL_HID_GET_DEVICE_DESCRIPTOR")
+      IOCTL_HID_GET_DEVICE_DESCRIPTOR;
+
+#pragma push_macro("IOCTL_HID_GET_REPORT_DESCRIPTOR")
+#undef IOCTL_HID_GET_REPORT_DESCRIPTOR
+    inline constexpr auto IOCTL_HID_GET_REPORT_DESCRIPTOR =
+#pragma pop_macro("IOCTL_HID_GET_REPORT_DESCRIPTOR")
+      IOCTL_HID_GET_REPORT_DESCRIPTOR;
+
+#pragma push_macro("IOCTL_HID_GET_STRING")
+#undef IOCTL_HID_GET_STRING
+    inline constexpr auto IOCTL_HID_GET_STRING =
+#pragma pop_macro("IOCTL_HID_GET_STRING")
+      IOCTL_HID_GET_STRING;
+
+#pragma push_macro("IOCTL_HID_READ_REPORT")
+#undef IOCTL_HID_READ_REPORT
+    inline constexpr auto IOCTL_HID_READ_REPORT =
+#pragma pop_macro("IOCTL_HID_READ_REPORT")
+      IOCTL_HID_READ_REPORT;
+
+#pragma push_macro("IOCTL_HID_SEND_IDLE_NOTIFICATION_REQUEST")
+#undef IOCTL_HID_SEND_IDLE_NOTIFICATION_REQUEST
+    inline constexpr auto IOCTL_HID_SEND_IDLE_NOTIFICATION_REQUEST =
+#pragma pop_macro("IOCTL_HID_SEND_IDLE_NOTIFICATION_REQUEST")
+      IOCTL_HID_SEND_IDLE_NOTIFICATION_REQUEST;
+
+#pragma push_macro("IOCTL_HID_WRITE_REPORT")
+#undef IOCTL_HID_WRITE_REPORT
+    inline constexpr auto IOCTL_HID_WRITE_REPORT =
+#pragma pop_macro("IOCTL_HID_WRITE_REPORT")
+      IOCTL_HID_WRITE_REPORT;
+
+#pragma push_macro("IOCTL_UMDF_GET_PHYSICAL_DESCRIPTOR")
+#undef IOCTL_UMDF_GET_PHYSICAL_DESCRIPTOR
+    inline constexpr auto IOCTL_UMDF_GET_PHYSICAL_DESCRIPTOR =
+#pragma pop_macro("IOCTL_UMDF_GET_PHYSICAL_DESCRIPTOR")
+      IOCTL_UMDF_GET_PHYSICAL_DESCRIPTOR;
+
+#pragma push_macro("IOCTL_UMDF_HID_GET_FEATURE")
+#undef IOCTL_UMDF_HID_GET_FEATURE
+    inline constexpr auto IOCTL_UMDF_HID_GET_FEATURE =
+#pragma pop_macro("IOCTL_UMDF_HID_GET_FEATURE")
+      IOCTL_UMDF_HID_GET_FEATURE;
+
+#pragma push_macro("IOCTL_UMDF_HID_GET_INPUT_REPORT")
+#undef IOCTL_UMDF_HID_GET_INPUT_REPORT
+    inline constexpr auto IOCTL_UMDF_HID_GET_INPUT_REPORT =
+#pragma pop_macro("IOCTL_UMDF_HID_GET_INPUT_REPORT")
+      IOCTL_UMDF_HID_GET_INPUT_REPORT;
+
+#pragma push_macro("IOCTL_UMDF_HID_SET_FEATURE")
+#undef IOCTL_UMDF_HID_SET_FEATURE
+    inline constexpr auto IOCTL_UMDF_HID_SET_FEATURE =
+#pragma pop_macro("IOCTL_UMDF_HID_SET_FEATURE")
+      IOCTL_UMDF_HID_SET_FEATURE;
+
+#pragma push_macro("IOCTL_UMDF_HID_SET_OUTPUT_REPORT")
+#undef IOCTL_UMDF_HID_SET_OUTPUT_REPORT
+    inline constexpr auto IOCTL_UMDF_HID_SET_OUTPUT_REPORT =
+#pragma pop_macro("IOCTL_UMDF_HID_SET_OUTPUT_REPORT")
+      IOCTL_UMDF_HID_SET_OUTPUT_REPORT;
+
+#pragma push_macro("IOCTL_GET_NUM_DEVICE_INPUT_BUFFERS")
+#undef IOCTL_GET_NUM_DEVICE_INPUT_BUFFERS
+    inline constexpr auto IOCTL_GET_NUM_DEVICE_INPUT_BUFFERS =
+#pragma pop_macro("IOCTL_GET_NUM_DEVICE_INPUT_BUFFERS")
+      IOCTL_GET_NUM_DEVICE_INPUT_BUFFERS;
+
+#pragma push_macro("IOCTL_GET_PHYSICAL_DESCRIPTOR")
+#undef IOCTL_GET_PHYSICAL_DESCRIPTOR
+    inline constexpr auto IOCTL_GET_PHYSICAL_DESCRIPTOR =
+#pragma pop_macro("IOCTL_GET_PHYSICAL_DESCRIPTOR")
+      IOCTL_GET_PHYSICAL_DESCRIPTOR;
+
+#pragma push_macro("IOCTL_HID_DEVICERESET_NOTIFICATION")
+#undef IOCTL_HID_DEVICERESET_NOTIFICATION
+    inline constexpr auto IOCTL_HID_DEVICERESET_NOTIFICATION =
+#pragma pop_macro("IOCTL_HID_DEVICERESET_NOTIFICATION")
+      IOCTL_HID_DEVICERESET_NOTIFICATION;
+
+#pragma push_macro("IOCTL_HID_DISABLE_SECURE_READ")
+#undef IOCTL_HID_DISABLE_SECURE_READ
+    inline constexpr auto IOCTL_HID_DISABLE_SECURE_READ =
+#pragma pop_macro("IOCTL_HID_DISABLE_SECURE_READ")
+      IOCTL_HID_DISABLE_SECURE_READ;
+
+#pragma push_macro("IOCTL_HID_ENABLE_SECURE_READ")
+#undef IOCTL_HID_ENABLE_SECURE_READ
+    inline constexpr auto IOCTL_HID_ENABLE_SECURE_READ =
+#pragma pop_macro("IOCTL_HID_ENABLE_SECURE_READ")
+      IOCTL_HID_ENABLE_SECURE_READ;
+
+#pragma push_macro("IOCTL_HID_ENABLE_WAKE_ON_SX")
+#undef IOCTL_HID_ENABLE_WAKE_ON_SX
+    inline constexpr auto IOCTL_HID_ENABLE_WAKE_ON_SX =
+#pragma pop_macro("IOCTL_HID_ENABLE_WAKE_ON_SX")
+      IOCTL_HID_ENABLE_WAKE_ON_SX;
+
+#pragma push_macro("IOCTL_HID_FLUSH_QUEUE")
+#undef IOCTL_HID_FLUSH_QUEUE
+    inline constexpr auto IOCTL_HID_FLUSH_QUEUE =
+#pragma pop_macro("IOCTL_HID_FLUSH_QUEUE")
+      IOCTL_HID_FLUSH_QUEUE;
+
+#pragma push_macro("IOCTL_HID_GET_COLLECTION_DESCRIPTOR")
+#undef IOCTL_HID_GET_COLLECTION_DESCRIPTOR
+    inline constexpr auto IOCTL_HID_GET_COLLECTION_DESCRIPTOR =
+#pragma pop_macro("IOCTL_HID_GET_COLLECTION_DESCRIPTOR")
+      IOCTL_HID_GET_COLLECTION_DESCRIPTOR;
+
+#pragma push_macro("IOCTL_HID_GET_COLLECTION_INFORMATION")
+#undef IOCTL_HID_GET_COLLECTION_INFORMATION
+    inline constexpr auto IOCTL_HID_GET_COLLECTION_INFORMATION =
+#pragma pop_macro("IOCTL_HID_GET_COLLECTION_INFORMATION")
+      IOCTL_HID_GET_COLLECTION_INFORMATION;
+
+#pragma push_macro("IOCTL_HID_GET_DRIVER_CONFIG")
+#undef IOCTL_HID_GET_DRIVER_CONFIG
+    inline constexpr auto IOCTL_HID_GET_DRIVER_CONFIG =
+#pragma pop_macro("IOCTL_HID_GET_DRIVER_CONFIG")
+      IOCTL_HID_GET_DRIVER_CONFIG;
+
+#pragma push_macro("IOCTL_HID_GET_FEATURE")
+#undef IOCTL_HID_GET_FEATURE
+    inline constexpr auto IOCTL_HID_GET_FEATURE =
+#pragma pop_macro("IOCTL_HID_GET_FEATURE")
+      IOCTL_HID_GET_FEATURE;
+
+#pragma push_macro("IOCTL_HID_GET_HARDWARE_ID")
+#undef IOCTL_HID_GET_HARDWARE_ID
+    inline constexpr auto IOCTL_HID_GET_HARDWARE_ID =
+#pragma pop_macro("IOCTL_HID_GET_HARDWARE_ID")
+      IOCTL_HID_GET_HARDWARE_ID;
+
+#pragma push_macro("IOCTL_HID_GET_INDEXED_STRING")
+#undef IOCTL_HID_GET_INDEXED_STRING
+    inline constexpr auto IOCTL_HID_GET_INDEXED_STRING =
+#pragma pop_macro("IOCTL_HID_GET_INDEXED_STRING")
+      IOCTL_HID_GET_INDEXED_STRING;
+
+#pragma push_macro("IOCTL_HID_GET_INPUT_REPORT")
+#undef IOCTL_HID_GET_INPUT_REPORT
+    inline constexpr auto IOCTL_HID_GET_INPUT_REPORT =
+#pragma pop_macro("IOCTL_HID_GET_INPUT_REPORT")
+      IOCTL_HID_GET_INPUT_REPORT;
+
+#pragma push_macro("IOCTL_HID_GET_MANUFACTURER_STRING")
+#undef IOCTL_HID_GET_MANUFACTURER_STRING
+    inline constexpr auto IOCTL_HID_GET_MANUFACTURER_STRING =
+#pragma pop_macro("IOCTL_HID_GET_MANUFACTURER_STRING")
+      IOCTL_HID_GET_MANUFACTURER_STRING;
+
+#pragma push_macro("IOCTL_HID_GET_MS_GENRE_DESCRIPTOR")
+#undef IOCTL_HID_GET_MS_GENRE_DESCRIPTOR
+    inline constexpr auto IOCTL_HID_GET_MS_GENRE_DESCRIPTOR =
+#pragma pop_macro("IOCTL_HID_GET_MS_GENRE_DESCRIPTOR")
+      IOCTL_HID_GET_MS_GENRE_DESCRIPTOR;
+
+#pragma push_macro("IOCTL_HID_GET_POLL_FREQUENCY_MSEC")
+#undef IOCTL_HID_GET_POLL_FREQUENCY_MSEC
+    inline constexpr auto IOCTL_HID_GET_POLL_FREQUENCY_MSEC =
+#pragma pop_macro("IOCTL_HID_GET_POLL_FREQUENCY_MSEC")
+      IOCTL_HID_GET_POLL_FREQUENCY_MSEC;
+
+#pragma push_macro("IOCTL_HID_GET_PRODUCT_STRING")
+#undef IOCTL_HID_GET_PRODUCT_STRING
+    inline constexpr auto IOCTL_HID_GET_PRODUCT_STRING =
+#pragma pop_macro("IOCTL_HID_GET_PRODUCT_STRING")
+      IOCTL_HID_GET_PRODUCT_STRING;
+
+#pragma push_macro("IOCTL_HID_GET_SERIALNUMBER_STRING")
+#undef IOCTL_HID_GET_SERIALNUMBER_STRING
+    inline constexpr auto IOCTL_HID_GET_SERIALNUMBER_STRING =
+#pragma pop_macro("IOCTL_HID_GET_SERIALNUMBER_STRING")
+      IOCTL_HID_GET_SERIALNUMBER_STRING;
+
+#pragma push_macro("IOCTL_HID_SET_DRIVER_CONFIG")
+#undef IOCTL_HID_SET_DRIVER_CONFIG
+    inline constexpr auto IOCTL_HID_SET_DRIVER_CONFIG =
+#pragma pop_macro("IOCTL_HID_SET_DRIVER_CONFIG")
+      IOCTL_HID_SET_DRIVER_CONFIG;
+
+#pragma push_macro("IOCTL_HID_SET_FEATURE")
+#undef IOCTL_HID_SET_FEATURE
+    inline constexpr auto IOCTL_HID_SET_FEATURE =
+#pragma pop_macro("IOCTL_HID_SET_FEATURE")
+      IOCTL_HID_SET_FEATURE;
+
+#pragma push_macro("IOCTL_HID_SET_OUTPUT_REPORT")
+#undef IOCTL_HID_SET_OUTPUT_REPORT
+    inline constexpr auto IOCTL_HID_SET_OUTPUT_REPORT =
+#pragma pop_macro("IOCTL_HID_SET_OUTPUT_REPORT")
+      IOCTL_HID_SET_OUTPUT_REPORT;
+
+#pragma push_macro("IOCTL_HID_SET_POLL_FREQUENCY_MSEC")
+#undef IOCTL_HID_SET_POLL_FREQUENCY_MSEC
+    inline constexpr auto IOCTL_HID_SET_POLL_FREQUENCY_MSEC =
+#pragma pop_macro("IOCTL_HID_SET_POLL_FREQUENCY_MSEC")
+      IOCTL_HID_SET_POLL_FREQUENCY_MSEC;
+
+#pragma push_macro("IOCTL_HID_SET_S0_IDLE_TIMEOUT")
+#undef IOCTL_HID_SET_S0_IDLE_TIMEOUT
+    inline constexpr auto IOCTL_HID_SET_S0_IDLE_TIMEOUT =
+#pragma pop_macro("IOCTL_HID_SET_S0_IDLE_TIMEOUT")
+      IOCTL_HID_SET_S0_IDLE_TIMEOUT;
+
+#pragma push_macro("IOCTL_SET_NUM_DEVICE_INPUT_BUFFERS")
+#undef IOCTL_SET_NUM_DEVICE_INPUT_BUFFERS
+    inline constexpr auto IOCTL_SET_NUM_DEVICE_INPUT_BUFFERS =
+#pragma pop_macro("IOCTL_SET_NUM_DEVICE_INPUT_BUFFERS")
+      IOCTL_SET_NUM_DEVICE_INPUT_BUFFERS;
+
+#pragma push_macro("IOCTL_HID_GET_OUTPUT_REPORT")
+#undef IOCTL_HID_GET_OUTPUT_REPORT
+    inline constexpr auto IOCTL_HID_GET_OUTPUT_REPORT =
+#pragma pop_macro("IOCTL_HID_GET_OUTPUT_REPORT")
+      IOCTL_HID_GET_OUTPUT_REPORT;
+
+    // HID_STRING_ID_* are the values a client passes as the input buffer of
+    // IOCTL_HID_GET_STRING (hidport.h:213-215).
+#pragma push_macro("HID_STRING_ID_IMANUFACTURER")
+#undef HID_STRING_ID_IMANUFACTURER
+    inline constexpr auto HID_STRING_ID_IMANUFACTURER =
+#pragma pop_macro("HID_STRING_ID_IMANUFACTURER")
+      HID_STRING_ID_IMANUFACTURER;
+
+#pragma push_macro("HID_STRING_ID_IPRODUCT")
+#undef HID_STRING_ID_IPRODUCT
+    inline constexpr auto HID_STRING_ID_IPRODUCT =
+#pragma pop_macro("HID_STRING_ID_IPRODUCT")
+      HID_STRING_ID_IPRODUCT;
+
+#pragma push_macro("HID_STRING_ID_ISERIALNUMBER")
+#undef HID_STRING_ID_ISERIALNUMBER
+    inline constexpr auto HID_STRING_ID_ISERIALNUMBER =
+#pragma pop_macro("HID_STRING_ID_ISERIALNUMBER")
+      HID_STRING_ID_ISERIALNUMBER;
+
+    // HID_DRIVER_CONFIG (hidclass.h:275) and HID_COLLECTION_INFORMATION (hidclass.h:235) are the
+    // payloads of the "capability" iocontrols joy.cpl and the HID-games stack issue.
+    using ::HID_DRIVER_CONFIG;
+    using ::HID_COLLECTION_INFORMATION;
+} // namespace wdk
